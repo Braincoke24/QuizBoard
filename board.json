@@ -1,0 +1,25 @@
+{
+    "points": [100,200,300,400,500],
+    "categories": [
+        {
+            "title": "Allgemeinwissen",
+            "questions": ["Was ist die Hauptstadt von Südafrika?","Platzhalter","Platzhalter","Platzhalter","Platzhalter"],
+            "answers": ["Johannesburg","Platzhalter","Platzhalter","Platzhalter","Platzhalter"]
+        },
+        {
+            "title": "Physik",
+            "questions": ["Wie viele Protonen hat Wasserstoffatom?", "Bei welcher Temperatur (°C) siedet Wasser bei Normaldruck?","Platzhalter","Platzhalter","Platzhalter"],
+            "answers": ["1", "100 °C","Platzhalter","Platzhalter","Platzhalter"]
+        },
+        {
+            "title": "Pferde",
+            "questions": ["Nenne die drei Grundgangarten.","Platzhalter","Platzhalter","Platzhalter","Platzhalter"],
+            "answers": ["Schritt, Trab und Galopp","Platzhalter","Platzhalter","Platzhalter","Platzhalter"]
+        },
+        {
+            "title": "Gartenarbeit",
+            "questions": ["In welcher Jahreszeit werden Äpfel geerntet?","Platzhalter","Platzhalter","Platzhalter","Platzhalter"],
+            "answers": ["Herbst","Platzhalter","Platzhalter","Platzhalter","Platzhalter"]
+        }
+    ]
+}
