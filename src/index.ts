@@ -3,34 +3,35 @@ import { Question } from "./game/Question.js"
 import { Category } from "./game/Category.js"
 import { Board } from "./game/Board.js"
 import { Game } from "./game/Game.js"
+import { GameRules } from "./game/GameRules.js"
 
-const players = [
-  new Player("a", "Alice"),
-  new Player("b", "Bob")
-]
+/**
+ * Manual test setup for the Jeopardy game engine.
+ * This will later be replaced by automated unit tests.
+ */
+
+const alice = new Player("a", "Alice")
+const bob = new Player("b", "Bob")
 
 const board = new Board([
-  new Category("Math", [
-    new Question("2+2?", "4", 100),
-    new Question("5*5?", "25", 200)
-  ])
+    new Category("Math", [
+        new Question("2+2?", "4", 100),
+        new Question("5*5?", "25", 200)
+    ])
 ])
 
-const game = new Game(players, board)
+// Use classic Jeopardy scoring
+const rules = GameRules.classic()
+
+const game = new Game([alice, bob], board, rules)
+
+// Alice selects and answers incorrectly
 game.selectQuestion(0, 0)
-game.answer(false)       // Alice wrong → -50
-game.buzz(players[1])
-game.answer(false)        // Bob correct → +50
+game.answer(false)
 
-console.log(players[0].score) // -50
-console.log(players[1].score) // 50
+// Bob buzzes and answers correctly
+game.buzz(bob)
+game.answer(true)
 
-game.selectQuestion(0, 1)
-game.answer(false)       // Bob wrong → -100
-game.buzz(players[0])
-game.answer(true)        // Alice correct → +100
-
-console.log(players[0].score) // -50
-console.log(players[1].score) // 50
-
-game.selectQuestion(0, 0)
+console.log(alice.score) // -50
+console.log(bob.score)   // +50
