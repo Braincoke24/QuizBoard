@@ -1,20 +1,16 @@
 {
     "compilerOptions": {
-        "rootDir": "./src",
-        "outDir": "./dist",
-
-        "target": "es2020",
-
         "module": "nodenext",
+        "target": "es2020",
         "moduleResolution": "nodenext",
-
+        "outDir": "./dist",
+        "rootDir": "./src",
         "strict": true,
-
         "esModuleInterop": true,
         "forceConsistentCasingInFileNames": true,
-
-        "sourceMap": true,
-
-        "verbatimModuleSyntax": false
-    }
+        "declaration": true,
+        "sourceMap": true
+    },
+    "include": ["src"],
+    "exclude": ["tests", "dist", "node_modules"]
 }
