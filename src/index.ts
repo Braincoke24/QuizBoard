@@ -17,12 +17,20 @@ const board = new Board([
 ])
 
 const game = new Game(players, board)
-
-game.startTurn()
 game.selectQuestion(0, 0)
 game.answer(false)       // Alice wrong → -50
 game.buzz(players[1])
-game.answer(true)        // Bob correct → +50
+game.answer(false)        // Bob correct → +50
 
 console.log(players[0].score) // -50
 console.log(players[1].score) // 50
+
+game.selectQuestion(0, 1)
+game.answer(false)       // Bob wrong → -100
+game.buzz(players[0])
+game.answer(true)        // Alice correct → +100
+
+console.log(players[0].score) // -50
+console.log(players[1].score) // 50
+
+game.selectQuestion(0, 0)

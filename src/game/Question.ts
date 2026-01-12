@@ -9,4 +9,12 @@ export class Question {
         this.answer = answer
         this.value = value
     }
+
+    get asked() {
+        return this._asked
+    }
+
+    play() {
+        this._asked = true
+    }
 }

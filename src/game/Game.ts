@@ -6,20 +6,38 @@ export class Game {
     private _players: Player[]
     private _board: Board
     private _currentPlayerIndex = 0
-    private _turn: Turn
+    private _turn!: Turn
 
     constructor(players: Player[], board: Board) {
         this._players = players
         this._board = board
-        this._turn = new Turn(players[0])
+
+        this.startTurn()
     }
 
-    startTurn() {
-        this._turn = new Turn(this._players[this._currentPlayerIndex])
+    private startTurn() {
+        const player = this._players[this._currentPlayerIndex]
+
+        this._turn = new Turn(player, this._players, (turn) => {
+            this.onTurnResolved(turn)
+        })
     }
 
-    selectQuestion(cat: number, q: number) {
-        const question = this._board.getQuestion(cat, q)
+    private onTurnResolved(turn: Turn) {
+        this.advancePlayer()
+        this.startTurn()
+    }
+
+    private advancePlayer() {
+        this._currentPlayerIndex = (this._currentPlayerIndex + 1) % this._players.length
+    }
+
+    // =========================
+    // Public API (UI calls this)
+    // =========================
+
+    selectQuestion(categoryIndex: number, questionIndex: number) {
+        const question = this._board.getQuestion(categoryIndex, questionIndex)
         this._turn.selectQuestion(question)
     }
 
@@ -31,12 +49,15 @@ export class Game {
         this._turn.buzz(player)
     }
 
-    nextPlayer() {
-        this._currentPlayerIndex =
-        (this._currentPlayerIndex + 1) % this._players.length
+    pass() {
+        this._turn.pass()
     }
 
-    getTurn() {
+    get turn() {
         return this._turn
+    }
+
+    get currentPlayer() {
+        return this._players[this._currentPlayerIndex]
     }
 }
