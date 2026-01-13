@@ -1,3 +1,4 @@
+// src/game/Question.ts
 /**
  * A single question on the board.
  */

@@ -1,5 +1,4 @@
 // tests/turn.test.ts
-// TODO: also test hard rules and/or custom rules
 import { describe, it, expect } from "vitest"
 import { Player } from "../src/game/Player.js"
 import { Question } from "../src/game/Question.js"

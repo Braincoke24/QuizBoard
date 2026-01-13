@@ -1,3 +1,4 @@
+// src/game/Board.ts
 import { Category } from "./Category.js"
 import { Question } from "./Question.js"
 

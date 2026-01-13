@@ -1,3 +1,4 @@
+// src/game/TurnState.ts
 /**
  * Represents the current phase of a turn.
  */

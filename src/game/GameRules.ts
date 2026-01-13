@@ -1,3 +1,4 @@
+// src/game/GameRules.ts
 /**
  * Defines all scoring rules for a game.
  * 
