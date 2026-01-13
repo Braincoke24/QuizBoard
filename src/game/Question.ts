@@ -1,7 +1,4 @@
 // src/game/Question.ts
-/**
- * A single question on the board.
- */
 export class Question {
     readonly text: string
     readonly answer: string
@@ -14,7 +11,6 @@ export class Question {
         this.value = value
     }
 
-    /** Whether this question has already been asked */
     get asked() {
         return this._asked
     }

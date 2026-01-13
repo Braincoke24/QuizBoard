@@ -82,14 +82,12 @@ export class Turn {
             const multiplier = isStarter
                 ? 1
                 : this._rules.buzzCorrectMultiplier
-
             player.addScore(value * multiplier)
             this.resolve()
         } else {
             const multiplier = isStarter
                 ? this._rules.firstWrongMultiplier
                 : this._rules.buzzWrongMultiplier
-
             player.addScore(-value * multiplier)
             this._attempted.add(player)
 

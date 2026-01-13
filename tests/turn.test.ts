@@ -1,63 +1,58 @@
 // tests/turn.test.ts
-import { describe, it, expect } from "vitest"
+import { describe, it, expect, beforeEach } from "vitest"
 import { Player } from "../src/game/Player.js"
 import { Question } from "../src/game/Question.js"
 import { Turn } from "../src/game/Turn.js"
 import { GameRules } from "../src/game/GameRules.js"
 import { TurnState } from "../src/game/TurnState.js"
 
+let alice: Player, bob: Player
+let question: Question
+let rules: GameRules
+let turn: Turn
+
+const points = 100
+
+beforeEach(() => {
+    alice = new Player("a", "Alice")
+    bob = new Player("b", "Bob")
+    question = new Question("2+2?","4",points)
+    rules = GameRules.classic()
+    turn = new Turn(alice, [alice, bob], rules)
+})
+
 describe("Turn", () => {
     it("starter gets full points on correct answer", () => {
-        const alice = new Player("a", "Alice")
-        const bob = new Player("b", "Bob")
-        const question = new Question("2+2?", "4", 100)
-        const rules = GameRules.classic()
+            turn.selectQuestion(question)
+            turn.submitAnswer(true)
 
-        const turn = new Turn(alice, [alice, bob], rules)
-        turn.selectQuestion(question)
-        turn.submitAnswer(true)
+            expect(alice.score).toBe(points)
+            expect(bob.score).toBe(0)
+            expect(turn.state).toBe(TurnState.RESOLVED)
+        }
+    )
 
-        expect(alice.score).toBe(100)
-        expect(turn.state).toBe(TurnState.RESOLVED)
-    })
-
-    it("starter loses half points on wrong answer", () => {
-        const alice = new Player("a", "Alice")
-        const bob = new Player("b", "Bob")
-        const question = new Question("2+2?", "4", 100)
-        const rules = GameRules.classic()
-
-        const turn = new Turn(alice, [alice, bob], rules)
+    it("starter loses points on wrong answer", () => {
         turn.selectQuestion(question)
         turn.submitAnswer(false)
 
-        expect(alice.score).toBe(-50)
+        expect(alice.score).toBe(Math.ceil(-points*rules.firstWrongMultiplier))
+        expect(bob.score).toBe(0)
         expect(turn.state).toBe(TurnState.BUZZING)
     })
 
     it("buzzing player can answer correctly", () => {
-        const alice = new Player("a", "Alice")
-        const bob = new Player("b", "Bob")
-        const question = new Question("2+2?", "4", 100)
-        const rules = GameRules.classic()
-
-        const turn = new Turn(alice, [alice, bob], rules)
         turn.selectQuestion(question)
         turn.submitAnswer(false) // Alice wrong
         turn.buzz(bob)
         turn.submitAnswer(true) // Bob correct
 
-        expect(bob.score).toBe(50)
+        expect(alice.score).toBe(Math.ceil(-points*rules.firstWrongMultiplier))
+        expect(bob.score).toBe(Math.ceil(points*rules.buzzCorrectMultiplier))
         expect(turn.state).toBe(TurnState.RESOLVED)
     })
 
     it("pass ends the turn when no one wants to buzz", () => {
-        const alice = new Player("a", "Alice")
-        const bob = new Player("b", "Bob")
-        const question = new Question("2+2?", "4", 100)
-        const rules = GameRules.classic()
-
-        const turn = new Turn(alice, [alice, bob], rules)
         turn.selectQuestion(question)
         turn.submitAnswer(false)
         turn.pass()
@@ -66,12 +61,6 @@ describe("Turn", () => {
     })
 
     it("turn automatically resolves if all players have tried", () => {
-        const alice = new Player("a", "Alice")
-        const bob = new Player("b", "Bob")
-        const question = new Question("2+2?", "4", 100)
-        const rules = GameRules.classic()
-
-        const turn = new Turn(alice, [alice, bob], rules)
         turn.selectQuestion(question)
         turn.submitAnswer(false) // Alice wrong
         turn.buzz(bob)
