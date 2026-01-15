@@ -4,6 +4,8 @@ import { Board } from "./Board.js"
 import { Turn } from "./Turn.js"
 import { GameRules } from "./GameRules.js"
 
+// TODO: add game end
+
 /**
  * Coordinates players, turns, and the board.
  * Acts as the public API for the UI.
@@ -95,8 +97,18 @@ export class Game {
         return this._turn
     }
 
+    /** All players in play order. */
+    get players() {
+        return this._players
+    }
+
     /** The player whose turn it is to select a question */
     get currentPlayer() {
         return this._players[this._currentPlayerIndex]
+    }
+
+    /** All categories on the board */
+    get categories() {
+        return this._board.categories
     }
 }

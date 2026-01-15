@@ -14,7 +14,7 @@ export class Turn {
     private readonly _rules: GameRules
 
     private _state: TurnState
-    private _currentPlayer: Player
+    private _activePlayer: Player
     private _question?: Question
     private _attempted = new Set<Player>()
     private _firstAttemptDone = false
@@ -35,7 +35,7 @@ export class Turn {
         this._startingPlayer = startingPlayer
         this._players = players
         this._rules = rules
-        this._currentPlayer = startingPlayer
+        this._activePlayer = startingPlayer
         this._state = TurnState.SELECTING
         this._onResolved = onResolved
     }
@@ -53,8 +53,12 @@ export class Turn {
         return this._state
     }
 
-    get currentPlayer() {
-        return this._currentPlayer
+    get activePlayer() {
+        return this._activePlayer
+    }
+
+    get startingPlayer() {
+        return this._startingPlayer
     }
 
     get question() {
@@ -75,7 +79,7 @@ export class Turn {
         if (!this._question) throw new Error("No question")
 
         const value = this._question.value
-        const player = this._currentPlayer
+        const player = this._activePlayer
         const isStarter = (player === this._startingPlayer)
 
         if (correct) {
@@ -107,7 +111,7 @@ export class Turn {
         if (this._state !== TurnState.BUZZING) throw new Error("Not buzzing")
         if (this._attempted.has(player)) throw new Error("Player locked out")
 
-        this._currentPlayer = player
+        this._activePlayer = player
         this._state = TurnState.ANSWERING
     }
 
@@ -115,5 +119,27 @@ export class Turn {
     pass() {
         if (this._state !== TurnState.BUZZING) throw new Error("Not buzzing")
         this.resolve()
+    }
+
+    canBuzz(player: Player) {
+        const isBuzzing = (this._state === TurnState.BUZZING)
+        const isLockedOut = this._attempted.has(player)
+
+        return isBuzzing && !isLockedOut
+    }
+
+    canAnswer() {
+        const isAnswering = (this._state === TurnState.ANSWERING)
+        const hasQuestion = (this._question !== undefined)
+
+        return isAnswering && hasQuestion
+    }
+
+    canPass() {
+        return (this._state === TurnState.BUZZING)
+    }
+
+    canSelectQuestion() {
+        return (this._state === TurnState.SELECTING)
     }
 }
