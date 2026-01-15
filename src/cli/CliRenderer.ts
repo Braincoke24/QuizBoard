@@ -1,7 +1,6 @@
 // src/cli/CliRenderer.ts
 import { GameUIState } from "../ui/GameUIState.js"
 import { TurnState } from "../game/TurnState.js"
-import { Game } from "../game/Game.js"
 
 /**
  * Responsible for converting the UI state into printable text.
