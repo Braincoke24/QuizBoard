@@ -53,7 +53,7 @@ describe("Game", () => {
         game.answer(false)
         game.buzz(charlie)
 
-        expect(game.turn.currentPlayer).toBe(charlie)
+        expect(game.turn.activePlayer).toBe(charlie)
     })
 
     it("buzz chain continues until someone answers correctly and then ends the turn", () => {
