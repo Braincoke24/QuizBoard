@@ -14,7 +14,7 @@ export class Player {
     }
 
     /** Adds points to the score. Always rounds up to the next integer. */
-    addScore(points: number) {
+    public addScore(points: number) {
         this._score += Math.ceil(points)
     }
 }

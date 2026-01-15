@@ -55,7 +55,7 @@ export class Game {
      * @param questionIndex Index of the question within the category
      * @throws Error if the turn is not in selecting state or the question is already asked
      */
-    selectQuestion(categoryIndex: number, questionIndex: number) {
+    public selectQuestion(categoryIndex: number, questionIndex: number) {
         const question = this._board.getQuestion(categoryIndex, questionIndex)
         this._turn.selectQuestion(question)
     }
@@ -66,7 +66,7 @@ export class Game {
      * @param correct True if the answer is correct, false if incorrect
      * @throws Error if the turn is not in answering state or no question is selected
      */
-    answer(correct: boolean) {
+    public answer(correct: boolean) {
         this._turn.submitAnswer(correct)
     }
 
@@ -76,7 +76,7 @@ export class Game {
      * @param player The player who buzzes
      * @throws Error if not in buzzing phase or the player is locked out
      */
-    buzz(player: Player) {
+    public buzz(player: Player) {
         this._turn.buzz(player)
     }
 
@@ -86,7 +86,7 @@ export class Game {
      * 
      * @throws Error if not in buzzing phase
      */
-    pass() {
+    public pass() {
         this._turn.pass()
     }
 

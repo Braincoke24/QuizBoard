@@ -17,7 +17,7 @@ export class Board {
      * @param categoryIndex Index of the category
      * @param questionIndex Index of the question within the category
      */
-    getQuestion(categoryIndex: number, questionIndex: number): Question {
+    public getQuestion(categoryIndex: number, questionIndex: number): Question {
         return this.categories[categoryIndex].questions[questionIndex]
     }
 }

@@ -65,7 +65,7 @@ export class Turn {
         return this._question
     }
 
-    selectQuestion(q: Question) {
+    public selectQuestion(q: Question) {
         if (this._state !== TurnState.SELECTING) throw new Error("Not selecting")
         if (q.asked) throw new Error("Already asked")
 
@@ -74,7 +74,7 @@ export class Turn {
         this._state = TurnState.ANSWERING
     }
 
-    submitAnswer(correct: boolean) {
+    public submitAnswer(correct: boolean) {
         if (this._state !== TurnState.ANSWERING) throw new Error("Not answering")
         if (!this._question) throw new Error("No question")
 
@@ -107,7 +107,7 @@ export class Turn {
         }
     }
 
-    buzz(player: Player) {
+    public buzz(player: Player) {
         if (this._state !== TurnState.BUZZING) throw new Error("Not buzzing")
         if (this._attempted.has(player)) throw new Error("Player locked out")
 
@@ -116,30 +116,30 @@ export class Turn {
     }
 
     /** Ends the turn without another buzz attempt */
-    pass() {
+    public pass() {
         if (this._state !== TurnState.BUZZING) throw new Error("Not buzzing")
         this.resolve()
     }
 
-    canBuzz(player: Player) {
+    public canBuzz(player: Player) {
         const isBuzzing = (this._state === TurnState.BUZZING)
         const isLockedOut = this._attempted.has(player)
 
         return isBuzzing && !isLockedOut
     }
 
-    canAnswer() {
+    public canAnswer() {
         const isAnswering = (this._state === TurnState.ANSWERING)
         const hasQuestion = (this._question !== undefined)
 
         return isAnswering && hasQuestion
     }
 
-    canPass() {
+    public canPass() {
         return (this._state === TurnState.BUZZING)
     }
 
-    canSelectQuestion() {
+    public canSelectQuestion() {
         return (this._state === TurnState.SELECTING)
     }
 

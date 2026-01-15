@@ -16,7 +16,7 @@ export class Question {
     }
 
     /** Marks the question as asked */
-    play() {
+    public play() {
         this._asked = true
     }
 }
