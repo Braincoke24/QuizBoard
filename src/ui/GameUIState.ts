@@ -25,7 +25,7 @@ export class GameUIState {
     public getTurnStartingPlayer(): Player {
         return this.game.turn.startingPlayer
     }
-    
+
     /**
      * Returns all players in play order.
      */
@@ -106,6 +106,19 @@ export class GameUIState {
         return this.game.turn.activePlayer
     }
 
+    /**
+     * Returns true if the given player is currently active (answering or selecting).
+     */
+    public isPlayerActive(player: Player): boolean {
+        return this.game.turn.activePlayer === player
+    }
+
+    /**
+     * Returns true if the given player is locked out for the current question.
+     */
+    public isPlayerLockedOut(player: Player): boolean {
+        return this.game.turn.isLockedOut(player)
+    }
 }
 
 /**

@@ -142,4 +142,12 @@ export class Turn {
     canSelectQuestion() {
         return (this._state === TurnState.SELECTING)
     }
+
+    /**
+     * Returns true if the given player has already failed this question.
+     */
+    public isLockedOut(player: Player): boolean {
+        return this._attempted.has(player)
+    }
+
 }
