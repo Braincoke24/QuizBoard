@@ -4,8 +4,6 @@ import { Board } from "./Board.js"
 import { Turn } from "./Turn.js"
 import { GameRules } from "./GameRules.js"
 
-// TODO: add game end
-
 /**
  * Coordinates players, turns, and the board.
  * Acts as the public API for the UI.
