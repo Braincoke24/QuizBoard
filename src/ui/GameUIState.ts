@@ -39,6 +39,13 @@ export class GameUIState {
     }
 
     /**
+     * Returns the player who is currently answering or buzzing.
+     */
+    public getActivePlayer(): PlayerUIState {
+        return this.resolvePlayerUIState(this.game.turn.activePlayer)
+    }
+
+    /**
      * Returns all players in play order.
      */
     public getPlayers(): readonly PlayerUIState[] {
@@ -82,13 +89,6 @@ export class GameUIState {
             value: q.value,
             text: q.text
         }
-    }
-
-    /**
-     * Returns the player who is currently answering or buzzing.
-     */
-    public getActivePlayer(): PlayerUIState {
-        return this.resolvePlayerUIState(this.game.turn.activePlayer)
     }
 
     /**
