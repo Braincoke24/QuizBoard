@@ -1,10 +1,10 @@
-// tests/helpers/createGame.ts
-import { Player } from "../../src/game/Player.js"
-import { Question } from "../../src/game/Question.js"
-import { Category } from "../../src/game/Category.js"
-import { Board } from "../../src/game/Board.js"
-import { Game } from "../../src/game/Game.js"
-import { GameRules } from "../../src/game/GameRules.js"
+// tests/game/helpers/createGame.ts
+import { Player } from "../../../src/game/Player.js"
+import { Question } from "../../../src/game/Question.js"
+import { Category } from "../../../src/game/Category.js"
+import { Board } from "../../../src/game/Board.js"
+import { Game } from "../../../src/game/Game.js"
+import { GameRules } from "../../../src/game/GameRules.js"
 
 /**
  * Creates a fully initialized Game instance for tests.

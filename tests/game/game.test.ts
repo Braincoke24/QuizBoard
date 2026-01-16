@@ -1,6 +1,6 @@
-// tests/game.test.ts
+// tests/game/game.test.ts
 import { describe, it, expect } from "vitest"
-import { GameRules } from "../src/game/GameRules.js"
+import { GameRules } from "../../src/game/GameRules.js"
 import { createGame } from "./helpers/createGame.js"
 
 describe("Game", () => {

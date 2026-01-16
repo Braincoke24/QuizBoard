@@ -1,6 +1,6 @@
-// tests/gameRules.test.ts
+// tests/game/gameRules.test.ts
 import { describe, it, expect } from "vitest"
-import { GameRules } from "../src/game/GameRules.js"
+import { GameRules } from "../../src/game/GameRules.js"
 
 describe("GameRules", () => {
     it("classic returns expected multipliers", () => {

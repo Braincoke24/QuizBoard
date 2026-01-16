@@ -1,10 +1,10 @@
-// tests/turn.test.ts
+// tests/game/turn.test.ts
 import { describe, it, expect, beforeEach } from "vitest"
-import { Player } from "../src/game/Player.js"
-import { Question } from "../src/game/Question.js"
-import { Turn } from "../src/game/Turn.js"
-import { GameRules } from "../src/game/GameRules.js"
-import { TurnState } from "../src/game/TurnState.js"
+import { Player } from "../../src/game/Player.js"
+import { Question } from "../../src/game/Question.js"
+import { Turn } from "../../src/game/Turn.js"
+import { GameRules } from "../../src/game/GameRules.js"
+import { TurnState } from "../../src/game/TurnState.js"
 
 let alice: Player, bob: Player
 let question: Question

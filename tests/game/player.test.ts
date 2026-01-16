@@ -1,6 +1,6 @@
-// tests/player.test.ts
+// tests/game/player.test.ts
 import { describe, it, expect } from "vitest"
-import { Player } from "../src/game/Player.js"
+import { Player } from "../../src/game/Player.js"
 
 describe("Player", () => {
     it("positive points get added correctly to players score", () => {
