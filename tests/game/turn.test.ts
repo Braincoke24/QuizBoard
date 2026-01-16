@@ -23,14 +23,13 @@ beforeEach(() => {
 
 describe("Turn", () => {
     it("starter gets full points on correct answer", () => {
-            turn.selectQuestion(question)
-            turn.submitAnswer(true)
+        turn.selectQuestion(question)
+        turn.submitAnswer(true)
 
-            expect(alice.score).toBe(points)
-            expect(bob.score).toBe(0)
-            expect(turn.state).toBe(TurnState.RESOLVED)
-        }
-    )
+        expect(alice.score).toBe(points)
+        expect(bob.score).toBe(0)
+        expect(turn.state).toBe(TurnState.RESOLVED)
+    })
 
     it("starter loses points on wrong answer", () => {
         turn.selectQuestion(question)

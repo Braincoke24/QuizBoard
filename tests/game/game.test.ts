@@ -1,7 +1,7 @@
 // tests/game/game.test.ts
 import { describe, it, expect } from "vitest"
 import { GameRules } from "../../src/game/GameRules.js"
-import { createGame } from "./helpers/createGame.js"
+import { createGame } from "../helpers/createGame.js"
 
 describe("Game", () => {
     it("current player advances after a resolved turn", () => {
