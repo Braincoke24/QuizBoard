@@ -48,50 +48,6 @@ export class GameUIState {
     }
 
     /**
-     * Returns true if a new question can currently be selected.
-     */
-    public canSelectQuestion(): boolean {
-        if (!this.game.turn) {
-            return false
-        }
-
-        return this.game.turn.canSelectQuestion()
-    }
-
-    /**
-     * Returns true if the given player is allowed to buzz right now.
-     */
-    public canBuzz(uiPlayer: PlayerUIState): boolean {
-        if (!this.game.turn) {
-            return false
-        }
-
-        return this.game.turn.canBuzz(this.playerResolver.resolve(uiPlayer))
-    }
-
-    /**
-     * Returns true if the current player is allowed to answer right now.
-     */
-    public canAnswer(): boolean {
-        if (!this.game.turn) {
-            return false
-        }
-
-        return this.game.turn.canAnswer()
-    }
-
-    /**
-     * Returns true if the active player is allowed to pass.
-     */
-    public canPass(): boolean {
-        if (!this.game.turn) {
-            return false
-        }
-
-        return this.game.turn.canPass()
-    }
-
-    /**
      * Returns a lightweight snapshot of the game board for rendering.
      */
     public getBoard(): readonly CategoryUIState[] {
@@ -133,6 +89,50 @@ export class GameUIState {
      */
     public getActivePlayer(): PlayerUIState {
         return this.resolvePlayerUIState(this.game.turn.activePlayer)
+    }
+
+    /**
+     * Returns true if a new question can currently be selected.
+     */
+    public canSelectQuestion(): boolean {
+        if (!this.game.turn) {
+            return false
+        }
+
+        return this.game.turn.canSelectQuestion()
+    }
+
+    /**
+     * Returns true if the given player is allowed to buzz right now.
+     */
+    public canBuzz(uiPlayer: PlayerUIState): boolean {
+        if (!this.game.turn) {
+            return false
+        }
+
+        return this.game.turn.canBuzz(this.playerResolver.resolve(uiPlayer))
+    }
+
+    /**
+     * Returns true if the current player is allowed to answer right now.
+     */
+    public canAnswer(): boolean {
+        if (!this.game.turn) {
+            return false
+        }
+
+        return this.game.turn.canAnswer()
+    }
+
+    /**
+     * Returns true if the active player is allowed to pass.
+     */
+    public canPass(): boolean {
+        if (!this.game.turn) {
+            return false
+        }
+
+        return this.game.turn.canPass()
     }
 }
 
