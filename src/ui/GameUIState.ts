@@ -2,7 +2,7 @@
 import { Game } from "../game/Game.js"
 import { Player } from "../game/Player.js"
 import { TurnState } from "../game/TurnState.js"
-import { Question } from "../game/Question.js"
+import { PlayerResolver } from "../shared/PlayerResolver.js"
 
 /**
  * Read-only projection of the current game state
@@ -11,46 +11,72 @@ import { Question } from "../game/Question.js"
  */
 export class GameUIState {
     private readonly game: Game
+    private readonly playerResolver: PlayerResolver
 
     /**
      * Creates a new UI state wrapper for the given game instance.
      */
     public constructor(game: Game) {
         this.game = game
+        this.playerResolver = new PlayerResolver(game.players)
+    }
+
+    private resolvePlayerUIState(player: Player): PlayerUIState {
+        return {
+            id: player.id,
+            name: player.name,
+            score: player.score,
+            isActive: (this.game.turn.activePlayer === player),
+            isLockedOut: (this.game.turn.isLockedOut(player))
+        }
     }
 
     /**
-     * Returns the player whose turn is currently active.
+     * Returns the starting player of the current turn.
      */
-    public getTurnStartingPlayer(): Player {
-        return this.game.turn.startingPlayer
+    public getTurnStartingPlayer(): PlayerUIState {
+        return this.resolvePlayerUIState(this.game.turn.startingPlayer)
     }
 
     /**
      * Returns all players in play order.
      */
-    public getPlayers(): readonly Player[] {
-        return this.game.players
+    public getPlayers(): readonly PlayerUIState[] {
+        return this.game.players.map((player) => {
+            return this.resolvePlayerUIState(player)
+        })
     }
 
     /**
      * Returns true if a new question can currently be selected.
      */
     public canSelectQuestion(): boolean {
+        if (!this.game.turn) {
+            return false
+        }
+
         return this.game.turn.canSelectQuestion()
     }
 
     /**
      * Returns true if the given player is allowed to buzz right now.
      */
-    public canBuzz(player: Player): boolean {
-        return this.game.turn.canBuzz(player)
+    public canBuzz(uiPlayer: PlayerUIState): boolean {
+        if (!this.game.turn) {
+            return false
+        }
+
+        return this.game.turn.canBuzz(this.playerResolver.resolve(uiPlayer))
     }
 
     /**
      * Returns true if the current player is allowed to answer right now.
      */
     public canAnswer(): boolean {
+        if (!this.game.turn) {
+            return false
+        }
+
         return this.game.turn.canAnswer()
     }
 
@@ -58,6 +84,10 @@ export class GameUIState {
      * Returns true if the active player is allowed to pass.
      */
     public canPass(): boolean {
+        if (!this.game.turn) {
+            return false
+        }
+
         return this.game.turn.canPass()
     }
 
@@ -98,26 +128,11 @@ export class GameUIState {
         }
     }
 
-
     /**
      * Returns the player who is currently answering or buzzing.
      */
-    public getActivePlayer(): Player {
-        return this.game.turn.activePlayer
-    }
-
-    /**
-     * Returns true if the given player is currently active (answering or selecting).
-     */
-    public isPlayerActive(player: Player): boolean {
-        return this.game.turn.activePlayer === player
-    }
-
-    /**
-     * Returns true if the given player is locked out for the current question.
-     */
-    public isPlayerLockedOut(player: Player): boolean {
-        return this.game.turn.isLockedOut(player)
+    public getActivePlayer(): PlayerUIState {
+        return this.resolvePlayerUIState(this.game.turn.activePlayer)
     }
 }
 
@@ -145,3 +160,13 @@ export interface ActiveQuestionUIState {
     text: string
 }
 
+/**
+ * UI-friendly view of a player.
+ */
+export interface PlayerUIState {
+    id: string
+    name: string
+    score: number
+    isActive: boolean
+    isLockedOut: boolean
+}

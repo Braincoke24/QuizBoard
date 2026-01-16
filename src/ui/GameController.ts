@@ -1,7 +1,7 @@
 // src/ui/GameController.ts
 import { Game } from "../game/Game.js"
-import { Player } from "../game/Player.js"
-import { GameUIState } from "./GameUIState.js"
+import { GameUIState, PlayerUIState } from "./GameUIState.js"
+import { PlayerResolver } from "../shared/PlayerResolver.js"
 
 /**
  * Command API for the UI.
@@ -10,6 +10,7 @@ import { GameUIState } from "./GameUIState.js"
 export class GameController {
     private readonly game: Game
     private readonly uiState: GameUIState
+    private readonly playerResolver: PlayerResolver
 
     /**
      * Creates a controller for a given game instance.
@@ -17,6 +18,7 @@ export class GameController {
     public constructor(game: Game) {
         this.game = game
         this.uiState = new GameUIState(game)
+        this.playerResolver = new PlayerResolver(game.players)
     }
 
     /**
@@ -40,12 +42,12 @@ export class GameController {
     /**
      * Lets a player buzz in.
      */
-    public buzz(player: Player): void {
-        if (!this.uiState.canBuzz(player)) {
+    public buzz(uiPlayer: PlayerUIState): void {
+        if (!this.uiState.canBuzz(uiPlayer)) {
             throw new Error("Player is not allowed to buzz right now")
         }
 
-        this.game.buzz(player)
+        this.game.buzz(this.playerResolver.resolve(uiPlayer))
     }
 
     /**

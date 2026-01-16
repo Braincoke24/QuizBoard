@@ -33,11 +33,11 @@ export class CliRenderer {
         for (const player of state.getPlayers()) {
             let name = player.name
 
-            if (state.isPlayerActive(player)) {
+            if (player.isActive) {
                 name = `[${name}]`
             }
 
-            if (state.isPlayerLockedOut(player)) {
+            if (player.isLockedOut) {
                 name = `${name} (x)`
             }
 
