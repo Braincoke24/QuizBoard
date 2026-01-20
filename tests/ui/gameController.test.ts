@@ -1,6 +1,6 @@
 // tests/ui/gameController.test.ts
 import { describe, it, expect } from "vitest"
-import { GameController } from "../../src/ui/GameController.js"
+import { GameController } from "../../src/ui/controllers/GameController.js"
 import { GameRules } from "../../src/game/GameRules.js"
 import { createGame } from "../helpers/createGame.js"
 import { TurnState } from "../../src/game/TurnState.js"
@@ -63,7 +63,7 @@ describe("GameController", () => {
 
             const bob = ui.getPlayers()[1]
 
-            controller.buzz(bob)
+            controller.buzz(bob.id)
 
             expect(ui.getActivePlayer().id).toBe("b")
             expect(ui.getTurnState()).toBe(TurnState.ANSWERING)
@@ -78,7 +78,7 @@ describe("GameController", () => {
             const alice = ui.getPlayers()[0]
 
             expect(() => {
-                controller.buzz(alice)
+                controller.buzz(alice.id)
             }).toThrow()
         })
     })

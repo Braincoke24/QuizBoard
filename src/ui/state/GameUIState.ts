@@ -1,8 +1,8 @@
-// src/ui/GameUIState.ts
-import { Game } from "../game/Game.js"
-import { Player } from "../game/Player.js"
-import { TurnState } from "../game/TurnState.js"
-import { PlayerResolver } from "../shared/PlayerResolver.js"
+// src/ui/state/GameUIState.ts
+import { Game } from "../../game/Game.js"
+import { Player } from "../../game/Player.js"
+import { TurnState } from "../../game/TurnState.js"
+import { PlayerResolver } from "../../shared/PlayerResolver.js"
 
 /**
  * Read-only projection of the current game state
@@ -105,12 +105,12 @@ export class GameUIState {
     /**
      * Returns true if the given player is allowed to buzz right now.
      */
-    public canBuzz(uiPlayer: PlayerUIState): boolean {
+    public canBuzz(playerId: string): boolean {
         if (!this.game.turn) {
             return false
         }
 
-        return this.game.turn.canBuzz(this.playerResolver.resolve(uiPlayer))
+        return this.game.turn.canBuzz(this.playerResolver.resolve(playerId))
     }
 
     /**

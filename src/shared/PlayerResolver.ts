@@ -1,6 +1,5 @@
 // src/shared/PlayerResolver.ts
 import { Player } from "../game/Player.js"
-import { PlayerUIState } from "../ui/GameUIState.js"
 
 /**
  * Internal helper to resolve UI player references to domain players.
@@ -19,14 +18,14 @@ export class PlayerResolver {
     }
 
     /**
-     * Resolves a PlayerUIState to the corresponding Player.
-     * Throws if the player is unknown.
+     * Resolves a player id to the corresponding Player.
+     * Throws if the player id is unknown.
      */
-    public resolve(uiPlayer: PlayerUIState): Player {
-        const player = this.playerById.get(uiPlayer.id)
+    public resolve(playerId: string): Player {
+        const player = this.playerById.get(playerId)
 
         if (!player) {
-            throw new Error(`Unknown player id: ${uiPlayer.id}`)
+            throw new Error(`Unknown playerId: ${playerId}`)
         }
 
         return player

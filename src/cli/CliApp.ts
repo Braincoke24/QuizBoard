@@ -1,5 +1,5 @@
 // src/cli/CliApp.ts
-import { GameController } from "../ui/GameController.js"
+import { GameController } from "../ui/controllers/GameController.js"
 import { CliRenderer } from "./CliRenderer.js"
 import { CliInput } from "./CliInput.js"
 import { TurnState } from "../game/TurnState.js"
@@ -59,7 +59,7 @@ export class CliApp {
                     } else if (parts[0] === "buzz") {
                         const index = Number(parts[1])
                         const player = state.getPlayers()[index]
-                        this.controller.buzz(player)
+                        this.controller.buzz(player.id)
                     }
                     break
                 }

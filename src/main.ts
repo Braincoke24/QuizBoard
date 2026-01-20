@@ -4,7 +4,7 @@ import { Category } from "./game/Category.js"
 import { Board } from "./game/Board.js"
 import { GameRules } from "./game/GameRules.js"
 import { Game } from "./game/Game.js"
-import { GameController } from "./ui/GameController.js"
+import { GameController } from "./ui/controllers/GameController.js"
 import { CliApp } from "./cli/CliApp.js"
 
 /**

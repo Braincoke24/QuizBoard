@@ -1,6 +1,6 @@
 // tests/ui/gameUIState.test.ts
 import { describe, it, expect } from "vitest"
-import { GameUIState } from "../../src/ui/GameUIState.js"
+import { GameUIState } from "../../src/ui/state/GameUIState.js"
 import { GameRules } from "../../src/game/GameRules.js"
 import { createGame } from "../helpers/createGame.js"
 import { TurnState } from "../../src/game/TurnState.js"
@@ -177,7 +177,7 @@ describe("GameUIState", () => {
                 
                 const bob = ui.getPlayers()[1]
 
-                expect(ui.canBuzz(bob)).toBe(true)
+                expect(ui.canBuzz(bob.id)).toBe(true)
             })
 
             it("returns false for locked out players", () => {
@@ -188,7 +188,7 @@ describe("GameUIState", () => {
                 
                 const alice = ui.getPlayers()[0]
 
-                expect(ui.canBuzz(alice)).toBe(false)
+                expect(ui.canBuzz(alice.id)).toBe(false)
             })
         })
 
