@@ -1,4 +1,4 @@
-// tests/game/helpers/createGame.ts
+// tests/helpers/createGame.ts
 import { Player } from "../../src/game/Player.js"
 import { Question } from "../../src/game/Question.js"
 import { Category } from "../../src/game/Category.js"
