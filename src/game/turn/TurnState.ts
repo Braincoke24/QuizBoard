@@ -1,4 +1,4 @@
-// src/game/TurnState.ts
+// src/game/turn/TurnState.ts
 export enum TurnState {
     SELECTING = "selecting",
     ANSWERING = "answering",

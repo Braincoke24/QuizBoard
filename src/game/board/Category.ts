@@ -1,4 +1,4 @@
-// src/game/Category.ts
+// src/game/board/Category.ts
 import { Question } from "./Question.js"
 
 /**

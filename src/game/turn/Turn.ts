@@ -1,7 +1,8 @@
-// src/game/Turn.ts
+// src/game/turn/Turn.ts
 import { Player } from "../Player.js"
 import { Question } from "../board/Question.js"
 import { TurnState } from "./TurnState.js"
+import { SelectedQuestion } from "./SelectedQuestion.js"
 import { GameRules } from "../GameRules.js"
 
 /**
@@ -15,7 +16,7 @@ export class Turn {
 
     private _state: TurnState
     private _activePlayer: Player
-    private _question?: Question
+    private _selectedQuestion?: SelectedQuestion
     private _attempted = new Set<Player>()
     private _firstAttemptDone = false
     private _onResolved?: (turn: Turn) => void
@@ -62,23 +63,26 @@ export class Turn {
     }
 
     get question() {
-        return this._question
+        return this._selectedQuestion
     }
 
-    public selectQuestion(q: Question) {
+    public selectQuestion(question: Question, categoryName: string) {
         if (this._state !== TurnState.SELECTING) throw new Error("Not selecting")
-        if (q.asked) throw new Error("Already asked")
+        if (question.asked) throw new Error("Already asked")
 
-        this._question = q
-        q.play()
+        this._selectedQuestion = {
+            question: question,
+            categoryName: categoryName
+        }
+        question.play()
         this._state = TurnState.ANSWERING
     }
 
     public submitAnswer(correct: boolean) {
         if (this._state !== TurnState.ANSWERING) throw new Error("Not answering")
-        if (!this._question) throw new Error("No question")
+        if (!this._selectedQuestion) throw new Error("No question")
 
-        const value = this._question.value
+        const value = this._selectedQuestion.question.value
         const player = this._activePlayer
         const isStarter = (player === this._startingPlayer)
 
@@ -130,7 +134,7 @@ export class Turn {
 
     public canAnswer() {
         const isAnswering = (this._state === TurnState.ANSWERING)
-        const hasQuestion = (this._question !== undefined)
+        const hasQuestion = (this._selectedQuestion !== undefined)
 
         return isAnswering && hasQuestion
     }

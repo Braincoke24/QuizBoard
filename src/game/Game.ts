@@ -56,8 +56,10 @@ export class Game {
      * @throws Error if the turn is not in selecting state or the question is already asked
      */
     public selectQuestion(categoryIndex: number, questionIndex: number) {
-        const question = this._board.getQuestion(categoryIndex, questionIndex)
-        this._turn.selectQuestion(question)
+        const category = this._board.categories[categoryIndex]
+        const question = category.questions[questionIndex]
+
+        this._turn.selectQuestion(question, category.name)
     }
 
     /**

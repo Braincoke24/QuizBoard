@@ -82,14 +82,13 @@ export class GameUIState {
      * Returns a lightweight snapshot of the currently active question, if any.
      */
     public getActiveQuestion(): ActiveQuestionUIState | null {
-        const q = this.game.turn.question
-        if (!q) return null
+        const selected = this.game.turn.question
+        if (!selected) return null
 
-        // TODO: get category name from somewhere
         return {
-            value: q.value,
-            text: q.text,
-            categoryName: "Testtitel"
+            value: selected.question.value,
+            text: selected.question.text,
+            categoryName: selected.categoryName
         }
     }
 

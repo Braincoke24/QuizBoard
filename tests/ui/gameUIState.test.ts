@@ -3,7 +3,7 @@ import { describe, it, expect } from "vitest"
 import { GameUIState } from "../../src/ui/state/GameUIState.js"
 import { GameRules } from "../../src/game/GameRules.js"
 import { createGame } from "../helpers/createGame.js"
-import { TurnState } from "../../src/game/TurnState.js"
+import { TurnState } from "../../src/game/turn/TurnState.js"
 
 function setup() {
     const { game } = createGame(GameRules.classic())

@@ -1,8 +1,8 @@
 // tests/helpers/createGame.ts
 import { Player } from "../../src/game/Player.js"
-import { Question } from "../../src/game/Question.js"
-import { Category } from "../../src/game/Category.js"
-import { Board } from "../../src/game/Board.js"
+import { Question } from "../../src/game/board/Question.js"
+import { Category } from "../../src/game/board/Category.js"
+import { Board } from "../../src/game/board/Board.js"
 import { Game } from "../../src/game/Game.js"
 import { GameRules } from "../../src/game/GameRules.js"
 

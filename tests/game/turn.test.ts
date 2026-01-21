@@ -1,10 +1,10 @@
 // tests/game/turn.test.ts
 import { describe, it, expect, beforeEach } from "vitest"
 import { Player } from "../../src/game/Player.js"
-import { Question } from "../../src/game/Question.js"
-import { Turn } from "../../src/game/Turn.js"
+import { Question } from "../../src/game/board/Question.js"
+import { Turn } from "../../src/game/turn/Turn.js"
 import { GameRules } from "../../src/game/GameRules.js"
-import { TurnState } from "../../src/game/TurnState.js"
+import { TurnState } from "../../src/game/turn/TurnState.js"
 
 let alice: Player, bob: Player
 let question: Question
@@ -23,7 +23,7 @@ beforeEach(() => {
 
 describe("Turn", () => {
     it("starter gets full points on correct answer", () => {
-        turn.selectQuestion(question)
+        turn.selectQuestion(question,"Test category")
         turn.submitAnswer(true)
 
         expect(alice.score).toBe(points)
@@ -32,7 +32,7 @@ describe("Turn", () => {
     })
 
     it("starter loses points on wrong answer", () => {
-        turn.selectQuestion(question)
+        turn.selectQuestion(question,"Test category")
         turn.submitAnswer(false)
 
         expect(alice.score).toBe(Math.ceil(-points*rules.firstWrongMultiplier))
@@ -41,7 +41,7 @@ describe("Turn", () => {
     })
 
     it("buzzing player can answer correctly", () => {
-        turn.selectQuestion(question)
+        turn.selectQuestion(question,"Test category")
         turn.submitAnswer(false) // Alice wrong
         turn.buzz(bob)
         turn.submitAnswer(true) // Bob correct
@@ -52,7 +52,7 @@ describe("Turn", () => {
     })
 
     it("pass ends the turn when no one wants to buzz", () => {
-        turn.selectQuestion(question)
+        turn.selectQuestion(question,"Test category")
         turn.submitAnswer(false)
         turn.pass()
 
@@ -60,7 +60,7 @@ describe("Turn", () => {
     })
 
     it("turn automatically resolves if all players have tried", () => {
-        turn.selectQuestion(question)
+        turn.selectQuestion(question,"Test category")
         turn.submitAnswer(false) // Alice wrong
         turn.buzz(bob)
         turn.submitAnswer(false) // Bob wrong

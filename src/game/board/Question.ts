@@ -1,4 +1,4 @@
-// src/game/Question.ts
+// src/game/board/Question.ts
 export class Question {
     readonly text: string
     readonly answer: string
