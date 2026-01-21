@@ -1,7 +1,7 @@
 // src/ui/state/GameUIState.ts
 import { Game } from "../../game/Game.js"
 import { Player } from "../../game/Player.js"
-import { TurnState } from "../../game/TurnState.js"
+import { TurnState } from "../../game/turn/TurnState.js"
 import { PlayerResolver } from "../../shared/PlayerResolver.js"
 
 /**
@@ -85,6 +85,7 @@ export class GameUIState {
         const q = this.game.turn.question
         if (!q) return null
 
+        // TODO: get category name from somewhere
         return {
             value: q.value,
             text: q.text,

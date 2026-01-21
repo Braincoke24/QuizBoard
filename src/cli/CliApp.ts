@@ -2,7 +2,7 @@
 import { GameController } from "../ui/controllers/GameController.js"
 import { CliRenderer } from "./CliRenderer.js"
 import { CliInput } from "./CliInput.js"
-import { TurnState } from "../game/TurnState.js"
+import { TurnState } from "../game/turn/TurnState.js"
 
 /**
  * Main CLI application loop.

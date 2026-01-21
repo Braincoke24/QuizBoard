@@ -1,7 +1,7 @@
 // src/game/Game.ts
 import { Player } from "./Player.js"
-import { Board } from "./Board.js"
-import { Turn } from "./Turn.js"
+import { Board } from "./board/Board.js"
+import { Turn } from "./turn/Turn.js"
 import { GameRules } from "./GameRules.js"
 
 /**

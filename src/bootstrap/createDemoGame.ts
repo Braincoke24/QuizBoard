@@ -1,9 +1,9 @@
 // src/bootstrap/createDemoGame.ts
 import { Game } from "../game/Game.js"
 import { Player } from "../game/Player.js"
-import { Question } from "../game/Question.js"
-import { Category } from "../game/Category.js"
-import { Board } from "../game/Board.js"
+import { Question } from "../game/board/Question.js"
+import { Category } from "../game/board/Category.js"
+import { Board } from "../game/board/Board.js"
 import { GameRules } from "../game/GameRules.js"
 
 /**

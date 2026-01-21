@@ -1,8 +1,8 @@
 // src/game/Turn.ts
-import { Player } from "./Player.js"
-import { Question } from "./Question.js"
+import { Player } from "../Player.js"
+import { Question } from "../board/Question.js"
 import { TurnState } from "./TurnState.js"
-import { GameRules } from "./GameRules.js"
+import { GameRules } from "../GameRules.js"
 
 /**
  * Represents a single turn in the game.
