@@ -5,6 +5,7 @@
     padding: 16px;
     max-width: 1000px;
     margin: 0 auto;
+    position: relative;
 }
 
 .header {
@@ -38,6 +39,10 @@
 }
 
 /* --- Board -------------------------------------------------- */
+
+.board-container {
+    position: relative;
+}
 
 .board {
     display: grid;
@@ -101,3 +106,48 @@ button:disabled {
     opacity: 0.4;
     cursor: not-allowed;
 }
+
+/* --- Active Question ---------------------------------------- */
+
+.board-container.has-overlay .board {
+    pointer-events: none;
+}
+
+.question-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.6);
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    z-index: 100;
+
+    pointer-events: auto;
+}
+
+.question-card {
+    background: #111;
+    color: white;
+    padding: 32px 48px;
+    border-radius: 12px;
+    text-align: center;
+    min-width: 300px;
+}
+
+.question-category {
+    font-size: 1.2rem;
+    opacity: 0.8;
+    margin-bottom: 12px;
+}
+
+.question-value {
+    font-size: 3rem;
+    font-weight: bold;
+}
+
+.question-text {
+    font-size: 3rem;
+}
+

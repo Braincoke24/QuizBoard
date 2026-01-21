@@ -87,7 +87,8 @@ export class GameUIState {
 
         return {
             value: q.value,
-            text: q.text
+            text: q.text,
+            categoryName: "Testtitel"
         }
     }
 
@@ -158,6 +159,7 @@ export interface QuestionUIState {
 export interface ActiveQuestionUIState {
     value: number
     text: string
+    categoryName: string
 }
 
 /**

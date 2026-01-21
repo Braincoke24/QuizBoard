@@ -78,6 +78,21 @@ export class PlayerRenderer {
     }
 
     private renderBoard(state: GameUIState): void {
+        const container = document.createElement("div")
+        container.className = "board-container"
+
+        const board = this.renderBoardGrid(state)
+        container.appendChild(board)
+
+        if (state.getActiveQuestion() !== null) {
+            container.classList.add("has-overlay")
+            container.appendChild(this.renderActiveQuestionOverlay(state))
+        }
+
+        this.root.appendChild(container)
+    }
+
+    private renderBoardGrid(state: GameUIState): HTMLElement {
         const board = document.createElement("div")
         board.className = "board"
 
@@ -92,37 +107,33 @@ export class PlayerRenderer {
 
         board.appendChild(headerRow)
 
-        const categories = state.getBoard()
-
-        const maxQuestionRows = Math.max(
-            ...categories.map((category) => category.questions.length)
+        const maxRows = Math.max(
+            ...state.getBoard().map((c) => c.questions.length)
         )
 
-        for (let q = 0; q < maxQuestionRows; q++) {
+        for (let q = 0; q < maxRows; q++) {
             const row = document.createElement("div")
             row.className = "board-row"
 
-            categories.forEach((category, cIndex) => {
+            state.getBoard().forEach((category, cIndex) => {
                 const question = category.questions[q]
                 const button = document.createElement("button")
                 button.className = "question"
 
                 if (!question) {
-                    // No question in this category for this row
-                    button.textContent = "—"
                     button.disabled = true
-                    button.classList.add("empty")
+                    button.textContent = ""
                 } else {
                     button.textContent = question.isAvailable
                         ? question.value.toString()
                         : "—"
 
+                    button.disabled = !question.isAvailable
+                    button.onclick = () => this.onSelectQuestion(cIndex, q)
+
                     if (!question.isAvailable) {
                         button.classList.add("used")
                     }
-
-                    button.disabled = !question.isAvailable
-                    button.onclick = () => this.onSelectQuestion(cIndex, q)
                 }
 
                 row.appendChild(button)
@@ -131,7 +142,7 @@ export class PlayerRenderer {
             board.appendChild(row)
         }
 
-        this.root.appendChild(board)
+        return board
     }
 
     private renderControls(state: GameUIState): void {
@@ -174,5 +185,33 @@ export class PlayerRenderer {
         button.onclick = () => this.onBuzz(playerId)
 
         return button
+    }
+
+    private renderActiveQuestionOverlay(state: GameUIState): HTMLElement {
+        const overlay = document.createElement("div")
+        overlay.className = "question-overlay"
+
+        const question = state.getActiveQuestion()
+        if (!question) return overlay
+
+        const card = document.createElement("div")
+        card.className = "question-card"
+
+        const category = document.createElement("div")
+        category.className = "question-category"
+        category.textContent = question.categoryName
+
+        const value = document.createElement("div")
+        value.className = "question-value"
+        value.textContent = question.value.toString()
+
+        const text = document.createElement("div")
+        text.className = "question-text"
+        text.textContent = question.text
+
+        card.append(category, value, text)
+        overlay.appendChild(card)
+
+        return overlay
     }
 }
