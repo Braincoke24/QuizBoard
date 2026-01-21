@@ -1,0 +1,103 @@
+/* --- Layout -------------------------------------------------- */
+
+.player-view {
+    font-family: system-ui, sans-serif;
+    padding: 16px;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.header {
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin-bottom: 16px;
+}
+
+/* --- Scoreboard --------------------------------------------- */
+
+.scoreboard {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 16px;
+}
+
+.player-row {
+    padding: 8px 12px;
+    border-radius: 6px;
+    background: #eee;
+}
+
+.player-row.active {
+    background: #cce5ff;
+    font-weight: bold;
+}
+
+.player-row.locked {
+    background: #ddd;
+    color: #888;
+}
+
+/* --- Board -------------------------------------------------- */
+
+.board {
+    display: grid;
+    gap: 6px;
+    margin-bottom: 16px;
+}
+
+.board-header,
+.board-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+    gap: 6px;
+}
+
+.board-header div {
+    text-align: center;
+    font-weight: bold;
+}
+
+.question {
+    padding: 12px;
+    font-size: 1rem;
+    cursor: pointer;
+}
+
+.question.used {
+    background: #444;
+    color: #fff;
+    cursor: default;
+}
+
+/* --- Controls ----------------------------------------------- */
+
+.controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.buzz-button {
+    padding: 8px 12px;
+}
+
+.answer.correct {
+    background: #4caf50;
+    color: white;
+}
+
+.answer.wrong {
+    background: #f44336;
+    color: white;
+}
+
+.pass {
+    background: #ff9800;
+}
+
+/* --- Disabled ----------------------------------------------- */
+
+button:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
