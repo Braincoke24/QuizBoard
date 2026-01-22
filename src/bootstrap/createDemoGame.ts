@@ -21,12 +21,13 @@ export function createDemoGame(rules: GameRules) {
         new Question("2+2?", "4", 100),
         new Question("3+3?", "6", 200),
         new Question("5+5?", "10", 300),
-        new Question("Capital of France?", "Paris", 400)
+        new Question("Capital of France?", "Paris", 400),
+        new Question("Capital of Germany?", "Berlin", 200)
     ]
 
     const categories = [
         new Category("Math", [questions[0], questions[1]]),
-        new Category("General", [questions[2], questions[3]])
+        new Category("General", [questions[2], questions[3], questions[4]])
     ]
 
     const board = new Board(categories)
