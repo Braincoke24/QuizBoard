@@ -1,18 +1,38 @@
 // src/ui/views/PlayerView.ts
 import { GamePort } from "../ports/GamePort.js"
-import { PlayerRenderer } from "../renderers/PlayerRenderer.js"
+import { GameViewRenderer } from "../renderers/GameViewRenderer.js"
+import { UIViewProfile } from "../state/UIViewProfile.js"
+
+export const PLAYER_VIEW: UIViewProfile = {
+    visibility: {
+        showCorrectAnswer: false
+    },
+    capabilities: {
+        canBuzz: false,
+        canJudgeAnswer: true,
+        canPass: true,
+        canSelectQuestion: true
+    },
+    input: {
+        enableKeyboardBuzzing: false,
+        enableMouse: true
+    }
+}
 
 /**
  * Player-facing view using mouse interactions only.
  */
 export class PlayerView {
     private readonly port: GamePort
-    private readonly renderer: PlayerRenderer
+    private readonly renderer: GameViewRenderer
+    private readonly profile: UIViewProfile
 
     constructor(port: GamePort, root: HTMLElement) {
         this.port = port
-        this.renderer = new PlayerRenderer(
+        this.profile = PLAYER_VIEW
+        this.renderer = new GameViewRenderer(
             root,
+            this.profile,
             this.handleSelectQuestion.bind(this),
             this.handleBuzz.bind(this),
             this.handleAnswer.bind(this),

@@ -88,6 +88,7 @@ export class GameUIState {
         return {
             value: selected.question.value,
             text: selected.question.text,
+            answer: selected.question.answer,
             categoryName: selected.categoryName
         }
     }
@@ -159,6 +160,7 @@ export interface QuestionUIState {
 export interface ActiveQuestionUIState {
     value: number
     text: string
+    answer: string
     categoryName: string
 }
 

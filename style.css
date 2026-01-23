@@ -1,6 +1,6 @@
 /* --- Layout -------------------------------------------------- */
 
-.player-view {
+.game-view {
     font-family: system-ui, sans-serif;
     padding: 16px;
     max-width: 1000px;
@@ -67,6 +67,7 @@
     padding: 12px;
     font-size: 1rem;
     cursor: pointer;
+    min-height: 100px;
 }
 
 .question.used {
@@ -134,6 +135,7 @@ button:disabled {
     font-size: 1rem;
     min-width: 70px;
     border: none;
+    grid-row: 1;
 }
 
 .question-controls .answer.correct {
@@ -181,4 +183,23 @@ button:disabled {
     text-align: center;
     font-size: 3rem;
     line-height: 1.2;
+}
+
+.question-answer {
+    grid-row: 3;
+    grid-column: 1 / -1;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    text-align: center;
+    font-size: 1rem;
+    line-height: 1;
+    font-style: italic;
+}
+
+.question-answer::before {
+    content: "Answer: ";
+    white-space: pre;
 }

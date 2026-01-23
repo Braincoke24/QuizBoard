@@ -1,51 +1,27 @@
-// src/ui/renderers/PlayerRenderer.ts
-import { GameUIState } from "../state/GameUIState.js"
+// src/ui/renderers/GameViewRenderer.ts
+import { ActiveQuestionUIState, GameUIState } from "../state/GameUIState.js"
+import { UIViewProfile } from "../state/UIViewProfile.js"
 
 /**
  * Renders the player UI and wires mouse interactions.
  */
-export class PlayerRenderer {
-    private readonly root: HTMLElement
-
-    private readonly onSelectQuestion: (c: number, q: number) => void
-    private readonly onBuzz: (playerId: string) => void
-    private readonly onAnswer: (isCorrect: boolean) => void
-    private readonly onPass: () => void
-
+export class GameViewRenderer {
     constructor(
-        root: HTMLElement,
-        onSelectQuestion: (c: number, q: number) => void,
-        onBuzz: (playerId: string) => void,
-        onAnswer: (isCorrect: boolean) => void,
-        onPass: () => void
-    ) {
-        this.root = root
-        this.onSelectQuestion = onSelectQuestion
-        this.onBuzz = onBuzz
-        this.onAnswer = onAnswer
-        this.onPass = onPass
-    }
+        private readonly root: HTMLElement,
+        private readonly profile: UIViewProfile,
+        private readonly onSelectQuestion: (c: number, q: number) => void,
+        private readonly onBuzz: (playerId: string) => void,
+        private readonly onAnswer: (isCorrect: boolean) => void,
+        private readonly onPass: () => void
+    ) {}
 
     public render(state: GameUIState): void {
         this.root.innerHTML = ""
 
-        this.root.className = "player-view"
+        this.root.className = "game-view"
 
-        this.renderHeader(state)
         this.renderScoreboard(state)
         this.renderBoard(state)
-    }
-
-    private renderHeader(state: GameUIState): void {
-        const header = document.createElement("div")
-
-        const activePlayer = state.getTurnStartingPlayer()
-        const turnState = state.getTurnState()
-
-        header.className = "header"
-
-        header.textContent = `Turn: ${activePlayer.name} — ${turnState}`
-        this.root.appendChild(header)
     }
 
     private renderScoreboard(state: GameUIState): void {
@@ -63,17 +39,30 @@ export class PlayerRenderer {
             name.className = "player-name"
             name.textContent = `${player.name}: ${player.score}`
 
-            row.appendChild(name)
+            row.append(name)
 
             // Buzzer directly under the player name
-            row.appendChild(
-                this.renderPlayerBuzzer(state, player.id)
-            )
+            if (this.profile.capabilities.canBuzz) {
+                row.append(
+                    this.renderBuzzer(state, player.id)
+                )
+            }
 
-            scoreboard.appendChild(row)
+            scoreboard.append(row)
         })
 
-        this.root.appendChild(scoreboard)
+        this.root.append(scoreboard)
+    }
+
+    private renderBuzzer(state: GameUIState, playerId: string): HTMLElement {
+        const button = document.createElement("button")
+        button.className = "buzz-button"
+
+        button.textContent = "Buzz"
+        button.disabled = !state.canBuzz(playerId)
+        button.onclick = () => this.onBuzz(playerId)
+
+        return button
     }
 
     private renderBoard(state: GameUIState): void {
@@ -81,14 +70,14 @@ export class PlayerRenderer {
         container.className = "board-container"
 
         const board = this.renderBoardGrid(state)
-        container.appendChild(board)
+        container.append(board)
 
         if (state.getActiveQuestion() !== null) {
             container.classList.add("has-overlay")
-            container.appendChild(this.renderActiveQuestionOverlay(state))
+            container.append(this.renderActiveQuestionOverlay(state))
         }
 
-        this.root.appendChild(container)
+        this.root.append(container)
     }
 
     private renderBoardGrid(state: GameUIState): HTMLElement {
@@ -101,10 +90,10 @@ export class PlayerRenderer {
         state.getBoard().forEach((category) => {
             const header = document.createElement("div")
             header.textContent = category.name
-            headerRow.appendChild(header)
+            headerRow.append(header)
         })
 
-        board.appendChild(headerRow)
+        board.append(headerRow)
 
         const maxRows = Math.max(
             ...state.getBoard().map((c) => c.questions.length)
@@ -125,7 +114,7 @@ export class PlayerRenderer {
                 } else {
                     button.textContent = question.value.toString()
 
-                    button.disabled = !question.isAvailable
+                    button.disabled = !question.isAvailable || !this.profile.capabilities.canSelectQuestion
                     button.onclick = () => this.onSelectQuestion(cIndex, q)
 
                     if (!question.isAvailable) {
@@ -133,27 +122,13 @@ export class PlayerRenderer {
                     }
                 }
 
-                row.appendChild(button)
+                row.append(button)
             })
 
-            board.appendChild(row)
+            board.append(row)
         }
 
         return board
-    }
-
-    private renderPlayerBuzzer(
-        state: GameUIState,
-        playerId: string
-    ): HTMLElement {
-        const button = document.createElement("button")
-        button.className = "buzz-button"
-
-        button.textContent = "Buzz"
-        button.disabled = !state.canBuzz(playerId)
-        button.onclick = () => this.onBuzz(playerId)
-
-        return button
     }
 
     private renderActiveQuestionOverlay(state: GameUIState): HTMLElement {
@@ -163,6 +138,16 @@ export class PlayerRenderer {
         const question = state.getActiveQuestion()
         if (!question) return overlay
 
+        const card = this.renderQuestionCard(question)
+        const controls = this.renderQuestionControls(state)
+
+        overlay.append(card)
+        overlay.append(controls)
+
+        return overlay
+    }
+
+    private renderQuestionCard(question: ActiveQuestionUIState): HTMLElement {
         const card = document.createElement("div")
         card.className = "question-card"
 
@@ -179,41 +164,58 @@ export class PlayerRenderer {
         text.textContent = question.text
 
         card.append(category, value, text)
-        overlay.appendChild(card)
 
+        if (this.profile.visibility.showCorrectAnswer) {
+            const answer = document.createElement("div")
+            answer.className = "question-answer"
+            answer.textContent = question.answer
+
+            card.append(answer)
+        }
+
+        return card
+    }
+
+    private renderQuestionControls(state: GameUIState): HTMLElement {
         const controls = document.createElement("div")
         controls.className = "question-controls"
 
-        const correct = document.createElement("button")
-        correct.textContent = "Correct"
-        correct.disabled = !state.canAnswer()
-        correct.onclick = () => this.onAnswer(true)
+        if (this.profile.capabilities.canJudgeAnswer) {
+            const correct = document.createElement("button")
+            correct.className = "answer correct"
+            correct.textContent = "Correct"
+            correct.disabled = !state.canAnswer()
+            correct.onclick = () => this.onAnswer(true)
+    
+            const wrong = document.createElement("button")
+            wrong.className = "answer wrong"
+            wrong.textContent = "Wrong"
+            wrong.disabled = !state.canAnswer()
+            wrong.onclick = () => this.onAnswer(false)
 
-        const wrong = document.createElement("button")
-        wrong.textContent = "Wrong"
-        wrong.disabled = !state.canAnswer()
-        wrong.onclick = () => this.onAnswer(false)
+            if (!state.canAnswer()) {
+                correct.classList.add("hidden")
+                wrong.classList.add("hidden")
+            }
 
-        const pass = document.createElement("button")
-        pass.textContent = "Pass"
-        pass.disabled = !state.canPass()
-        pass.onclick = () => this.onPass()
-
-        correct.className = "answer correct"
-        wrong.className = "answer wrong"
-        pass.className = "pass"
-
-        if (state.canAnswer()) {
-            pass.classList.add("hidden")
-        } else {
-            correct.classList.add("hidden")
-            wrong.classList.add("hidden")
+            controls.append(correct, wrong)
         }
 
-        controls.append(correct,pass,wrong)
+        if (this.profile.capabilities.canPass) {
+            const pass = document.createElement("button")
+            pass.className = "pass"
+            pass.textContent = "Pass"
+            pass.disabled = !state.canPass()
+            pass.onclick = () => this.onPass()
 
-        overlay.appendChild(controls)
+            if (state.canAnswer()) {
+                pass.classList.add("hidden")
+            }
 
-        return overlay
+            controls.append(pass)
+        }
+
+        return controls
     }
+
 }
