@@ -34,7 +34,6 @@ export class PlayerRenderer {
         this.renderHeader(state)
         this.renderScoreboard(state)
         this.renderBoard(state)
-        this.renderControls(state)
     }
 
     private renderHeader(state: GameUIState): void {
@@ -124,9 +123,7 @@ export class PlayerRenderer {
                     button.disabled = true
                     button.textContent = ""
                 } else {
-                    button.textContent = question.isAvailable
-                        ? question.value.toString()
-                        : "—"
+                    button.textContent = question.value.toString()
 
                     button.disabled = !question.isAvailable
                     button.onclick = () => this.onSelectQuestion(cIndex, q)
@@ -143,34 +140,6 @@ export class PlayerRenderer {
         }
 
         return board
-    }
-
-    private renderControls(state: GameUIState): void {
-        const controls = document.createElement("div")
-        controls.className = "controls"
-
-        // Answer controls
-        const correct = document.createElement("button")
-        correct.textContent = "Correct"
-        correct.disabled = !state.canAnswer()
-        correct.onclick = () => this.onAnswer(true)
-
-        const wrong = document.createElement("button")
-        wrong.textContent = "Wrong"
-        wrong.disabled = !state.canAnswer()
-        wrong.onclick = () => this.onAnswer(false)
-
-        const pass = document.createElement("button")
-        pass.textContent = "Pass"
-        pass.disabled = !state.canPass()
-        pass.onclick = () => this.onPass()
-
-        correct.className = "answer correct"
-        wrong.className = "answer wrong"
-        pass.className = "pass"
-
-        controls.append(correct, wrong, pass)
-        this.root.appendChild(controls)
     }
 
     private renderPlayerBuzzer(
@@ -211,6 +180,39 @@ export class PlayerRenderer {
 
         card.append(category, value, text)
         overlay.appendChild(card)
+
+        const controls = document.createElement("div")
+        controls.className = "question-controls"
+
+        const correct = document.createElement("button")
+        correct.textContent = "Correct"
+        correct.disabled = !state.canAnswer()
+        correct.onclick = () => this.onAnswer(true)
+
+        const wrong = document.createElement("button")
+        wrong.textContent = "Wrong"
+        wrong.disabled = !state.canAnswer()
+        wrong.onclick = () => this.onAnswer(false)
+
+        const pass = document.createElement("button")
+        pass.textContent = "Pass"
+        pass.disabled = !state.canPass()
+        pass.onclick = () => this.onPass()
+
+        correct.className = "answer correct"
+        wrong.className = "answer wrong"
+        pass.className = "pass"
+
+        if (state.canAnswer()) {
+            pass.classList.add("hidden")
+        } else {
+            correct.classList.add("hidden")
+            wrong.classList.add("hidden")
+        }
+
+        controls.append(correct,pass,wrong)
+
+        overlay.appendChild(controls)
 
         return overlay
     }
