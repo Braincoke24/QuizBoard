@@ -8,4 +8,7 @@ export interface GamePort {
     answer(isCorrect: boolean): void
     buzz(playerId: string): void
     pass(): void
+
+    subscribe(listener: (state: GameUIState) => void): void
+    unsubscribe(listener: (state: GameUIState) => void): void
 }

@@ -18,8 +18,11 @@ export class GameViewAdapter {
             this.handlePass.bind(this)
         )
 
-        this.render()
+        this.port.subscribe(state => {
+            this.renderer.render(state)
+        })
     }
+
 
     public render(): void {
         const uiState = this.port.getUIState()
