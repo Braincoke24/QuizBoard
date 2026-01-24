@@ -2,6 +2,7 @@
 import { GamePort } from "../ports/GamePort.js"
 import { GameViewRenderer } from "../renderers/GameViewRenderer.js"
 import { UIViewProfile } from "../state/UIViewProfile.js"
+import { GameUISnapshot } from "../state/GameUISnapshot.js"
 
 export class GameViewAdapter {
     private readonly port: GamePort
@@ -18,34 +19,26 @@ export class GameViewAdapter {
             this.handlePass.bind(this)
         )
 
-        this.port.subscribe(state => {
-            this.renderer.render(state)
-        })
+        this.port.subscribe(this.handleSnapshot.bind(this))
     }
 
-
-    public render(): void {
-        const uiState = this.port.getUIState()
-        this.renderer.render(uiState)
+    private handleSnapshot(snapshot: GameUISnapshot): void {
+        this.renderer.render(snapshot)
     }
 
     private handleSelectQuestion(categoryIndex: number, questionIndex: number): void {
         this.port.selectQuestion(categoryIndex, questionIndex)
-        this.render()
     }
 
     private handleBuzz(playerId: string): void {
         this.port.buzz(playerId)
-        this.render()
     }
 
     private handleAnswer(isCorrect: boolean): void {
         this.port.answer(isCorrect)
-        this.render()
     }
 
     private handlePass(): void {
         this.port.pass()
-        this.render()
     }
 }

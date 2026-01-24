@@ -3,6 +3,7 @@ import { Game } from "../../game/Game.js"
 import { Player } from "../../game/Player.js"
 import { TurnState } from "../../game/turn/TurnState.js"
 import { PlayerResolver } from "../../shared/PlayerResolver.js"
+import { GameUISnapshot } from "./GameUISnapshot.js"
 
 /**
  * Read-only projection of the current game state
@@ -135,6 +136,30 @@ export class GameUIState {
         }
 
         return this.game.turn.canPass()
+    }
+
+    /**
+     * Creates a serializable snapshot of the current UI-relevant game state.
+     * This snapshot is a pure data object and contains no behavior.
+     */
+    public createSnapshot(): GameUISnapshot {
+        const players = this.getPlayers()
+
+        return {
+            players,
+            board: this.getBoard(),
+            activeQuestion: this.getActiveQuestion(),
+            turnState: this.getTurnState(),
+            turnStartingPlayerId: this.getTurnStartingPlayer().id,
+            activePlayerId: this.getActivePlayer()?.id ?? null,
+
+            canSelectQuestion: this.canSelectQuestion(),
+            canAnswer: this.canAnswer(),
+            canPass: this.canPass(),
+            canBuzz: players
+                .filter(player => this.canBuzz(player.id))
+                .map(player => player.id)
+        }
     }
 }
 

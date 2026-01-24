@@ -1,14 +1,14 @@
 // src/ui/ports/GamePort.ts
-import { GameUIState } from "../state/GameUIState.js"
+import { GameUISnapshot } from "../state/GameUISnapshot.js";
 
 export interface GamePort {
-    getUIState(): GameUIState
+    getUISnapshot(): GameUISnapshot
 
     selectQuestion(categoryIndex: number, questionIndex: number): void
     answer(isCorrect: boolean): void
     buzz(playerId: string): void
     pass(): void
 
-    subscribe(listener: (state: GameUIState) => void): void
-    unsubscribe(listener: (state: GameUIState) => void): void
+    subscribe(listener: (snapshot: GameUISnapshot) => void): void
+    unsubscribe(listener: (snapshot: GameUISnapshot) => void): void
 }

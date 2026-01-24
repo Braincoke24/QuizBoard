@@ -1,12 +1,12 @@
 // src/shared/WorkerProtocol.ts
-import { GameUIState } from "../ui/state/GameUIState.js"
+import { GameUISnapshot } from "../ui/state/GameUISnapshot.js";
 
 export type WorkerMessage =
-    | { type: "getState" }
+    | { type: "getSnapshot" }
     | { type: "selectQuestion"; categoryIndex: number; questionIndex: number }
     | { type: "answer"; isCorrect: boolean }
     | { type: "buzz"; playerId: string }
     | { type: "pass" }
 
 export type WorkerResponse =
-    | { type: "state"; state: GameUIState }
+    | { type: "snapshot"; snapshot: GameUISnapshot }

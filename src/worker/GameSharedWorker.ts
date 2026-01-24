@@ -14,11 +14,11 @@ const controller = new GameController(game)
 
 const connections = new Set<MessagePort>()
 
-function broadcastState(): void {
-    const state = controller.getUIState()
+function broadcastSnapshot(): void {
+    const snapshot = controller.getUIState().createSnapshot()
     const message: WorkerResponse = {
-        type: "state",
-        state
+        type: "snapshot",
+        snapshot: snapshot
     }
 
     connections.forEach(port => {
@@ -27,11 +27,9 @@ function broadcastState(): void {
 }
 
 function handleMessage(message: WorkerMessage): void {
-    console.log("Message received")
-    
     switch (message.type) {
-        case "getState":
-            broadcastState()
+        case "getSnapshot":
+            broadcastSnapshot()
             break
 
         case "selectQuestion":
@@ -39,22 +37,22 @@ function handleMessage(message: WorkerMessage): void {
                 message.categoryIndex,
                 message.questionIndex
             )
-            broadcastState()
+            broadcastSnapshot()
             break
 
         case "answer":
             controller.answer(message.isCorrect)
-            broadcastState()
+            broadcastSnapshot()
             break
 
         case "buzz":
             controller.buzz(message.playerId)
-            broadcastState()
+            broadcastSnapshot()
             break
 
         case "pass":
             controller.pass()
-            broadcastState()
+            broadcastSnapshot()
             break
     }
 }
@@ -73,10 +71,10 @@ self.onconnect = (event: MessageEvent) => {
         connections.delete(port)
     }
 
-    const initialState: WorkerResponse = {
-        type: "state",
-        state: controller.getUIState()
+    const initialSnapshot: WorkerResponse = {
+        type: "snapshot",
+        snapshot: controller.getUIState().createSnapshot()
     }
 
-    port.postMessage(initialState)
+    port.postMessage(initialSnapshot)
 }

@@ -9,14 +9,12 @@ import { PLAYER_PROFILE } from "./ui/profiles/PlayerProfile.js"
 import { GAMEMASTER_PROFILE } from "./ui/profiles/GameMasterProfile.js"
 import { SPECTATOR_PROFILE } from "./ui/profiles/SpectatorProfile.js"
 
-console.log("main.ts loaded")
-
-const { game } = createDemoGame(GameRules.classic())
-
-const controller = new GameController(game)
-const port = new LocalGamePort(controller)
-
 const root = document.getElementById("app")!
-// const port = new SharedWorkerGamePort()
+
+// const { game } = createDemoGame(GameRules.classic())
+// const controller = new GameController(game)
+// const port = new LocalGamePort(controller)
+
+const port = new SharedWorkerGamePort()
 
 new GameViewAdapter(port, PLAYER_PROFILE, root)

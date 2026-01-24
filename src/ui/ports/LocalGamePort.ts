@@ -1,32 +1,32 @@
 // src/ui/ports/LocalGamePort.ts
 import { GameController } from "../controllers/GameController.js"
 import { GamePort } from "./GamePort.js"
-import { GameUIState } from "../state/GameUIState.js"
+import { GameUISnapshot } from "../state/GameUISnapshot.js"
 
 export class LocalGamePort implements GamePort {
     private controller: GameController
-    private listeners = new Set<(state: GameUIState) => void>()
+    private listeners = new Set<(snapshot: GameUISnapshot) => void>()
 
     constructor(controller: GameController) {
         this.controller = controller
     }
 
-    getUIState(): GameUIState {
-        return this.controller.getUIState()
+    getUISnapshot(): GameUISnapshot {
+        return this.controller.getUIState().createSnapshot()
     }
 
-    subscribe(listener: (state: GameUIState) => void): void {
+    subscribe(listener: (snapshot: GameUISnapshot) => void): void {
         this.listeners.add(listener)
-        listener(this.getUIState())
+        listener(this.getUISnapshot())
     }
 
-    unsubscribe(listener: (state: GameUIState) => void): void {
+    unsubscribe(listener: (snapshot: GameUISnapshot) => void): void {
         this.listeners.delete(listener)
     }
 
     private notify(): void {
-        const state = this.getUIState()
-        this.listeners.forEach(listener => listener(state))
+        const snapshot = this.getUISnapshot()
+        this.listeners.forEach(listener => listener(snapshot))
     }
 
     selectQuestion(categoryIndex: number, questionIndex: number): void {

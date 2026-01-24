@@ -1,11 +1,11 @@
 // src/ui/ports/SharedWorkerGamePort.ts
 import { GamePort } from "./GamePort.js"
-import { GameUIState } from "../state/GameUIState.js"
+import { GameUISnapshot } from "../state/GameUISnapshot.js"
 
 export class SharedWorkerGamePort implements GamePort {
     private worker: SharedWorker
-    private listeners = new Set<(state: GameUIState) => void>()
-    private lastState!: GameUIState
+    private listeners = new Set<(snapshot: GameUISnapshot) => void>()
+    private lastSnapshot!: GameUISnapshot
 
     constructor() {
         this.worker = new SharedWorker(
@@ -14,25 +14,25 @@ export class SharedWorkerGamePort implements GamePort {
         )
 
         this.worker.port.onmessage = (e) => {
-            if (e.data.type === "state") {
-                this.lastState = e.data.state
-                this.listeners.forEach(l => l(this.lastState))
+            if (e.data.type === "snapshot") {
+                this.lastSnapshot = e.data.snapshot
+                this.listeners.forEach(l => l(this.lastSnapshot))
             }
         }
 
         this.worker.port.start()
-        this.worker.port.postMessage({ type: "getState" })
+        this.worker.port.postMessage({ type: "getSnapshot" })
     }
 
-    getUIState(): GameUIState {
-        return this.lastState
+    getUISnapshot(): GameUISnapshot {
+        return this.lastSnapshot
     }
 
-    subscribe(listener: (state: GameUIState) => void): void {
+    subscribe(listener: (snapshot: GameUISnapshot) => void): void {
         this.listeners.add(listener)
     }
 
-    unsubscribe(listener: (state: GameUIState) => void): void {
+    unsubscribe(listener: (snapshot: GameUISnapshot) => void): void {
         this.listeners.delete(listener)
     }
 
