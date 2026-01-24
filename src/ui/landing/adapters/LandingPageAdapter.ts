@@ -1,6 +1,6 @@
 // src/ui/landing/adapters/LandingPageAdapter.ts
 import { LandingController } from "../controllers/LandingController.js"
-import { LandingPageRenderer } from "../renderers/LandingPageRenderer.js"
+import { LandingPageRenderer } from "../renderers/BoardDraftEditorRenderer.js"
 import { BoardDraft } from "../state/BoardDraft.js"
 
 export class LandingPageAdapter {
