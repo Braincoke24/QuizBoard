@@ -13,7 +13,8 @@ export class LandingPageAdapter {
             root,
             this.handleDraftChange.bind(this),
             this.handleSubmitBoard.bind(this),
-            this.handleImportBoard.bind(this)
+            this.handleImportBoard.bind(this),
+            this.handleExportBoard.bind(this)
         )
 
         this.render()
@@ -52,5 +53,20 @@ export class LandingPageAdapter {
         } catch (error) {
             alert((error as Error).message)
         }
+    }
+
+    private handleExportBoard(): void {
+        const board = this.controller.exportBoard()
+
+        const json = JSON.stringify(board, null, 2)
+        const blob = new Blob([json], { type: "application/json" })
+        const url = URL.createObjectURL(blob)
+
+        const a = document.createElement("a")
+        a.href = url
+        a.download = "board.json"
+        a.click()
+
+        URL.revokeObjectURL(url)
     }
 }

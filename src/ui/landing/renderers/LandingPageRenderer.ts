@@ -6,17 +6,20 @@ export class LandingPageRenderer {
     private readonly onDraftChange: (draft: BoardDraft) => void
     private readonly onSubmitBoard: () => void
     private readonly onImportBoard: (json: unknown) => void
+    private readonly onExportBoard: () => void
 
     constructor(
         root: HTMLElement,
         onDraftChange: (draft: BoardDraft) => void,
         onSubmitBoard: () => void,
-        onImportBoard: (json: unknown) => void
+        onImportBoard: (json: unknown) => void,
+        onExportBoard: () => void
     ) {
         this.root = root
         this.onDraftChange = onDraftChange
         this.onSubmitBoard = onSubmitBoard
         this.onImportBoard = onImportBoard
+        this.onExportBoard = onExportBoard
     }
 
     public render(draft: BoardDraft, boardLocked: boolean): void {
@@ -118,15 +121,18 @@ export class LandingPageRenderer {
         const actions = document.createElement("div")
         actions.className = "landing-actions"
 
+        const exportButton = document.createElement("button")
+        exportButton.textContent = "Export board (JSON)"
+        exportButton.onclick = () => this.onExportBoard()
+        actions.appendChild(exportButton)
+
         if (!locked) {
             /* ---------- Import ---------- */
-
-            const importLabel = document.createElement("label")
-            importLabel.textContent = "Import board (JSON)"
 
             const importInput = document.createElement("input")
             importInput.type = "file"
             importInput.accept = "application/json"
+            importInput.style.display = "none"
 
             importInput.onchange = async () => {
                 const file = importInput.files?.[0]
@@ -139,13 +145,16 @@ export class LandingPageRenderer {
                 } catch {
                     alert("Invalid JSON file")
                 } finally {
-                    // allow re-importing same file
                     importInput.value = ""
                 }
             }
 
-            importLabel.appendChild(importInput)
-            actions.appendChild(importLabel)
+            const importButton = document.createElement("button")
+            importButton.textContent = "Import board (JSON)"
+            importButton.onclick = () => importInput.click()
+
+            actions.appendChild(importButton)
+            actions.appendChild(importInput)
 
             /* ---------- Submit ---------- */
 
