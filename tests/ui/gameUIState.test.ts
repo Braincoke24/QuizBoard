@@ -1,6 +1,6 @@
 // tests/ui/gameUIState.test.ts
 import { describe, it, expect } from "vitest"
-import { GameUIState } from "../../src/ui/state/GameUIState.js"
+import { GameUIState } from "../../src/ui/game/state/GameUIState.js"
 import { GameRules } from "../../src/game/GameRules.js"
 import { createGame } from "../helpers/createGame.js"
 import { TurnState } from "../../src/game/turn/TurnState.js"

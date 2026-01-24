@@ -1,6 +1,6 @@
 // tests/ui/gameController.test.ts
 import { describe, it, expect } from "vitest"
-import { GameController } from "../../src/ui/controllers/GameController.js"
+import { GameController } from "../../src/ui/game/controllers/GameController.js"
 import { GameRules } from "../../src/game/GameRules.js"
 import { createGame } from "../helpers/createGame.js"
 import { TurnState } from "../../src/game/turn/TurnState.js"
