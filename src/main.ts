@@ -17,4 +17,21 @@ const root = document.getElementById("app")!
 
 const port = new SharedWorkerGamePort()
 
-new GameViewAdapter(port, PLAYER_PROFILE, root)
+const profileMap = {
+    "game-master": GAMEMASTER_PROFILE,
+    "player": PLAYER_PROFILE,
+    "spectator": SPECTATOR_PROFILE
+} as const
+
+type Role = keyof typeof profileMap
+
+const roleParam = new URLSearchParams(location.search).get("role")
+
+const role: Role =
+    roleParam && roleParam in profileMap
+        ? roleParam as Role
+        : "spectator"
+
+const profile = profileMap[role]
+
+new GameViewAdapter(port, profile, root)
