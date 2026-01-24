@@ -7,6 +7,7 @@ export type WorkerMessage =
     | { type: "answer"; isCorrect: boolean }
     | { type: "buzz"; playerId: string }
     | { type: "pass" }
+    | { type: "resetGame" }
 
 export type WorkerResponse =
     | { type: "snapshot"; snapshot: GameUISnapshot }

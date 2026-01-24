@@ -51,4 +51,8 @@ export class SharedWorkerGamePort implements GamePort {
     pass(): void {
         this.worker.port.postMessage({ type: "pass" })
     }
+
+    resetGame(): void {
+        this.worker.port.postMessage({ type: "resetGame" })
+    }
 }

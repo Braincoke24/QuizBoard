@@ -112,6 +112,7 @@ export class GameViewRenderer {
                 if (!question) {
                     button.disabled = true
                     button.textContent = ""
+                    button.classList.add("empty")
                 } else {
                     button.textContent = question.value.toString()
 

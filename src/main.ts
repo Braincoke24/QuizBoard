@@ -17,6 +17,11 @@ const root = document.getElementById("app")!
 
 const port = new SharedWorkerGamePort()
 
+// temporary for Debug / DevTools
+;(window as any).resetGame = () => {
+    port.resetGame()
+}
+
 const profileMap = {
     "game-master": GAMEMASTER_PROFILE,
     "player": PLAYER_PROFILE,

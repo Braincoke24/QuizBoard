@@ -10,7 +10,7 @@ import { createDemoGame } from "../bootstrap/createDemoGame.js"
 console.log("SharedWorker started")
 
 const { game } = createDemoGame(GameRules.classic())
-const controller = new GameController(game)
+let controller = new GameController(game)
 
 const connections = new Set<MessagePort>()
 
@@ -28,6 +28,12 @@ function broadcastSnapshot(): void {
 
 function handleMessage(message: WorkerMessage): void {
     switch (message.type) {
+        case "resetGame":
+            console.log("reset")
+            resetGame()
+            broadcastSnapshot()
+            break
+
         case "getSnapshot":
             broadcastSnapshot()
             break
@@ -55,6 +61,12 @@ function handleMessage(message: WorkerMessage): void {
             broadcastSnapshot()
             break
     }
+}
+
+function resetGame(): void {
+    const { game } = createDemoGame(GameRules.classic())
+    controller = new GameController(game)
+    console.log("resetted")
 }
 
 self.onconnect = (event: MessageEvent) => {

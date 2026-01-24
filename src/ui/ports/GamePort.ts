@@ -9,6 +9,8 @@ export interface GamePort {
     buzz(playerId: string): void
     pass(): void
 
+    resetGame(): void
+
     subscribe(listener: (snapshot: GameUISnapshot) => void): void
     unsubscribe(listener: (snapshot: GameUISnapshot) => void): void
 }

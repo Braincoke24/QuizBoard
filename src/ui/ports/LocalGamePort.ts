@@ -48,4 +48,9 @@ export class LocalGamePort implements GamePort {
         this.controller.pass()
         this.notify()
     }
+
+    // doesn't reset the game, this is intended behaviour
+    resetGame(): void {
+        this.notify()
+    }
 }
