@@ -1,8 +1,8 @@
 // src/ui/state/GameUIState.ts
-import { Game } from "../../game/Game.js"
-import { Player } from "../../game/Player.js"
-import { TurnState } from "../../game/turn/TurnState.js"
-import { PlayerResolver } from "../../shared/PlayerResolver.js"
+import { Game } from "../../../game/Game.js"
+import { Player } from "../../../game/Player.js"
+import { TurnState } from "../../../game/turn/TurnState.js"
+import { PlayerResolver } from "../../../shared/PlayerResolver.js"
 import { GameUISnapshot } from "./GameUISnapshot.js"
 
 /**

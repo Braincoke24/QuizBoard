@@ -1,7 +1,7 @@
 // src/ui/controllers/GameController.ts
-import { Game } from "../../game/Game.js"
+import { Game } from "../../../game/Game.js"
 import { GameUIState } from "../state/GameUIState.js"
-import { PlayerResolver } from "../../shared/PlayerResolver.js"
+import { PlayerResolver } from "../../../shared/PlayerResolver.js"
 
 /**
  * Command API for the UI.

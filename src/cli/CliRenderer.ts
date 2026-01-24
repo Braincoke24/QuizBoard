@@ -1,5 +1,5 @@
 // src/cli/CliRenderer.ts
-import { GameUIState } from "../ui/state/GameUIState.js"
+import { GameUIState } from "../ui/game/state/GameUIState.js"
 import { TurnState } from "../game/turn/TurnState.js"
 
 /**

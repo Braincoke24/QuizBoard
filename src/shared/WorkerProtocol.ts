@@ -1,5 +1,5 @@
 // src/shared/WorkerProtocol.ts
-import { GameUISnapshot } from "../ui/state/GameUISnapshot.js";
+import { GameUISnapshot } from "../ui/game/state/GameUISnapshot.js";
 
 export type WorkerMessage =
     | { type: "getSnapshot" }

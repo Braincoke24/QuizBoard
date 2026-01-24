@@ -1,5 +1,5 @@
 // src/cli/CliApp.ts
-import { GameController } from "../ui/controllers/GameController.js"
+import { GameController } from "../ui/game/controllers/GameController.js"
 import { CliRenderer } from "./CliRenderer.js"
 import { CliInput } from "./CliInput.js"
 import { TurnState } from "../game/turn/TurnState.js"

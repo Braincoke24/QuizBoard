@@ -2,7 +2,7 @@
 /// <reference lib="webworker" />
 declare const self: SharedWorkerGlobalScope
 
-import { GameController } from "../ui/controllers/GameController.js"
+import { GameController } from "../ui/game/controllers/GameController.js"
 import { GameRules } from "../game/GameRules.js"
 import { WorkerMessage, WorkerResponse } from "../shared/WorkerProtocol.js"
 import { createDemoGame } from "../bootstrap/createDemoGame.js"
