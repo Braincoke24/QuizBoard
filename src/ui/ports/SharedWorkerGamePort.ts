@@ -9,7 +9,7 @@ export class SharedWorkerGamePort implements GamePort {
 
     constructor() {
         this.worker = new SharedWorker(
-            new URL("../../worker/GameSharedWorker.js", import.meta.url),
+            "dist/worker/GameSharedWorker.js",
             { type: "module" }
         )
 

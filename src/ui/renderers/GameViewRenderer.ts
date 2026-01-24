@@ -16,6 +16,7 @@ export class GameViewRenderer {
     ) {}
 
     public render(state: GameUIState): void {
+        console.log("Render page")
         this.root.innerHTML = ""
 
         this.root.className = "game-view"

@@ -7,6 +7,8 @@ import { GameRules } from "../game/GameRules.js"
 import { WorkerMessage, WorkerResponse } from "../shared/WorkerProtocol.js"
 import { createDemoGame } from "../bootstrap/createDemoGame.js"
 
+console.log("SharedWorker started")
+
 const { game } = createDemoGame(GameRules.classic())
 const controller = new GameController(game)
 
@@ -25,6 +27,8 @@ function broadcastState(): void {
 }
 
 function handleMessage(message: WorkerMessage): void {
+    console.log("Message received")
+    
     switch (message.type) {
         case "getState":
             broadcastState()
@@ -56,6 +60,8 @@ function handleMessage(message: WorkerMessage): void {
 }
 
 self.onconnect = (event: MessageEvent) => {
+    console.log("Client connected")
+
     const port = event.ports[0]
     connections.add(port)
 
