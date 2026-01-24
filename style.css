@@ -246,3 +246,73 @@
     content: "Answer: ";
     white-space: pre;
 }
+
+/* Landing */
+/* --- Layout container --- */
+.landing-board {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding: 24px;
+}
+
+/* --- Header row --- */
+.board-header {
+    display: grid;
+    gap: 8px;
+    margin-bottom: 12px;
+}
+
+.board-header input {
+    padding: 8px;
+    font-weight: 600;
+    text-align: center;
+}
+
+/* --- Grid --- */
+.board-grid {
+    display: grid;
+    gap: 8px;
+}
+
+.row-value {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    background: #f0f0f0;
+    border-radius: 6px;
+}
+
+.question-cell {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.question-cell textarea {
+    width: 100%;
+    resize: vertical;
+    min-height: 60px;
+    padding: 6px;
+    font-size: 0.9rem;
+}
+
+.question-cell textarea:last-child {
+    font-size: 0.8rem;
+    color: #555;
+    background-color: #fafafa;
+}
+
+/* --- Actions --- */
+.landing-actions {
+    margin-top: 16px;
+    display: flex;
+    gap: 12px;
+}
+
+.landing-actions button {
+    padding: 10px 16px;
+    font-size: 0.9rem;
+    cursor: pointer;
+}
