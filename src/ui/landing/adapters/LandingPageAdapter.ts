@@ -1,15 +1,15 @@
 // src/ui/landing/adapters/LandingPageAdapter.ts
 import { LandingController } from "../controllers/LandingController.js"
-import { LandingPageRenderer } from "../renderers/BoardDraftEditorRenderer.js"
+import { BoardDraftEditorRenderer } from "../renderers/BoardDraftEditorRenderer.js"
 import { BoardDraft } from "../state/BoardDraft.js"
 
 export class LandingPageAdapter {
     private readonly controller: LandingController
-    private readonly renderer: LandingPageRenderer
+    private readonly renderer: BoardDraftEditorRenderer
 
     constructor(controller: LandingController, root: HTMLElement) {
         this.controller = controller
-        this.renderer = new LandingPageRenderer(
+        this.renderer = new BoardDraftEditorRenderer(
             root,
             this.handleDraftChange.bind(this),
             this.handleSubmitBoard.bind(this),

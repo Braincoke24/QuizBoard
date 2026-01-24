@@ -1,7 +1,7 @@
-// src/ui/landing/renderers/LandingPageRenderer.ts
+// src/ui/landing/renderers/BoardDraftEditorRenderer.ts
 import { BoardDraft } from "../state/BoardDraft.js"
 
-export class LandingPageRenderer {
+export class BoardDraftEditorRenderer {
     private readonly root: HTMLElement
     private readonly onDraftChange: (draft: BoardDraft) => void
     private readonly onSubmitBoard: () => void
