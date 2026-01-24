@@ -2,42 +2,30 @@
 import { BoardDraft } from "../state/BoardDraft.js"
 
 export class BoardDraftEditorRenderer {
-    private readonly root: HTMLElement
-    private readonly onDraftChange: (draft: BoardDraft) => void
-    private readonly onSubmitBoard: () => void
-    private readonly onImportBoard: (json: unknown) => void
-    private readonly onExportBoard: () => void
-
     constructor(
-        root: HTMLElement,
-        onDraftChange: (draft: BoardDraft) => void,
-        onSubmitBoard: () => void,
-        onImportBoard: (json: unknown) => void,
-        onExportBoard: () => void
-    ) {
-        this.root = root
-        this.onDraftChange = onDraftChange
-        this.onSubmitBoard = onSubmitBoard
-        this.onImportBoard = onImportBoard
-        this.onExportBoard = onExportBoard
-    }
+        private readonly root: HTMLElement,
+        private readonly onDraftChange: (draft: BoardDraft) => void,
+        private readonly onSubmitBoard: () => void,
+        private readonly onImportBoard: (json: unknown) => void,
+        private readonly onExportBoard: () => void
+    ) {}
 
-    public render(draft: BoardDraft, boardLocked: boolean): void {
+    public render(draft: BoardDraft): void {
         this.root.innerHTML = ""
 
         const container = document.createElement("div")
         container.className = "landing-board"
 
-        container.appendChild(this.renderHeaderRow(draft, boardLocked))
-        container.appendChild(this.renderGrid(draft, boardLocked))
-        container.appendChild(this.renderActions(boardLocked))
+        container.appendChild(this.renderHeaderRow(draft))
+        container.appendChild(this.renderGrid(draft))
+        container.appendChild(this.renderActions())
 
         this.root.appendChild(container)
     }
 
     /* ---------- Header ---------- */
 
-    private renderHeaderRow(draft: BoardDraft, locked: boolean): HTMLElement {
+    private renderHeaderRow(draft: BoardDraft): HTMLElement {
         const header = document.createElement("div")
         header.className = "board-header"
         header.style.gridTemplateColumns = `80px repeat(${draft.categories.length}, 1fr)`
@@ -49,7 +37,6 @@ export class BoardDraftEditorRenderer {
             input.type = "text"
             input.placeholder = "Category"
             input.value = category.name
-            input.disabled = locked
 
             input.oninput = () => {
                 const next = structuredClone(draft)
@@ -65,7 +52,7 @@ export class BoardDraftEditorRenderer {
 
     /* ---------- Grid ---------- */
 
-    private renderGrid(draft: BoardDraft, locked: boolean): HTMLElement {
+    private renderGrid(draft: BoardDraft): HTMLElement {
         const grid = document.createElement("div")
         grid.className = "board-grid"
         grid.style.gridTemplateColumns = `80px repeat(${draft.categories.length}, 1fr)`
@@ -85,7 +72,6 @@ export class BoardDraftEditorRenderer {
                 const questionInput = document.createElement("textarea")
                 questionInput.placeholder = "Question"
                 questionInput.value = category.questions[rowIndex].text
-                questionInput.disabled = locked
 
                 questionInput.oninput = () => {
                     const next = structuredClone(draft)
@@ -97,7 +83,6 @@ export class BoardDraftEditorRenderer {
                 const answerInput = document.createElement("textarea")
                 answerInput.placeholder = "Answer"
                 answerInput.value = category.questions[rowIndex].answer
-                answerInput.disabled = locked
 
                 answerInput.oninput = () => {
                     const next = structuredClone(draft)
@@ -117,7 +102,7 @@ export class BoardDraftEditorRenderer {
 
     /* ---------- Actions ---------- */
 
-    private renderActions(locked: boolean): HTMLElement {
+    private renderActions(): HTMLElement {
         const actions = document.createElement("div")
         actions.className = "landing-actions"
 
@@ -126,44 +111,42 @@ export class BoardDraftEditorRenderer {
         exportButton.onclick = () => this.onExportBoard()
         actions.appendChild(exportButton)
 
-        if (!locked) {
-            /* ---------- Import ---------- */
+        /* ---------- Import ---------- */
 
-            const importInput = document.createElement("input")
-            importInput.type = "file"
-            importInput.accept = "application/json"
-            importInput.style.display = "none"
+        const importInput = document.createElement("input")
+        importInput.type = "file"
+        importInput.accept = "application/json"
+        importInput.style.display = "none"
 
-            importInput.onchange = async () => {
-                const file = importInput.files?.[0]
-                if (!file) return
+        importInput.onchange = async () => {
+            const file = importInput.files?.[0]
+            if (!file) return
 
-                try {
-                    const text = await file.text()
-                    const json = JSON.parse(text)
-                    this.onImportBoard(json)
-                } catch {
-                    alert("Invalid JSON file")
-                } finally {
-                    importInput.value = ""
-                }
+            try {
+                const text = await file.text()
+                const json = JSON.parse(text)
+                this.onImportBoard(json)
+            } catch {
+                alert("Invalid JSON file")
+            } finally {
+                importInput.value = ""
             }
-
-            const importButton = document.createElement("button")
-            importButton.textContent = "Import board (JSON)"
-            importButton.onclick = () => importInput.click()
-
-            actions.appendChild(importButton)
-            actions.appendChild(importInput)
-
-            /* ---------- Submit ---------- */
-
-            const submit = document.createElement("button")
-            submit.textContent = "Submit board"
-            submit.onclick = this.onSubmitBoard
-
-            actions.appendChild(submit)
         }
+
+        const importButton = document.createElement("button")
+        importButton.textContent = "Import board (JSON)"
+        importButton.onclick = () => importInput.click()
+
+        actions.appendChild(importButton)
+        actions.appendChild(importInput)
+
+        /* ---------- Submit ---------- */
+
+        const submit = document.createElement("button")
+        submit.textContent = "Submit board"
+        submit.onclick = this.onSubmitBoard
+
+        actions.appendChild(submit)
 
         return actions
     }

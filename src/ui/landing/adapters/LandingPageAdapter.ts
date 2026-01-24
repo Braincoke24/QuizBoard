@@ -1,15 +1,19 @@
 // src/ui/landing/adapters/LandingPageAdapter.ts
 import { LandingController } from "../controllers/LandingController.js"
 import { BoardDraftEditorRenderer } from "../renderers/BoardDraftEditorRenderer.js"
+import { PreGameSetupRenderer } from "../renderers/PreGameSetupRenderer.js"
 import { BoardDraft } from "../state/BoardDraft.js"
+import { LandingPhase } from "../state/LandingPhase.js"
 
 export class LandingPageAdapter {
     private readonly controller: LandingController
-    private readonly renderer: BoardDraftEditorRenderer
+    private readonly editorRenderer: BoardDraftEditorRenderer
+    private readonly preGameRenderer: PreGameSetupRenderer
 
     constructor(controller: LandingController, root: HTMLElement) {
         this.controller = controller
-        this.renderer = new BoardDraftEditorRenderer(
+
+        this.editorRenderer = new BoardDraftEditorRenderer(
             root,
             this.handleDraftChange.bind(this),
             this.handleSubmitBoard.bind(this),
@@ -17,14 +21,32 @@ export class LandingPageAdapter {
             this.handleExportBoard.bind(this)
         )
 
+        this.preGameRenderer = new PreGameSetupRenderer(
+            root,
+            this.handleAddPlayer.bind(this),
+            this.handleRemovePlayer.bind(this)
+        )
+
         this.render()
     }
-
+    
     private render(): void {
-        this.renderer.render(
-            this.controller.getBoardDraft(),
-            this.controller.isBoardLocked()
-        )
+        const phase = this.controller.getPhase()
+
+        switch (phase) {
+            case LandingPhase.EDIT_BOARD:
+                this.editorRenderer.render(
+                    this.controller.getBoardDraft()
+                )
+                break
+
+            case LandingPhase.PRE_GAME_SETUP:
+                this.preGameRenderer.render(
+                    this.controller.getBoardDraft(),
+                    this.controller.getPlayers()
+                )
+                break
+        }
     }
 
     /* ---------- Callbacks from Renderer ---------- */
@@ -68,5 +90,19 @@ export class LandingPageAdapter {
         a.click()
 
         URL.revokeObjectURL(url)
+    }
+
+    private handleAddPlayer(name: string): void {
+        try {
+            this.controller.addPlayer(name)
+            this.render()
+        } catch (error) {
+            alert((error as Error).message)
+        }
+    }
+
+    private handleRemovePlayer(id: string): void {
+        this.controller.removePlayer(id)
+        this.render()
     }
 }

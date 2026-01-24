@@ -304,6 +304,12 @@
     background-color: #fafafa;
 }
 
+.board-preview-header,
+.board-preview-row {
+    display: grid;
+    grid-template-columns: repeat(var(--columns), 1fr);
+}
+
 /* --- Actions --- */
 .landing-actions {
     margin-top: 16px;
