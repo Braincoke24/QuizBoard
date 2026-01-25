@@ -1,3 +1,7 @@
+/* ============================================================
+   Game View Layout
+   ============================================================ */
+
 /* --- Layout -------------------------------------------------- */
 
 .game-view {
@@ -62,6 +66,8 @@
     text-align: center;
     font-weight: bold;
 }
+
+/* --- Question Cells ----------------------------------------- */
 
 .question {
     padding: 12px;
@@ -130,7 +136,9 @@
     cursor: not-allowed;
 }
 
-/* --- Active Question ---------------------------------------- */
+/* ============================================================
+   Active Question Overlay
+   ============================================================ */
 
 .board-container.has-overlay .board {
     pointer-events: none;
@@ -158,43 +166,10 @@
     border-radius: 12px;
 
     display: grid;
-    grid-template-rows: auto 1fr;
+    grid-template-rows: auto 1fr auto;
     grid-template-columns: 1fr auto 1fr;
 
     min-width: 300px;
-}
-
-.question-controls {
-    display: grid;
-    grid-template-columns: 1fr auto 1fr;
-    gap: 12px;
-}
-
-.question-controls button {
-    background: #111;
-    color: rgba(255, 255, 255, 0.8);
-    border-radius: 8px;
-    padding: 8px 12px;
-    font-size: 1rem;
-    min-width: 70px;
-    border: none;
-    grid-row: 1;
-}
-
-.question-controls .answer.correct {
-    grid-column: 1;
-}
-
-.question-controls .pass {
-    grid-column: 2;
-}
-
-.question-controls .answer.wrong {
-    grid-column: 3;
-}
-
-.question-controls .hidden {
-    visibility: hidden;
 }
 
 .question-category {
@@ -247,20 +222,50 @@
     white-space: pre;
 }
 
-/* Landing */
-/* --- Layout container --- */
+/* --- Question Controls ------------------------------------- */
+
+.question-controls {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    gap: 12px;
+}
+
+.question-controls button {
+    background: #111;
+    color: rgba(255, 255, 255, 0.8);
+    border-radius: 8px;
+    padding: 8px 12px;
+    font-size: 1rem;
+    min-width: 70px;
+    border: none;
+    grid-row: 1;
+}
+
+.question-controls .answer.correct {
+    grid-column: 1;
+}
+
+.question-controls .pass {
+    grid-column: 2;
+}
+
+.question-controls .answer.wrong {
+    grid-column: 3;
+}
+
+.question-controls .hidden {
+    visibility: hidden;
+}
+
+/* ============================================================
+   Landing / Board Editor
+   ============================================================ */
+
 .landing-board {
     display: flex;
     flex-direction: column;
     gap: 16px;
     padding: 24px;
-}
-
-/* --- Header row --- */
-.board-header {
-    display: grid;
-    gap: 8px;
-    margin-bottom: 12px;
 }
 
 .board-header input {
@@ -269,7 +274,6 @@
     text-align: center;
 }
 
-/* --- Grid --- */
 .board-grid {
     display: grid;
     gap: 8px;
@@ -310,7 +314,8 @@
     grid-template-columns: repeat(var(--columns), 1fr);
 }
 
-/* --- Actions --- */
+/* --- Landing Actions ---------------------------------------- */
+
 .landing-actions {
     margin-top: 16px;
     display: flex;
@@ -321,4 +326,15 @@
     padding: 10px 16px;
     font-size: 0.9rem;
     cursor: pointer;
+}
+
+/* ============================================================
+   Pre Game Setup
+   ============================================================ */
+
+.pre-game-setup {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 24px;
+    padding: 24px;
 }

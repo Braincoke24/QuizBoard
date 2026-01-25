@@ -13,7 +13,7 @@ export class PreGameSetupRenderer {
         this.root.innerHTML = ""
 
         const container = document.createElement("div")
-        container.className = "landing-board"
+        container.className = "pre-game-setup"
 
         container.appendChild(this.renderPlayers(players))
         container.appendChild(this.renderBoardPreview(draft))

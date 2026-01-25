@@ -7,10 +7,6 @@
 
 // const root = document.getElementById("app")!
 
-
-// // TODO: Spieler eingeben
-// // TODO: board erstellen und exportieren
-
 // const port = new SharedWorkerGamePort()
 
 // // temporary for Debug / DevTools
