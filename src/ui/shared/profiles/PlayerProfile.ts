@@ -1,5 +1,6 @@
 // src/ui/profiles/PlayerProfile.ts
-import { UIViewProfile } from "../state/UIViewProfile.js"
+import { UIViewProfile } from "../view/UIViewProfile.js"
+import { ViewMode } from "../view/ViewMode.js"
 
 export const PLAYER_PROFILE: UIViewProfile = {
     visibility: {
@@ -14,5 +15,6 @@ export const PLAYER_PROFILE: UIViewProfile = {
     input: {
         enableKeyboardBuzzing: false,
         enableMouse: true
-    }
+    },
+    mode: ViewMode.PLAYER
 }

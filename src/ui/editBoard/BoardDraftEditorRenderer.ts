@@ -1,5 +1,5 @@
 // src/ui/landing/renderers/BoardDraftEditorRenderer.ts
-import { BoardDraft } from "../state/BoardDraft.js"
+import { BoardDraft } from "./BoardDraftState.js"
 
 export class BoardDraftEditorRenderer {
     constructor(

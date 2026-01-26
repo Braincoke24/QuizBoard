@@ -2,15 +2,15 @@
 /// <reference lib="webworker" />
 declare const self: SharedWorkerGlobalScope
 
-import { GameController } from "../ui/game/controllers/GameController.js"
+import { GameUIController } from "../ui/game/GameUIController.js"
 import { GameRules } from "../game/GameRules.js"
-import { WorkerMessage, WorkerResponse } from "../shared/WorkerProtocol.js"
+import { WorkerMessage, WorkerResponse } from "./WorkerProtocol.js"
 import { createDemoGame } from "../bootstrap/createDemoGame.js"
 
 console.log("SharedWorker started")
 
 const { game } = createDemoGame(GameRules.classic())
-let controller = new GameController(game)
+let controller = new GameUIController(game)
 
 const connections = new Set<MessagePort>()
 
@@ -65,7 +65,7 @@ function handleMessage(message: WorkerMessage): void {
 
 function resetGame(): void {
     const { game } = createDemoGame(GameRules.classic())
-    controller = new GameController(game)
+    controller = new GameUIController(game)
     console.log("resetted")
 }
 

@@ -1,4 +1,4 @@
-// src/ui/landing/state/BoardDraft.ts
+// src/ui/landing/renderers/BoardDraftState.ts
 
 export interface BoardDraft {
     categories: CategoryDraft[]

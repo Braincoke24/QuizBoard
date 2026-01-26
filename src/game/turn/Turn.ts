@@ -2,7 +2,7 @@
 import { Player } from "../Player.js"
 import { Question } from "../board/Question.js"
 import { TurnState } from "./TurnState.js"
-import { SelectedQuestion } from "./SelectedQuestion.js"
+import { SelectedQuestion } from "../board/SelectedQuestion.js"
 import { GameRules } from "../GameRules.js"
 
 /**

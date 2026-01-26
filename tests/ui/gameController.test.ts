@@ -1,13 +1,13 @@
 // tests/ui/gameController.test.ts
 import { describe, it, expect } from "vitest"
-import { GameController } from "../../src/ui/game/controllers/GameController.js"
+import { GameUIController } from "../../src/ui/game/GameUIController.js"
 import { GameRules } from "../../src/game/GameRules.js"
 import { createGame } from "../helpers/createGame.js"
 import { TurnState } from "../../src/game/turn/TurnState.js"
 
 function setup() {
     const { game } = createGame(GameRules.classic())
-    const controller = new GameController(game)
+    const controller = new GameUIController(game)
     const ui = controller.getUIState()
 
     return { game, controller, ui }

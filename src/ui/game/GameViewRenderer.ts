@@ -1,7 +1,7 @@
 // src/ui/renderers/GameViewRenderer.ts
-import { ActiveQuestionUIState } from "../state/GameUIState.js"
-import { UIViewProfile } from "../state/UIViewProfile.js"
-import { GameUISnapshot } from "../state/GameUISnapshot.js"
+import { ActiveQuestionUIState } from "./state/GameUIState.js"
+import { UIViewProfile } from "../shared/view/UIViewProfile.js"
+import { GameUISnapshot } from "./state/GameUISnapshot.js"
 
 /**
  * Renders the player UI and wires mouse interactions.

@@ -1,13 +1,13 @@
 // src/ui/ports/LocalGamePort.ts
-import { GameController } from "../controllers/GameController.js"
+import { GameUIController } from "../GameUIController.js"
 import { GamePort } from "./GamePort.js"
 import { GameUISnapshot } from "../state/GameUISnapshot.js"
 
 export class LocalGamePort implements GamePort {
-    private controller: GameController
+    private controller: GameUIController
     private listeners = new Set<(snapshot: GameUISnapshot) => void>()
 
-    constructor(controller: GameController) {
+    constructor(controller: GameUIController) {
         this.controller = controller
     }
 

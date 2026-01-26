@@ -1,5 +1,5 @@
 // src/ui/landing/import/BoardDraftImporter.ts
-import { BoardDraft, CategoryDraft, QuestionDraft } from "../state/BoardDraft.js"
+import { BoardDraft, CategoryDraft, QuestionDraft } from "../editBoard/BoardDraftState.js"
 
 export function importBoardDraft(raw: unknown): BoardDraft {
     if (!isObject(raw)) {

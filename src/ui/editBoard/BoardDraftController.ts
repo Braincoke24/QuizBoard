@@ -1,13 +1,9 @@
-// src/ui/landing/controllers/LandingController.ts
-import { BoardDraft } from "../state/BoardDraft.js"
-import { importBoardDraft } from "../import/BoardDraftImporter.js"
-import { LandingPhase } from "../state/LandingPhase.js"
-import { Player } from "../state/Player.js"
+// src/ui/editBoard/BoardDraftController.ts
+import { BoardDraft } from "./BoardDraftState.js"
+import { importBoardDraft } from "../shared/BoardDraftImporter.js"
 
-export class LandingController {
+export class BoardDraftController {
     private boardDraft: BoardDraft
-    private phase: LandingPhase = LandingPhase.EDIT_BOARD
-    private players: Player[] = []
 
     constructor(initialDraft?: BoardDraft) {
         this.boardDraft = initialDraft ?? this.createDefaultDraft()
@@ -28,12 +24,6 @@ export class LandingController {
         }
     }
 
-    /* ---------- Phase ---------- */
-
-    public getPhase(): LandingPhase {
-        return this.phase
-    }
-
     /* ---------- Board Draft ---------- */
 
     public getBoardDraft(): BoardDraft {
@@ -41,28 +31,16 @@ export class LandingController {
     }
 
     public updateBoardDraft(draft: BoardDraft): void {
-        if (this.phase !== LandingPhase.EDIT_BOARD) {
-            throw new Error("Board can no longer be edited")
-        }
         this.boardDraft = draft
     }
 
     public submitBoard(): void {
-        if (this.phase !== LandingPhase.EDIT_BOARD) {
-            return
-        }
-
         this.validateBoard(this.boardDraft)
-        this.phase = LandingPhase.PRE_GAME_SETUP
     }
 
     /* ---------- Import / Export ---------- */
 
     public importBoard(json: unknown): void {
-        if (this.phase !== LandingPhase.EDIT_BOARD) {
-            throw new Error("Board is locked")
-        }
-
         const draft = importBoardDraft(json)
         this.validateBoard(draft)
         this.boardDraft = draft
@@ -88,36 +66,5 @@ export class LandingController {
                 throw new Error("Each category must have one question per row")
             }
         }
-    }
-
-    /* ---------- Players ---------- */
-
-    public getPlayers(): readonly Player[] {
-        return this.players
-    }
-
-    public addPlayer(name: string): void {
-        if (this.phase !== LandingPhase.PRE_GAME_SETUP) {
-            throw new Error("Players can only be added after board submission")
-        }
-
-        if (this.players.length >= 8) {
-            throw new Error("Maximum of 8 players allowed")
-        }
-
-        this.players.push({
-            name: name,
-            id: crypto.randomUUID()
-        })
-    }
-
-    public removePlayer(id: string): void {
-        const index = this.players.findIndex((p) => p.id === id)
-
-        if (index === -1) {
-            throw new Error("Player not found")
-        }
-
-        this.players.splice(index, 1)
     }
 }

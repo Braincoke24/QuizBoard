@@ -35,7 +35,7 @@
 
 import { LandingController } from "./ui/landing/controllers/LandingController.js"
 import { LandingPageAdapter } from "./ui/landing/adapters/LandingPageAdapter.js"
-import { BoardDraft } from "./ui/landing/state/BoardDraft.js"
+import { BoardDraft } from "./ui/editBoard/BoardDraftState.js"
 
 const root = document.getElementById("app")!
 

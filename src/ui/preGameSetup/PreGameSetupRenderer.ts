@@ -1,6 +1,6 @@
 // src/ui/landing/renderers/PreGameSetupRenderer.ts
-import { BoardDraft } from "../state/BoardDraft.js";
-import { Player } from "../state/Player.js";
+import { BoardDraft } from "../editBoard/BoardDraftState.js";
+import { Player } from "./PreGameSetupState.js";
 
 export class PreGameSetupRenderer {
     constructor(

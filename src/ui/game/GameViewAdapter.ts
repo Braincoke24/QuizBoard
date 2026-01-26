@@ -1,8 +1,8 @@
 // src/ui/adapters/GameViewAdapter.ts
-import { GamePort } from "../ports/GamePort.js"
-import { GameViewRenderer } from "../renderers/GameViewRenderer.js"
-import { UIViewProfile } from "../state/UIViewProfile.js"
-import { GameUISnapshot } from "../state/GameUISnapshot.js"
+import { GamePort } from "./ports/GamePort.js"
+import { GameViewRenderer } from "./GameViewRenderer.js"
+import { UIViewProfile } from "../shared/view/UIViewProfile.js"
+import { GameUISnapshot } from "./state/GameUISnapshot.js"
 
 export class GameViewAdapter {
     private readonly port: GamePort

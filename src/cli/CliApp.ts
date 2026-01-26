@@ -1,5 +1,5 @@
 // src/cli/CliApp.ts
-import { GameController } from "../ui/game/controllers/GameController.js"
+import { GameUIController } from "../ui/game/GameUIController.js"
 import { CliRenderer } from "./CliRenderer.js"
 import { CliInput } from "./CliInput.js"
 import { TurnState } from "../game/turn/TurnState.js"
@@ -8,11 +8,11 @@ import { TurnState } from "../game/turn/TurnState.js"
  * Main CLI application loop.
  */
 export class CliApp {
-    private readonly controller: GameController
+    private readonly controller: GameUIController
     private readonly renderer = new CliRenderer()
     private readonly input = new CliInput()
 
-    public constructor(controller: GameController) {
+    public constructor(controller: GameUIController) {
         this.controller = controller
     }
 

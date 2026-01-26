@@ -1,5 +1,5 @@
 // src/game/turn/SelectedQuestion.ts
-import { Question } from "../board/Question.js"
+import { Question } from "./Question.js"
 
 export interface SelectedQuestion {
     question: Question
