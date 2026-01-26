@@ -1,5 +1,6 @@
 // src/ui/editBoard/BoardDraftController.ts
 import { BoardDraft } from "./BoardDraftState.js"
+import { BoardDraftAction } from "./BoardDraftAction.js"
 import { importBoardDraft } from "../shared/BoardDraftImporter.js"
 
 export class BoardDraftController {
@@ -8,6 +9,44 @@ export class BoardDraftController {
     constructor(initialDraft?: BoardDraft) {
         this.boardDraft = initialDraft ?? this.createDefaultDraft()
     }
+
+    /* ---------- Public API ---------- */
+
+    public dispatch(action: BoardDraftAction): BoardDraft | void {
+        switch (action.type) {
+            case "BOARD_DRAFT/UPDATE_DRAFT": {
+                this.boardDraft = action.draft
+                return
+            }
+
+            case "BOARD_DRAFT/IMPORT_BOARD": {
+                const draft = importBoardDraft(action.json)
+                this.validateBoard(draft)
+                this.boardDraft = draft
+                return
+            }
+
+            case "BOARD_DRAFT/SUBMIT_BOARD": {
+                this.validateBoard(this.boardDraft)
+                return
+            }
+
+            case "BOARD_DRAFT/EXPORT_BOARD": {
+                return structuredClone(this.boardDraft)
+            }
+
+            default: {
+                const exhaustive: never = action
+                throw new Error(`Unhandled BoardDraftAction: ${exhaustive}`)
+            }
+        }
+    }
+
+    public getSnapshot(): BoardDraft {
+        return structuredClone(this.boardDraft)
+    }
+
+    /* ---------- Internals ---------- */
 
     private createDefaultDraft(): BoardDraft {
         const rowValues = [100, 200, 300, 400, 500]
@@ -23,34 +62,6 @@ export class BoardDraftController {
             }))
         }
     }
-
-    /* ---------- Board Draft ---------- */
-
-    public getBoardDraft(): BoardDraft {
-        return this.boardDraft
-    }
-
-    public updateBoardDraft(draft: BoardDraft): void {
-        this.boardDraft = draft
-    }
-
-    public submitBoard(): void {
-        this.validateBoard(this.boardDraft)
-    }
-
-    /* ---------- Import / Export ---------- */
-
-    public importBoard(json: unknown): void {
-        const draft = importBoardDraft(json)
-        this.validateBoard(draft)
-        this.boardDraft = draft
-    }
-
-    public exportBoard(): BoardDraft {
-        return structuredClone(this.boardDraft)
-    }
-
-    /* ---------- Validation ---------- */
 
     private validateBoard(board: BoardDraft): void {
         if (board.categories.length === 0) {

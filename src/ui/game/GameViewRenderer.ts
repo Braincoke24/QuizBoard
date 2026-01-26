@@ -1,4 +1,4 @@
-// src/ui/renderers/GameViewRenderer.ts
+// src/ui/game/GameViewRenderer.ts
 import { ActiveQuestionUIState } from "./state/GameUIState.js"
 import { UIViewProfile } from "../shared/view/UIViewProfile.js"
 import { GameUISnapshot } from "./state/GameUISnapshot.js"

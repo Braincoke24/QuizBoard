@@ -1,4 +1,4 @@
-// src/ui/state/GameUIState.ts
+// src/ui/game/state/GameUIState.ts
 import { Game } from "../../../game/Game.js"
 import { Player } from "../../../game/Player.js"
 import { TurnState } from "../../../game/turn/TurnState.js"

@@ -1,4 +1,4 @@
-// src/ui/landing/renderers/PreGameSetupRenderer.ts
+// src/ui/preGameSetup/PreGameSetupRenderer.ts
 import { BoardDraft } from "../editBoard/BoardDraftState.js";
 import { Player } from "./PreGameSetupState.js";
 

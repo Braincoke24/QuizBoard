@@ -17,11 +17,13 @@ export class PreGameSetupAdapter {
 
         this.render()
     }
-    
+
     private render(): void {
+        const setup = this.controller.getSnapshot()
+
         this.renderer.render(
             this.controller.getBoardDraft(),
-            this.controller.getPlayers()
+            setup.players
         )
     }
 
@@ -29,7 +31,10 @@ export class PreGameSetupAdapter {
 
     private handleAddPlayer(name: string): void {
         try {
-            this.controller.addPlayer(name)
+            this.controller.dispatch({
+                type: "PRE_GAME_SETUP/ADD_PLAYER",
+                name
+            })
             this.render()
         } catch (error) {
             alert((error as Error).message)
@@ -37,7 +42,14 @@ export class PreGameSetupAdapter {
     }
 
     private handleRemovePlayer(id: string): void {
-        this.controller.removePlayer(id)
-        this.render()
+        try {
+            this.controller.dispatch({
+                type: "PRE_GAME_SETUP/REMOVE_PLAYER",
+                id
+            })
+            this.render()
+        } catch (error) {
+            alert((error as Error).message)
+        }
     }
 }

@@ -1,4 +1,4 @@
-// src/ui/adapters/GameViewAdapter.ts
+// src/ui/game/GameViewAdapter.ts
 import { GamePort } from "./ports/GamePort.js"
 import { GameViewRenderer } from "./GameViewRenderer.js"
 import { UIViewProfile } from "../shared/view/UIViewProfile.js"

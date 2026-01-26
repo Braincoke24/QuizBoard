@@ -3,16 +3,16 @@ import { BoardDraft } from "./BoardDraftState.js"
 
 export type BoardDraftAction =
     | {
-        type: "update_draft"
+        type: "BOARD_DRAFT/UPDATE_DRAFT"
         draft: BoardDraft
     }
     | {
-        type: "import_board"
+        type: "BOARD_DRAFT/IMPORT_BOARD"
         json: unknown
     }
     | {
-        type: "submit_board"
+        type: "BOARD_DRAFT/SUBMIT_BOARD"
     }
     | {
-        type: "export_board"
+        type: "BOARD_DRAFT/EXPORT_BOARD"
     }

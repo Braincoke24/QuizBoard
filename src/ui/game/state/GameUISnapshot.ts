@@ -1,4 +1,4 @@
-// src/ui/state/GameUISnapshot.ts
+// src/ui/game/state/GameUISnapshot.ts
 import { TurnState } from "../../../game/turn/TurnState.js"
 import { PlayerUIState, CategoryUIState, ActiveQuestionUIState } from "./GameUIState.js"
 

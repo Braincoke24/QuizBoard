@@ -1,44 +1,80 @@
 // src/ui/preGameSetup/PreGameSetupController.ts
 import { BoardDraft } from "../editBoard/BoardDraftState.js"
-import { Player } from "./PreGameSetupState.js"
+import { PreGameSetup } from "./PreGameSetupState.js"
+import { PreGameSetupAction } from "./PreGameSetupAction.js"
 
 export class PreGameSetupController {
-    private players: Player[] = []
+    private setup: PreGameSetup
 
     constructor(
-        private boardDraft: BoardDraft
-    ) {}
+        private readonly boardDraft: BoardDraft,
+        initialSetup?: PreGameSetup
+    ) {
+        this.setup = initialSetup ?? {
+            players: []
+        }
+    }
 
-    /* ---------- Board Draft ---------- */
+    /* ---------- Public API ---------- */
+
+    public dispatch(action: PreGameSetupAction): void {
+        switch (action.type) {
+            case "PRE_GAME_SETUP/ADD_PLAYER": {
+                this.addPlayer(action.name)
+                return
+            }
+
+            case "PRE_GAME_SETUP/REMOVE_PLAYER": {
+                this.removePlayer(action.id)
+                return
+            }
+
+            case "PRE_GAME_SETUP/SUBMIT": {
+                this.validateSetup(this.setup)
+                return
+            }
+
+            default: {
+                const exhaustive: never = action
+                throw new Error(`Unhandled PreGameSetupAction: ${exhaustive}`)
+            }
+        }
+    }
+
+    public getSnapshot(): PreGameSetup {
+        return structuredClone(this.setup)
+    }
 
     public getBoardDraft(): BoardDraft {
         return this.boardDraft
     }
 
-    /* ---------- Players ---------- */
+    /* ---------- Internals ---------- */
 
-    public getPlayers(): readonly Player[] {
-        return this.players
-    }
-
-    public addPlayer(name: string): void {
-        if (this.players.length >= 8) {
+    private addPlayer(name: string): void {
+        if (this.setup.players.length >= 8) {
             throw new Error("Maximum of 8 players allowed")
         }
 
-        this.players.push({
-            name: name,
-            id: crypto.randomUUID()
+        this.setup.players.push({
+            id: crypto.randomUUID(),
+            name
         })
     }
 
-    public removePlayer(id: string): void {
-        const index = this.players.findIndex((p) => p.id === id)
+    private removePlayer(id: string): void {
+        const index = this.setup.players.findIndex((p) => p.id === id)
 
         if (index === -1) {
             throw new Error("Player not found")
         }
 
-        this.players.splice(index, 1)
+        this.setup.players.splice(index, 1)
+    }
+
+    private validateSetup(setup: PreGameSetup): void {
+        if (setup.players.length === 0) {
+            throw new Error("At least one player is required")
+        }
     }
 }

@@ -1,4 +1,4 @@
-// src/ui/controllers/GameController.ts
+// src/ui/game/GameController.ts
 import { Game } from "../../game/Game.js"
 import { GameUIState } from "./state/GameUIState.js"
 import { PlayerResolver } from "../../shared/PlayerResolver.js"
@@ -7,7 +7,7 @@ import { PlayerResolver } from "../../shared/PlayerResolver.js"
  * Command API for the UI.
  * This is the only place where the UI is allowed to mutate the game.
  */
-export class GameUIController {
+export class GameController {
     private readonly game: Game
     private readonly uiState: GameUIState
     private readonly playerResolver: PlayerResolver
