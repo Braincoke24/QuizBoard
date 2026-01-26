@@ -16,19 +16,19 @@ export class GameViewAdapter {
         root: HTMLElement
     ) {
         // UI command handlers – translate renderer callbacks into GameActions
-        function selectQuestion(categoryIndex: number, questionIndex: number): void {
+        const selectQuestion = (categoryIndex: number, questionIndex: number): void => {
             dispatch({type: "GAME/SELECT_QUESTION", categoryIndex, questionIndex})
         }
 
-        function buzz(playerId: string): void {
+        const buzz = (playerId: string): void => {
             dispatch({ type: "GAME/BUZZ", playerId })
         }
 
-        function answer(correct: boolean): void {
+        const answer = (correct: boolean): void => {
             dispatch({ type: "GAME/ANSWER", correct })
         }
 
-        function pass(): void {
+        const pass = (): void => {
             dispatch({ type: "GAME/PASS" })
         }
                 

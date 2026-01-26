@@ -1,6 +1,6 @@
 // src/ui/preGameSetup/PreGameSetupRenderer.ts
 import { BoardDraft } from "../editBoard/BoardDraftState.js";
-import { Player } from "./PreGameSetupState.js";
+import { PlayerConfig } from "./PreGameSetupState.js";
 
 export class PreGameSetupRenderer {
     constructor(
@@ -9,7 +9,7 @@ export class PreGameSetupRenderer {
         private readonly onRemovePlayer: (id: string) => void
     ) {}
 
-    public render(draft: BoardDraft, players: readonly Player[]): void {
+    public render(draft: BoardDraft, players: readonly PlayerConfig[]): void {
         this.root.innerHTML = ""
 
         const container = document.createElement("div")
@@ -66,7 +66,7 @@ export class PreGameSetupRenderer {
         return container
     }
 
-    private renderPlayers(players: readonly Player[]): HTMLElement {
+    private renderPlayers(players: readonly PlayerConfig[]): HTMLElement {
         const container = document.createElement("div")
         container.className = "players-container"
 
@@ -105,7 +105,7 @@ export class PreGameSetupRenderer {
         return container
     }
 
-    private renderPlayerList(players: readonly Player[]): HTMLElement {
+    private renderPlayerList(players: readonly PlayerConfig[]): HTMLElement {
         const list = document.createElement("div")
         list.className = "player-list"
 
@@ -116,7 +116,7 @@ export class PreGameSetupRenderer {
         return list
     }
 
-    private renderPlayerRow(player: Player): HTMLElement {
+    private renderPlayerRow(player: PlayerConfig): HTMLElement {
         const row = document.createElement("div")
         row.className = "player-row"
 

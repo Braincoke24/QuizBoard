@@ -1,0 +1,27 @@
+// src/app/AppAction.ts
+import { BoardDraftAction } from "../ui/editBoard/BoardDraftAction.js"
+import { PreGameSetupAction } from "../ui/preGameSetup/PreGameSetupAction.js"
+import { GameAction } from "../ui/game/GameAction.js"
+
+export type AppAction =
+    | {
+        type: "APP/BOARD_DRAFT"
+        action: BoardDraftAction
+    }
+    | {
+        type: "APP/PRE_GAME_SETUP"
+        action: PreGameSetupAction
+    }
+    | {
+        type: "APP/GAME"
+        action: GameAction
+    }
+    | {
+        type: "APP/START_PRE_GAME_SETUP"
+    }
+    | {
+        type: "APP/START_GAME"
+    }
+    | {
+        type: "APP/RESET"
+    }

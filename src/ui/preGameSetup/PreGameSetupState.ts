@@ -1,6 +1,6 @@
 // src/ui/preGameSetup/PreGameSetupState.ts
 
-export interface Player {
+export interface PlayerConfig {
     id: string
     name: string
 }
@@ -11,5 +11,5 @@ export interface Player {
  * can be added here later without changing the controller API.
  */
 export interface PreGameSetup {
-    players: Player[]
+    players: PlayerConfig[]
 }
