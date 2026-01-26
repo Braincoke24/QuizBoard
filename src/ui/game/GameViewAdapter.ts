@@ -1,44 +1,48 @@
 // src/ui/game/GameViewAdapter.ts
-import { GamePort } from "./ports/GamePort.js"
 import { GameViewRenderer } from "./GameViewRenderer.js"
-import { UIViewProfile } from "../shared/view/UIViewProfile.js"
+import { GameAction } from "./GameAction.js"
 import { GameUISnapshot } from "./state/GameUISnapshot.js"
+import { UIViewProfile } from "../shared/view/UIViewProfile.js"
 
+/**
+ * Connects the game UI renderer to the App via dispatch and snapshots.
+ */
 export class GameViewAdapter {
-    private readonly port: GamePort
     private readonly renderer: GameViewRenderer
 
-    constructor(port: GamePort, profile: UIViewProfile, root: HTMLElement) {
-        this.port = port
+    constructor(
+        dispatch: (action: GameAction) => void,
+        profile: UIViewProfile,
+        root: HTMLElement
+    ) {
+        // UI command handlers – translate renderer callbacks into GameActions
+        function selectQuestion(categoryIndex: number, questionIndex: number): void {
+            dispatch({type: "GAME/SELECT_QUESTION", categoryIndex, questionIndex})
+        }
+
+        function buzz(playerId: string): void {
+            dispatch({ type: "GAME/BUZZ", playerId })
+        }
+
+        function answer(correct: boolean): void {
+            dispatch({ type: "GAME/ANSWER", correct })
+        }
+
+        function pass(): void {
+            dispatch({ type: "GAME/PASS" })
+        }
+                
         this.renderer = new GameViewRenderer(
             root,
             profile,
-            this.handleSelectQuestion.bind(this),
-            this.handleBuzz.bind(this),
-            this.handleAnswer.bind(this),
-            this.handlePass.bind(this)
+            selectQuestion,
+            buzz,
+            answer,
+            pass
         )
-
-        this.port.subscribe(this.handleSnapshot.bind(this))
     }
 
-    private handleSnapshot(snapshot: GameUISnapshot): void {
+    public render(snapshot: GameUISnapshot): void {
         this.renderer.render(snapshot)
-    }
-
-    private handleSelectQuestion(categoryIndex: number, questionIndex: number): void {
-        this.port.selectQuestion(categoryIndex, questionIndex)
-    }
-
-    private handleBuzz(playerId: string): void {
-        this.port.buzz(playerId)
-    }
-
-    private handleAnswer(isCorrect: boolean): void {
-        this.port.answer(isCorrect)
-    }
-
-    private handlePass(): void {
-        this.port.pass()
     }
 }

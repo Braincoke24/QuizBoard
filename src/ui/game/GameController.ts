@@ -1,74 +1,81 @@
 // src/ui/game/GameController.ts
 import { Game } from "../../game/Game.js"
+import { GameAction } from "./GameAction.js"
+import { GameUISnapshot } from "./state/GameUISnapshot.js"
 import { GameUIState } from "./state/GameUIState.js"
 import { PlayerResolver } from "../../shared/PlayerResolver.js"
 
 /**
- * Command API for the UI.
- * This is the only place where the UI is allowed to mutate the game.
+ * Controls the game during the GAME_RUNNING phase.
+ * Mutates the domain game and exposes a read-only UI snapshot.
  */
 export class GameController {
     private readonly game: Game
     private readonly uiState: GameUIState
     private readonly playerResolver: PlayerResolver
 
-    /**
-     * Creates a controller for a given game instance.
-     */
-    public constructor(game: Game) {
+    constructor(game: Game) {
         this.game = game
         this.uiState = new GameUIState(game)
         this.playerResolver = new PlayerResolver(game.players)
     }
 
-    /**
-     * Returns the current read-only UI projection.
-     */
-    public getUIState(): GameUIState {
-        return this.uiState
+    /* ---------- Public API ---------- */
+
+    public dispatch(action: GameAction): void {
+        switch (action.type) {
+            case "GAME/SELECT_QUESTION": {
+                if (!this.uiState.canSelectQuestion()) {
+                    throw new Error("Cannot select a question in the current turn state")
+                }
+
+                this.game.selectQuestion(
+                    action.categoryIndex,
+                    action.questionIndex
+                )
+                return
+            }
+
+            case "GAME/BUZZ": {
+                if (!this.uiState.canBuzz(action.playerId)) {
+                    throw new Error("Player is not allowed to buzz right now")
+                }
+
+                this.game.buzz(
+                    this.playerResolver.resolve(action.playerId)
+                )
+                return
+            }
+
+            case "GAME/ANSWER": {
+                if (!this.uiState.canAnswer()) {
+                    throw new Error("Cannot answer in the current turn state")
+                }
+
+                this.game.answer(action.correct)
+                return
+            }
+
+            case "GAME/PASS": {
+                if (!this.uiState.canPass()) {
+                    throw new Error("Cannot pass in the current turn state")
+                }
+
+                this.game.pass()
+                return
+            }
+
+            default: {
+                const exhaustive: never = action
+                throw new Error(`Unhandled GameAction: ${exhaustive}`)
+            }
+        }
     }
 
     /**
-     * Selects a question from the board by index.
+     * Returns a serializable snapshot for rendering.
      */
-    public selectQuestion(categoryIndex: number, questionIndex: number): void {
-        if (!this.uiState.canSelectQuestion()) {
-            throw new Error("Cannot select a question in the current turn state")
-        }
-
-        this.game.selectQuestion(categoryIndex, questionIndex)
-    }
-
-    /**
-     * Lets a player buzz in.
-     */
-    public buzz(playerId: string): void {
-        if (!this.uiState.canBuzz(playerId)) {
-            throw new Error("Player is not allowed to buzz right now")
-        }
-
-        this.game.buzz(this.playerResolver.resolve(playerId))
-    }
-
-    /**
-     * Submits an answer result for the active player.
-     */
-    public answer(correct: boolean): void {
-        if (!this.uiState.canAnswer()) {
-            throw new Error("Cannot answer in the current turn state")
-        }
-
-        this.game.answer(correct)
-    }
-
-    /**
-     * Passes the current buzzing phase.
-     */
-    public pass(): void {
-        if (!this.uiState.canPass()) {
-            throw new Error("Cannot pass in the current turn state")
-        }
-
-        this.game.pass()
+    public getSnapshot(): GameUISnapshot {
+        return this.uiState.createSnapshot()
     }
 }

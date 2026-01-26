@@ -8,111 +8,181 @@ import { TurnState } from "../../src/game/turn/TurnState.js"
 function setup() {
     const { game } = createGame(GameRules.classic())
     const controller = new GameController(game)
-    const ui = controller.getUIState()
 
-    return { game, controller, ui }
+    return { game, controller }
 }
 
 describe("GameController", () => {
     describe("selectQuestion", () => {
         it("selects a question when allowed", () => {
-            const { controller, ui } = setup()
+            const { controller } = setup()
 
-            controller.selectQuestion(0, 0)
+            controller.dispatch({
+                type: "GAME/SELECT_QUESTION",
+                categoryIndex: 0,
+                questionIndex: 0
+            })
 
-            expect(ui.getTurnState()).toBe(TurnState.ANSWERING)
-            expect(ui.getActiveQuestion()).not.toBeNull()
+            const snapshot = controller.getSnapshot()
+
+            expect(snapshot.turnState).toBe(TurnState.ANSWERING)
+            expect(snapshot.activeQuestion).not.toBeNull()
         })
 
         it("throws if a question cannot be selected", () => {
             const { controller } = setup()
 
-            controller.selectQuestion(0, 0)
+            controller.dispatch({
+                type: "GAME/SELECT_QUESTION",
+                categoryIndex: 0,
+                questionIndex: 0
+            })
 
             expect(() => {
-                controller.selectQuestion(0, 1)
+                controller.dispatch({
+                    type: "GAME/SELECT_QUESTION",
+                    categoryIndex: 0,
+                    questionIndex: 1
+                })
             }).toThrow()
         })
     })
 
     describe("answer", () => {
         it("accepts an answer during answering phase", () => {
-            const { controller, ui } = setup()
+            const { controller } = setup()
 
-            controller.selectQuestion(0, 0)
-            controller.answer(true)
+            controller.dispatch({
+                type: "GAME/SELECT_QUESTION",
+                categoryIndex: 0,
+                questionIndex: 0
+            })
 
-            expect(ui.getTurnState()).toBe(TurnState.SELECTING)
+            controller.dispatch({
+                type: "GAME/ANSWER",
+                correct: true
+            })
+
+            const snapshot = controller.getSnapshot()
+
+            expect(snapshot.turnState).toBe(TurnState.SELECTING)
         })
 
         it("throws if answering is not allowed", () => {
             const { controller } = setup()
 
             expect(() => {
-                controller.answer(true)
+                controller.dispatch({
+                    type: "GAME/ANSWER",
+                    correct: true
+                })
             }).toThrow()
         })
     })
 
     describe("buzz", () => {
         it("allows an eligible player to buzz", () => {
-            const { controller, ui } = setup()
+            const { controller } = setup()
 
-            controller.selectQuestion(0, 0)
-            controller.answer(false)
+            controller.dispatch({
+                type: "GAME/SELECT_QUESTION",
+                categoryIndex: 0,
+                questionIndex: 0
+            })
 
-            const bob = ui.getPlayers()[1]
+            controller.dispatch({
+                type: "GAME/ANSWER",
+                correct: false
+            })
 
-            controller.buzz(bob.id)
+            const snapshotBeforeBuzz = controller.getSnapshot()
+            const bob = snapshotBeforeBuzz.players[1]
 
-            expect(ui.getActivePlayer().id).toBe("b")
-            expect(ui.getTurnState()).toBe(TurnState.ANSWERING)
+            controller.dispatch({
+                type: "GAME/BUZZ",
+                playerId: bob.id
+            })
+
+            const snapshot = controller.getSnapshot()
+
+            expect(snapshot.activePlayerId).toBe("b")
+            expect(snapshot.turnState).toBe(TurnState.ANSWERING)
         })
 
         it("throws if player is not allowed to buzz", () => {
-            const { controller, ui } = setup()
+            const { controller } = setup()
 
-            controller.selectQuestion(0, 0)
-            controller.answer(false)
+            controller.dispatch({
+                type: "GAME/SELECT_QUESTION",
+                categoryIndex: 0,
+                questionIndex: 0
+            })
 
-            const alice = ui.getPlayers()[0]
+            controller.dispatch({
+                type: "GAME/ANSWER",
+                correct: false
+            })
+
+            const snapshot = controller.getSnapshot()
+            const alice = snapshot.players[0]
 
             expect(() => {
-                controller.buzz(alice.id)
+                controller.dispatch({
+                    type: "GAME/BUZZ",
+                    playerId: alice.id
+                })
             }).toThrow()
         })
     })
 
     describe("pass", () => {
         it("passes during buzzing phase", () => {
-            const { controller, ui } = setup()
+            const { controller } = setup()
 
-            controller.selectQuestion(0, 0)
-            controller.answer(false)
-            controller.pass()
+            controller.dispatch({
+                type: "GAME/SELECT_QUESTION",
+                categoryIndex: 0,
+                questionIndex: 0
+            })
 
-            expect(ui.getTurnState()).toBe(TurnState.SELECTING)
+            controller.dispatch({
+                type: "GAME/ANSWER",
+                correct: false
+            })
+
+            controller.dispatch({
+                type: "GAME/PASS"
+            })
+
+            const snapshot = controller.getSnapshot()
+
+            expect(snapshot.turnState).toBe(TurnState.SELECTING)
         })
 
         it("throws if pass is not allowed", () => {
             const { controller } = setup()
 
             expect(() => {
-                controller.pass()
+                controller.dispatch({ type: "GAME/PASS" })
             }).toThrow()
         })
     })
 
     describe("integration with UI state", () => {
-        it("exposes an up-to-date UI state after commands", () => {
-            const { controller, ui } = setup()
+        it("exposes an up-to-date UI snapshot after commands", () => {
+            const { controller } = setup()
 
-            controller.selectQuestion(0, 0)
+            controller.dispatch({
+                type: "GAME/SELECT_QUESTION",
+                categoryIndex: 0,
+                questionIndex: 0
+            })
 
-            expect(ui.getTurnState()).toBe(TurnState.ANSWERING)
-            expect(ui.canAnswer()).toBe(true)
-            expect(ui.canSelectQuestion()).toBe(false)
+            const snapshot = controller.getSnapshot()
+
+            expect(snapshot.turnState).toBe(TurnState.ANSWERING)
+            expect(snapshot.canAnswer).toBe(true)
+            expect(snapshot.canSelectQuestion).toBe(false)
         })
     })
 })
-
