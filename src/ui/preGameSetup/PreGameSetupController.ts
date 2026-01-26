@@ -7,11 +7,12 @@ export class PreGameSetupController {
     private setup: PreGameSetup
 
     constructor(
-        private readonly boardDraft: BoardDraft,
+        boardDraft: BoardDraft,
         initialSetup?: PreGameSetup
     ) {
         this.setup = initialSetup ?? {
-            players: []
+            players: [],
+            board: boardDraft
         }
     }
 
@@ -46,7 +47,7 @@ export class PreGameSetupController {
     }
 
     public getBoardDraft(): BoardDraft {
-        return this.boardDraft
+        return this.setup.board
     }
 
     /* ---------- Internals ---------- */

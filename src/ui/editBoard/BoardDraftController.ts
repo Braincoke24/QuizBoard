@@ -7,6 +7,8 @@ export class BoardDraftController {
     private boardDraft: BoardDraft
 
     constructor(initialDraft?: BoardDraft) {
+        console.log("Started BoardDraftController")
+
         this.boardDraft = initialDraft ?? this.createDefaultDraft()
     }
 

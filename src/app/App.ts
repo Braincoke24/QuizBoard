@@ -1,3 +1,4 @@
+// src/app/App.ts
 import { AppPort, AppSnapshot } from "./ports/AppPort.js"
 import { AppPhase } from "./AppPhase.js"
 import { AppAction } from "./AppAction.js"
@@ -17,8 +18,11 @@ export class App {
     private readonly port: AppPort
     private readonly root: HTMLElement
     private readonly profile: UIViewProfile
+    private boardDraftAdapter: BoardDraftAdapter | null = null
+    private preGameSetupAdapter: PreGameSetupAdapter | null = null
+    private gameViewAdapter: GameViewAdapter | null = null
 
-    private phase: AppPhase = AppPhase.EDIT_BOARD
+    private phase: AppPhase | null = null
 
     constructor(port: AppPort, roleParam: string, root: HTMLElement) {
         console.log("Started App")
@@ -46,9 +50,14 @@ export class App {
     private mountPhase(phase: AppPhase): void {
         this.root.innerHTML = ""
 
+        // reset
+        this.boardDraftAdapter = null
+        this.preGameSetupAdapter = null
+        this.gameViewAdapter = null
+
         switch (phase) {
             case AppPhase.EDIT_BOARD:
-                new BoardDraftAdapter(
+                this.boardDraftAdapter = new BoardDraftAdapter(
                     (action) =>
                         this.dispatch({
                             type: "APP/BOARD_DRAFT",
@@ -59,7 +68,7 @@ export class App {
                 break
 
             case AppPhase.PRE_GAME_SETUP:
-                new PreGameSetupAdapter(
+                this.preGameSetupAdapter = new PreGameSetupAdapter(
                     (action) =>
                         this.dispatch({
                             type: "APP/PRE_GAME_SETUP",
@@ -70,7 +79,7 @@ export class App {
                 break
 
             case AppPhase.GAME_RUNNING:
-                new GameViewAdapter(
+                this.gameViewAdapter = new GameViewAdapter(
                     (action) =>
                         this.dispatch({
                             type: "APP/GAME",
@@ -80,20 +89,31 @@ export class App {
                     this.root
                 )
                 break
-
-            default: {
-                const exhaustive: never = phase
-                throw new Error(`Unhandled AppPhase: ${exhaustive}`)
-            }
         }
     }
 
     /* ---------- Updates ---------- */
 
     private update(snapshot: AppSnapshot): void {
-        // Adapters pull what they need themselves.
-        // GameViewAdapter is snapshot-driven internally.
-        void snapshot
+        switch (this.phase) {
+            case AppPhase.EDIT_BOARD:
+                if (this.boardDraftAdapter && snapshot.boardDraft) {
+                    this.boardDraftAdapter.render(snapshot.boardDraft)
+                }
+                break
+
+            case AppPhase.PRE_GAME_SETUP:
+                if (this.preGameSetupAdapter && snapshot.preGameSetup) {
+                    this.preGameSetupAdapter.render(snapshot.preGameSetup)
+                }
+                break
+
+            case AppPhase.GAME_RUNNING:
+                if (this.gameViewAdapter && snapshot.game) {
+                    this.gameViewAdapter.render(snapshot.game)
+                }
+                break
+        }
     }
 
     /* ---------- Dispatch ---------- */

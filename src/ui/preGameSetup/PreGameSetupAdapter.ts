@@ -35,9 +35,9 @@ export class PreGameSetupAdapter {
         )
     }
 
-    public render(snapshot: PreGameSetup, boardDraft: BoardDraft): void {
+    public render(snapshot: PreGameSetup): void {
         this.renderer.render(
-            boardDraft,
+            snapshot.board,
             snapshot.players
         )
     }

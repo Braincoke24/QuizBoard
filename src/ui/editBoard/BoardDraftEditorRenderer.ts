@@ -8,7 +8,9 @@ export class BoardDraftEditorRenderer {
         private readonly onSubmitBoard: () => void,
         private readonly onImportBoard: (json: unknown) => void,
         private readonly onExportBoard: () => void
-    ) {}
+    ) {
+        console.log("Started BoardDraftEditorRenderer")
+    }
 
     public render(draft: BoardDraft): void {
         this.root.innerHTML = ""

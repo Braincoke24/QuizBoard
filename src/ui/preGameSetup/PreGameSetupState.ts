@@ -1,4 +1,5 @@
 // src/ui/preGameSetup/PreGameSetupState.ts
+import { BoardDraft } from "../editBoard/BoardDraftState.js"
 
 export interface PlayerConfig {
     id: string
@@ -11,5 +12,6 @@ export interface PlayerConfig {
  * can be added here later without changing the controller API.
  */
 export interface PreGameSetup {
-    players: PlayerConfig[]
+    players: PlayerConfig[],
+    board: BoardDraft
 }

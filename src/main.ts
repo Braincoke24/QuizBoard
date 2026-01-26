@@ -1,3 +1,4 @@
+// src/main.ts
 import { App } from "./app/App.js"
 import { LocalAppPort } from "./app/ports/LocalAppPort.js"
 
