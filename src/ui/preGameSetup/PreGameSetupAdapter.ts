@@ -2,7 +2,7 @@
 import { PreGameSetupRenderer } from "./PreGameSetupRenderer.js"
 import { PreGameSetupAction } from "./PreGameSetupAction.js"
 import { PreGameSetup } from "./PreGameSetupState.js"
-import { BoardDraft } from "../editBoard/BoardDraftState.js"
+import { GAME_RULE_PRESETS } from "../../game/GameRulePresets.js"
 
 /**
  * Connects the PreGameSetup renderer to the App via dispatch and snapshots.
@@ -28,6 +28,24 @@ export class PreGameSetupAdapter {
             })
         }
 
+        const selectRule = (ruleId: string): void => {
+            dispatch({
+                type: "PRE_GAME_SETUP/SELECT_RULE",
+                ruleId
+            })
+        }
+
+        const updateMultiplier = (
+            key: "firstWrongMultiplier" | "buzzCorrectMultiplier" | "buzzWrongMultiplier",
+            value: number
+        ): void => {
+            dispatch({
+                type: "PRE_GAME_SETUP/UPDATE_CUSTOM_MULTIPLIER",
+                key,
+                value
+            })
+        }
+
         const startGame = (): void => {
             dispatch({
                 type: "PRE_GAME_SETUP/START_GAME"
@@ -36,16 +54,16 @@ export class PreGameSetupAdapter {
 
         this.renderer = new PreGameSetupRenderer(
             root,
+            GAME_RULE_PRESETS,
             addPlayer,
             removePlayer,
+            selectRule,
+            updateMultiplier,
             startGame
         )
     }
 
     public render(snapshot: PreGameSetup): void {
-        this.renderer.render(
-            snapshot.board,
-            snapshot.players
-        )
+        this.renderer.render(snapshot)
     }
 }

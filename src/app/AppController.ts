@@ -84,7 +84,8 @@ export class AppController {
         )
 
         const board = boardDraftToBoard(boardDraft)
-        const game = new Game(players, board, GameRules.classic())
+        const rules = this.preGameSetupController!.getGameRules()
+        const game = new Game(players, board, rules)
 
         this.gameController = new GameController(game)
         this.phase = AppPhase.GAME_RUNNING

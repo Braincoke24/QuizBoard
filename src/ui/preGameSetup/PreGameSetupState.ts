@@ -6,12 +6,16 @@ export interface PlayerConfig {
     name: string
 }
 
-/**
- * Aggregated state for the pre-game setup phase.
- * Additional configuration (rules, timers, modes, etc.)
- * can be added here later without changing the controller API.
- */
+export interface RuleMultipliers {
+    firstWrongMultiplier: number
+    buzzCorrectMultiplier: number
+    buzzWrongMultiplier: number
+}
+
 export interface PreGameSetup {
-    players: PlayerConfig[],
+    players: PlayerConfig[]
     board: BoardDraft
+
+    selectedRuleId: string
+    customMultipliers: RuleMultipliers
 }
