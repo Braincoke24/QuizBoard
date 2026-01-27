@@ -66,9 +66,7 @@ export class AppController {
     private startPreGameSetup(): void {
         this.assertPhase(AppPhase.EDIT_BOARD)
 
-        const board = this.boardDraftController.dispatch({
-            type: "BOARD_DRAFT/EXPORT_BOARD"
-        })
+        const board = this.boardDraftController.getSnapshot()
 
         if (!board) {
             throw new Error("Failed to export board")

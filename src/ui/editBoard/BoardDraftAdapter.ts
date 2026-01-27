@@ -8,6 +8,7 @@ import { BoardDraftAction } from "./BoardDraftAction.js"
  */
 export class BoardDraftAdapter {
     private readonly renderer: BoardDraftEditorRenderer
+    private lastSnapshot: BoardDraft | null = null
 
     constructor(
         dispatch: (action: BoardDraftAction) => void,
@@ -36,9 +37,21 @@ export class BoardDraftAdapter {
         }
 
         const exportBoard = (): void => {
-            dispatch({
-                type: "BOARD_DRAFT/EXPORT_BOARD"
-            })
+            try {
+                const snapshot = this.getSnapshotForExport()
+                const json = JSON.stringify(snapshot, null, 2)
+                const blob = new Blob([json], { type: "application/json" })
+                const url = URL.createObjectURL(blob)
+
+                const a = document.createElement("a")
+                a.href = url
+                a.download = "board.json"
+                a.click()
+
+                URL.revokeObjectURL(url)
+            } catch (error) {
+                alert((error as Error).message)
+            }
         }
 
         this.renderer = new BoardDraftEditorRenderer(
@@ -51,6 +64,14 @@ export class BoardDraftAdapter {
     }
 
     public render(snapshot: BoardDraft): void {
+        this.lastSnapshot = snapshot
         this.renderer.render(snapshot)
+    }
+
+    private getSnapshotForExport(): BoardDraft {
+        if (!this.lastSnapshot) {
+            throw new Error("No board to export")
+        }
+        return this.lastSnapshot
     }
 }

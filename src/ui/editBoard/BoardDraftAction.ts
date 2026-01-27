@@ -13,6 +13,4 @@ export type BoardDraftAction =
     | {
         type: "BOARD_DRAFT/SUBMIT_BOARD"
     }
-    | {
-        type: "BOARD_DRAFT/EXPORT_BOARD"
-    }
+    

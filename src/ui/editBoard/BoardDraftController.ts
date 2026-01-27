@@ -33,10 +33,6 @@ export class BoardDraftController {
                 return
             }
 
-            case "BOARD_DRAFT/EXPORT_BOARD": {
-                return structuredClone(this.boardDraft)
-            }
-
             default: {
                 const exhaustive: never = action
                 throw new Error(`Unhandled BoardDraftAction: ${exhaustive}`)
