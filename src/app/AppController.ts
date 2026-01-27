@@ -15,9 +15,13 @@ import { boardDraftToBoard } from "../shared/BoardMapper.js"
 export class AppController {
     private phase: AppPhase = AppPhase.EDIT_BOARD
 
-    private boardDraftController = new BoardDraftController()
+    private boardDraftController: BoardDraftController
     private preGameSetupController: PreGameSetupController | null = null
     private gameController: GameController | null = null
+
+    constructor() {
+        this.boardDraftController = this.createBoardDraftController()
+    }
 
     /* ---------- Public API ---------- */
 
@@ -28,12 +32,7 @@ export class AppController {
     public dispatch(action: AppAction): void {
         switch (action.type) {
             case "APP/BOARD_DRAFT":
-                this.assertPhase(AppPhase.EDIT_BOARD)
-                this.boardDraftController.dispatch(action.action)
-                return
-
-            case "APP/START_PRE_GAME_SETUP":
-                this.startPreGameSetup()
+                this.handleBoardDraft(action.action)
                 return
 
             case "APP/PRE_GAME_SETUP":
@@ -41,17 +40,9 @@ export class AppController {
                 this.preGameSetupController!.dispatch(action.action)
                 return
 
-            case "APP/START_GAME":
-                this.startGame()
-                return
-
             case "APP/GAME":
                 this.assertPhase(AppPhase.GAME_RUNNING)
                 this.gameController!.dispatch(action.action)
-                return
-
-            case "APP/RESET":
-                this.reset()
                 return
 
             default: {
@@ -61,18 +52,21 @@ export class AppController {
         }
     }
 
-    /* ---------- Phase Transitions ---------- */
+    /* ---------- Phase Handlers ---------- */
+
+    private handleBoardDraft(action: any): void {
+        this.assertPhase(AppPhase.EDIT_BOARD)
+        this.boardDraftController.dispatch(action)
+    }
+
+    /* ---------- Transitions ---------- */
 
     private startPreGameSetup(): void {
         this.assertPhase(AppPhase.EDIT_BOARD)
 
-        const board = this.boardDraftController.getSnapshot()
+        const boardDraft = this.boardDraftController.getSnapshot()
 
-        if (!board) {
-            throw new Error("Failed to export board")
-        }
-
-        this.preGameSetupController = new PreGameSetupController(board)
+        this.preGameSetupController = new PreGameSetupController(boardDraft)
         this.phase = AppPhase.PRE_GAME_SETUP
     }
 
@@ -81,20 +75,21 @@ export class AppController {
 
         const setup = this.preGameSetupController!.getSnapshot()
         const boardDraft = this.preGameSetupController!.getBoardDraft()
-        const gamePlayers = setup.players.map(
+
+        const players = setup.players.map(
             (config) => new Player(config.id, config.name)
         )
+
         const board = boardDraftToBoard(boardDraft)
+        const game = new Game(players, board, GameRules.classic())
 
-        const game = new Game(gamePlayers, board, GameRules.classic())
         this.gameController = new GameController(game)
-
         this.phase = AppPhase.GAME_RUNNING
     }
 
     private reset(): void {
         this.phase = AppPhase.EDIT_BOARD
-        this.boardDraftController = new BoardDraftController()
+        this.boardDraftController = this.createBoardDraftController()
         this.preGameSetupController = null
         this.gameController = null
     }
@@ -111,6 +106,16 @@ export class AppController {
 
     public getGameSnapshot() {
         return this.gameController?.getSnapshot() ?? null
+    }
+
+    /* ---------- Factory ---------- */
+
+    private createBoardDraftController(): BoardDraftController {
+        return new BoardDraftController({
+            onSubmitBoard: () => {
+                this.startPreGameSetup()
+            }
+        })
     }
 
     /* ---------- Helpers ---------- */

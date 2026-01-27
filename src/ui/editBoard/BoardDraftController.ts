@@ -2,13 +2,17 @@
 import { BoardDraft } from "./BoardDraftState.js"
 import { BoardDraftAction } from "./BoardDraftAction.js"
 import { importBoardDraft } from "../shared/BoardDraftImporter.js"
+import { BoardDraftCallbacks } from "./BoardDraftCallbacks.js"
 
 export class BoardDraftController {
     private boardDraft: BoardDraft
+    private readonly callbacks: BoardDraftCallbacks
 
-    constructor(initialDraft?: BoardDraft) {
-        console.log("Started BoardDraftController")
-
+    constructor(
+        callbacks: BoardDraftCallbacks,
+        initialDraft?: BoardDraft
+    ) {
+        this.callbacks = callbacks
         this.boardDraft = initialDraft ?? this.createDefaultDraft()
     }
 
@@ -30,6 +34,7 @@ export class BoardDraftController {
 
             case "BOARD_DRAFT/SUBMIT_BOARD": {
                 this.validateBoard(this.boardDraft)
+                this.callbacks.onSubmitBoard()
                 return
             }
 

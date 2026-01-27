@@ -16,12 +16,3 @@ export type AppAction =
         type: "APP/GAME"
         action: GameAction
     }
-    | {
-        type: "APP/START_PRE_GAME_SETUP"
-    }
-    | {
-        type: "APP/START_GAME"
-    }
-    | {
-        type: "APP/RESET"
-    }
