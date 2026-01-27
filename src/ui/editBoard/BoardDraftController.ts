@@ -14,7 +14,7 @@ export class BoardDraftController {
 
     /* ---------- Public API ---------- */
 
-    public dispatch(action: BoardDraftAction): BoardDraft | void {
+    public dispatch(action: BoardDraftAction): void {
         switch (action.type) {
             case "BOARD_DRAFT/UPDATE_DRAFT": {
                 this.boardDraft = action.draft
