@@ -13,7 +13,7 @@ function main(): void {
     }
 
     const roleParam =
-        new URLSearchParams(window.location.search).get("role") ?? "host"
+        new URLSearchParams(window.location.search).get("role") ?? "player"
 
     const port = new LocalAppPort()
 

@@ -6,7 +6,8 @@ export class PreGameSetupRenderer {
     constructor(
         private readonly root: HTMLElement,
         private readonly onAddPlayer: (name: string) => void,
-        private readonly onRemovePlayer: (id: string) => void
+        private readonly onRemovePlayer: (id: string) => void,
+        private readonly onStartGame: () => void
     ) {}
 
     public render(draft: BoardDraft, players: readonly PlayerConfig[]): void {
@@ -17,6 +18,7 @@ export class PreGameSetupRenderer {
 
         container.appendChild(this.renderPlayers(players))
         container.appendChild(this.renderBoardPreview(draft))
+        container.appendChild(this.renderGameOptions())
 
         this.root.appendChild(container)
     }
@@ -131,5 +133,19 @@ export class PreGameSetupRenderer {
 
         row.append(name, deleteButton)
         return row
+    }
+
+    private renderGameOptions(): HTMLElement {
+        const container = document.createElement("div")
+        container.className = "game-options-container"
+
+        const button = document.createElement("button")
+        button.textContent = "Start"
+        button.onclick = () => {
+            this.onStartGame()
+        }
+
+        container.appendChild(button)
+        return container
     }
 }

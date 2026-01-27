@@ -2,14 +2,18 @@
 import { BoardDraft } from "../editBoard/BoardDraftState.js"
 import { PreGameSetup } from "./PreGameSetupState.js"
 import { PreGameSetupAction } from "./PreGameSetupAction.js"
+import { PreGameSetupCallbacks } from "./PreGameSetupCallbacks.js"
 
 export class PreGameSetupController {
     private setup: PreGameSetup
+    private readonly callbacks: PreGameSetupCallbacks
 
     constructor(
+        callbacks: PreGameSetupCallbacks,
         boardDraft: BoardDraft,
         initialSetup?: PreGameSetup
     ) {
+        this.callbacks = callbacks
         this.setup = initialSetup ?? {
             players: [],
             board: boardDraft
@@ -30,8 +34,9 @@ export class PreGameSetupController {
                 return
             }
 
-            case "PRE_GAME_SETUP/SUBMIT": {
+            case "PRE_GAME_SETUP/START_GAME": {
                 this.validateSetup(this.setup)
+                this.callbacks.onStartGame()
                 return
             }
 

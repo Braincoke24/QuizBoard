@@ -10,5 +10,5 @@ export type PreGameSetupAction =
         id: string
     }
     | {
-        type: "PRE_GAME_SETUP/SUBMIT"
+        type: "PRE_GAME_SETUP/START_GAME"
     }

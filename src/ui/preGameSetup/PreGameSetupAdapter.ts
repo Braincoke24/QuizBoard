@@ -28,10 +28,17 @@ export class PreGameSetupAdapter {
             })
         }
 
+        const startGame = (): void => {
+            dispatch({
+                type: "PRE_GAME_SETUP/START_GAME"
+            })
+        }
+
         this.renderer = new PreGameSetupRenderer(
             root,
             addPlayer,
-            removePlayer
+            removePlayer,
+            startGame
         )
     }
 

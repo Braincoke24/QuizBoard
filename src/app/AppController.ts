@@ -11,6 +11,9 @@ import { Game } from "../game/Game.js"
 import { Player } from "../game/Player.js"
 
 import { boardDraftToBoard } from "../shared/BoardMapper.js"
+import { BoardDraft } from "../ui/editBoard/BoardDraftState.js"
+import { PreGameSetupCallbacks } from "../ui/preGameSetup/PreGameSetupCallbacks.js"
+import { BoardDraftCallbacks } from "../ui/editBoard/BoardDraftCallbacks.js"
 
 export class AppController {
     private phase: AppPhase = AppPhase.EDIT_BOARD
@@ -66,7 +69,7 @@ export class AppController {
 
         const boardDraft = this.boardDraftController.getSnapshot()
 
-        this.preGameSetupController = new PreGameSetupController(boardDraft)
+        this.preGameSetupController = this.createPreGameSetupController(boardDraft)
         this.phase = AppPhase.PRE_GAME_SETUP
     }
 
@@ -111,11 +114,23 @@ export class AppController {
     /* ---------- Factory ---------- */
 
     private createBoardDraftController(): BoardDraftController {
-        return new BoardDraftController({
+        const callbacks: BoardDraftCallbacks = {
             onSubmitBoard: () => {
                 this.startPreGameSetup()
             }
-        })
+        }
+
+        return new BoardDraftController(callbacks)
+    }
+
+    private createPreGameSetupController(boardDraft: BoardDraft): PreGameSetupController {
+        const callbacks: PreGameSetupCallbacks = {
+                onStartGame: () => {
+                    this.startGame()
+                }
+            }
+        
+        return new PreGameSetupController(callbacks, boardDraft)
     }
 
     /* ---------- Helpers ---------- */
