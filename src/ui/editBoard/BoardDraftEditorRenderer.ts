@@ -2,6 +2,8 @@
 import { BoardDraft } from "./BoardDraftState.js"
 
 export class BoardDraftEditorRenderer {
+    private localDraft: BoardDraft | null = null
+
     constructor(
         private readonly root: HTMLElement,
         private readonly onDraftChange: (draft: BoardDraft) => void,
@@ -13,6 +15,8 @@ export class BoardDraftEditorRenderer {
     }
 
     public render(draft: BoardDraft): void {
+        this.localDraft = structuredClone(draft)
+
         this.root.innerHTML = ""
 
         const container = document.createElement("div")
@@ -41,9 +45,8 @@ export class BoardDraftEditorRenderer {
             input.value = category.name
 
             input.oninput = () => {
-                const next = structuredClone(draft)
-                next.categories[cIndex].name = input.value
-                this.onDraftChange(next)
+                if (!this.localDraft) return
+                this.localDraft.categories[cIndex].name = input.value
             }
 
             header.appendChild(input)
@@ -76,10 +79,8 @@ export class BoardDraftEditorRenderer {
                 questionInput.value = category.questions[rowIndex].text
 
                 questionInput.oninput = () => {
-                    const next = structuredClone(draft)
-                    next.categories[cIndex].questions[rowIndex].text =
-                        questionInput.value
-                    this.onDraftChange(next)
+                    if (!this.localDraft) return
+                    this.localDraft.categories[cIndex].questions[rowIndex].text = questionInput.value
                 }
 
                 const answerInput = document.createElement("textarea")
@@ -87,10 +88,8 @@ export class BoardDraftEditorRenderer {
                 answerInput.value = category.questions[rowIndex].answer
 
                 answerInput.oninput = () => {
-                    const next = structuredClone(draft)
-                    next.categories[cIndex].questions[rowIndex].answer =
-                        answerInput.value
-                    this.onDraftChange(next)
+                    if (!this.localDraft) return
+                    this.localDraft.categories[cIndex].questions[rowIndex].answer = answerInput.value
                 }
 
                 cell.appendChild(questionInput)
@@ -110,7 +109,11 @@ export class BoardDraftEditorRenderer {
 
         const exportButton = document.createElement("button")
         exportButton.textContent = "Export board (JSON)"
-        exportButton.onclick = () => this.onExportBoard()
+        exportButton.onclick = () => {
+            if (!this.localDraft) return
+            this.onDraftChange(structuredClone(this.localDraft))
+            this.onExportBoard()
+        }
         actions.appendChild(exportButton)
 
         /* ---------- Import ---------- */
@@ -146,7 +149,11 @@ export class BoardDraftEditorRenderer {
 
         const submit = document.createElement("button")
         submit.textContent = "Submit board"
-        submit.onclick = this.onSubmitBoard
+        submit.onclick = () => {
+            if (!this.localDraft) return
+            this.onDraftChange(structuredClone(this.localDraft))
+            this.onSubmitBoard()
+        }
 
         actions.appendChild(submit)
 
