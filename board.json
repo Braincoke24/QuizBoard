@@ -1,31 +1,136 @@
 {
-    "categories": [
+  "rowValues": [
+    100,
+    200,
+    300,
+    400,
+    500
+  ],
+  "categories": [
+    {
+      "name": "Minecraft",
+      "questions": [
         {
-            "name": "Allgemeinwissen",
-            "questions": [
-                {
-                    "text": "Was ist die Hauptstadt von Südafrika?",
-                    "answer": "Johannesburg"
-                },
-                {
-                    "text": "Was ist die Hauptstadt von Deutschland?",
-                    "answer": "Berlin"
-                }
-            ]
+          "text": "Wer hat Minecraft erfunden?",
+          "answer": "Markus Persson / Notch"
         },
         {
-            "name": "Physik",
-            "questions": [
-                {
-                    "text": "Wie viele Protonen hat Wasserstoffatom?",
-                    "answer": "1"
-                },
-                {
-                    "text": "Bei welcher Temperatur (°C) siedet Wasser bei Normaldruck?",
-                    "answer": "100 °C"
-                }
-            ]
+          "text": "Welchen Namen muss man einem Schaf geben, damit es zum Regenbogenschaf wird?",
+          "answer": "jeb_"
+        },
+        {
+          "text": "Wie craftet man einen Kuchen?",
+          "answer": "Milch Milch Milch\nZucker Ei Zucker\nWeizen Weizen Weizen"
+        },
+        {
+          "text": "Wie viele Podesttruhen können maximal in einer Festung generieren?",
+          "answer": "4"
+        },
+        {
+          "text": "In welcher Version wurden Pferde hinzugefügt?",
+          "answer": "1.6.1"
         }
-    ],
-    "rowValues": [100,200]
+      ]
+    },
+    {
+      "name": "",
+      "questions": [
+        {
+          "text": "",
+          "answer": ""
+        },
+        {
+          "text": "",
+          "answer": ""
+        },
+        {
+          "text": "",
+          "answer": ""
+        },
+        {
+          "text": "",
+          "answer": ""
+        },
+        {
+          "text": "",
+          "answer": ""
+        }
+      ]
+    },
+    {
+      "name": "",
+      "questions": [
+        {
+          "text": "",
+          "answer": ""
+        },
+        {
+          "text": "",
+          "answer": ""
+        },
+        {
+          "text": "",
+          "answer": ""
+        },
+        {
+          "text": "",
+          "answer": ""
+        },
+        {
+          "text": "",
+          "answer": ""
+        }
+      ]
+    },
+    {
+      "name": "",
+      "questions": [
+        {
+          "text": "",
+          "answer": ""
+        },
+        {
+          "text": "",
+          "answer": ""
+        },
+        {
+          "text": "",
+          "answer": ""
+        },
+        {
+          "text": "",
+          "answer": ""
+        },
+        {
+          "text": "",
+          "answer": ""
+        }
+      ]
+    },
+    {
+      "name": "",
+      "questions": [
+        {
+          "text": "",
+          "answer": ""
+        },
+        {
+          "text": "",
+          "answer": ""
+        },
+        {
+          "text": "",
+          "answer": ""
+        },
+        {
+          "text": "",
+          "answer": ""
+        },
+        {
+          "text": "",
+          "answer": ""
+        }
+      ]
+    }
+  ]
 }

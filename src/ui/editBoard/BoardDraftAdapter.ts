@@ -17,6 +17,7 @@ export class BoardDraftAdapter {
         console.log("Started BoardDraftAdapter")
 
         const updateDraft = (draft: BoardDraft): void => {
+            this.lastSnapshot = draft
             dispatch({
                 type: "BOARD_DRAFT/UPDATE_DRAFT",
                 draft
