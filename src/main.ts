@@ -1,6 +1,6 @@
 // src/main.ts
 import { App } from "./app/App.js"
-import { LocalAppPort } from "./app/ports/LocalAppPort.js"
+import { SharedWorkerAppPort } from "./app/ports/SharedWorkerAppPort.js"
 
 /**
  * Application entry point.
@@ -15,7 +15,7 @@ function main(): void {
     const roleParam =
         new URLSearchParams(window.location.search).get("role") ?? "player"
 
-    const port = new LocalAppPort()
+    const port = new SharedWorkerAppPort()
 
     new App(port, roleParam, root)
 }
