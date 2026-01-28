@@ -40,6 +40,10 @@ export class LocalAppPort implements AppPort {
         this.listeners.delete(listener)
     }
 
+    public async isFirstClient(): Promise<boolean> {
+        return true
+    }
+
     private emit(): void {
         const snapshot = this.getSnapshot()
         for (const listener of this.listeners) {

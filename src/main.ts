@@ -13,7 +13,7 @@ function main(): void {
     }
 
     const roleParam =
-        new URLSearchParams(window.location.search).get("role") ?? "player"
+        new URLSearchParams(window.location.search).get("role") ?? ""
 
     const port = new SharedWorkerAppPort()
 
@@ -21,3 +21,5 @@ function main(): void {
 }
 
 main()
+
+// NOTE (erst in zukunft ein problem): wenn man die seite mit ?role=player oeffnet und dann den zwei fenster modus waehlt wird die rolle des aktuellen fensters zwar zu game-master geaendetr, aber die url nicht. Wenn man die seite also neu laedt, hat man ploetzlich die falsche rolle und kann die antworten nicht mehr sehen.

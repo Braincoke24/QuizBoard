@@ -15,9 +15,13 @@ export interface AppSnapshot {
 
 export interface AppPort {
     dispatch(action: AppAction): void
-
     getSnapshot(): AppSnapshot
 
     subscribe(listener: (snapshot: AppSnapshot) => void): void
     unsubscribe(listener: (snapshot: AppSnapshot) => void): void
+
+    /**
+     * Returns true if this client is the first one connected to the app session.
+     */
+    isFirstClient(): Promise<boolean>
 }

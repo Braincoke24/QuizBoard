@@ -59,6 +59,15 @@ self.onconnect = (event: MessageEvent): void => {
                 ports.delete(port)
                 break
             }
+
+            case "HANDSHAKE": {
+                port.postMessage({
+                    type: "HANDSHAKE_RESPONSE",
+                    requestId: message.requestId,
+                    isFirstClient: ports.size === 1
+                })
+                break
+            }
         }
     }
 
