@@ -24,4 +24,8 @@ export class RoleResolver {
 
         return RoleResolver.profileMap[role]
     }
+
+    public static isValidRole(roleParam: string): boolean {
+        return roleParam in RoleResolver.profileMap
+    }
 }

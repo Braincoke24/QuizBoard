@@ -51,14 +51,6 @@ export class SharedWorkerAppPort implements AppPort {
         })
     }
 
-    public getSnapshot(): AppSnapshot {
-        if (!this.lastSnapshot) {
-            throw new Error("Snapshot not available yet")
-        }
-
-        return this.lastSnapshot
-    }
-
     public subscribe(listener: (snapshot: AppSnapshot) => void): void {
         this.listeners.add(listener)
 

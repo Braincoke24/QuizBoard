@@ -21,6 +21,7 @@ export class App {
     private readonly root: HTMLElement
 
     private profile: UIViewProfile
+    private lastSnapshot: AppSnapshot | null = null
     private subscribed = false
 
     private boardDraftAdapter: BoardDraftAdapter | null = null
@@ -32,7 +33,7 @@ export class App {
     constructor(port: AppPort, roleParam: string, root: HTMLElement) {
         this.port = port
         this.root = root
-        this.shell = new AppShell(root)
+        this.shell = new AppShell(root, () => this.requestRoleChange())
 
         this.profile = RoleResolver.resolve("player")
         this.bootstrap(roleParam)
@@ -41,30 +42,46 @@ export class App {
     /* ---------- Bootstrap ---------- */
 
     private async bootstrap(roleParam: string): Promise<void> {
-        if (roleParam) {
-            this.profile = RoleResolver.resolve(roleParam)
-            this.subscribeOnce()
+        if (roleParam && RoleResolver.isValidRole(roleParam)) {
+            this.applyRole(roleParam as "game-master" | "player" | "spectator")
             return
         }
 
         const isFirst = await this.port.isFirstClient()
 
         if (isFirst) {
-            this.profile = RoleResolver.resolve("player")
-            this.subscribeOnce()
+            this.applyRole("player")
             return
         }
 
+        this.requestRoleChange()
+    }
+
+    private requestRoleChange(): void {
         this.shell.showRoleSelection((role) => {
-            this.profile = RoleResolver.resolve(role)
+            this.applyRole(role)
             this.shell.clearOverlay()
-            this.subscribeOnce()
         })
+    }
+
+    private applyRole(role: "game-master" | "player" | "spectator"): void {
+        this.profile = RoleResolver.resolve(role)
+        this.shell.updateProfile(this.profile)
+
+        // only subscribe once, but role can change anytime
+        this.subscribeOnce()
+
+        // re-mount current phase if needed
+        if (this.phase !== null && this.lastSnapshot !== null) {
+            this.remountAndRender()
+        }
     }
 
     /* ---------- Snapshot Handling ---------- */
 
     private handleSnapshot(snapshot: AppSnapshot): void {
+        this.lastSnapshot = snapshot
+
         if (snapshot.phase !== this.phase) {
             this.phase = snapshot.phase
             this.mountPhase(snapshot.phase)
@@ -119,6 +136,12 @@ export class App {
                 )
                 break
         }
+    }
+
+    private remountAndRender(): void {
+        if (!this.phase || !this.lastSnapshot) return
+        this.mountPhase(this.phase)
+        this.update(this.lastSnapshot)
     }
 
     /* ---------- Updates ---------- */

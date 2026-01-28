@@ -15,7 +15,6 @@ export interface AppSnapshot {
 
 export interface AppPort {
     dispatch(action: AppAction): void
-    getSnapshot(): AppSnapshot
 
     subscribe(listener: (snapshot: AppSnapshot) => void): void
     unsubscribe(listener: (snapshot: AppSnapshot) => void): void

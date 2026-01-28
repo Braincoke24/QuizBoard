@@ -1,6 +1,5 @@
 // src/ui/shared/profiles/GameMasterProfile.ts
 import { UIViewProfile } from "../view/UIViewProfile.js"
-import { ViewMode } from "../view/ViewMode.js"
 
 export const GAMEMASTER_PROFILE: UIViewProfile = {
     visibility: {
@@ -12,9 +11,5 @@ export const GAMEMASTER_PROFILE: UIViewProfile = {
         canPass: true,
         canSelectQuestion: true
     },
-    input: {
-        enableKeyboardBuzzing: false,
-        enableMouse: true
-    },
-    mode: ViewMode.GAME_MASTER
+    displayName: "Gamemaster"
 }

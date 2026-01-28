@@ -22,7 +22,7 @@ export class LocalAppPort implements AppPort {
         this.emit()
     }
 
-    public getSnapshot(): AppSnapshot {
+    private getSnapshot(): AppSnapshot {
         return {
             phase: this.controller.getPhase(),
             boardDraft: this.controller.getBoardDraftSnapshot(),

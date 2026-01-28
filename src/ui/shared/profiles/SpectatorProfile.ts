@@ -1,6 +1,5 @@
 // src/ui/shared/profiles/SpectatorProfile.ts
 import { UIViewProfile } from "../view/UIViewProfile.js"
-import { ViewMode } from "../view/ViewMode.js"
 
 export const SPECTATOR_PROFILE: UIViewProfile = {
     visibility: {
@@ -12,9 +11,5 @@ export const SPECTATOR_PROFILE: UIViewProfile = {
         canPass: false,
         canSelectQuestion: false
     },
-    input: {
-        enableKeyboardBuzzing: false, // TODO: implement that
-        enableMouse: false // TODO: implement that
-    },
-    mode: ViewMode.PLAYER
+    displayName: "Spectator"
 }
