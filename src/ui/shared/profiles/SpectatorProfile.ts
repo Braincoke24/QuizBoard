@@ -13,8 +13,8 @@ export const SPECTATOR_PROFILE: UIViewProfile = {
         canSelectQuestion: false
     },
     input: {
-        enableKeyboardBuzzing: false,
-        enableMouse: false
+        enableKeyboardBuzzing: false, // TODO: implement that
+        enableMouse: false // TODO: implement that
     },
     mode: ViewMode.PLAYER
 }

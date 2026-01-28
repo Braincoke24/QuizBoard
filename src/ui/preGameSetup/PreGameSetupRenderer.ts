@@ -25,8 +25,7 @@ export class PreGameSetupRenderer {
 
         container.appendChild(this.renderPlayers(setup.players))
         container.appendChild(this.renderBoardPreview(setup.board))
-        container.appendChild(this.renderGameRules(setup))
-        container.appendChild(this.renderGameOptions())
+        container.appendChild(this.renderGameOptions(setup))
 
         this.root.appendChild(container)
     }
@@ -228,15 +227,17 @@ export class PreGameSetupRenderer {
 
     /* ---------- Actions ---------- */
 
-    private renderGameOptions(): HTMLElement {
+    private renderGameOptions(setup: PreGameSetup): HTMLElement {
         const container = document.createElement("div")
         container.className = "game-options-container"
 
-        const button = document.createElement("button")
-        button.textContent = "Start"
-        button.onclick = this.onStartGame
+        const rules = this.renderGameRules(setup)
 
-        container.appendChild(button)
+        const startButton = document.createElement("button")
+        startButton.textContent = "Start"
+        startButton.onclick = this.onStartGame
+
+        container.append(rules, startButton)
         return container
     }
 }
