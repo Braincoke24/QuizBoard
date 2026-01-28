@@ -2,6 +2,7 @@
 import { AppPort, AppSnapshot } from "./ports/AppPort.js"
 import { AppPhase } from "./AppPhase.js"
 import { AppAction } from "./AppAction.js"
+import { AppShell } from "../ui/shell/AppShell.js"
 
 import { BoardDraftAdapter } from "../ui/editBoard/BoardDraftAdapter.js"
 import { PreGameSetupAdapter } from "../ui/preGameSetup/PreGameSetupAdapter.js"
@@ -16,8 +17,11 @@ import { UIViewProfile } from "../ui/shared/view/UIViewProfile.js"
  */
 export class App {
     private readonly port: AppPort
+    private readonly shell: AppShell
     private readonly root: HTMLElement
+
     private profile: UIViewProfile
+    private subscribed = false
 
     private boardDraftAdapter: BoardDraftAdapter | null = null
     private preGameSetupAdapter: PreGameSetupAdapter | null = null
@@ -25,75 +29,37 @@ export class App {
 
     private phase: AppPhase | null = null
 
-    private subscribed = false
-
     constructor(port: AppPort, roleParam: string, root: HTMLElement) {
-        console.log("Started App")
-
         this.port = port
         this.root = root
+        this.shell = new AppShell(root)
 
-        this.profile = RoleResolver.resolve("player") // temporary default
+        this.profile = RoleResolver.resolve("player")
         this.bootstrap(roleParam)
     }
 
     /* ---------- Bootstrap ---------- */
 
     private async bootstrap(roleParam: string): Promise<void> {
-        // 1. Role explicitly provided via URL
         if (roleParam) {
             this.profile = RoleResolver.resolve(roleParam)
             this.subscribeOnce()
             return
         }
 
-        // 2. SharedWorker-aware role decision
         const isFirst = await this.port.isFirstClient()
 
         if (isFirst) {
-            // First window: implicit Player/GameMaster hybrid
             this.profile = RoleResolver.resolve("player")
             this.subscribeOnce()
             return
         }
 
-        // Not first client → show role selection (later)
-        this.showRoleSelection()
-        return
-    }
-
-    private showRoleSelection(): void {
-        this.root.innerHTML = ""
-
-        const container = document.createElement("div")
-        container.className = "role-selection"
-
-        const title = document.createElement("h2")
-        title.textContent = "Choose your role"
-
-        const gameMasterButton = document.createElement("button")
-        gameMasterButton.textContent = "Gamemaster"
-        gameMasterButton.onclick = () => {
-            this.profile = RoleResolver.resolve("game-master")
+        this.shell.showRoleSelection((role) => {
+            this.profile = RoleResolver.resolve(role)
+            this.shell.clearOverlay()
             this.subscribeOnce()
-        }
-
-        const playerButton = document.createElement("button")
-        playerButton.textContent = "Player"
-        playerButton.onclick = () => {
-            this.profile = RoleResolver.resolve("player")
-            this.subscribeOnce()
-        }
-
-        const spectatorButton = document.createElement("button")
-        spectatorButton.textContent = "Spectator"
-        spectatorButton.onclick = () => {
-            this.profile = RoleResolver.resolve("spectator")
-            this.subscribeOnce()
-        }
-
-        container.append(title, gameMasterButton, playerButton, spectatorButton)
-        this.root.appendChild(container)
+        })
     }
 
     /* ---------- Snapshot Handling ---------- */
@@ -110,7 +76,9 @@ export class App {
     /* ---------- Mounting ---------- */
 
     private mountPhase(phase: AppPhase): void {
-        this.root.innerHTML = ""
+        const contentRoot = this.shell.getContentRoot()
+
+        contentRoot.innerHTML = ""
 
         this.boardDraftAdapter = null
         this.preGameSetupAdapter = null
@@ -124,7 +92,7 @@ export class App {
                             type: "APP/BOARD_DRAFT",
                             action
                         }),
-                    this.root
+                    contentRoot
                 )
                 break
 
@@ -135,7 +103,7 @@ export class App {
                             type: "APP/PRE_GAME_SETUP",
                             action
                         }),
-                    this.root
+                    contentRoot
                 )
                 break
 
@@ -147,7 +115,7 @@ export class App {
                             action
                         }),
                     this.profile,
-                    this.root
+                    contentRoot
                 )
                 break
         }
