@@ -3,6 +3,7 @@ import { AppPort, AppSnapshot } from "./ports/AppPort.js"
 import { AppPhase } from "./AppPhase.js"
 import { AppAction } from "./AppAction.js"
 import { AppShell } from "../ui/shell/AppShell.js"
+import { WindowManager } from "../ui/shared/WindowManager.js"
 
 import { BoardDraftAdapter } from "../ui/editBoard/BoardDraftAdapter.js"
 import { PreGameSetupAdapter } from "../ui/preGameSetup/PreGameSetupAdapter.js"
@@ -68,9 +69,7 @@ export class App {
         this.profile = RoleResolver.resolve(role)
         this.shell.updateProfile(this.profile)
 
-        const url = new URL(window.location.href);
-        url.searchParams.set("role", role);
-        window.history.pushState(null, '', url.toString());
+        WindowManager.setCurrentRole(role)
 
         // only subscribe once, but role can change anytime
         this.subscribeOnce()
@@ -124,6 +123,7 @@ export class App {
                             type: "APP/PRE_GAME_SETUP",
                             action
                         }),
+                    (role) => this.applyRole(role),
                     contentRoot
                 )
                 break

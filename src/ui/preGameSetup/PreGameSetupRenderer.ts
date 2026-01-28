@@ -3,7 +3,12 @@ import { BoardDraft } from "../editBoard/BoardDraftState.js"
 import { PlayerConfig, PreGameSetup } from "./PreGameSetupState.js"
 import { GameRulePreset } from "../../game/GameRulePresets.js"
 
+type WindowMode = "single" | "dual" | "keep-current"
+
 export class PreGameSetupRenderer {
+    private selectedWindowMode: WindowMode = "keep-current"
+    private lastSetup: PreGameSetup | null = null
+
     constructor(
         private readonly root: HTMLElement,
         private readonly presets: readonly GameRulePreset[],
@@ -14,18 +19,25 @@ export class PreGameSetupRenderer {
             key: "firstWrongMultiplier" | "buzzCorrectMultiplier" | "buzzWrongMultiplier",
             value: number
         ) => void,
-        private readonly onStartGame: () => void
+        private readonly onStartGame: (mode: WindowMode) => void
     ) {}
 
     public render(setup: PreGameSetup): void {
+        this.lastSetup = setup
+        this.renderLast()
+    }
+
+    private renderLast(): void {
+        if (!this.lastSetup) return
+
         this.root.innerHTML = ""
 
         const container = document.createElement("div")
         container.className = "pre-game-setup"
 
-        container.appendChild(this.renderPlayers(setup.players))
-        container.appendChild(this.renderBoardPreview(setup.board))
-        container.appendChild(this.renderGameOptions(setup))
+        container.appendChild(this.renderPlayers(this.lastSetup.players))
+        container.appendChild(this.renderBoardPreview(this.lastSetup.board))
+        container.appendChild(this.renderGameOptions(this.lastSetup))
 
         this.root.appendChild(container)
     }
@@ -225,6 +237,40 @@ export class PreGameSetupRenderer {
         return row
     }
 
+    /* ---------- Window Mode ---------- */
+
+    private renderWindowModeSelector(): HTMLElement {
+        const container = document.createElement("div")
+        container.className = "window-mode-selector"
+
+        container.append(
+            this.createWindowModeButton("Single window", "single"),
+            this.createWindowModeButton("Dual window", "dual"),
+            this.createWindowModeButton("Keep current", "keep-current")
+        )
+
+        return container
+    }
+
+    private createWindowModeButton(
+        label: string,
+        mode: WindowMode
+    ): HTMLButtonElement {
+        const button = document.createElement("button")
+        button.textContent = label
+
+        if (this.selectedWindowMode === mode) {
+            button.classList.add("active")
+        }
+
+        button.onclick = () => {
+            this.selectedWindowMode = mode
+            this.renderLast()
+        }
+
+        return button
+    }
+
     /* ---------- Actions ---------- */
 
     private renderGameOptions(setup: PreGameSetup): HTMLElement {
@@ -232,12 +278,15 @@ export class PreGameSetupRenderer {
         container.className = "game-options-container"
 
         const rules = this.renderGameRules(setup)
+        const windowMode = this.renderWindowModeSelector()
 
         const startButton = document.createElement("button")
         startButton.textContent = "Start"
-        startButton.onclick = this.onStartGame
+        startButton.onclick = () => {
+            this.onStartGame(this.selectedWindowMode)
+        }
 
-        container.append(rules, startButton)
+        container.append(rules, windowMode, startButton)
         return container
     }
 }
