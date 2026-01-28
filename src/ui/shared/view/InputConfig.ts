@@ -1,4 +1,4 @@
-// src/ui/state/InputConfig.ts
+// src/ui/shared/view/InputConfig.ts
 export interface InputConfig {
     enableKeyboardBuzzing: boolean
     enableMouse: boolean

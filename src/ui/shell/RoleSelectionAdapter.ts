@@ -1,4 +1,4 @@
-// src/app/shell/RoleSelectionAdapter.ts
+// src/ui/shell/RoleSelectionAdapter.ts
 import { RoleSelectionRenderer } from "./RoleSelectionRenderer.js"
 
 export class RoleSelectionAdapter {

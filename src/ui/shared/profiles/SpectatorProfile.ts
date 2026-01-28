@@ -1,4 +1,4 @@
-// src/ui/profiles/SpectatorProfile.ts
+// src/ui/shared/profiles/SpectatorProfile.ts
 import { UIViewProfile } from "../view/UIViewProfile.js"
 import { ViewMode } from "../view/ViewMode.js"
 

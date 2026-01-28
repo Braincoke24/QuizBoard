@@ -1,4 +1,4 @@
-// src/ui/profiles/GameMasterProfile.ts
+// src/ui/shared/profiles/GameMasterProfile.ts
 import { UIViewProfile } from "../view/UIViewProfile.js"
 import { ViewMode } from "../view/ViewMode.js"
 

@@ -1,4 +1,4 @@
-// src/ui/state/UIViewProfile.ts
+// src/ui/shared/view/UIViewProfile.ts
 import { ViewVisibility } from "./ViewVisibility.js"
 import { ViewCapabilities } from "./ViewCapabilities.js"
 import { InputConfig } from "./InputConfig.js"

@@ -1,4 +1,4 @@
-// src/app/shell/RoleSelectionRenderer.ts
+// src/ui/shell/RoleSelectionRenderer.ts
 export class RoleSelectionRenderer {
     constructor(
         private readonly root: HTMLElement,

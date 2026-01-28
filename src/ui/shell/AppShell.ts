@@ -1,4 +1,4 @@
-// src/app/shell/AppShell.ts
+// src/ui/shell/AppShell.ts
 import { RoleSelectionAdapter } from "./RoleSelectionAdapter.js"
 
 export class AppShell {

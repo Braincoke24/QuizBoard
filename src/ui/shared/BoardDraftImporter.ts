@@ -1,4 +1,4 @@
-// src/ui/landing/import/BoardDraftImporter.ts
+// src/ui/shared/BoardDraftImporter.ts
 import { BoardDraft, CategoryDraft, QuestionDraft } from "../editBoard/BoardDraftState.js"
 
 export function importBoardDraft(raw: unknown): BoardDraft {

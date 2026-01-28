@@ -1,4 +1,4 @@
-// src/ui/state/ViewCapabilities.ts
+// src/ui/shared/view/ViewCapabilities.ts
 export interface ViewCapabilities {
     canBuzz: boolean
     canSelectQuestion: boolean
