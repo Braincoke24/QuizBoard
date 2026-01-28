@@ -68,6 +68,10 @@ export class App {
         this.profile = RoleResolver.resolve(role)
         this.shell.updateProfile(this.profile)
 
+        const url = new URL(window.location.href);
+        url.searchParams.set("role", role);
+        window.history.pushState(null, '', url.toString());
+
         // only subscribe once, but role can change anytime
         this.subscribeOnce()
 
