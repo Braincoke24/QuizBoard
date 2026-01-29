@@ -1,6 +1,7 @@
 @import "./components/board.css";
 @import "./components/player-list.css";
 @import "./components/active-question.css";
+@import "./components/top-bar.css";
 
 body {
     margin: 0;
@@ -10,6 +11,10 @@ body {
     background-color: var(--color-primary-1);
     width: 100vw;
     height: 100vh;
+    font-family: system-ui, sans-serif;
+    display: grid;
+    grid-template-rows: 10vh 90vh;
+    grid-template-columns: 100vw;
 }
 
 /* ============================================================
@@ -18,11 +23,88 @@ body {
 
 /* --- Layout -------------------------------------------------- */
 
+#app.overlay-active .app-content-root {
+    pointer-events: none;
+}
+
 .app-content-root {
-    font-family: system-ui, sans-serif;
+    grid-row: 2;
+    grid-column: 1;
+
     padding: 1vh 1vw;
+    width: 98vw;
     margin: 0 auto;
     position: relative;
+    z-index: 1;
+}
+
+.app-overlay-root {
+    grid-row: 2;
+    grid-column: 1;
+
+    padding: 1vh 1vw;
+    width: 98vw;
+    z-index: 2;
+
+    backdrop-filter: grayscale(1);
+
+    display: none;
+}
+
+.app-overlay-root.active {
+    display: flex;
+}
+
+.role-selection {
+    margin: auto;
+
+    background-color: var(--color-primary-3);
+    border: 2px solid var(--color-primary-7);
+    border-radius: 1vw;
+
+    width: 50vw;
+    height: 30vh;
+
+    display: grid;
+    place-items: center; 
+    grid-template-columns: auto auto auto;
+    gap: 1vw;
+}
+
+.role-selection-title {
+    grid-column: 2;
+    color: var(--color-primary-11);
+    font-weight: bold;
+    font-size: 2rem;
+    text-align: center;
+}
+
+.role-selection-button {
+    grid-row: 2;
+    width: 7vw;
+    height: 7vh;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 1vw;
+    background-color: var(--color-accent-3);
+    color: var(--color-accent-11);
+    border: 2px solid var(--color-accent-7);
+    cursor: pointer;
+    transition:
+        background-color 0.15s ease,
+        transform 0.1s ease,
+        box-shadow 0.1s ease;
+}
+
+.role-selection-button:not(:disabled):hover,
+.role-selection-button:not(:disabled):focus-visible {
+    outline: none;
+    background-color: var(--color-accent-4);
+    border-color: var(--color-accent-8);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 10px var(--black-a4);
 }
 
 .game-running {

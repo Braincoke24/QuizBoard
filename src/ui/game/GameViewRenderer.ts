@@ -139,7 +139,7 @@ export class GameViewRenderer {
 
     private renderActiveQuestionOverlay(snapshot: GameUISnapshot): HTMLElement {
         const overlay = document.createElement("div")
-        overlay.className = "question-overlay"
+        overlay.className = "active-question-overlay"
 
         const question = snapshot.activeQuestion
         if (!question) return overlay
@@ -155,25 +155,25 @@ export class GameViewRenderer {
 
     private renderQuestionCard(question: ActiveQuestionUIState): HTMLElement {
         const card = document.createElement("div")
-        card.className = "question-card"
+        card.className = "active-question"
 
         const category = document.createElement("div")
-        category.className = "question-category"
+        category.className = "active-question-category"
         category.textContent = question.categoryName
 
         const value = document.createElement("div")
-        value.className = "question-value"
+        value.className = "active-question-value"
         value.textContent = question.value.toString()
 
         const text = document.createElement("div")
-        text.className = "question-text"
+        text.className = "active-question-text"
         text.textContent = question.text
 
         card.append(category, value, text)
 
         if (this.profile.visibility.showCorrectAnswer) {
             const answer = document.createElement("div")
-            answer.className = "question-answer"
+            answer.className = "active-question-answer"
             answer.textContent = question.answer
 
             card.append(answer)
@@ -184,17 +184,17 @@ export class GameViewRenderer {
 
     private renderQuestionControls(snapshot: GameUISnapshot): HTMLElement {
         const controls = document.createElement("div")
-        controls.className = "question-controls"
+        controls.className = "active-question-controls"
 
         if (this.profile.capabilities.canJudgeAnswer) {
             const correct = document.createElement("button")
-            correct.className = "answer correct"
+            correct.className = "correct"
             correct.textContent = "Correct"
             correct.disabled = !snapshot.canAnswer
             correct.onclick = () => this.onAnswer(true)
     
             const wrong = document.createElement("button")
-            wrong.className = "answer wrong"
+            wrong.className = "wrong"
             wrong.textContent = "Wrong"
             wrong.disabled = !snapshot.canAnswer
             wrong.onclick = () => this.onAnswer(false)

@@ -1,43 +1,48 @@
 /* styles/components/active-question.css */
 
-.question-overlay {
+.active-question-overlay {
     position: absolute;
     inset: 0;
-    background: rgba(0, 0, 0, 0.6);
+    background-color: var(--black-a8);
 
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 16px;
+    display: grid;
+    place-items: center; 
+    grid-template-rows: 10vh 39vh 5vh auto;
+    gap: 1vh;
 
     z-index: 100;
     pointer-events: auto;
 }
 
-.question-card {
-    background: #111;
-    color: white;
-    padding: 12px 24px 24px 24px;
-    border-radius: 12px;
+.active-question {
+    grid-row: 2;
+
+    background-color: var(--color-primary-3);
+    color: var(--color-primary-11);
+
+    border: 2px solid var(--color-primary-7);
+    border-radius: 2vw;
+
+    width: 40vw;
+    height: 30vh;
+
+    padding: 3vh 2vw 5vh 2vw;
 
     display: grid;
-    grid-template-rows: auto 1fr auto;
+    grid-template-rows: 5vh 18vh 5vh;
     grid-template-columns: 1fr auto 1fr;
-
-    min-width: 300px;
+    gap: 1vh;
 }
 
-.question-category {
+.active-question-category {
     grid-row: 1;
     grid-column: 2;
 
     text-align: center;
     font-size: 1.2rem;
-    opacity: 0.8;
 }
 
-.question-value {
+.active-question-value {
     grid-row: 1;
     grid-column: 3;
 
@@ -46,7 +51,7 @@
     opacity: 0.8;
 }
 
-.question-text {
+.active-question-text {
     grid-row: 2;
     grid-column: 1 / -1;
 
@@ -55,11 +60,11 @@
     justify-content: center;
 
     text-align: center;
-    font-size: 3rem;
+    font-size: 2rem;
     line-height: 1.2;
 }
 
-.question-answer {
+.active-question-answer {
     grid-row: 3;
     grid-column: 1 / -1;
 
@@ -73,42 +78,65 @@
     font-style: italic;
 }
 
-.question-answer::before {
+.active-question-answer::before {
     content: "Answer: ";
     white-space: pre;
 }
 
 /* --- Question Controls ------------------------------------- */
 
-.question-controls {
+.active-question-controls {
+    grid-row: 3;
+
     display: grid;
     grid-template-columns: 1fr auto 1fr;
     gap: 12px;
 }
 
-.question-controls button {
-    background: #111;
-    color: rgba(255, 255, 255, 0.8);
-    border-radius: 8px;
-    padding: 8px 12px;
-    font-size: 1rem;
-    min-width: 70px;
-    border: none;
+.active-question-controls button {
     grid-row: 1;
+
+    color: var(--color-accent-11);
+    background-color: var(--color-accent-3);
+    border: 2px solid var(--color-accent-7);
+    border-radius: 1vw;
+
+    width: 7vw;
+    height: 4vh;
+
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    cursor: pointer;
+    transition:
+        background-color 0.15s ease,
+        transform 0.1s ease,
+        box-shadow 0.1s ease;
 }
 
-.question-controls .answer.correct {
+.active-question-controls button:not(:disabled):hover,
+.active-question-controls button:not(:disabled):focus-visible {
+    outline: none;
+    background-color: var(--color-accent-4);
+    border-color: var(--color-accent-8);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 10px var(--black-a4);
+}
+
+.active-question-controls .correct {
     grid-column: 1;
 }
 
-.question-controls .pass {
+.active-question-controls .pass {
     grid-column: 2;
 }
 
-.question-controls .answer.wrong {
+.active-question-controls .wrong {
     grid-column: 3;
 }
 
-.question-controls .hidden {
+.active-question-controls .hidden {
     visibility: hidden;
 }

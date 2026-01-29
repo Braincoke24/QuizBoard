@@ -1,0 +1,55 @@
+/* styles/components/tob-bar.css */
+
+.top-bar {
+    grid-row: 1;
+    grid-column: 1;
+
+    padding: 1vh 1vw;
+    width: 98vw;
+    margin: 0 auto;
+    position: relative;
+
+    display: grid;
+    place-items: center;
+    grid-template-columns: 9vw 72vw 9vw;
+    gap: 4vw;
+}
+
+.top-bar-role {
+    grid-row: 1;
+    grid-column: 2;
+
+    color: var(--color-primary-11);
+    text-align: center;
+    font-size: 2rem;
+
+    display: grid;
+    place-items: center; 
+}
+
+.top-bar-change-role {
+    grid-row: 1;
+    grid-column: 1;
+
+    color: var(--color-primary-11);
+    background-color: var(--color-primary-3);
+    border: 2px solid var(--color-primary-6);
+    border-radius: 1vw;
+
+    width: 7vw;
+    height: 5vh;
+
+    cursor: pointer;
+    transition:
+        background-color 0.15s ease,
+        transform 0.1s ease,
+        box-shadow 0.1s ease;
+}
+
+.top-bar-change-role:not(:disabled):hover,
+.top-bar-change-role:not(:disabled):focus-visible {
+    cursor: pointer;
+    outline: none;
+    border-color: var(--color-primary-8);
+    background-color: var(--color-primary-4);
+}

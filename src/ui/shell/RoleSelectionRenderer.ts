@@ -11,7 +11,8 @@ export class RoleSelectionRenderer {
         const container = document.createElement("div")
         container.className = "role-selection"
 
-        const title = document.createElement("h2")
+        const title = document.createElement("div")
+        title.className = "role-selection-title"
         title.textContent = "Choose your role"
 
         container.append(
@@ -29,6 +30,7 @@ export class RoleSelectionRenderer {
         role: "game-master" | "player" | "spectator"
     ): HTMLButtonElement {
         const button = document.createElement("button")
+        button.className = "role-selection-button"
         button.textContent = label
         button.onclick = () => this.onSelect(role)
         return button
