@@ -92,8 +92,8 @@ export class PreGameSetupController {
     }
 
     private addPlayer(name: string): void {
-        if (this.setup.players.length >= 8) {
-            throw new Error("Maximum of 8 players allowed")
+        if (this.setup.players.length >= 6) {
+            throw new Error("Maximum of 6 players allowed")
         }
 
         this.setup.players.push({

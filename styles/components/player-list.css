@@ -240,14 +240,15 @@
     box-shadow: none;
 }
 
-.buzz-button:disabled {
+.buzz-button:disabled,
+.player-add:disabled {
     cursor: default;
     box-shadow: none;
 }
 
-
 .player-cell.locked ::after,
-.buzz-button:disabled::after {
+.buzz-button:disabled::after,
+.player-add:disabled::after {
     content: "";
     position: absolute;
 

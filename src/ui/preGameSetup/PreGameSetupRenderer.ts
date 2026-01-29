@@ -46,7 +46,7 @@ export class PreGameSetupRenderer {
         container.className = "player-list"
 
         container.appendChild(this.renderPlayerHeader(players))
-        container.appendChild(this.renderAddPlayer())
+        if (players.length < 6) container.appendChild(this.renderAddPlayer(players))
 
         players.forEach((player) => {
             container.appendChild(this.renderPlayerRow(player))
@@ -72,8 +72,8 @@ export class PreGameSetupRenderer {
         return container
     }
 
-    private renderAddPlayer(): HTMLElement {
-        const cell = document.createElement("div")
+    private renderAddPlayer(players: readonly PlayerConfig[]): HTMLElement {
+        const cell = document.createElement("form")
         cell.className = "player-cell"
 
         const input = document.createElement("input")
@@ -83,15 +83,18 @@ export class PreGameSetupRenderer {
 
         const addButton = document.createElement("button")
         addButton.className = "player-add"
+        addButton.type = "submit"
         addButton.textContent = "Add"
 
-        addButton.onclick = () => {
+        cell.addEventListener("submit", (event) => {
+            event.preventDefault()
+
             const name = input.value.trim()
             if (name.length === 0) return
 
             this.onAddPlayer(name)
             input.value = ""
-        }
+        })
 
         cell.append(input, addButton)
         return cell
