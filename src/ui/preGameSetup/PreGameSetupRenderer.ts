@@ -176,7 +176,13 @@ export class PreGameSetupRenderer {
 
     private renderGameRules(setup: PreGameSetup): HTMLElement {
         const container = document.createElement("div")
-        container.className = "game-rules-container"
+        container.className = "game-rules"
+
+        const title = document.createElement("div")
+        title.className = "game-rules-title"
+        title.textContent = "Multipliers"
+
+        container.appendChild(title)
 
         container.appendChild(this.renderRuleTabs(setup))
         container.appendChild(this.renderRuleDetails(setup))
@@ -216,13 +222,13 @@ export class PreGameSetupRenderer {
         container.className = "rule-details"
 
         container.appendChild(
-            this.renderMultiplier("First wrong", "firstWrongMultiplier", rules.firstWrongMultiplier, preset.editable)
+            this.renderMultiplier("Initial wrong", "firstWrongMultiplier", rules.firstWrongMultiplier, preset.editable)
         )
         container.appendChild(
-            this.renderMultiplier("Buzz correct", "buzzCorrectMultiplier", rules.buzzCorrectMultiplier, preset.editable)
+            this.renderMultiplier("Buzzed correct", "buzzCorrectMultiplier", rules.buzzCorrectMultiplier, preset.editable)
         )
         container.appendChild(
-            this.renderMultiplier("Buzz wrong", "buzzWrongMultiplier", rules.buzzWrongMultiplier, preset.editable)
+            this.renderMultiplier("Buzzed wrong", "buzzWrongMultiplier", rules.buzzWrongMultiplier, preset.editable)
         )
 
         return container
@@ -238,17 +244,20 @@ export class PreGameSetupRenderer {
         row.className = "multiplier-row"
 
         const name = document.createElement("span")
+        name.className = "multiplier-label"
         name.textContent = label
         row.appendChild(name)
 
         if (!editable) {
             const text = document.createElement("span")
+            text.className = "multiplier-value"
             text.textContent = value.toString()
             row.appendChild(text)
             return row
         }
 
         const input = document.createElement("input")
+        input.className = "multiplier-value"
         input.type = "number"
         input.min = "0"
         input.value = value.toString()
@@ -299,7 +308,7 @@ export class PreGameSetupRenderer {
 
     private renderGameOptions(setup: PreGameSetup): HTMLElement {
         const container = document.createElement("div")
-        container.className = "game-options-container"
+        container.className = "game-options"
 
         const rules = this.renderGameRules(setup)
         const windowMode = this.renderWindowModeSelector()

@@ -2,6 +2,7 @@
 @import "./components/player-list.css";
 @import "./components/active-question.css";
 @import "./components/top-bar.css";
+@import "./components/game-options.css";
 
 body {
     margin: 0;
@@ -105,12 +106,6 @@ body {
     gap: 2vw;
 }
 
-.header {
-    font-size: 1.2rem;
-    font-weight: bold;
-    margin-bottom: 16px;
-}
-
 /* ============================================================
    Landing / Board Editor
    ============================================================ */
@@ -141,32 +136,6 @@ body {
     background: #f0f0f0;
     border-radius: 6px;
 }
-
-/* .question-cell {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-}
-
-.question-cell textarea {
-    width: 100%;
-    resize: vertical;
-    min-height: 60px;
-    padding: 6px;
-    font-size: 0.9rem;
-}
-
-.question-cell textarea:last-child {
-    font-size: 0.8rem;
-    color: #555;
-    background-color: #fafafa;
-} */
-
-/* .board-preview-header,
-.board-preview-row {
-    display: grid;
-    grid-template-columns: repeat(var(--columns), 1fr);
-} */
 
 /* --- Landing Actions ---------------------------------------- */
 
