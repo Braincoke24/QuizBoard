@@ -12,6 +12,31 @@
     padding: 2vh 2vw 4vh 2vw;
 }
 
+.player-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-direction: row;
+
+    position: relative;
+}
+
+.player-title {
+    color: var(--color-primary-11);
+    text-align: left;
+    font-size: 2rem;
+
+    padding: 1vh 0;
+}
+
+.player-counter {
+    color: var(--color-primary-11);
+    text-align: right;
+    font-size: 1.2rem;
+
+    padding: 1vh 0 0 0;
+}
+
 .player-cell {
     display: grid;
     grid-template-columns: 9vw 5vw;
@@ -41,6 +66,7 @@
     
     border: var(--border-size) solid var(--color-primary-6);
     border-radius: var(--radius);
+    outline: none;
     
     z-index: 2;
     margin-bottom: -0.8vh;
@@ -81,6 +107,90 @@
     margin-top: -0.8vh;
     margin-bottom: 0.5vh;
     padding: 0 1vw;
+}
+
+/* Delete player */
+
+.player-delete {
+    --border-size: 2px;
+    --radius: 1vw;
+
+    grid-row: 2;
+    grid-column: 2;
+
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: var(--radius);
+
+    z-index: 1;
+    margin-top: -0.8vh;
+    margin-bottom: 0.5vh;
+    padding: 0 1vw;
+
+    background-color: var(--color-warning-3);
+    color: var(--color-warning-11);
+
+    border: var(--border-size) solid var(--color-warning-7);
+
+    cursor: pointer;
+    transition:
+        background-color 0.15s ease,
+        transform 0.1s ease,
+        box-shadow 0.1s ease;
+}
+
+.player-delete:not(:disabled):hover,
+.player-delete:not(:disabled):focus-visible {
+    outline: none;
+    background-color: var(--color-warning-4);
+    border-color: var(--color-warning-8);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 10px var(--black-a4);
+}
+
+/* Add player */
+
+.player-add {
+    --border-size: 2px;
+    --radius: 1vw;
+
+    grid-row: 2;
+    grid-column: 2;
+
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: var(--radius);
+
+    z-index: 1;
+    margin-top: -0.8vh;
+    margin-bottom: 0.5vh;
+    padding: 0 1vw;
+
+    background-color: var(--color-accent-3);
+    color: var(--color-accent-11);
+
+    border: var(--border-size) solid var(--color-accent-7);
+
+    cursor: pointer;
+    transition:
+        background-color 0.15s ease,
+        transform 0.1s ease,
+        box-shadow 0.1s ease;
+}
+
+.player-add:not(:disabled):hover,
+.player-add:not(:disabled):focus-visible {
+    outline: none;
+    background-color: var(--color-accent-4);
+    border-color: var(--color-accent-8);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 10px var(--black-a4);
 }
 
 /* Buzzer */

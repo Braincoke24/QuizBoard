@@ -17,10 +17,6 @@ body {
     grid-template-columns: 100vw;
 }
 
-/* ============================================================
-   Game View Layout
-   ============================================================ */
-
 /* --- Layout -------------------------------------------------- */
 
 .app-content-root {
@@ -103,7 +99,7 @@ body {
     box-shadow: 0 4px 10px var(--black-a4);
 }
 
-.game-running {
+.game-running, .pre-game-setup {
     display: grid;
     grid-template-columns: 18vw 58vw 18vw;
     gap: 2vw;
@@ -184,15 +180,4 @@ body {
     padding: 10px 16px;
     font-size: 0.9rem;
     cursor: pointer;
-}
-
-/* ============================================================
-   Pre Game Setup
-   ============================================================ */
-
-.pre-game-setup {
-    display: grid;
-    grid-template-columns: 2fr 1fr;
-    gap: 24px;
-    padding: 24px;
 }

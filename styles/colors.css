@@ -3,8 +3,10 @@
 @import "@radix-ui/colors/gray.css";
 @import "@radix-ui/colors/purple.css";
 @import "@radix-ui/colors/teal.css";
+@import "@radix-ui/colors/red.css";
 @import "@radix-ui/colors/purple-dark.css";
 @import "@radix-ui/colors/teal-dark.css";
+@import "@radix-ui/colors/red-dark.css";
 @import "@radix-ui/colors/black-alpha.css";
 
 #app {
@@ -33,4 +35,17 @@
     --color-accent-10: var(--teal-10);
     --color-accent-11: var(--teal-11);
     --color-accent-12: var(--teal-12);
+
+    --color-warning-1: var(--red-1);
+    --color-warning-2: var(--red-2);
+    --color-warning-3: var(--red-3);
+    --color-warning-4: var(--red-4);
+    --color-warning-5: var(--red-5);
+    --color-warning-6: var(--red-6);
+    --color-warning-7: var(--red-7);
+    --color-warning-8: var(--red-8);
+    --color-warning-9: var(--red-9);
+    --color-warning-10: var(--red-10);
+    --color-warning-11: var(--red-11);
+    --color-warning-12: var(--red-12);
 }

@@ -32,44 +32,60 @@ export class PreGameSetupRenderer {
 
         this.root.innerHTML = ""
 
-        const container = document.createElement("div")
-        container.className = "pre-game-setup"
+        this.root.classList.add("pre-game-setup")
 
-        container.appendChild(this.renderPlayers(this.lastSetup.players))
-        container.appendChild(this.renderBoardPreview(this.lastSetup.board))
-        container.appendChild(this.renderGameOptions(this.lastSetup))
-
-        this.root.appendChild(container)
+        this.root.appendChild(this.renderPlayers(this.lastSetup.players))
+        this.root.appendChild(this.renderBoardPreview(this.lastSetup.board))
+        this.root.appendChild(this.renderGameOptions(this.lastSetup))
     }
 
     /* ---------- Players ---------- */
 
     private renderPlayers(players: readonly PlayerConfig[]): HTMLElement {
         const container = document.createElement("div")
-        container.className = "players-container"
+        container.className = "player-list"
 
-        const title = document.createElement("h3")
-        title.textContent = "Players"
-        container.appendChild(title)
-
+        container.appendChild(this.renderPlayerHeader(players))
         container.appendChild(this.renderAddPlayer())
-        container.appendChild(this.renderPlayerList(players))
+
+        players.forEach((player) => {
+            container.appendChild(this.renderPlayerRow(player))
+        })
+
+        return container
+    }
+
+    private renderPlayerHeader(players: readonly PlayerConfig[]): HTMLElement {
+        const container = document.createElement("div")
+        container.className = "player-header"
+
+        const title = document.createElement("div")
+        title.className = "player-title"
+        title.textContent = "Players"
+
+        const counter = document.createElement("div")
+        counter.className = "player-counter"
+        counter.textContent = `${players.length}/6`
+
+        container.append(title,counter)
 
         return container
     }
 
     private renderAddPlayer(): HTMLElement {
-        const container = document.createElement("div")
-        container.className = "add-player-container"
+        const cell = document.createElement("div")
+        cell.className = "player-cell"
 
         const input = document.createElement("input")
         input.type = "text"
         input.placeholder = "Player name"
+        input.className = "player-name"
 
-        const button = document.createElement("button")
-        button.textContent = "Add player"
+        const addButton = document.createElement("button")
+        addButton.className = "player-add"
+        addButton.textContent = "Add"
 
-        button.onclick = () => {
+        addButton.onclick = () => {
             const name = input.value.trim()
             if (name.length === 0) return
 
@@ -77,36 +93,27 @@ export class PreGameSetupRenderer {
             input.value = ""
         }
 
-        container.append(input, button)
-        return container
-    }
-
-    private renderPlayerList(players: readonly PlayerConfig[]): HTMLElement {
-        const list = document.createElement("div")
-        list.className = "player-list"
-
-        players.forEach((player) => {
-            list.appendChild(this.renderPlayerRow(player))
-        })
-
-        return list
+        cell.append(input, addButton)
+        return cell
     }
 
     private renderPlayerRow(player: PlayerConfig): HTMLElement {
-        const row = document.createElement("div")
-        row.className = "player-row"
+        const cell = document.createElement("div")
+        cell.className = "player-cell"
 
-        const name = document.createElement("span")
+        const name = document.createElement("div")
+        name.className = "player-name"
         name.textContent = player.name
 
         const deleteButton = document.createElement("button")
+        deleteButton.className = "player-delete"
         deleteButton.textContent = "Delete"
         deleteButton.onclick = () => {
             this.onRemovePlayer(player.id)
         }
 
-        row.append(name, deleteButton)
-        return row
+        cell.append(name, deleteButton)
+        return cell
     }
 
     /* ---------- Board Preview ---------- */
