@@ -46,7 +46,7 @@ export class PreGameSetupRenderer {
         container.className = "player-list"
 
         container.appendChild(this.renderPlayerHeader(players))
-        if (players.length < 6) container.appendChild(this.renderAddPlayer(players))
+        if (players.length < 6) container.appendChild(this.renderAddPlayer())
 
         players.forEach((player) => {
             container.appendChild(this.renderPlayerRow(player))
@@ -72,7 +72,9 @@ export class PreGameSetupRenderer {
         return container
     }
 
-    private renderAddPlayer(players: readonly PlayerConfig[]): HTMLElement {
+    private renderAddPlayer(): HTMLElement {
+        const MAX_NAME_LENGTH = 16
+
         const cell = document.createElement("form")
         cell.className = "player-cell"
 
@@ -80,11 +82,20 @@ export class PreGameSetupRenderer {
         input.type = "text"
         input.placeholder = "Player name"
         input.className = "player-name"
+        input.maxLength = MAX_NAME_LENGTH
 
         const addButton = document.createElement("button")
         addButton.className = "player-add"
         addButton.type = "submit"
         addButton.textContent = "Add"
+        addButton.disabled = true
+
+        const updateButtonState = (): void => {
+            const name = input.value.trim()
+            addButton.disabled = name.length === 0
+        }
+
+        input.addEventListener("input", updateButtonState)
 
         cell.addEventListener("submit", (event) => {
             event.preventDefault()
@@ -93,12 +104,15 @@ export class PreGameSetupRenderer {
             if (name.length === 0) return
 
             this.onAddPlayer(name)
+
             input.value = ""
+            updateButtonState()
         })
 
         cell.append(input, addButton)
         return cell
     }
+
 
     private renderPlayerRow(player: PlayerConfig): HTMLElement {
         const cell = document.createElement("div")
