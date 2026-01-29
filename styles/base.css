@@ -13,7 +13,7 @@ body {
     height: 100vh;
     font-family: system-ui, sans-serif;
     display: grid;
-    grid-template-rows: 10vh 90vh;
+    grid-template-rows: 7vh 90vh;
     grid-template-columns: 100vw;
 }
 
@@ -22,10 +22,6 @@ body {
    ============================================================ */
 
 /* --- Layout -------------------------------------------------- */
-
-#app.overlay-active .app-content-root {
-    pointer-events: none;
-}
 
 .app-content-root {
     grid-row: 2;

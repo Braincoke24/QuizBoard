@@ -54,6 +54,8 @@ export class AppShell {
 
         this.overlayRoot.classList.add("active")
 
+        this.contentRoot.inert = true;
+
         this.roleSelection = new RoleSelectionAdapter(
             this.overlayRoot,
             onSelect
@@ -64,5 +66,6 @@ export class AppShell {
         this.overlayRoot.innerHTML = ""
         this.overlayRoot.classList.remove("active")
         this.roleSelection = null
+        this.contentRoot.inert = false
     }
 }
