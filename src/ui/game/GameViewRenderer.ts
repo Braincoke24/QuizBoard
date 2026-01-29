@@ -19,35 +19,41 @@ export class GameViewRenderer {
     public render(snapshot: GameUISnapshot): void {
         this.root.innerHTML = ""
 
+        this.root.classList.add("game-running")
+
         this.renderScoreboard(snapshot)
         this.renderBoard(snapshot)
     }
 
     private renderScoreboard(snapshot: GameUISnapshot): void {
         const scoreboard = document.createElement("div")
-        scoreboard.className = "scoreboard"
+        scoreboard.className = "player-list"
 
         snapshot.players.forEach((player) => {
-            const row = document.createElement("div")
-            row.className = "player-row"
+            const cell = document.createElement("div")
+            cell.className = "player-cell"
 
-            if (player.isActive) row.classList.add("active")
-            if (player.isLockedOut) row.classList.add("locked")
+            if (player.isActive) cell.classList.add("active")
+            if (player.isLockedOut) cell.classList.add("locked")
 
             const name = document.createElement("div")
             name.className = "player-name"
-            name.textContent = `${player.name}: ${player.score}`
+            name.textContent = player.name
 
-            row.append(name)
+            const score = document.createElement("div")
+            score.className = "player-score"
+            score.textContent = player.score.toString()
+
+            cell.append(name, score)
 
             // Buzzer directly under the player name
             if (this.profile.capabilities.canBuzz) {
-                row.append(
+                cell.append(
                     this.renderBuzzer(snapshot, player.id)
                 )
             }
 
-            scoreboard.append(row)
+            scoreboard.append(cell)
         })
 
         this.root.append(scoreboard)

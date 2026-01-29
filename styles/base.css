@@ -1,4 +1,6 @@
 @import "./components/board.css";
+@import "./components/player-list.css";
+@import "./components/active-question.css";
 
 body {
     margin: 0;
@@ -18,171 +20,21 @@ body {
 
 .app-content-root {
     font-family: system-ui, sans-serif;
-    padding: 16px;
+    padding: 1vh 1vw;
     margin: 0 auto;
     position: relative;
+}
+
+.game-running {
+    display: grid;
+    grid-template-columns: 18vw 58vw 18vw;
+    gap: 2vw;
 }
 
 .header {
     font-size: 1.2rem;
     font-weight: bold;
     margin-bottom: 16px;
-}
-
-/* --- Scoreboard --------------------------------------------- */
-
-.scoreboard {
-    display: flex;
-    gap: 12px;
-    margin-bottom: 16px;
-}
-
-.player-row {
-    padding: 8px 12px;
-    border-radius: 6px;
-    background: #eee;
-}
-
-.player-row.active {
-    background: #cce5ff;
-    font-weight: bold;
-}
-
-.player-row.locked {
-    background: #ddd;
-    color: #888;
-}
-
-/* --- Buzzer ------------------------------------------------ */
-
-.buzz-button {
-    padding: 8px 12px;
-}
-
-.buzz-button:disabled {
-    opacity: 0.4;
-    cursor: not-allowed;
-}
-
-/* ============================================================
-   Active Question Overlay
-   ============================================================ */
-
-.board-container.has-overlay .board {
-    pointer-events: none;
-}
-
-.question-overlay {
-    position: absolute;
-    inset: 0;
-    background: rgba(0, 0, 0, 0.6);
-
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 16px;
-
-    z-index: 100;
-    pointer-events: auto;
-}
-
-.question-card {
-    background: #111;
-    color: white;
-    padding: 12px 24px 24px 24px;
-    border-radius: 12px;
-
-    display: grid;
-    grid-template-rows: auto 1fr auto;
-    grid-template-columns: 1fr auto 1fr;
-
-    min-width: 300px;
-}
-
-.question-category {
-    grid-row: 1;
-    grid-column: 2;
-
-    text-align: center;
-    font-size: 1.2rem;
-    opacity: 0.8;
-}
-
-.question-value {
-    grid-row: 1;
-    grid-column: 3;
-
-    justify-self: end;
-    font-size: 1.2rem;
-    opacity: 0.8;
-}
-
-.question-text {
-    grid-row: 2;
-    grid-column: 1 / -1;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    text-align: center;
-    font-size: 3rem;
-    line-height: 1.2;
-}
-
-.question-answer {
-    grid-row: 3;
-    grid-column: 1 / -1;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    text-align: center;
-    font-size: 1rem;
-    line-height: 1;
-    font-style: italic;
-}
-
-.question-answer::before {
-    content: "Answer: ";
-    white-space: pre;
-}
-
-/* --- Question Controls ------------------------------------- */
-
-.question-controls {
-    display: grid;
-    grid-template-columns: 1fr auto 1fr;
-    gap: 12px;
-}
-
-.question-controls button {
-    background: #111;
-    color: rgba(255, 255, 255, 0.8);
-    border-radius: 8px;
-    padding: 8px 12px;
-    font-size: 1rem;
-    min-width: 70px;
-    border: none;
-    grid-row: 1;
-}
-
-.question-controls .answer.correct {
-    grid-column: 1;
-}
-
-.question-controls .pass {
-    grid-column: 2;
-}
-
-.question-controls .answer.wrong {
-    grid-column: 3;
-}
-
-.question-controls .hidden {
-    visibility: hidden;
 }
 
 /* ============================================================

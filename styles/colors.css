@@ -1,5 +1,10 @@
+/* styles/colors.css */
+
+@import "@radix-ui/colors/gray.css";
 @import "@radix-ui/colors/purple.css";
+@import "@radix-ui/colors/teal.css";
 @import "@radix-ui/colors/purple-dark.css";
+@import "@radix-ui/colors/teal-dark.css";
 @import "@radix-ui/colors/black-alpha.css";
 
 #app {
@@ -15,4 +20,17 @@
     --color-primary-10: var(--purple-10);
     --color-primary-11: var(--purple-11);
     --color-primary-12: var(--purple-12);
+
+    --color-accent-1: var(--teal-1);
+    --color-accent-2: var(--teal-2);
+    --color-accent-3: var(--teal-3);
+    --color-accent-4: var(--teal-4);
+    --color-accent-5: var(--teal-5);
+    --color-accent-6: var(--teal-6);
+    --color-accent-7: var(--teal-7);
+    --color-accent-8: var(--teal-8);
+    --color-accent-9: var(--teal-9);
+    --color-accent-10: var(--teal-10);
+    --color-accent-11: var(--teal-11);
+    --color-accent-12: var(--teal-12);
 }

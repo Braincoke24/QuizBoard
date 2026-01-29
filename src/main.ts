@@ -21,3 +21,6 @@ function main(): void {
 }
 
 main()
+
+// TODO: limit for player name length and/or font size based on length
+// TODO: player limit of 6 because of display
