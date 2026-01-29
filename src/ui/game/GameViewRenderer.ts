@@ -19,8 +19,6 @@ export class GameViewRenderer {
     public render(snapshot: GameUISnapshot): void {
         this.root.innerHTML = ""
 
-        this.root.className = "game-view"
-
         this.renderScoreboard(snapshot)
         this.renderBoard(snapshot)
     }
@@ -107,7 +105,7 @@ export class GameViewRenderer {
             snapshot.board.forEach((category, cIndex) => {
                 const question = category.questions[q]
                 const button = document.createElement("button")
-                button.className = "question"
+                button.className = "question-cell"
 
                 if (!question) {
                     button.disabled = true

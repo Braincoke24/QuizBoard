@@ -1,5 +1,14 @@
-@import "@radix-ui/colors/gray.css";
-@import "@radix-ui/colors/gray-dark.css";
+@import "./components/board.css";
+
+body {
+    margin: 0;
+}
+
+#app {
+    background-color: var(--color-primary-1);
+    width: 100vw;
+    height: 100vh;
+}
 
 /* ============================================================
    Game View Layout
@@ -7,10 +16,9 @@
 
 /* --- Layout -------------------------------------------------- */
 
-.game-view {
+.app-content-root {
     font-family: system-ui, sans-serif;
     padding: 16px;
-    max-width: 1000px;
     margin: 0 auto;
     position: relative;
 }
@@ -43,90 +51,6 @@
 .player-row.locked {
     background: #ddd;
     color: #888;
-}
-
-/* --- Board -------------------------------------------------- */
-
-.board-container {
-    position: relative;
-    overflow: hidden;
-}
-
-.board {
-    display: grid;
-    gap: 6px;
-    margin-bottom: 16px;
-}
-
-.board-header,
-.board-row {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
-    gap: 6px;
-}
-
-.board-header div {
-    text-align: center;
-    font-weight: bold;
-}
-
-/* --- Question Cells ----------------------------------------- */
-
-.question {
-    padding: 12px;
-    font-size: 1rem;
-    min-height: 100px;
-
-    background-color: var(--gray-3);
-    color: var(--gray-11);
-
-    border: 2px solid var(--gray-7);
-    border-radius: 8px;
-
-    cursor: pointer;
-
-    transition:
-        border-color 0.2s ease,
-        box-shadow 0.2s ease,
-        background-color 0.2s ease,
-        color 0.2s ease;
-}
-
-/* Hover: only if selectable */
-.question:not(.used):not(.empty):not(:disabled):hover {
-    border-color: var(--gray-8);
-    background-color: var(--gray-4);
-}
-
-.question:not(.used):not(.empty):focus-visible {
-    outline: none;
-    border-color: var(--gray-8);
-    background-color: var(--gray-4);
-}
-
-/* Used questions */
-.question.used {
-    background-color: #ededf0;
-    color: #8a8a8a;
-    border-color: #d0d0d0;
-
-    cursor: not-allowed;
-    box-shadow: none;
-}
-
-/* Empty questions */
-.question.empty {
-    background-color: #fafafa;
-    color: #b0b0b0;
-    border-color: #ededed;
-
-    cursor: not-allowed;
-    box-shadow: none;
-}
-
-/* Disabled (fallback / accessibility) */
-.question:disabled {
-    cursor: not-allowed;
 }
 
 /* --- Buzzer ------------------------------------------------ */
@@ -292,7 +216,7 @@
     border-radius: 6px;
 }
 
-.question-cell {
+/* .question-cell {
     display: flex;
     flex-direction: column;
     gap: 6px;
@@ -310,13 +234,13 @@
     font-size: 0.8rem;
     color: #555;
     background-color: #fafafa;
-}
+} */
 
-.board-preview-header,
+/* .board-preview-header,
 .board-preview-row {
     display: grid;
     grid-template-columns: repeat(var(--columns), 1fr);
-}
+} */
 
 /* --- Landing Actions ---------------------------------------- */
 

@@ -113,13 +113,13 @@ export class PreGameSetupRenderer {
 
     private renderBoardPreview(draft: BoardDraft): HTMLElement {
         const container = document.createElement("div")
-        container.className = "board-preview-container"
+        container.className = "board-container"
 
         const board = document.createElement("div")
-        board.className = "board-preview"
+        board.className = "board"
 
         const headerRow = document.createElement("div")
-        headerRow.className = "board-preview-header"
+        headerRow.className = "board-header"
 
         draft.categories.forEach((category) => {
             const header = document.createElement("div")
@@ -131,12 +131,12 @@ export class PreGameSetupRenderer {
 
         draft.rowValues.forEach((value, rowIndex) => {
             const row = document.createElement("div")
-            row.className = "board-preview-row"
+            row.className = "board-row"
 
             for (let i = 0; i < draft.categories.length; i++) {
                 const question = draft.categories[i].questions[rowIndex]
                 const cell = document.createElement("div")
-                cell.className = "board-preview-question-cell"
+                cell.className = "question-cell"
                 cell.textContent = question ? value.toString() : ""
                 row.append(cell)
             }

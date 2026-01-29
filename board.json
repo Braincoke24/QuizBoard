@@ -33,7 +33,7 @@
       ]
     },
     {
-      "name": "",
+      "name": "Allgemeinwissen",
       "questions": [
         {
           "text": "",
@@ -58,7 +58,7 @@
       ]
     },
     {
-      "name": "",
+      "name": "Physik",
       "questions": [
         {
           "text": "",
@@ -83,7 +83,7 @@
       ]
     },
     {
-      "name": "",
+      "name": "Literatur",
       "questions": [
         {
           "text": "",
@@ -108,7 +108,7 @@
       ]
     },
     {
-      "name": "",
+      "name": "Computer",
       "questions": [
         {
           "text": "",
