@@ -21,3 +21,7 @@ function main(): void {
 }
 
 main()
+
+// TODO: empty cell validation
+// TODO: edit row values
+// TODO: edit category/row count

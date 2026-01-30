@@ -1,0 +1,51 @@
+/* styles/components/info-icon.css */
+
+.info-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    margin-left: 0.4em;
+
+    color: var(--color-accent-11);
+    cursor: help;
+    position: relative;
+}
+
+/* Tooltip */
+.info-icon::after {
+    content: attr(data-tooltip);
+
+    position: absolute;
+    top: 130%;
+    bottom: auto;
+    left: 50%;
+    transform: translateX(-50%);
+
+    background-color: var(--color-primary-2);
+    color: var(--color-primary-11);
+
+    border: 1px solid var(--color-primary-7);
+    border-radius: 0.5vw;
+
+    padding: 0.4em 0.6em;
+    white-space: nowrap;
+
+    font-size: 0.75rem;
+
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 120ms ease, transform 120ms ease;
+    z-index: 10;
+}
+
+.info-icon:hover::after {
+    opacity: 1;
+    transform: translateX(-50%) translateY(-2px);
+}
+
+.info-icon svg {
+    display: block;
+    transform: translateY(0.05em);
+    scale: 1.25;
+}
