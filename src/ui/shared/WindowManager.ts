@@ -10,6 +10,19 @@ export class WindowManager {
     public static openWindow(role: "player" | "game-master" | "spectator"): void {
         const url = new URL(window.location.href)
         url.searchParams.set("role", role)
-        window.open(url.toString(), "_blank", "noopener")
+
+        const width = Math.floor(window.outerWidth * 0.7)
+        const height = Math.floor(window.outerHeight * 0.7)
+
+        const features = [
+            "noopener",
+            "noreferrer",
+            `width=${width}`,
+            `height=${height}`,
+            "resizable=yes",
+            "scrollbars=yes"
+        ].join(",")
+
+        window.open(url.toString(), "_blank", features)
     }
 }
