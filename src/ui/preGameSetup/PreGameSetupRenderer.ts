@@ -346,13 +346,20 @@ export class PreGameSetupRenderer {
         const rules = this.renderGameRules(setup)
         const windowMode = this.renderWindowModeSelector()
 
+        const startContainer = document.createElement("div")
+        startContainer.className = "game-start-container"
+
         const startButton = document.createElement("button")
-        startButton.textContent = "Start"
+        startButton.className = "game-start-button"
+        startButton.textContent = "Start game"
         startButton.onclick = () => {
             this.onStartGame(this.selectedWindowMode)
         }
+        startButton.disabled = (setup.players.length === 0)
 
-        container.append(rules, windowMode, startButton)
+        startContainer.appendChild(startButton)
+
+        container.append(rules, windowMode, startContainer)
         return container
     }
 }
