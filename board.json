@@ -36,24 +36,24 @@
       "name": "Allgemeinwissen",
       "questions": [
         {
-          "text": "",
-          "answer": ""
+          "text": "Was ist die Hauptstadt von Frankreich?",
+          "answer": "Paris"
         },
         {
-          "text": "",
-          "answer": ""
+          "text": "Wie viele Kontinente gibt es auf der Erde?",
+          "answer": "7"
         },
         {
-          "text": "",
-          "answer": ""
+          "text": "Welches chemische Element hat das Symbol O?",
+          "answer": "Sauerstoff"
         },
         {
-          "text": "",
-          "answer": ""
+          "text": "In welchem Jahr fiel die Berliner Mauer?",
+          "answer": "1989"
         },
         {
-          "text": "",
-          "answer": ""
+          "text": "Wie heißt der längste Fluss der Welt?",
+          "answer": "Nil"
         }
       ]
     },
@@ -61,24 +61,24 @@
       "name": "Physik",
       "questions": [
         {
-          "text": "",
-          "answer": ""
+          "text": "Welche Einheit wird für elektrische Spannung verwendet?",
+          "answer": "Volt"
         },
         {
-          "text": "",
-          "answer": ""
+          "text": "Wie heißt die Kraft, die Körper zur Erde zieht?",
+          "answer": "Gravitation"
         },
         {
-          "text": "",
-          "answer": ""
+          "text": "Was ist die Lichtgeschwindigkeit im Vakuum (gerundet)?",
+          "answer": "300000 km/s"
         },
         {
-          "text": "",
-          "answer": ""
+          "text": "Welches Teilchen trägt eine negative elektrische Ladung?",
+          "answer": "Elektron"
         },
         {
-          "text": "",
-          "answer": ""
+          "text": "Wie lautet das zweite Newtonsche Gesetz?",
+          "answer": "Kraft ist Masse mal Beschleunigung (F = m · a)"
         }
       ]
     },
@@ -86,24 +86,24 @@
       "name": "Literatur",
       "questions": [
         {
-          "text": "",
-          "answer": ""
+          "text": "Wer schrieb \"Faust\"?",
+          "answer": "Johann Wolfgang von Goethe"
         },
         {
-          "text": "",
-          "answer": ""
+          "text": "Wie heißt der Autor von \"Harry Potter\"?",
+          "answer": "J. K. Rowling"
         },
         {
-          "text": "",
-          "answer": ""
+          "text": "In welchem Jahrhundert lebte William Shakespeare?",
+          "answer": "16. und 17. Jahrhundert"
         },
         {
-          "text": "",
-          "answer": ""
+          "text": "Wie heißt der Roman von George Orwell über einen Überwachungsstaat?",
+          "answer": "1984"
         },
         {
-          "text": "",
-          "answer": ""
+          "text": "Wer ist der Autor von \"Der Herr der Ringe\"?",
+          "answer": "J. R. R. Tolkien"
         }
       ]
     },
@@ -111,24 +111,24 @@
       "name": "Computer",
       "questions": [
         {
-          "text": "",
-          "answer": ""
+          "text": "Wofür steht die Abkürzung CPU?",
+          "answer": "Central Processing Unit"
         },
         {
-          "text": "",
-          "answer": ""
+          "text": "Welches Betriebssystem wird von Microsoft entwickelt?",
+          "answer": "Windows"
         },
         {
-          "text": "",
-          "answer": ""
+          "text": "Was bedeutet die Abkürzung HTML?",
+          "answer": "HyperText Markup Language"
         },
         {
-          "text": "",
-          "answer": ""
+          "text": "Welche Programmiersprache wird hauptsächlich für Web-Interaktivität im Browser genutzt?",
+          "answer": "JavaScript"
         },
         {
-          "text": "",
-          "answer": ""
+          "text": "Was ist ein Algorithmus?",
+          "answer": "Eine eindeutige Schritt-für-Schritt-Anleitung zur Lösung eines Problems"
         }
       ]
     }

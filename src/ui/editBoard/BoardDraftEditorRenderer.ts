@@ -84,7 +84,7 @@ export class BoardDraftEditorRenderer {
                 }
 
                 const answerInput = document.createElement("textarea")
-                answerInput.placeholder = "Answer"
+                answerInput.placeholder = "Answer (optional)"
                 answerInput.value = category.questions[rowIndex].answer
 
                 answerInput.oninput = () => {

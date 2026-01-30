@@ -79,6 +79,14 @@ export class BoardDraftController {
             if (category.questions.length !== board.rowValues.length) {
                 throw new Error("Each category must have one question per row")
             }
+            if (category.name === "") {
+                throw new Error("Category name musn't be empty")
+            }
+            category.questions.forEach((q) => {
+                if (q.text === "") {
+                    throw new Error("Question text musn't be empty")
+                }
+            })
         }
     }
 }
