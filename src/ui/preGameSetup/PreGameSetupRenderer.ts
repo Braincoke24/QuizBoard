@@ -2,6 +2,7 @@
 import { BoardDraft } from "../editBoard/BoardDraftState.js"
 import { PlayerConfig, PreGameSetup } from "./PreGameSetupState.js"
 import { GameRulePreset } from "../../game/GameRulePresets.js"
+import { INFO_ICON_SVG } from "../shared/icons.js"
 
 type WindowMode = "single" | "dual" | "keep-current"
 
@@ -251,12 +252,7 @@ export class PreGameSetupRenderer {
         const icon = document.createElement("span")
         icon.className = "info-icon"
         icon.dataset.tooltip = tooltip
-        icon.innerHTML = `
-            <svg width="14" height="14" viewBox="0 0 15 15" aria-hidden="true">
-                <path d="M7.49991 0.876892C3.84222 0.876892 0.877075 3.84204 0.877075 7.49972C0.877075 11.1574 3.84222 14.1226 7.49991 14.1226C11.1576 14.1226 14.1227 11.1574 14.1227 7.49972C14.1227 3.84204 11.1576 0.876892 7.49991 0.876892ZM1.82707 7.49972C1.82707 4.36671 4.36689 1.82689 7.49991 1.82689C10.6329 1.82689 13.1727 4.36671 13.1727 7.49972C13.1727 10.6327 10.6329 13.1726 7.49991 13.1726C4.36689 13.1726 1.82707 10.6327 1.82707 7.49972ZM8.24992 4.49999C8.24992 4.9142 7.91413 5.24999 7.49992 5.24999C7.08571 5.24999 6.74992 4.9142 6.74992 4.49999C6.74992 4.08577 7.08571 3.74999 7.49992 3.74999C7.91413 3.74999 8.24992 4.08577 8.24992 4.49999ZM6.00003 5.99999H6.50003H7.50003C7.77618 5.99999 8.00003 6.22384 8.00003 6.49999V9.99999H8.50003H9.00003V11H8.50003H7.50003H6.50003H6.00003V9.99999H6.50003H7.00003V6.99999H6.50003H6.00003V5.99999Z"
-                    fill="currentColor" />
-            </svg>
-        `
+        icon.innerHTML = INFO_ICON_SVG
 
         name.appendChild(icon)
 
@@ -288,34 +284,57 @@ export class PreGameSetupRenderer {
 
     private renderWindowModeSelector(): HTMLElement {
         const container = document.createElement("div")
-        container.className = "window-mode-selector"
+        container.className = "window-mode"
+
+        const title = document.createElement("div")
+        title.className = "window-mode-title"
+        title.textContent = "Window mode"
+
+        container.appendChild(title)
 
         container.append(
-            this.createWindowModeButton("Single window", "single"),
-            this.createWindowModeButton("Dual window", "dual"),
-            this.createWindowModeButton("Keep current", "keep-current")
+            this.createWindowModeCard("Single", "One shared screen", "Players and gamemaster share one display. Answers are hidden until the question is answered or skipped.", "single"),
+            this.createWindowModeCard("Dual", "Separate windows", "Opens a second window for display only (projector / second screen). The game can only be controlled from the gamemaster window.", "dual"),
+            this.createWindowModeCard("Current", "Use existing setup", "Use this if you already have two windows open and configured.", "keep-current")
         )
 
         return container
     }
 
-    private createWindowModeButton(
-        label: string,
+    private createWindowModeCard(
+        name: string,
+        shortDesc: string,
+        longDesc: string,
         mode: WindowMode
-    ): HTMLButtonElement {
-        const button = document.createElement("button")
-        button.textContent = label
+    ): HTMLElement {
+        const container = document.createElement("div")
+        container.className = "window-mode-container"
 
-        if (this.selectedWindowMode === mode) {
-            button.classList.add("active")
-        }
+        const button = document.createElement("button")
+        button.className = "window-mode-button"
+        button.textContent = name
+
+        const infoIcon = document.createElement("span")
+        infoIcon.className = "info-icon"
+        infoIcon.dataset.tooltip = longDesc
+        infoIcon.innerHTML = INFO_ICON_SVG
+
+        const desc = document.createElement("div")
+        desc.className = "window-mode-desc"
+        desc.textContent = shortDesc
 
         button.onclick = () => {
             this.selectedWindowMode = mode
             this.renderLast()
         }
 
-        return button
+        if (this.selectedWindowMode === mode) {
+            button.classList.add("active")
+        }
+
+        container.append(button,desc,infoIcon)
+
+        return container
     }
 
     /* ---------- Actions ---------- */

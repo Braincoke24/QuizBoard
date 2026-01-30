@@ -14,6 +14,6 @@ export class TopBarAdapter {
     }
 
     public updateProfile(profile: UIViewProfile): void {
-        this.renderer.setRoleLabel(`${profile.displayName} View`)
+        this.renderer.setRoleLabel(`${profile.displayName} view`)
     }
 }
