@@ -26,6 +26,24 @@ export class BoardDraftEditorRenderer {
         boardDraftContainer.appendChild(this.renderHeaderRow(draft))
         boardDraftContainer.appendChild(this.renderGrid(draft))
 
+        const addButton = document.createElement("button")
+        addButton.className = "board-draft-category-add"
+        addButton.textContent = "+"
+        addButton.onclick = () => {
+            if (!this.localDraft) return
+            this.localDraft.categories[this.localDraft.categories.length] = {
+                name: "",
+                questions: this.localDraft.rowValues.map(() => ({
+                    text: "",
+                    answer: ""
+                }))
+            }
+            this.onDraftChange(structuredClone(this.localDraft))
+        }
+        addButton.disabled = (draft.categories.length > 6)
+
+        boardDraftContainer.appendChild(addButton)
+
         this.root.appendChild(boardDraftContainer)
         this.root.appendChild(this.renderActions())
     }
@@ -43,6 +61,9 @@ export class BoardDraftEditorRenderer {
         header.appendChild(pointLabel)
 
         draft.categories.forEach((category, cIndex) => {
+            const categorieContainer = document.createElement("div")
+            categorieContainer.className = "board-draft-category-container"
+
             const input = document.createElement("input")
             input.className = "board-draft-category"
             input.type = "text"
@@ -54,7 +75,19 @@ export class BoardDraftEditorRenderer {
                 this.localDraft.categories[cIndex].name = input.value
             }
 
-            header.appendChild(input)
+            const deleteButton = document.createElement("button")
+            deleteButton.className = "board-draft-category-delete"
+            deleteButton.textContent = "Delete"
+            deleteButton.onclick = () => {
+                if (!this.localDraft) return
+                this.localDraft.categories.splice(cIndex,1)
+                this.onDraftChange(structuredClone(this.localDraft))
+            }
+            deleteButton.disabled = (draft.categories.length <= 1)
+
+            categorieContainer.append(input, deleteButton)
+
+            header.appendChild(categorieContainer)
         })
 
         return header
@@ -67,6 +100,9 @@ export class BoardDraftEditorRenderer {
         grid.className = "board-draft-grid"
 
         draft.rowValues.forEach((rowValue, rowIndex) => {
+            const row = document.createElement("div")
+            row.className = "board-draft-row"
+
             // Row value
             const valueInput = document.createElement("input")
             valueInput.className = "row-value"
@@ -79,7 +115,7 @@ export class BoardDraftEditorRenderer {
                 this.localDraft.rowValues[rowIndex] = Number(valueInput.value)
             }
 
-            grid.appendChild(valueInput)
+            row.appendChild(valueInput)
 
             // Questions
             draft.categories.forEach((category, cIndex) => {
@@ -108,8 +144,9 @@ export class BoardDraftEditorRenderer {
 
                 cell.appendChild(questionInput)
                 cell.appendChild(answerInput)
-                grid.appendChild(cell)
+                row.appendChild(cell)
             })
+            grid.appendChild(row)
         })
 
         return grid

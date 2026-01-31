@@ -22,6 +22,4 @@ function main(): void {
 
 main()
 
-// TODO: edit row values
-// TODO: edit category/row count
 // TODO: Show correct answer after marking answer as correct.

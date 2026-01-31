@@ -262,7 +262,7 @@ input[type="number"].multiplier-value:focus {
     position: absolute;
 
     inset: calc(-1 * var(--border-size));
-    border-radius: calc(var(--radius) + var(--border-size));
+    border-radius: var(--radius);
     background-color: var(--black-a2);
 
     backdrop-filter: grayscale(1);
