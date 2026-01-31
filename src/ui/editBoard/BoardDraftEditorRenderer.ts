@@ -18,7 +18,8 @@ export class BoardDraftEditorRenderer {
         this.localDraft = structuredClone(draft)
 
         this.root.innerHTML = ""
-        this.root.classList.add("edit-board")
+    
+        this.root.className = "app-content-root edit-board"
 
         const boardDraftContainer = document.createElement("div")
         boardDraftContainer.className = "board-draft"

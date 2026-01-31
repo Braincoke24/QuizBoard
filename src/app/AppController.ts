@@ -5,8 +5,8 @@ import { AppAction } from "./AppAction.js"
 import { BoardDraftController } from "../ui/editBoard/BoardDraftController.js"
 import { PreGameSetupController } from "../ui/preGameSetup/PreGameSetupController.js"
 import { GameController } from "../ui/game/GameController.js"
+import { GameEndController } from "../ui/gameEnd/GameEndController.js"
 
-import { GameRules } from "../game/GameRules.js"
 import { Game } from "../game/Game.js"
 import { Player } from "../game/Player.js"
 
@@ -14,6 +14,9 @@ import { boardDraftToBoard } from "../shared/BoardMapper.js"
 import { BoardDraft } from "../ui/editBoard/BoardDraftState.js"
 import { PreGameSetupCallbacks } from "../ui/preGameSetup/PreGameSetupCallbacks.js"
 import { BoardDraftCallbacks } from "../ui/editBoard/BoardDraftCallbacks.js"
+import { GameUISnapshot } from "../ui/game/state/GameUISnapshot.js"
+import { GameEndCallbacks } from "../ui/gameEnd/GameEndCallbacks.js"
+import { GameCallbacks } from "../ui/game/GameCallbacks.js"
 
 export class AppController {
     private phase: AppPhase = AppPhase.EDIT_BOARD
@@ -21,6 +24,7 @@ export class AppController {
     private boardDraftController: BoardDraftController
     private preGameSetupController: PreGameSetupController | null = null
     private gameController: GameController | null = null
+    private gameEndController: GameEndController | null = null
 
     constructor() {
         this.boardDraftController = this.createBoardDraftController()
@@ -48,6 +52,11 @@ export class AppController {
                 this.gameController!.dispatch(action.action)
                 return
 
+            case "APP/GAME_ENDED":
+                this.assertPhase(AppPhase.GAME_RUNNING)
+                this.gameEndController!.dispatch(action.action)
+                return
+
             default: {
                 const exhaustive: never = action
                 throw new Error(`Unhandled AppAction: ${exhaustive}`)
@@ -63,6 +72,19 @@ export class AppController {
     }
 
     /* ---------- Transitions ---------- */
+
+    private startBoardDraftEditor(): void {
+        this.assertPhase(AppPhase.GAME_ENDED)
+
+        const players = this.gameEndController!.snapshot.players
+
+        this.boardDraftController = this.createBoardDraftController()
+        this.preGameSetupController = null
+        this.gameController = null
+        this.gameEndController = null
+
+        this.phase = AppPhase.EDIT_BOARD
+    }
 
     private startPreGameSetup(): void {
         this.assertPhase(AppPhase.EDIT_BOARD)
@@ -87,8 +109,18 @@ export class AppController {
         const rules = this.preGameSetupController!.getGameRules()
         const game = new Game(players, board, rules)
 
-        this.gameController = new GameController(game)
+        this.gameController = this.createGameController(game)
         this.phase = AppPhase.GAME_RUNNING
+    }
+
+    private endGame(): void {
+        this.assertPhase(AppPhase.GAME_RUNNING)
+
+        const snapshot = this.gameController!.getSnapshot()
+
+        this.gameEndController = this.createGameEndController(snapshot)
+
+        this.phase = AppPhase.GAME_ENDED
     }
 
     private reset(): void {
@@ -132,6 +164,26 @@ export class AppController {
             }
         
         return new PreGameSetupController(callbacks, boardDraft)
+    }
+
+    private createGameController(game: Game): GameController {
+        const callbacks: GameCallbacks = {
+            onEndGame: () => {
+                this.endGame()
+            }
+        }
+        
+        return new GameController(callbacks, game)
+    }
+
+    private createGameEndController(snapshot: GameUISnapshot): GameEndController {
+        const callbacks: GameEndCallbacks = {
+            onStartNewGame: () => {
+                this.startBoardDraftEditor()
+            }
+        }
+        
+        return new GameEndController(callbacks, snapshot)
     }
 
     /* ---------- Helpers ---------- */

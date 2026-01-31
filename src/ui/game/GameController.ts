@@ -4,18 +4,20 @@ import { GameAction } from "./GameAction.js"
 import { GameUISnapshot } from "./state/GameUISnapshot.js"
 import { GameUIState } from "./state/GameUIState.js"
 import { PlayerResolver } from "../../shared/PlayerResolver.js"
+import { GameCallbacks } from "./GameCallbacks.js"
 
 /**
  * Controls the game during the GAME_RUNNING phase.
  * Mutates the domain game and exposes a read-only UI snapshot.
  */
 export class GameController {
-    private readonly game: Game
     private readonly uiState: GameUIState
     private readonly playerResolver: PlayerResolver
 
-    constructor(game: Game) {
-        this.game = game
+    constructor(
+        private readonly callbacks: GameCallbacks,
+        private readonly game: Game
+    ) {
         this.uiState = new GameUIState(game)
         this.playerResolver = new PlayerResolver(game.players)
     }
@@ -71,6 +73,11 @@ export class GameController {
                 }
 
                 this.game.continue()
+
+                if (this.uiState.gameEndedNaturally()) {
+                    this.callbacks.onEndGame()
+                }
+                
                 return
             }
 

@@ -11,6 +11,7 @@ import { GameViewAdapter } from "../ui/game/GameViewAdapter.js"
 
 import { RoleResolver } from "../shared/RoleResolver.js"
 import { UIViewProfile } from "../ui/shared/view/UIViewProfile.js"
+import { GameEndAdapter } from "../ui/gameEnd/GameEndAdapter.js"
 
 /**
  * UI composition root.
@@ -28,6 +29,7 @@ export class App {
     private boardDraftAdapter: BoardDraftAdapter | null = null
     private preGameSetupAdapter: PreGameSetupAdapter | null = null
     private gameViewAdapter: GameViewAdapter | null = null
+    private gameEndAdapter: GameEndAdapter | null = null
 
     private phase: AppPhase | null = null
 
@@ -103,6 +105,7 @@ export class App {
         this.boardDraftAdapter = null
         this.preGameSetupAdapter = null
         this.gameViewAdapter = null
+        this.gameEndAdapter = null
 
         switch (phase) {
             case AppPhase.EDIT_BOARD:
@@ -139,6 +142,17 @@ export class App {
                     contentRoot
                 )
                 break
+
+            case AppPhase.GAME_ENDED:
+                this.gameEndAdapter = new GameEndAdapter(
+                    (action) =>
+                        this.dispatch({
+                            type: "APP/GAME_ENDED",
+                            action
+                        }),
+                    contentRoot
+                )
+                break
         }
     }
 
@@ -167,6 +181,13 @@ export class App {
             case AppPhase.GAME_RUNNING:
                 if (this.gameViewAdapter && snapshot.game) {
                     this.gameViewAdapter.render(snapshot.game)
+                }
+                break
+
+            case AppPhase.GAME_ENDED:
+                if (this.gameEndAdapter && snapshot.game?.players) {
+                    console.log("ENded render")
+                    this.gameEndAdapter.render(snapshot.game.players)
                 }
                 break
         }

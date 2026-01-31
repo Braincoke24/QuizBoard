@@ -33,7 +33,7 @@ export class PreGameSetupRenderer {
 
         this.root.innerHTML = ""
 
-        this.root.classList.add("pre-game-setup")
+        this.root.className = "app-content-root pre-game-setup"
 
         this.root.appendChild(this.renderPlayers(this.lastSetup.players))
         this.root.appendChild(this.renderBoardPreview(this.lastSetup.board))

@@ -4,10 +4,14 @@ import { GameController } from "../../src/ui/game/GameController.js"
 import { GameRules } from "../../src/game/GameRules.js"
 import { createGame } from "../helpers/createGame.js"
 import { TurnState } from "../../src/game/turn/TurnState.js"
+import { GameCallbacks } from "../../src/ui/game/GameCallbacks.js"
 
 function setup() {
+    const callbacks: GameCallbacks = {
+        onEndGame: () => {}
+    }
     const { game } = createGame(GameRules.classic())
-    const controller = new GameController(game)
+    const controller = new GameController(callbacks,game)
 
     return { game, controller }
 }

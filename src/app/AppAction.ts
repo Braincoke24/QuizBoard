@@ -2,6 +2,7 @@
 import { BoardDraftAction } from "../ui/editBoard/BoardDraftAction.js"
 import { PreGameSetupAction } from "../ui/preGameSetup/PreGameSetupAction.js"
 import { GameAction } from "../ui/game/GameAction.js"
+import { GameEndAction } from "../ui/gameEnd/GameEndAction.js"
 
 export type AppAction =
     | {
@@ -15,4 +16,8 @@ export type AppAction =
     | {
         type: "APP/GAME"
         action: GameAction
+    }
+    | {
+        type: "APP/GAME_ENDED"
+        action: GameEndAction
     }

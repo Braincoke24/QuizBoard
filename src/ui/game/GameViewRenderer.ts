@@ -21,7 +21,7 @@ export class GameViewRenderer {
     public render(snapshot: GameUISnapshot): void {
         this.root.innerHTML = ""
 
-        this.root.classList.add("game-running")
+        this.root.className = "app-content-root game-running"
 
         this.renderScoreboard(snapshot)
         this.renderBoard(snapshot)

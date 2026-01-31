@@ -146,6 +146,27 @@ export class GameUIState {
         return this.game.turn.canContinue()
     }
 
+    public gameEndedNaturally(): boolean {
+        if (!this.game.turn) {
+            return false
+        }
+
+        if (this.game.turn.state !== TurnState.SELECTING) return false
+
+        let ended = true
+
+        const board = this.getBoard()
+        
+        board.forEach((c) => {
+            c.questions.forEach(q => {
+                if (q.isAvailable) {
+                    ended = false
+                }
+            })
+        })
+        return ended
+    }
+
     /**
      * Creates a serializable snapshot of the current UI-relevant game state.
      * This snapshot is a pure data object and contains no behavior.
