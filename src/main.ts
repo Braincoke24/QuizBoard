@@ -21,3 +21,7 @@ function main(): void {
 }
 
 main()
+
+// TODO: game end phase
+// TODO: dont show board editor when restarting after game has ended
+// TODO: implement dark\light mode switcher, default to system
