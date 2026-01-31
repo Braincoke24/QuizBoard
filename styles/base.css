@@ -1,4 +1,5 @@
 @import "./components/board.css";
+@import "./components/board-draft.css";
 @import "./components/player-list.css";
 @import "./components/active-question.css";
 @import "./components/top-bar.css";
@@ -105,49 +106,4 @@ body {
     display: grid;
     grid-template-columns: 18vw 58vw 18vw;
     gap: 2vw;
-}
-
-/* ============================================================
-   Landing / Board Editor
-   ============================================================ */
-
-.landing-board {
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-    padding: 24px;
-}
-
-.board-header input {
-    padding: 8px;
-    font-weight: 600;
-    text-align: center;
-}
-
-.board-grid {
-    display: grid;
-    gap: 8px;
-}
-
-.row-value {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: 600;
-    background: #f0f0f0;
-    border-radius: 6px;
-}
-
-/* --- Landing Actions ---------------------------------------- */
-
-.landing-actions {
-    margin-top: 16px;
-    display: flex;
-    gap: 12px;
-}
-
-.landing-actions button {
-    padding: 10px 16px;
-    font-size: 0.9rem;
-    cursor: pointer;
 }

@@ -18,28 +18,33 @@ export class BoardDraftEditorRenderer {
         this.localDraft = structuredClone(draft)
 
         this.root.innerHTML = ""
+        this.root.classList.add("edit-board")
 
-        const container = document.createElement("div")
-        container.className = "landing-board"
+        const boardDraftContainer = document.createElement("div")
+        boardDraftContainer.className = "board-draft"
 
-        container.appendChild(this.renderHeaderRow(draft))
-        container.appendChild(this.renderGrid(draft))
-        container.appendChild(this.renderActions())
+        boardDraftContainer.appendChild(this.renderHeaderRow(draft))
+        boardDraftContainer.appendChild(this.renderGrid(draft))
 
-        this.root.appendChild(container)
+        this.root.appendChild(boardDraftContainer)
+        this.root.appendChild(this.renderActions())
     }
 
     /* ---------- Header ---------- */
 
     private renderHeaderRow(draft: BoardDraft): HTMLElement {
         const header = document.createElement("div")
-        header.className = "board-header"
-        header.style.gridTemplateColumns = `80px repeat(${draft.categories.length}, 1fr)`
+        header.className = "board-draft-header"
 
-        header.appendChild(document.createElement("div")) // empty corner
+        const pointLabel = document.createElement("div")
+        pointLabel.className = "board-draft-point-label"
+        pointLabel.textContent = ""
+
+        header.appendChild(pointLabel)
 
         draft.categories.forEach((category, cIndex) => {
             const input = document.createElement("input")
+            input.className = "board-draft-category"
             input.type = "text"
             input.placeholder = "Category"
             input.value = category.name
@@ -59,22 +64,30 @@ export class BoardDraftEditorRenderer {
 
     private renderGrid(draft: BoardDraft): HTMLElement {
         const grid = document.createElement("div")
-        grid.className = "board-grid"
-        grid.style.gridTemplateColumns = `80px repeat(${draft.categories.length}, 1fr)`
+        grid.className = "board-draft-grid"
 
         draft.rowValues.forEach((rowValue, rowIndex) => {
             // Row value
-            const valueCell = document.createElement("div")
-            valueCell.className = "row-value"
-            valueCell.textContent = rowValue.toString()
-            grid.appendChild(valueCell)
+            const valueInput = document.createElement("input")
+            valueInput.className = "row-value"
+            valueInput.type = "number"
+            valueInput.min = "0"
+            valueInput.value = rowValue.toString()
+
+            valueInput.oninput = () => {
+                if (!this.localDraft) return
+                this.localDraft.rowValues[rowIndex] = Number(valueInput.value)
+            }
+
+            grid.appendChild(valueInput)
 
             // Questions
             draft.categories.forEach((category, cIndex) => {
                 const cell = document.createElement("div")
-                cell.className = "question-cell"
+                cell.className = "board-draft-question-cell"
 
                 const questionInput = document.createElement("textarea")
+                questionInput.className = "board-draft-question-text"
                 questionInput.placeholder = "Question"
                 questionInput.value = category.questions[rowIndex].text
 
@@ -84,6 +97,7 @@ export class BoardDraftEditorRenderer {
                 }
 
                 const answerInput = document.createElement("textarea")
+                answerInput.className = "board-draft-question-answer"
                 answerInput.placeholder = "Answer (optional)"
                 answerInput.value = category.questions[rowIndex].answer
 
@@ -105,10 +119,11 @@ export class BoardDraftEditorRenderer {
 
     private renderActions(): HTMLElement {
         const actions = document.createElement("div")
-        actions.className = "landing-actions"
+        actions.className = "edit-board-actions"
 
         const exportButton = document.createElement("button")
-        exportButton.textContent = "Export board (JSON)"
+        exportButton.className = "draft-export-button"
+        exportButton.textContent = "Export board"
         exportButton.onclick = () => {
             if (!this.localDraft) return
             this.onDraftChange(structuredClone(this.localDraft))
@@ -119,9 +134,9 @@ export class BoardDraftEditorRenderer {
         /* ---------- Import ---------- */
 
         const importInput = document.createElement("input")
+        importInput.className = "draft-import-input"
         importInput.type = "file"
         importInput.accept = "application/json"
-        importInput.style.display = "none"
 
         importInput.onchange = async () => {
             const file = importInput.files?.[0]
@@ -139,7 +154,8 @@ export class BoardDraftEditorRenderer {
         }
 
         const importButton = document.createElement("button")
-        importButton.textContent = "Import board (JSON)"
+        importButton.className = "draft-import-button"
+        importButton.textContent = "Import board"
         importButton.onclick = () => importInput.click()
 
         actions.appendChild(importButton)
@@ -148,6 +164,7 @@ export class BoardDraftEditorRenderer {
         /* ---------- Submit ---------- */
 
         const submit = document.createElement("button")
+        submit.className = "draft-submit-button"
         submit.textContent = "Submit board"
         submit.onclick = () => {
             if (!this.localDraft) return

@@ -144,7 +144,7 @@ input[type="number"].multiplier-value {
     appearance: textfield;
 }
 
-input[type="number"]:focus {
+input[type="number"].multiplier-value:focus {
     outline: none;
     border-color: var(--color-primary-8);
     box-shadow: 0 0 0 1px var(--color-primary-7);
