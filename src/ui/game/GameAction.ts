@@ -17,3 +17,6 @@ export type GameAction =
     | {
         type: "GAME/PASS"
     }
+    | {
+        type: "GAME/CONTINUE"
+    }

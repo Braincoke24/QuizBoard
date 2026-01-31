@@ -13,5 +13,6 @@ export interface GameUISnapshot {
     canSelectQuestion: boolean
     canAnswer: boolean
     canPass: boolean
+    canContinue: boolean
     canBuzz: readonly string[]
 }

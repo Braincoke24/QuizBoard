@@ -92,6 +92,10 @@ export class Game {
         this._turn.pass()
     }
 
+    public continue() {
+        this._turn.continue()
+    }
+
     /** The current active turn */
     get turn() {
         return this._turn

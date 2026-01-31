@@ -4,4 +4,5 @@ export interface ViewCapabilities {
     canSelectQuestion: boolean
     canJudgeAnswer: boolean
     canPass: boolean
+    canContinue: boolean
 }

@@ -138,6 +138,14 @@ export class GameUIState {
         return this.game.turn.canPass()
     }
 
+    public canContinue(): boolean {
+        if (!this.game.turn) {
+            return false
+        }
+
+        return this.game.turn.canContinue()
+    }
+
     /**
      * Creates a serializable snapshot of the current UI-relevant game state.
      * This snapshot is a pure data object and contains no behavior.
@@ -156,6 +164,7 @@ export class GameUIState {
             canSelectQuestion: this.canSelectQuestion(),
             canAnswer: this.canAnswer(),
             canPass: this.canPass(),
+            canContinue: this.canContinue(),
             canBuzz: players
                 .filter(player => this.canBuzz(player.id))
                 .map(player => player.id)

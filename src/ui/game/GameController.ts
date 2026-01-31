@@ -65,6 +65,15 @@ export class GameController {
                 return
             }
 
+            case "GAME/CONTINUE": {
+                if (!this.uiState.canContinue()) {
+                    throw new Error("Cannot continue in the current turn state")
+                }
+
+                this.game.continue()
+                return
+            }
+
             default: {
                 const exhaustive: never = action
                 throw new Error(`Unhandled GameAction: ${exhaustive}`)

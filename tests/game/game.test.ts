@@ -10,6 +10,7 @@ describe("Game", () => {
 
         game.selectQuestion(0, 0)
         game.answer(true)
+        game.continue()
 
         expect(game.currentPlayer).toBe(bob)
     })
@@ -22,9 +23,11 @@ describe("Game", () => {
 
         game.selectQuestion(0, 0)
         game.answer(true)
+        game.continue()
 
         game.selectQuestion(1, 1)
         game.answer(true)
+        game.continue()
 
         expect(game.currentPlayer).toBe(charlie)
     })
@@ -35,12 +38,15 @@ describe("Game", () => {
 
         game.selectQuestion(0, 0)
         game.answer(true)
+        game.continue()
 
         game.selectQuestion(0, 1)
         game.answer(true)
+        game.continue()
 
         game.selectQuestion(1, 1)
         game.answer(true)
+        game.continue()
 
         expect(game.currentPlayer).toBe(alice)
     })
@@ -67,6 +73,7 @@ describe("Game", () => {
         game.answer(false)
         game.buzz(charlie)
         game.answer(true)
+        game.continue()
 
         expect(game.currentPlayer).toBe(bob)
     })
@@ -80,6 +87,7 @@ describe("Game", () => {
         game.answer(false)
         game.buzz(players[2])
         game.answer(false)
+        game.continue()
 
         expect(game.currentPlayer).toBe(players[1])
     })
@@ -90,6 +98,7 @@ describe("Game", () => {
         game.selectQuestion(0, 0)
         game.answer(false)
         game.pass()
+        game.continue()
 
         expect(game.currentPlayer).toBe(players[1])
     })

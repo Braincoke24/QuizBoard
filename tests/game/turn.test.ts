@@ -28,7 +28,7 @@ describe("Turn", () => {
 
         expect(alice.score).toBe(points)
         expect(bob.score).toBe(0)
-        expect(turn.state).toBe(TurnState.RESOLVED)
+        expect(turn.state).toBe(TurnState.RESOLVING)
     })
 
     it("starter loses points on wrong answer", () => {
@@ -48,13 +48,14 @@ describe("Turn", () => {
 
         expect(alice.score).toBe(Math.ceil(-points*rules.firstWrongMultiplier))
         expect(bob.score).toBe(Math.ceil(points*rules.buzzCorrectMultiplier))
-        expect(turn.state).toBe(TurnState.RESOLVED)
+        expect(turn.state).toBe(TurnState.RESOLVING)
     })
 
     it("pass ends the turn when no one wants to buzz", () => {
         turn.selectQuestion(question,"Test category")
         turn.submitAnswer(false)
         turn.pass()
+        turn.continue()
 
         expect(turn.state).toBe(TurnState.RESOLVED)
     })
@@ -65,6 +66,6 @@ describe("Turn", () => {
         turn.buzz(bob)
         turn.submitAnswer(false) // Bob wrong
 
-        expect(turn.state).toBe(TurnState.RESOLVED)
+        expect(turn.state).toBe(TurnState.RESOLVING)
     })
 })

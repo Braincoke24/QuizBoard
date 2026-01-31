@@ -31,6 +31,10 @@ export class GameViewAdapter {
         const pass = (): void => {
             dispatch({ type: "GAME/PASS" })
         }
+
+        const continueGame = (): void => {
+            dispatch({type: "GAME/CONTINUE"})
+        }
                 
         this.renderer = new GameViewRenderer(
             root,
@@ -38,7 +42,8 @@ export class GameViewAdapter {
             selectQuestion,
             buzz,
             answer,
-            pass
+            pass,
+            continueGame
         )
     }
 

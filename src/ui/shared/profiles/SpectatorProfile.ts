@@ -9,7 +9,8 @@ export const SPECTATOR_PROFILE: UIViewProfile = {
         canBuzz: false,
         canJudgeAnswer: false,
         canPass: false,
-        canSelectQuestion: false
+        canSelectQuestion: false,
+        canContinue: false
     },
     displayName: "Spectator"
 }

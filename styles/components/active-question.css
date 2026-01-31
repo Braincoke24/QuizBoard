@@ -129,7 +129,8 @@
     grid-column: 1;
 }
 
-.active-question-controls .pass {
+.active-question-controls .pass,
+.active-question-controls .continue {
     grid-column: 2;
 }
 

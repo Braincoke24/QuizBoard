@@ -65,7 +65,7 @@ describe("GameController", () => {
 
             const snapshot = controller.getSnapshot()
 
-            expect(snapshot.turnState).toBe(TurnState.SELECTING)
+            expect(snapshot.turnState).toBe(TurnState.RESOLVING)
         })
 
         it("throws if answering is not allowed", () => {
@@ -156,7 +156,7 @@ describe("GameController", () => {
 
             const snapshot = controller.getSnapshot()
 
-            expect(snapshot.turnState).toBe(TurnState.SELECTING)
+            expect(snapshot.turnState).toBe(TurnState.RESOLVING)
         })
 
         it("throws if pass is not allowed", () => {

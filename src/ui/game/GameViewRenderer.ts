@@ -2,6 +2,7 @@
 import { ActiveQuestionUIState } from "./state/GameUIState.js"
 import { UIViewProfile } from "../shared/view/UIViewProfile.js"
 import { GameUISnapshot } from "./state/GameUISnapshot.js"
+import { TurnState } from "../../game/turn/TurnState.js"
 
 /**
  * Renders the player UI and wires mouse interactions.
@@ -13,7 +14,8 @@ export class GameViewRenderer {
         private readonly onSelectQuestion: (c: number, q: number) => void,
         private readonly onBuzz: (playerId: string) => void,
         private readonly onAnswer: (isCorrect: boolean) => void,
-        private readonly onPass: () => void
+        private readonly onPass: () => void,
+        private readonly onContinue: () => void
     ) {}
 
     public render(snapshot: GameUISnapshot): void {
@@ -144,7 +146,7 @@ export class GameViewRenderer {
         const question = snapshot.activeQuestion
         if (!question) return overlay
 
-        const card = this.renderQuestionCard(question)
+        const card = this.renderQuestionCard(question, snapshot)
         const controls = this.renderQuestionControls(snapshot)
 
         overlay.append(card)
@@ -153,7 +155,7 @@ export class GameViewRenderer {
         return overlay
     }
 
-    private renderQuestionCard(question: ActiveQuestionUIState): HTMLElement {
+    private renderQuestionCard(question: ActiveQuestionUIState, snapshot: GameUISnapshot): HTMLElement {
         const card = document.createElement("div")
         card.className = "active-question"
 
@@ -171,7 +173,7 @@ export class GameViewRenderer {
 
         card.append(category, value, text)
 
-        if (this.profile.visibility.showCorrectAnswer) {
+        if (this.profile.visibility.showCorrectAnswer || snapshot.turnState === TurnState.RESOLVING) {
             const answer = document.createElement("div")
             answer.className = "active-question-answer"
             answer.textContent = question.answer
@@ -219,6 +221,20 @@ export class GameViewRenderer {
             }
 
             controls.append(pass)
+        }
+
+        if (this.profile.capabilities.canContinue) {
+            const continueGame = document.createElement("button")
+            continueGame.className = "continue"
+            continueGame.textContent = "Continue"
+            continueGame.disabled = !snapshot.canContinue
+            continueGame.onclick = () => this.onContinue()
+
+            if (!snapshot.canContinue) {
+                continueGame.classList.add("hidden")
+            }
+
+            controls.append(continueGame)
         }
 
         return controls

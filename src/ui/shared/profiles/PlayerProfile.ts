@@ -9,7 +9,8 @@ export const PLAYER_PROFILE: UIViewProfile = {
         canBuzz: true,
         canJudgeAnswer: true,
         canPass: true,
-        canSelectQuestion: true
+        canSelectQuestion: true,
+        canContinue: true
     },
     displayName: "Player"
 }

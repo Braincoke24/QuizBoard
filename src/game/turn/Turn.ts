@@ -91,7 +91,7 @@ export class Turn {
                 ? 1
                 : this._rules.buzzCorrectMultiplier
             player.addScore(value * multiplier)
-            this.resolve()
+            this._state = TurnState.RESOLVING
         } else {
             const multiplier = isStarter
                 ? this._rules.firstWrongMultiplier
@@ -100,7 +100,7 @@ export class Turn {
             this._attempted.add(player)
 
             if (this.allPlayersHaveTried()) {
-                this.resolve()
+                this._state = TurnState.RESOLVING
             } else {
                 this._state = TurnState.BUZZING
             }
@@ -122,6 +122,11 @@ export class Turn {
     /** Ends the turn without another buzz attempt */
     public pass() {
         if (this._state !== TurnState.BUZZING) throw new Error("Not buzzing")
+        this._state = TurnState.RESOLVING
+    }
+
+    public continue() {
+        if (this._state !== TurnState.RESOLVING) throw new Error("Not resolving")
         this.resolve()
     }
 
@@ -145,6 +150,10 @@ export class Turn {
 
     public canSelectQuestion() {
         return (this._state === TurnState.SELECTING)
+    }
+
+    public canContinue(): boolean {
+        return (this._state === TurnState.RESOLVING)
     }
 
     /**

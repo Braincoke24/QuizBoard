@@ -21,5 +21,3 @@ function main(): void {
 }
 
 main()
-
-// TODO: Show correct answer after marking answer as correct.
