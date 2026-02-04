@@ -53,3 +53,15 @@
     border-color: var(--color-primary-8);
     background-color: var(--color-primary-4);
 }
+
+.top-bar-theme-toggle {
+    grid-row: 1;
+    grid-column: 3;
+
+    background: none;
+    border: none;
+    color: var(--color-primary-11);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+}

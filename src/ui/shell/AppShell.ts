@@ -2,6 +2,7 @@
 import { RoleSelectionAdapter } from "./RoleSelectionAdapter.js"
 import { TopBarAdapter } from "./TopBarAdapter.js"
 import { UIViewProfile } from "../shared/view/UIViewProfile.js"
+import { ThemeController } from "../shared/ThemeController.js"
 
 export class AppShell {
     private readonly root: HTMLElement
@@ -14,7 +15,8 @@ export class AppShell {
 
     constructor(
         root: HTMLElement,
-        onChangeRole: () => void
+        onChangeRole: () => void,
+        themeController: ThemeController
     ) {
         this.root = root
         this.root.innerHTML = ""
@@ -35,7 +37,8 @@ export class AppShell {
 
         this.topBar = new TopBarAdapter(
             this.topBarRoot,
-            onChangeRole
+            onChangeRole,
+            themeController
         )
     }
 

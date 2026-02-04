@@ -1,15 +1,22 @@
 // src/ui/shell/TopBarAdapter.ts
 import { UIViewProfile } from "../shared/view/UIViewProfile.js"
 import { TopBarRenderer } from "./TopBarRenderer.js"
+import { ThemeController } from "../shared/ThemeController.js"
 
 export class TopBarAdapter {
     private readonly renderer: TopBarRenderer
 
     constructor(
         root: HTMLElement,
-        onChangeRole: () => void
+        onChangeRole: () => void,
+        themeController: ThemeController
     ) {
-        this.renderer = new TopBarRenderer(root, onChangeRole)
+        this.renderer = new TopBarRenderer(
+            root,
+            onChangeRole,
+            themeController
+        )
+
         this.renderer.render()
     }
 

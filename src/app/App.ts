@@ -4,6 +4,7 @@ import { AppPhase } from "./AppPhase.js"
 import { AppAction } from "./AppAction.js"
 import { AppShell } from "../ui/shell/AppShell.js"
 import { WindowManager } from "../ui/shared/WindowManager.js"
+import { ThemeController } from "../ui/shared/ThemeController.js"
 
 import { BoardDraftAdapter } from "../ui/editBoard/BoardDraftAdapter.js"
 import { PreGameSetupAdapter } from "../ui/preGameSetup/PreGameSetupAdapter.js"
@@ -35,10 +36,19 @@ export class App {
 
     private phase: AppPhase | null = null
 
-    constructor(port: AppPort, roleParam: string, root: HTMLElement) {
+    constructor(
+        port: AppPort,
+        roleParam: string,
+        root: HTMLElement,
+        themeController: ThemeController
+    ) {
         this.port = port
         this.root = root
-        this.shell = new AppShell(root, () => this.requestRoleChange())
+        this.shell = new AppShell(
+            root,
+            () => this.requestRoleChange(),
+            themeController
+        )
 
         this.profile = RoleResolver.resolve("player")
         this.bootstrap(roleParam)

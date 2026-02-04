@@ -1,18 +1,19 @@
 // src/ui/shell/TopBarRenderer.ts
+import {
+    LIGHT_MODE_SVG,
+    DARK_MODE_SVG
+} from "../shared/icons.js"
+import { ThemeController } from "../shared/ThemeController.js"
 
 export class TopBarRenderer {
-    private readonly root: HTMLElement
-    private readonly onChangeRole: () => void
-
     private roleLabel!: HTMLElement
+    private themeButton!: HTMLButtonElement
 
     constructor(
-        root: HTMLElement,
-        onChangeRole: () => void
-    ) {
-        this.root = root
-        this.onChangeRole = onChangeRole
-    }
+        private readonly root: HTMLElement,
+        private readonly onChangeRole: () => void,
+        private readonly themeController: ThemeController
+    ) {}
 
     public render(): void {
         this.root.innerHTML = ""
@@ -26,7 +27,25 @@ export class TopBarRenderer {
         changeRoleButton.textContent = "Change Role"
         changeRoleButton.onclick = this.onChangeRole
 
-        this.root.append(this.roleLabel, changeRoleButton)
+        this.themeButton = document.createElement("button")
+        this.themeButton.className = "top-bar-theme-toggle"
+        this.themeButton.onclick = () => {
+            const mode = this.themeController.toggle()
+            this.updateThemeIcon(mode)
+        }
+
+        this.updateThemeIcon(this.themeController.getCurrent())
+
+        this.root.append(
+            this.roleLabel,
+            changeRoleButton,
+            this.themeButton
+        )
+    }
+
+    private updateThemeIcon(mode: "light" | "dark"): void {
+        this.themeButton.innerHTML =
+            mode === "dark" ? DARK_MODE_SVG : LIGHT_MODE_SVG
     }
 
     public setRoleLabel(label: string): void {
