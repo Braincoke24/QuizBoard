@@ -4,9 +4,15 @@
 @import "@radix-ui/colors/purple.css";
 @import "@radix-ui/colors/teal.css";
 @import "@radix-ui/colors/red.css";
+@import "@radix-ui/colors/yellow.css";
+@import "@radix-ui/colors/mauve.css";
+@import "@radix-ui/colors/bronze.css";
 @import "@radix-ui/colors/purple-dark.css";
 @import "@radix-ui/colors/teal-dark.css";
 @import "@radix-ui/colors/red-dark.css";
+@import "@radix-ui/colors/yellow-dark.css";
+@import "@radix-ui/colors/mauve-dark.css";
+@import "@radix-ui/colors/bronze-dark.css";
 @import "@radix-ui/colors/black-alpha.css";
 
 #app {
@@ -48,4 +54,16 @@
     --color-warning-10: var(--red-10);
     --color-warning-11: var(--red-11);
     --color-warning-12: var(--red-12);
+
+    --color-gold-background: var(--yellow-5);
+    --color-gold-border: var(--yellow-6);
+    --color-gold-text: var(--yellow-11);
+
+    --color-silver-background: var(--mauve-5);
+    --color-silver-border: var(--mauve-6);
+    --color-silver-text: var(--mauve-11);
+
+    --color-bronze-background: var(--bronze-5);
+    --color-bronze-border: var(--bronze-6);
+    --color-bronze-text: var(--bronze-11);
 }

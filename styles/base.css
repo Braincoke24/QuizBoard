@@ -5,6 +5,7 @@
 @import "./components/top-bar.css";
 @import "./components/game-options.css";
 @import "./components/info-icon.css";
+@import "./components/scoreboard.css";
 
 body {
     margin: 0;

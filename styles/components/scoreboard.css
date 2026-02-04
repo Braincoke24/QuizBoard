@@ -1,0 +1,92 @@
+/* styles/components/scoreboard.css */
+
+.game-ended {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.scoreboard {
+    border: 2px solid var(--color-primary-6);
+    border-radius: 1vw;
+    padding: 1vh 2vw 5vh 2vw;
+
+    background-color: var(--color-primary-2);
+    color: var(--color-primary-11);
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    row-gap: 1vh;
+}
+
+.scoreboard-label {
+    font-size: 2.5rem;
+    margin: 1vh 0;
+}
+
+.scoreboard-player-cell {
+    position: relative;
+    display: grid;
+    grid-template-columns: 4vw 15vw 5vw;
+    column-gap: 1vw;
+    align-items: center;
+    
+    background-color: var(--color-primary-3);
+
+    border: 2px solid var(--color-primary-6);
+    border-radius: 10vw;
+    padding: 1vh;
+    width: 27vw;
+    height: 7vh;
+}
+
+.scoreboard-player-rank {
+    grid-column: 1;
+
+    position: absolute;
+    border: 2px solid var(--color-primary-6);
+    border-radius: 100%;
+    width: 6vh;
+    height: 6vh;
+    padding: 0.5vh;
+
+    font-size: 1.7rem;
+    font-weight: bold;
+
+    display: grid;
+    place-items: center;
+
+    background-color: var(--color-primary-5);
+}
+
+.scoreboard-player-name {
+    grid-column: 2;
+
+    font-size: 1.7rem;
+}
+
+.scoreboard-player-score {
+    grid-column: 3;
+
+    font-size: 1.7rem;
+}
+
+.scoreboard-player-rank.rank-1 {
+    background-color: var(--color-gold-background);
+    border-color: var(--color-gold-border);
+    color: var(--color-gold-text);
+}
+
+.scoreboard-player-rank.rank-2 {
+    background-color: var(--color-silver-background);
+    border-color: var(--color-silver-border);
+    color: var(--color-silver-text);
+}
+
+.scoreboard-player-rank.rank-3 {
+    background-color: var(--color-bronze-background);
+    border-color: var(--color-bronze-border);
+    color: var(--color-bronze-text);
+}
