@@ -12,6 +12,7 @@ import { GameViewAdapter } from "../ui/game/GameViewAdapter.js"
 import { RoleResolver } from "../shared/RoleResolver.js"
 import { UIViewProfile } from "../ui/shared/view/UIViewProfile.js"
 import { GameEndAdapter } from "../ui/gameEnd/GameEndAdapter.js"
+import { WaitForSetupAdapter } from "../ui/editBoard/WaitForSetupAdapter.js"
 
 /**
  * UI composition root.
@@ -30,6 +31,7 @@ export class App {
     private preGameSetupAdapter: PreGameSetupAdapter | null = null
     private gameViewAdapter: GameViewAdapter | null = null
     private gameEndAdapter: GameEndAdapter | null = null
+    private waitForSetupAdapter: WaitForSetupAdapter | null = null
 
     private phase: AppPhase | null = null
 
@@ -106,17 +108,22 @@ export class App {
         this.preGameSetupAdapter = null
         this.gameViewAdapter = null
         this.gameEndAdapter = null
+        this.waitForSetupAdapter = null
 
         switch (phase) {
             case AppPhase.EDIT_BOARD:
-                this.boardDraftAdapter = new BoardDraftAdapter(
-                    (action) =>
-                        this.dispatch({
-                            type: "APP/BOARD_DRAFT",
-                            action
-                        }),
-                    contentRoot
-                )
+                if (this.profile.visibility.showBoardEditor) {
+                    this.boardDraftAdapter = new BoardDraftAdapter(
+                        (action) =>
+                            this.dispatch({
+                                type: "APP/BOARD_DRAFT",
+                                action
+                            }),
+                        contentRoot
+                    )
+                } else {
+                    this.waitForSetupAdapter = new WaitForSetupAdapter(contentRoot)
+                }
                 break
 
             case AppPhase.PRE_GAME_SETUP:
@@ -167,8 +174,11 @@ export class App {
     private update(snapshot: AppSnapshot): void {
         switch (this.phase) {
             case AppPhase.EDIT_BOARD:
-                if (this.boardDraftAdapter && snapshot.boardDraft) {
+                if (this.boardDraftAdapter && snapshot.boardDraft && this.profile.visibility.showBoardEditor) {
                     this.boardDraftAdapter.render(snapshot.boardDraft)
+                } else if (this.waitForSetupAdapter && !this.profile.visibility.showBoardEditor) {
+                    const players = snapshot.game?.players
+                    this.waitForSetupAdapter.render(players)
                 }
                 break
 

@@ -3,7 +3,9 @@ import { UIViewProfile } from "../view/UIViewProfile.js"
 
 export const GAMEMASTER_PROFILE: UIViewProfile = {
     visibility: {
-        showCorrectAnswer: true
+        showCorrectAnswer: true,
+        showBoardEditor: true,
+        showPreGameSetup: true
     },
     capabilities: {
         canBuzz: true,

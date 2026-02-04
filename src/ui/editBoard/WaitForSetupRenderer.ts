@@ -1,24 +1,30 @@
-// src/ui/gameEnd/GameEndRenderer.ts
+// src/ui/landing/renderers/WaitForSetupRenderer.ts
 
 import { PlayerUIState } from "../game/state/GameUIState.js";
 
-export class GameEndRenderer {
+export class WaitForSetupRenderer {
     private readonly FIGURE_SPACE = "\u2007"
 
     constructor(
-        private readonly root: HTMLElement,
-        private readonly onStartNewGame: () => void
+        private readonly root: HTMLElement
     ) {}
 
-    public render(players: readonly PlayerUIState[]): void {
+    public render(players?: readonly PlayerUIState[]): void {
         this.root.innerHTML = ""
         
-        this.root.className = "app-content-root game-ended"
+        this.root.className = "app-content-root wait-for-setup"
 
-        this.root.appendChild(this.renderScoreboard(players))
-        this.root.appendChild(this.renderActions())
+        const waitMessage = document.createElement("div")
+        waitMessage.className = "wait-for-setup-message"
+        waitMessage.textContent = "Waiting for gamemaster to setup the game..."
+
+        this.root.appendChild(waitMessage)
+
+        if (players) {
+            this.root.appendChild(this.renderScoreboard(players))
+        }
     }
-
+    
     /* ---------- Scoreboard ---------- */
 
     private renderScoreboard(players: readonly PlayerUIState[]): HTMLElement {
@@ -76,22 +82,6 @@ export class GameEndRenderer {
         })
 
         return scoreboard
-    }
-
-    private renderActions(): HTMLElement {
-        const actions = document.createElement("div")
-        actions.className = "game-ended-actions"
-
-        const button = document.createElement("button")
-        button.className = "start-new-game-button"
-        button.textContent = "Start new game"
-        button.onclick = () => {
-            this.onStartNewGame()
-        }
-
-        actions.appendChild(button)
-
-        return actions
     }
 
     private scoreToAlignedString(score: number, l: number = 5): string {

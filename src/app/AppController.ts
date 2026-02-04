@@ -77,9 +77,6 @@ export class AppController {
         this.assertPhase(AppPhase.GAME_ENDED)
 
         this.boardDraftController = this.createBoardDraftController()
-        this.preGameSetupController = null
-        this.gameController = null
-        this.gameEndController = null
 
         this.phase = AppPhase.EDIT_BOARD
     }
@@ -119,13 +116,6 @@ export class AppController {
         this.gameEndController = this.createGameEndController(snapshot)
 
         this.phase = AppPhase.GAME_ENDED
-    }
-
-    private reset(): void {
-        this.phase = AppPhase.EDIT_BOARD
-        this.boardDraftController = this.createBoardDraftController()
-        this.preGameSetupController = null
-        this.gameController = null
     }
 
     /* ---------- Snapshots ---------- */

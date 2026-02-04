@@ -3,7 +3,9 @@ import { UIViewProfile } from "../view/UIViewProfile.js"
 
 export const SPECTATOR_PROFILE: UIViewProfile = {
     visibility: {
-        showCorrectAnswer: false
+        showCorrectAnswer: false,
+        showBoardEditor: false,
+        showPreGameSetup: true
     },
     capabilities: {
         canBuzz: false,
