@@ -25,3 +25,6 @@ function main(): void {
 }
 
 main()
+
+// TODO: write tests
+// TODO: alert error messages (or own window)
