@@ -186,7 +186,6 @@ export class App {
 
             case AppPhase.GAME_ENDED:
                 if (this.gameEndAdapter && snapshot.game?.players) {
-                    console.log("ENded render")
                     this.gameEndAdapter.render(snapshot.game.players)
                 }
                 break

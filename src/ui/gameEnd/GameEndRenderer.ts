@@ -6,7 +6,8 @@ export class GameEndRenderer {
     private readonly FIGURE_SPACE = "\u2007"
 
     constructor(
-        private readonly root: HTMLElement
+        private readonly root: HTMLElement,
+        private readonly onStartNewGame: () => void
     ) {}
 
     public render(players: readonly PlayerUIState[]): void {
@@ -15,6 +16,7 @@ export class GameEndRenderer {
         this.root.className = "app-content-root game-ended"
 
         this.root.appendChild(this.renderScoreboard(players))
+        this.root.appendChild(this.renderActions())
     }
 
     /* ---------- Scoreboard ---------- */
@@ -74,6 +76,22 @@ export class GameEndRenderer {
         })
 
         return scoreboard
+    }
+
+    private renderActions(): HTMLElement {
+        const actions = document.createElement("div")
+        actions.className = "game-ended-actions"
+
+        const button = document.createElement("button")
+        button.className = "start-new-game-button"
+        button.textContent = "Start new game"
+        button.onclick = () => {
+            this.onStartNewGame()
+        }
+
+        actions.appendChild(button)
+
+        return actions
     }
 
     private scoreToAlignedString(score: number, l: number = 5): string {

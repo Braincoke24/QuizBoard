@@ -14,6 +14,7 @@ export class GameEndController {
     public dispatch(action: GameEndAction): void {
         switch (action.type) {
             case "GAME_ENDED/START_NEW_GAME": {
+                this.callbacks.onStartNewGame()
                 return
             }
         }

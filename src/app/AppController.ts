@@ -53,7 +53,7 @@ export class AppController {
                 return
 
             case "APP/GAME_ENDED":
-                this.assertPhase(AppPhase.GAME_RUNNING)
+                this.assertPhase(AppPhase.GAME_ENDED)
                 this.gameEndController!.dispatch(action.action)
                 return
 
@@ -75,8 +75,6 @@ export class AppController {
 
     private startBoardDraftEditor(): void {
         this.assertPhase(AppPhase.GAME_ENDED)
-
-        const players = this.gameEndController!.snapshot.players
 
         this.boardDraftController = this.createBoardDraftController()
         this.preGameSetupController = null

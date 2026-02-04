@@ -13,8 +13,15 @@ export class GameEndAdapter {
         dispatch: (action: GameEndAction) => void,
         root: HTMLElement
     ) {
+        const startNewGame = (): void => {
+            dispatch({
+                type: "GAME_ENDED/START_NEW_GAME"
+            })
+        }
+        
         this.renderer = new GameEndRenderer(
-            root
+            root,
+            startNewGame
         )
     }
 
