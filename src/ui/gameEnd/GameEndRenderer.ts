@@ -97,7 +97,7 @@ export class GameEndRenderer {
     private scoreToAlignedString(score: number, l: number = 5): string {
         const scoreLength = Math.max(Math.floor(Math.log10(Math.abs(score))) + 1,1)
 
-        let res = this.FIGURE_SPACE.repeat(l - scoreLength - 1) + score.toString()
+        let res = this.FIGURE_SPACE.repeat(Math.max(l - scoreLength - 1,0)) + score.toString()
 
         if (score >= 0) {
             res = this.FIGURE_SPACE + res
