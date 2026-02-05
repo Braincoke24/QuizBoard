@@ -328,7 +328,10 @@ describe("BoardDraftController", () => {
         })
 
         it("throws if the current draft is not valid", () => {
-            const controller = setup()
+            var submitState: SubmitState = {
+                submitted: false
+            }
+            const controller = setup(submitState)
 
             controller.dispatch({
                 type: "BOARD_DRAFT/UPDATE_DRAFT",
@@ -340,6 +343,7 @@ describe("BoardDraftController", () => {
                     type: "BOARD_DRAFT/SUBMIT_BOARD"
                 })
             }).toThrow()
+            expect(submitState.submitted).toBe(false)
         })
     })
 })
