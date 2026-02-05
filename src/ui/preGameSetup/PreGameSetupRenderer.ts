@@ -86,7 +86,7 @@ export class PreGameSetupRenderer {
         input.maxLength = MAX_NAME_LENGTH
 
         const addButton = document.createElement("button")
-        addButton.className = "player-add"
+        addButton.className = "player-add action-button accent"
         addButton.type = "submit"
         addButton.textContent = "Add"
         addButton.disabled = true
@@ -124,7 +124,7 @@ export class PreGameSetupRenderer {
         name.textContent = player.name
 
         const deleteButton = document.createElement("button")
-        deleteButton.className = "player-delete"
+        deleteButton.className = "player-delete action-button warning"
         deleteButton.textContent = "Delete"
         deleteButton.onclick = () => {
             this.onRemovePlayer(player.id)
@@ -160,7 +160,8 @@ export class PreGameSetupRenderer {
 
             for (let i = 0; i < draft.categories.length; i++) {
                 const question = draft.categories[i].questions[rowIndex]
-                const cell = document.createElement("div")
+                const cell = document.createElement("button")
+                cell.disabled = true
                 cell.className = "question-cell"
                 cell.textContent = question ? value.toString() : ""
                 row.append(cell)
@@ -311,7 +312,7 @@ export class PreGameSetupRenderer {
         container.className = "window-mode-container"
 
         const button = document.createElement("button")
-        button.className = "window-mode-button"
+        button.className = "window-mode-button action-button"
         button.textContent = name
 
         const infoIcon = document.createElement("span")
@@ -350,7 +351,7 @@ export class PreGameSetupRenderer {
         startContainer.className = "game-start-container"
 
         const startButton = document.createElement("button")
-        startButton.className = "game-start-button"
+        startButton.className = "game-start-button action-button accent"
         startButton.textContent = "Start game"
         startButton.onclick = () => {
             this.onStartGame(this.selectedWindowMode)

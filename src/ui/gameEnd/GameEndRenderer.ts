@@ -83,7 +83,7 @@ export class GameEndRenderer {
         actions.className = "game-ended-actions"
 
         const button = document.createElement("button")
-        button.className = "start-new-game-button"
+        button.className = "start-new-game-button action-button accent"
         button.textContent = "Start new game"
         button.onclick = () => {
             this.onStartNewGame()

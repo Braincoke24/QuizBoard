@@ -28,7 +28,7 @@ export class BoardDraftEditorRenderer {
         boardDraftContainer.appendChild(this.renderGrid(draft))
 
         const addButton = document.createElement("button")
-        addButton.className = "board-draft-category-add"
+        addButton.className = "board-draft-category-add action-button accent"
         addButton.textContent = "+"
         addButton.onclick = () => {
             if (!this.localDraft) return
@@ -77,7 +77,7 @@ export class BoardDraftEditorRenderer {
             }
 
             const deleteButton = document.createElement("button")
-            deleteButton.className = "board-draft-category-delete"
+            deleteButton.className = "board-draft-category-delete action-button warning"
             deleteButton.textContent = "Delete"
             deleteButton.onclick = () => {
                 if (!this.localDraft) return
@@ -160,7 +160,7 @@ export class BoardDraftEditorRenderer {
         actions.className = "edit-board-actions"
 
         const exportButton = document.createElement("button")
-        exportButton.className = "draft-export-button"
+        exportButton.className = "draft-export-button action-button accent"
         exportButton.textContent = "Export board"
         exportButton.onclick = () => {
             if (!this.localDraft) return
@@ -192,7 +192,7 @@ export class BoardDraftEditorRenderer {
         }
 
         const importButton = document.createElement("button")
-        importButton.className = "draft-import-button"
+        importButton.className = "draft-import-button action-button accent"
         importButton.textContent = "Import board"
         importButton.onclick = () => importInput.click()
 
@@ -202,7 +202,7 @@ export class BoardDraftEditorRenderer {
         /* ---------- Submit ---------- */
 
         const submit = document.createElement("button")
-        submit.className = "draft-submit-button"
+        submit.className = "draft-submit-button action-button accent"
         submit.textContent = "Submit board"
         submit.onclick = () => {
             if (!this.localDraft) return

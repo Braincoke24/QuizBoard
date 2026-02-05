@@ -63,7 +63,7 @@ export class GameViewRenderer {
 
     private renderBuzzer(snapshot: GameUISnapshot, playerId: string): HTMLElement {
         const button = document.createElement("button")
-        button.className = "buzz-button"
+        button.className = "buzz-button action-button accent"
 
         button.textContent = "Buzz"
         button.disabled = !snapshot.canBuzz.includes(playerId)
@@ -190,13 +190,13 @@ export class GameViewRenderer {
 
         if (this.profile.capabilities.canJudgeAnswer) {
             const correct = document.createElement("button")
-            correct.className = "correct"
+            correct.className = "correct action-button accent"
             correct.textContent = "Correct"
             correct.disabled = !snapshot.canAnswer
             correct.onclick = () => this.onAnswer(true)
     
             const wrong = document.createElement("button")
-            wrong.className = "wrong"
+            wrong.className = "wrong action-button accent"
             wrong.textContent = "Wrong"
             wrong.disabled = !snapshot.canAnswer
             wrong.onclick = () => this.onAnswer(false)
@@ -211,7 +211,7 @@ export class GameViewRenderer {
 
         if (this.profile.capabilities.canPass) {
             const pass = document.createElement("button")
-            pass.className = "pass"
+            pass.className = "pass action-button accent"
             pass.textContent = "Pass"
             pass.disabled = !snapshot.canPass
             pass.onclick = () => this.onPass()
@@ -225,7 +225,7 @@ export class GameViewRenderer {
 
         if (this.profile.capabilities.canContinue) {
             const continueGame = document.createElement("button")
-            continueGame.className = "continue"
+            continueGame.className = "continue action-button accent"
             continueGame.textContent = "Continue"
             continueGame.disabled = !snapshot.canContinue
             continueGame.onclick = () => this.onContinue()

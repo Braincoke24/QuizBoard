@@ -49,7 +49,7 @@
 
 .player-name {
     --border-size: 2px;
-    --radius: 1vw;
+    --border-radius: 1vw;
 
     grid-row: 1;
     grid-column: 1 / -1;
@@ -65,7 +65,7 @@
     background-color: var(--color-primary-3);
     
     border: var(--border-size) solid var(--color-primary-6);
-    border-radius: var(--radius);
+    border-radius: var(--border-radius);
     outline: none;
     
     z-index: 2;
@@ -84,7 +84,7 @@
 
 .player-score {
     --border-size: 2px;
-    --radius: 1vw;
+    --border-radius: 1vw;
 
     grid-row: 2;
     grid-column: 2;
@@ -101,7 +101,7 @@
     background-color: var(--color-primary-3);
     
     border: var(--border-size) solid var(--color-primary-6);
-    border-radius: var(--radius);
+    border-radius: var(--border-radius);
     
     z-index: 1;
     margin-top: -0.8vh;
@@ -113,147 +113,53 @@
 
 .player-delete {
     --border-size: 2px;
-    --radius: 1vw;
+    --border-radius: 1vw;
 
     grid-row: 2;
     grid-column: 2;
 
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    
     z-index: 1;
     margin-top: -0.8vh;
     margin-bottom: 0.5vh;
     padding: 0 1vw;
-    
-    background-color: var(--color-warning-3);
-    color: var(--color-warning-11);
-    
-    border: var(--border-size) solid var(--color-warning-7);
-    border-radius: var(--radius);
-    
-    cursor: pointer;
-    transition:
-        background-color 0.15s ease,
-        transform 0.1s ease,
-        box-shadow 0.1s ease;
-}
-
-.player-delete:not(:disabled):hover,
-.player-delete:not(:disabled):focus-visible {
-    outline: none;
-    background-color: var(--color-warning-4);
-    border-color: var(--color-warning-8);
-    transform: translateY(-1px);
-    box-shadow: 0 4px 10px var(--black-a4);
 }
 
 /* Add player */
 
 .player-add {
     --border-size: 2px;
-    --radius: 1vw;
+    --border-radius: 1vw;
 
     grid-row: 2;
     grid-column: 2;
-
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    border-radius: var(--radius);
 
     z-index: 1;
     margin-top: -0.8vh;
     margin-bottom: 0.5vh;
     padding: 0 1vw;
-
-    background-color: var(--color-accent-3);
-    color: var(--color-accent-11);
-
-    border: var(--border-size) solid var(--color-accent-7);
-
-    cursor: pointer;
-    transition:
-        background-color 0.15s ease,
-        transform 0.1s ease,
-        box-shadow 0.1s ease;
-}
-
-.player-add:not(:disabled):hover,
-.player-add:not(:disabled):focus-visible {
-    outline: none;
-    background-color: var(--color-accent-4);
-    border-color: var(--color-accent-8);
-    transform: translateY(-1px);
-    box-shadow: 0 4px 10px var(--black-a4);
 }
 
 /* Buzzer */
 
 .buzz-button {
     --border-size: 2px;
-    --radius: 1vw;
+    --border-radius: 1vw;
 
     grid-row: 2;
     grid-column: 1;
-
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    border-radius: var(--radius);
 
     margin-top: 1.2vh;
     margin-left: 1vw;
     padding: 0;
     width: 4vw;
-
-    background-color: var(--color-accent-3);
-    color: var(--color-accent-11);
-
-    border: var(--border-size) solid var(--color-accent-7);
-
-    cursor: pointer;
-    transition:
-        background-color 0.15s ease,
-        transform 0.1s ease,
-        box-shadow 0.1s ease;
 }
 
-.buzz-button:not(:disabled):hover,
-.buzz-button:not(:disabled):focus-visible {
-    outline: none;
-    background-color: var(--color-accent-4);
-    border-color: var(--color-accent-8);
-    transform: translateY(-1px);
-    box-shadow: 0 4px 10px var(--black-a4);
-}
-
-.buzz-button:not(:disabled):active {
-    transform: translateY(0);
-    box-shadow: none;
-}
-
-.buzz-button:disabled,
-.player-add:disabled {
-    cursor: default;
-    box-shadow: none;
-}
-
-.player-cell.locked ::after,
-.buzz-button:disabled::after,
-.player-add:disabled::after {
+.player-cell.locked ::after {
     content: "";
     position: absolute;
 
     inset: calc(-1 * var(--border-size));
-    border-radius: var(--radius);
+    border-radius: var(--border-radius);
     background-color: var(--black-a2);
 
     backdrop-filter: grayscale(1);

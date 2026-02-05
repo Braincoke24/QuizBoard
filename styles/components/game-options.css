@@ -167,31 +167,13 @@ input[type="number"].multiplier-value:focus {
 }
 
 .window-mode-button {
-    color: var(--color-primary-11);
-    background-color: var(--color-primary-3);
-    border: 2px solid var(--color-primary-6);
-    border-radius: 1vw;
+    --border-size: 2px;
+    --border-radius: 1vw;
 
     font-size: 1rem;
 
     width: 6vw;
     height: 4vh;
-
-    cursor: pointer;
-    transition:
-        background-color 0.15s ease,
-        transform 0.1s ease,
-        box-shadow 0.1s ease;
-}
-
-.window-mode-button:hover,
-.window-mode-button:focus-visible {
-    cursor: pointer;
-    outline: none;
-    background-color: var(--color-primary-4);
-    border-color: var(--color-primary-8);
-    transform: translateY(-1px);
-    box-shadow: 0 4px 10px var(--black-a4);
 }
 
 .window-mode-button.active {
@@ -220,53 +202,10 @@ input[type="number"].multiplier-value:focus {
 
 .game-start-button {
     --border-size: 2px;
-    --radius: 1vw;
-
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    color: var(--color-accent-11);
-    background-color: var(--color-accent-3);
-    border: var(--border-size) solid var(--color-accent-6);
-    border-radius: var(--radius);
+    --border-radius: 1vw;
 
     font-size: 1rem;
 
     width: 10vw;
     height: 5vh;
-
-    cursor: pointer;
-    transition:
-        background-color 0.15s ease,
-        transform 0.1s ease,
-        box-shadow 0.1s ease;
-}
-
-.game-start-button:not(:disabled):hover,
-.game-start-button:not(:disabled):focus-visible {
-    cursor: pointer;
-    outline: none;
-    background-color: var(--color-accent-4);
-    border-color: var(--color-accent-8);
-    transform: translateY(-1px);
-    box-shadow: 0 4px 10px var(--black-a4);
-}
-
-.game-start-button:disabled {
-    cursor: default;
-    box-shadow: none;
-}
-
-.game-start-button:disabled::after {
-    content: "";
-    position: absolute;
-
-    inset: calc(-1 * var(--border-size));
-    border-radius: var(--radius);
-    background-color: var(--black-a2);
-
-    backdrop-filter: grayscale(1);
-    pointer-events: none;
 }

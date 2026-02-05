@@ -16,7 +16,7 @@
 
 .board {
     display: grid;
-    gap: 1.5vh;
+    row-gap: 1.5vh;
     position: relative;
     margin: 0 auto;
 }
@@ -31,7 +31,7 @@
 .board-row {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(5vw, 1fr));
-    gap: 1vw;
+    column-gap: 1vw;
 }
 
 .board-header {
@@ -46,7 +46,7 @@
 
 .question-cell {
     --border-size: 2px;
-    --radius: 0.7vw;
+    --border-radius: 0.7vw;
 
     display: grid;
     place-items: center; 
@@ -59,7 +59,7 @@
     color: var(--color-primary-11);
 
     border: var(--border-size) solid var(--color-primary-7);
-    border-radius: var(--radius);
+    border-radius: var(--border-radius);
 
     transition:
         border-color 0.2s ease,
@@ -87,7 +87,7 @@ button.question-cell:not(.used):not(.empty):not(:disabled):focus-visible {
     position: absolute;
 
     inset: calc(-1 * var(--border-size));
-    border-radius: var(--radius);
+    border-radius: var(--border-radius);
     background-color: var(--black-a1);
 
     backdrop-filter: grayscale(0.7);

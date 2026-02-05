@@ -6,6 +6,7 @@
 @import "./components/game-options.css";
 @import "./components/info-icon.css";
 @import "./components/scoreboard.css";
+@import "./components/action-button.css";
 
 body {
     margin: 0;

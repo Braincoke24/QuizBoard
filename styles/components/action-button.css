@@ -1,0 +1,81 @@
+/* styles/components/action-button.css */
+
+.action-button {
+    border-width: var(--border-size);
+    border-style: solid;
+    border-radius: var(--border-radius);
+
+    background-color: var(--color-primary-3);
+    border-color: var(--color-primary-7);
+    color: var(--color-primary-11);
+
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    cursor: pointer;
+    transition:
+        background-color 0.15s ease,
+        transform 0.1s ease,
+        box-shadow 0.1s ease;
+}
+
+.action-button.accent {
+    background-color: var(--color-accent-3);
+    border-color: var(--color-accent-7);
+    color: var(--color-accent-11);
+}
+
+.action-button.warning {
+    background-color: var(--color-warning-3);
+    border-color: var(--color-warning-7);
+    color: var(--color-warning-11);
+}
+
+.action-button:not(:disabled):hover,
+.action-button:not(:disabled):focus {
+    outline: none;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 10px var(--black-a4);
+    background-color: var(--color-primary-4);
+    border-color: var(--color-primary-8);
+}
+
+.action-button.accent:not(:disabled):hover,
+.action-button.accent:not(:disabled):focus {
+    background-color: var(--color-accent-4);
+    border-color: var(--color-accent-8);
+}
+
+.action-button.warning:not(:disabled):hover,
+.action-button.warning:not(:disabled):focus {
+    background-color: var(--color-warning-4);
+    border-color: var(--color-warning-8);
+}
+
+.action-button:not(:disabled):active {
+    transform: translateY(0);
+    box-shadow: none;
+}
+
+.action-button:disabled {
+    cursor: default;
+    box-shadow: none;
+}
+
+.action-button:disabled::after {
+    content: "";
+    position: absolute;
+
+    inset: calc(-1 * var(--border-size));
+    border-radius: var(--border-radius);
+    background-color: var(--black-a2);
+
+    backdrop-filter: grayscale(1);
+    pointer-events: none;
+}
+
+.action-button.hidden {
+    visibility: hidden;
+}
