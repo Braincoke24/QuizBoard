@@ -79,12 +79,12 @@ export class BoardDraftController {
             if (category.questions.length !== board.rowValues.length) {
                 throw new Error("Each category must have one question per row")
             }
-            if (category.name === "") {
-                throw new Error("Category name musn't be empty")
+            if (category.name.trim() === "") {
+                throw new Error("Category name can't be empty or a whitespace")
             }
             category.questions.forEach((q) => {
-                if (q.text === "") {
-                    throw new Error("Question text musn't be empty")
+                if (q.text.trim() === "") {
+                    throw new Error("Question text can't be empty or a whitespace")
                 }
             })
         }
