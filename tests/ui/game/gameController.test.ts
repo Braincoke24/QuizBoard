@@ -1,10 +1,10 @@
-// tests/ui/gameController.test.ts
+// tests/ui/game/gameController.test.ts
 import { describe, it, expect } from "vitest"
-import { GameController } from "../../src/ui/game/GameController.js"
-import { GameRules } from "../../src/game/GameRules.js"
-import { createGame } from "../helpers/createGame.js"
-import { TurnState } from "../../src/game/turn/TurnState.js"
-import { GameCallbacks } from "../../src/ui/game/GameCallbacks.js"
+import { GameController } from "../../../src/ui/game/GameController.js"
+import { GameRules } from "../../../src/game/GameRules.js"
+import { createGame } from "../../helpers/createGame.js"
+import { TurnState } from "../../../src/game/turn/TurnState.js"
+import { GameCallbacks } from "../../../src/ui/game/GameCallbacks.js"
 
 function setup() {
     const callbacks: GameCallbacks = {

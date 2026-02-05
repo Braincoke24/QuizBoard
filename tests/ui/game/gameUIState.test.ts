@@ -1,9 +1,9 @@
-// tests/ui/gameUIState.test.ts
+// tests/ui/game/gameUIState.test.ts
 import { describe, it, expect } from "vitest"
-import { GameUIState } from "../../src/ui/game/state/GameUIState.js"
-import { GameRules } from "../../src/game/GameRules.js"
-import { createGame } from "../helpers/createGame.js"
-import { TurnState } from "../../src/game/turn/TurnState.js"
+import { GameUIState } from "../../../src/ui/game/state/GameUIState.js"
+import { GameRules } from "../../../src/game/GameRules.js"
+import { createGame } from "../../helpers/createGame.js"
+import { TurnState } from "../../../src/game/turn/TurnState.js"
 
 function setup() {
     const { game } = createGame(GameRules.classic())
@@ -11,7 +11,6 @@ function setup() {
 
     return { game, ui }
 }
-
 
 describe("GameUIState", () => {
     describe("player projections", () => {
