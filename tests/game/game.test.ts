@@ -127,6 +127,22 @@ describe("error handling", () => {
         expect(() => game.selectQuestion(1, 1)).toThrow()
     })
 
+    it("cannot pass while answering", () => {
+        const { game } = createGame(GameRules.classic())
+
+        game.selectQuestion(0, 0)
+
+        expect(() => game.pass()).toThrow()
+    })
+
+    it("cannot continue while buzzing", () => {
+        const { game } = createGame(GameRules.classic())
+
+        game.selectQuestion(0, 0)
+
+        expect(() => game.continue()).toThrow()
+    })
+
     it("a question cannot be selected twice", () => {
         const { game } = createGame(GameRules.classic())
 

@@ -51,21 +51,28 @@ describe("Turn", () => {
         expect(turn.state).toBe(TurnState.RESOLVING)
     })
 
-    it("pass ends the turn when no one wants to buzz", () => {
+    it("pass advances the turn to resolving state when no one wants to buzz", () => {
         turn.selectQuestion(question,"Test category")
         turn.submitAnswer(false)
         turn.pass()
-        turn.continue()
 
-        expect(turn.state).toBe(TurnState.RESOLVED)
+        expect(turn.state).toBe(TurnState.RESOLVING)
     })
 
-    it("turn automatically resolves if all players have tried", () => {
+    it("turn automatically advances to resolving state if all players have tried", () => {
         turn.selectQuestion(question,"Test category")
         turn.submitAnswer(false) // Alice wrong
         turn.buzz(bob)
         turn.submitAnswer(false) // Bob wrong
 
         expect(turn.state).toBe(TurnState.RESOLVING)
+    })
+
+    it("turn resolves when continue is invoked", () => {
+        turn.selectQuestion(question,"Test category")
+        turn.submitAnswer(true) // Alice correct
+        turn.continue()
+
+        expect(turn.state).toBe(TurnState.RESOLVED)
     })
 })
