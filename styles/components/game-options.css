@@ -13,13 +13,14 @@
     display: flex;
     flex-direction: column;
     justify-content: start;
-    row-gap: 2vh;
+    row-gap: 1vh;
 
     overflow: hidden;
 }
 
 .game-rules-title,
-.window-mode-title {
+.window-mode-title,
+.buzzer-mode-title {
     color: var(--color-primary-11);
     text-align: left;
     font-size: 2rem;
@@ -53,8 +54,8 @@
     cursor: pointer;
 }
 
-.rule-tabs button:not(.active):hover,
-.rule-tabs button:not(.active):focus {
+.rule-tabs button:not(.selected):hover,
+.rule-tabs button:not(.selected):focus {
     outline: none;
     background-color: var(--color-primary-4);
     border-color: var(--color-primary-8);
@@ -62,8 +63,8 @@
     box-shadow: 0 4px 10px var(--black-a4);
 }
 
-.rule-tabs button.active:hover,
-.rule-tabs button.active:focus {
+.rule-tabs button.selected:hover,
+.rule-tabs button.selected:focus {
     outline: none;
     transform: translateY(-1px);
     margin-bottom: -1px;
@@ -73,7 +74,7 @@
     box-shadow: 0 4px 10px var(--black-a4);
 }
 
-.rule-tabs button.active {
+.rule-tabs button.selected {
     background-color: var(--color-primary-2);
     border-color: var(--color-primary-8);
     border-bottom: 2px solid var(--color-primary-2);
@@ -152,6 +153,30 @@ input[type="number"].multiplier-value:focus {
     box-shadow: 0 0 0 1px var(--color-primary-7);
 }
 
+/* Buzzer Mode */
+
+.buzzer-mode-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: start;
+    column-gap: 0.6vw;
+
+    padding: 0.5vh 0;
+    
+    color: var(--color-primary-11);
+}
+
+.buzzer-mode-container .action-button {
+    --border-size: 2px;
+    --border-radius: 1vw;
+
+    font-size: 1rem;
+
+    width: 6vw;
+    height: 4vh;
+}
+
 /* Window Mode */
 
 .window-mode-container {
@@ -159,7 +184,7 @@ input[type="number"].multiplier-value:focus {
     flex-direction: row;
     align-items: center;
     justify-content: center;
-    gap: 0.6vw;
+    column-gap: 0.6vw;
 
     padding: 0.5vh 0;
     
@@ -174,11 +199,6 @@ input[type="number"].multiplier-value:focus {
 
     width: 6vw;
     height: 4vh;
-}
-
-.window-mode-button.active {
-    background-color: var(--color-primary-5);
-    border-color: var(--color-primary-8);
 }
 
 .window-mode-desc {

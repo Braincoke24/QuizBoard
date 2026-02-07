@@ -1,4 +1,5 @@
 // src/ui/preGameSetup/PreGameSetupAction.ts
+
 export type PreGameSetupAction =
     | {
         type: "PRE_GAME_SETUP/ADD_PLAYER"
@@ -16,6 +17,10 @@ export type PreGameSetupAction =
         type: "PRE_GAME_SETUP/UPDATE_CUSTOM_MULTIPLIER"
         key: "firstWrongMultiplier" | "buzzCorrectMultiplier" | "buzzWrongMultiplier"
         value: number
+    }
+    | {
+        type: "PRE_GAME_SETUP/SET_BUZZER_MODE"
+        mode: "mouse-only" | "mouse-and-keyboard"
     }
     | {
         type: "PRE_GAME_SETUP/START_GAME"

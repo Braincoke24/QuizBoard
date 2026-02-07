@@ -76,6 +76,11 @@
     pointer-events: none;
 }
 
+.action-button.selected {
+    background-color: var(--color-primary-5);
+    border-color: var(--color-primary-8);
+}
+
 .action-button.hidden {
     visibility: hidden;
 }

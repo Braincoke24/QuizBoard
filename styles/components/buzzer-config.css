@@ -1,0 +1,51 @@
+/* styles/components/buzzer-config.css */
+
+.buzzer-config {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    row-gap: 1vh;
+
+    color: var(--color-primary-11);
+}
+
+.buzzer-config-title {
+    font-size: 2rem;
+}
+
+.buzzer-config-player-list {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    row-gap: 1vh;
+}
+
+.buzzer-config-player-row {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+
+    background-color: var(--color-primary-3);
+    border: 2px solid var(--color-primary-6);
+    border-radius: 10vw;
+    padding: 0 2vw;
+    width: 20vw;
+    height: 7vh;
+
+    font-size: 1.2rem;
+}
+
+.buzzer-config-actions .action-button {
+    --border-size: 2px;
+    --border-radius: 1vw;
+
+    font-size: 1rem;
+
+    width: 5vw;
+    height: 5vh;
+}

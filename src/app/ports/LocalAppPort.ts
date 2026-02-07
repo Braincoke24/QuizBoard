@@ -1,5 +1,6 @@
 // src/app/ports/LocalAppPort.ts
-import { AppPort, AppSnapshot } from "./AppPort.js"
+import { AppPort } from "./AppPort.js"
+import { AppSnapshot } from "../AppSnapshot.js"
 import { AppController } from "../AppController.js"
 import { AppAction } from "../AppAction.js"
 
@@ -27,6 +28,7 @@ export class LocalAppPort implements AppPort {
             phase: this.controller.getPhase(),
             boardDraft: this.controller.getBoardDraftSnapshot(),
             preGameSetup: this.controller.getPreGameSetupSnapshot(),
+            buzzerConfig: this.controller.getBuzzerConfigSnapshot(),
             game: this.controller.getGameSnapshot()
         }
     }

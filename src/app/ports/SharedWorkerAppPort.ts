@@ -1,5 +1,6 @@
 // src/app/ports/SharedWorkerAppPort.ts
-import { AppPort, AppSnapshot } from "./AppPort.js"
+import { AppPort } from "./AppPort.js"
+import { AppSnapshot } from "../AppSnapshot.js"
 import { AppAction } from "../AppAction.js"
 
 /**

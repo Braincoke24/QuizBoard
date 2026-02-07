@@ -4,7 +4,7 @@ declare const self: SharedWorkerGlobalScope
 
 import { AppController } from "../app/AppController.js"
 import { AppAction } from "../app/AppAction.js"
-import { AppSnapshot } from "../app/ports/AppPort.js"
+import { AppSnapshot } from "../app/AppSnapshot.js"
 
 /**
  * SharedWorker hosting the single AppController instance.
@@ -18,6 +18,7 @@ function getSnapshot(): AppSnapshot {
         phase: controller.getPhase(),
         boardDraft: controller.getBoardDraftSnapshot(),
         preGameSetup: controller.getPreGameSetupSnapshot(),
+        buzzerConfig: controller.getBuzzerConfigSnapshot(),
         game: controller.getGameSnapshot()
     }
 }

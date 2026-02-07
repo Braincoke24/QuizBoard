@@ -6,6 +6,7 @@ import { BoardDraftController } from "../ui/editBoard/BoardDraftController.js"
 import { PreGameSetupController } from "../ui/preGameSetup/PreGameSetupController.js"
 import { GameController } from "../ui/game/GameController.js"
 import { GameEndController } from "../ui/gameEnd/GameEndController.js"
+import { BuzzerConfigController } from "../ui/buzzerConfig/BuzzerConfigController.js"
 
 import { Game } from "../game/Game.js"
 import { Player } from "../game/Player.js"
@@ -17,14 +18,18 @@ import { BoardDraftCallbacks } from "../ui/editBoard/BoardDraftCallbacks.js"
 import { GameUISnapshot } from "../ui/game/state/GameUISnapshot.js"
 import { GameEndCallbacks } from "../ui/gameEnd/GameEndCallbacks.js"
 import { GameCallbacks } from "../ui/game/GameCallbacks.js"
+import { PlayerConfig } from "../ui/preGameSetup/PreGameSetupState.js"
 
 export class AppController {
     private phase: AppPhase = AppPhase.EDIT_BOARD
 
     private boardDraftController: BoardDraftController
     private preGameSetupController: PreGameSetupController | null = null
+    private buzzerConfigController: BuzzerConfigController | null = null
     private gameController: GameController | null = null
     private gameEndController: GameEndController | null = null
+
+    private buzzerKeys: Record<string, string> | null = null
 
     constructor() {
         this.boardDraftController = this.createBoardDraftController()
@@ -43,17 +48,22 @@ export class AppController {
                 return
 
             case "APP/PRE_GAME_SETUP":
-                this.assertPhase(AppPhase.PRE_GAME_SETUP)
+                this.assertPhase([AppPhase.PRE_GAME_SETUP])
                 this.preGameSetupController!.dispatch(action.action)
                 return
 
+            case "APP/BUZZER_CONFIG":
+                this.assertPhase([AppPhase.BUZZER_CONFIG])
+                this.buzzerConfigController!.dispatch(action.action)
+                return
+
             case "APP/GAME":
-                this.assertPhase(AppPhase.GAME_RUNNING)
+                this.assertPhase([AppPhase.GAME_RUNNING])
                 this.gameController!.dispatch(action.action)
                 return
 
             case "APP/GAME_ENDED":
-                this.assertPhase(AppPhase.GAME_ENDED)
+                this.assertPhase([AppPhase.GAME_ENDED])
                 this.gameEndController!.dispatch(action.action)
                 return
 
@@ -67,14 +77,14 @@ export class AppController {
     /* ---------- Phase Handlers ---------- */
 
     private handleBoardDraft(action: any): void {
-        this.assertPhase(AppPhase.EDIT_BOARD)
+        this.assertPhase([AppPhase.EDIT_BOARD])
         this.boardDraftController.dispatch(action)
     }
 
     /* ---------- Transitions ---------- */
 
     private startBoardDraftEditor(): void {
-        this.assertPhase(AppPhase.GAME_ENDED)
+        this.assertPhase([AppPhase.GAME_ENDED])
 
         this.boardDraftController = this.createBoardDraftController()
 
@@ -82,7 +92,7 @@ export class AppController {
     }
 
     private startPreGameSetup(): void {
-        this.assertPhase(AppPhase.EDIT_BOARD)
+        this.assertPhase([AppPhase.EDIT_BOARD])
 
         const boardDraft = this.boardDraftController.getSnapshot()
 
@@ -91,7 +101,7 @@ export class AppController {
     }
 
     private startGame(): void {
-        this.assertPhase(AppPhase.PRE_GAME_SETUP)
+        this.assertPhase([AppPhase.PRE_GAME_SETUP, AppPhase.BUZZER_CONFIG])
 
         const setup = this.preGameSetupController!.getSnapshot()
         const boardDraft = this.preGameSetupController!.getBoardDraft()
@@ -108,8 +118,34 @@ export class AppController {
         this.phase = AppPhase.GAME_RUNNING
     }
 
+    private startGameFlow(): void {
+        this.assertPhase([AppPhase.PRE_GAME_SETUP])
+
+        const setup = this.preGameSetupController!.getSnapshot()
+
+        if (setup.buzzerMode === "mouse-and-keyboard" && setup.players.length > 1) {
+            this.startBuzzerConfig(setup.players)
+            return
+        }
+
+        this.startGame()
+    }
+
+    private startBuzzerConfig(players: PlayerConfig[]): void {
+        this.buzzerKeys = null
+
+        this.buzzerConfigController = new BuzzerConfigController(players, {
+            onDone: (keys) => {
+                this.buzzerKeys = keys
+                this.startGame()
+            }
+        })
+
+        this.phase = AppPhase.BUZZER_CONFIG
+    }
+
     private endGame(): void {
-        this.assertPhase(AppPhase.GAME_RUNNING)
+        this.assertPhase([AppPhase.GAME_RUNNING])
 
         const snapshot = this.gameController!.getSnapshot()
 
@@ -126,6 +162,10 @@ export class AppController {
 
     public getPreGameSetupSnapshot() {
         return this.preGameSetupController?.getSnapshot() ?? null
+    }
+
+    public getBuzzerConfigSnapshot() {
+        return this.buzzerConfigController?.getSnapshot() ?? null
     }
 
     public getGameSnapshot() {
@@ -147,7 +187,7 @@ export class AppController {
     private createPreGameSetupController(boardDraft: BoardDraft): PreGameSetupController {
         const callbacks: PreGameSetupCallbacks = {
                 onStartGame: () => {
-                    this.startGame()
+                    this.startGameFlow()
                 }
             }
         
@@ -176,8 +216,8 @@ export class AppController {
 
     /* ---------- Helpers ---------- */
 
-    private assertPhase(expected: AppPhase): void {
-        if (this.phase !== expected) {
+    private assertPhase(expected: AppPhase[]): void {
+        if (this.phase in expected) {
             throw new Error(
                 `Invalid action for phase ${this.phase}, expected ${expected}`
             )

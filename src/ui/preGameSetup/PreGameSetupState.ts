@@ -12,10 +12,14 @@ export interface RuleMultipliers {
     buzzWrongMultiplier: number
 }
 
+export type BuzzerMode = "mouse-only" | "mouse-and-keyboard"
+
 export interface PreGameSetup {
     players: PlayerConfig[]
     board: BoardDraft
 
     selectedRuleId: string
     customMultipliers: RuleMultipliers
+
+    buzzerMode: BuzzerMode
 }

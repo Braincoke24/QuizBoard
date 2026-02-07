@@ -51,6 +51,13 @@ export class PreGameSetupAdapter {
             })
         }
 
+        const setBuzzerMode = (mode: "mouse-only" | "mouse-and-keyboard"): void => {
+            dispatch({
+                type: "PRE_GAME_SETUP/SET_BUZZER_MODE",
+                mode
+            })
+        }
+
         const startGame = (mode: "single" | "dual" | "keep-current"): void => {
             switch (mode) {
                 case "single":
@@ -79,6 +86,7 @@ export class PreGameSetupAdapter {
             removePlayer,
             selectRule,
             updateMultiplier,
+            setBuzzerMode,
             startGame
         )
     }

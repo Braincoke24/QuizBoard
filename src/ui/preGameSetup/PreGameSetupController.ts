@@ -27,7 +27,8 @@ export class PreGameSetupController {
                 firstWrongMultiplier: defaultPreset.rules.firstWrongMultiplier,
                 buzzCorrectMultiplier: defaultPreset.rules.buzzCorrectMultiplier,
                 buzzWrongMultiplier: defaultPreset.rules.buzzWrongMultiplier
-            }
+            },
+            buzzerMode: "mouse-only"
         }
     }
 
@@ -53,6 +54,10 @@ export class PreGameSetupController {
             case "PRE_GAME_SETUP/START_GAME":
                 this.validateSetup(this.setup)
                 this.callbacks.onStartGame()
+                return
+
+            case "PRE_GAME_SETUP/SET_BUZZER_MODE":
+                this.setup.buzzerMode = action.mode
                 return
 
             default: {

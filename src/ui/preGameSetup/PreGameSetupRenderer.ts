@@ -1,6 +1,6 @@
 // src/ui/preGameSetup/PreGameSetupRenderer.ts
 import { BoardDraft } from "../editBoard/BoardDraftState.js"
-import { PlayerConfig, PreGameSetup } from "./PreGameSetupState.js"
+import { BuzzerMode, PlayerConfig, PreGameSetup } from "./PreGameSetupState.js"
 import { GameRulePreset } from "../../game/GameRulePresets.js"
 import { INFO_ICON_SVG } from "../shared/icons.js"
 
@@ -20,6 +20,7 @@ export class PreGameSetupRenderer {
             key: "firstWrongMultiplier" | "buzzCorrectMultiplier" | "buzzWrongMultiplier",
             value: number
         ) => void,
+        private readonly onSetBuzzerMode: (mode: "mouse-only" | "mouse-and-keyboard") => void,
         private readonly onStartGame: (mode: WindowMode) => void
     ) {}
 
@@ -114,7 +115,6 @@ export class PreGameSetupRenderer {
         return cell
     }
 
-
     private renderPlayerRow(player: PlayerConfig): HTMLElement {
         const cell = document.createElement("div")
         cell.className = "player-cell"
@@ -201,7 +201,7 @@ export class PreGameSetupRenderer {
             button.textContent = preset.label
 
             if (preset.id === setup.selectedRuleId) {
-                button.classList.add("active")
+                button.classList.add("selected")
             }
 
             button.onclick = () => this.onSelectRule(preset.id)
@@ -330,7 +330,7 @@ export class PreGameSetupRenderer {
         }
 
         if (this.selectedWindowMode === mode) {
-            button.classList.add("active")
+            button.classList.add("selected")
         }
 
         container.append(button,desc,infoIcon)
@@ -340,11 +340,44 @@ export class PreGameSetupRenderer {
 
     /* ---------- Actions ---------- */
 
+    private renderBuzzerModeSelector(setup: PreGameSetup): HTMLElement {
+        const container = document.createElement("div")
+        container.className = "buzzer-mode"
+
+        const title = document.createElement("div")
+        title.className = "buzzer-mode-title"
+        title.textContent = "Buzzer mode"
+
+        const buttonContainer = document.createElement("div")
+        buttonContainer.className = "buzzer-mode-container"
+        
+        buttonContainer.appendChild(this.renderBuzzerModeButton(setup,"mouse-only","Mouse"))
+        buttonContainer.appendChild(this.renderBuzzerModeButton(setup,"mouse-and-keyboard","Keyboard"))
+        
+        container.append(title, buttonContainer)
+
+        return container
+    }
+
+    private renderBuzzerModeButton(setup: PreGameSetup, mode: BuzzerMode, text: string): HTMLButtonElement {
+        const button = document.createElement("button")
+        button.className = "action-button"
+        button.textContent = text
+        button.onclick = () => this.onSetBuzzerMode(mode)
+
+        if (setup.buzzerMode === mode) {
+            button.classList.add("selected")
+        }
+
+        return button
+    }
+
     private renderGameOptions(setup: PreGameSetup): HTMLElement {
         const container = document.createElement("div")
         container.className = "game-options"
 
         const rules = this.renderGameRules(setup)
+        const buzzerMode = this.renderBuzzerModeSelector(setup)
         const windowMode = this.renderWindowModeSelector()
 
         const startContainer = document.createElement("div")
@@ -360,7 +393,7 @@ export class PreGameSetupRenderer {
 
         startContainer.appendChild(startButton)
 
-        container.append(rules, windowMode, startContainer)
+        container.append(rules, buzzerMode, windowMode, startContainer)
         return container
     }
 }

@@ -1,5 +1,6 @@
 // src/app/App.ts
-import { AppPort, AppSnapshot } from "./ports/AppPort.js"
+import { AppPort } from "./ports/AppPort.js"
+import { AppSnapshot } from "./AppSnapshot.js"
 import { AppPhase } from "./AppPhase.js"
 import { AppAction } from "./AppAction.js"
 import { AppShell } from "../ui/shell/AppShell.js"
@@ -9,11 +10,12 @@ import { ThemeController } from "../ui/shared/ThemeController.js"
 import { BoardDraftAdapter } from "../ui/editBoard/BoardDraftAdapter.js"
 import { PreGameSetupAdapter } from "../ui/preGameSetup/PreGameSetupAdapter.js"
 import { GameViewAdapter } from "../ui/game/GameViewAdapter.js"
+import { GameEndAdapter } from "../ui/gameEnd/GameEndAdapter.js"
+import { WaitForSetupAdapter } from "../ui/editBoard/WaitForSetupAdapter.js"
+import { BuzzerConfigAdapter } from "../ui/buzzerConfig/BuzzerConfigAdapter.js"
 
 import { RoleResolver } from "../shared/RoleResolver.js"
 import { UIViewProfile } from "../ui/shared/view/UIViewProfile.js"
-import { GameEndAdapter } from "../ui/gameEnd/GameEndAdapter.js"
-import { WaitForSetupAdapter } from "../ui/editBoard/WaitForSetupAdapter.js"
 
 /**
  * UI composition root.
@@ -30,6 +32,7 @@ export class App {
 
     private boardDraftAdapter: BoardDraftAdapter | null = null
     private preGameSetupAdapter: PreGameSetupAdapter | null = null
+    private buzzerConfigAdapter: BuzzerConfigAdapter | null = null
     private gameViewAdapter: GameViewAdapter | null = null
     private gameEndAdapter: GameEndAdapter | null = null
     private waitForSetupAdapter: WaitForSetupAdapter | null = null
@@ -85,10 +88,8 @@ export class App {
 
         WindowManager.setCurrentRole(role)
 
-        // only subscribe once, but role can change anytime
         this.subscribeOnce()
 
-        // re-mount current phase if needed
         if (this.phase !== null && this.lastSnapshot !== null) {
             this.remountAndRender()
         }
@@ -116,6 +117,7 @@ export class App {
 
         this.boardDraftAdapter = null
         this.preGameSetupAdapter = null
+        this.buzzerConfigAdapter = null
         this.gameViewAdapter = null
         this.gameEndAdapter = null
         this.waitForSetupAdapter = null
@@ -144,6 +146,17 @@ export class App {
                             action
                         }),
                     (role) => this.applyRole(role),
+                    contentRoot
+                )
+                break
+
+            case AppPhase.BUZZER_CONFIG:
+                this.buzzerConfigAdapter = new BuzzerConfigAdapter(
+                    (action) =>
+                        this.dispatch({
+                            type: "APP/BUZZER_CONFIG",
+                            action
+                        }),
                     contentRoot
                 )
                 break
@@ -198,6 +211,12 @@ export class App {
                 }
                 break
 
+            case AppPhase.BUZZER_CONFIG:
+                if (this.buzzerConfigAdapter && snapshot.buzzerConfig) {
+                    this.buzzerConfigAdapter.render(snapshot.buzzerConfig)
+                }
+                break
+
             case AppPhase.GAME_RUNNING:
                 if (this.gameViewAdapter && snapshot.game) {
                     this.gameViewAdapter.render(snapshot.game)
@@ -213,6 +232,7 @@ export class App {
     }
 
     /* ---------- Subscribe ---------- */
+
     private subscribeOnce(): void {
         if (this.subscribed) return
         this.subscribed = true
