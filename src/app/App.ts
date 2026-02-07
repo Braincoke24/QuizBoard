@@ -7,6 +7,7 @@ import { AppShell } from "../ui/shell/AppShell.js"
 import { WindowManager } from "../ui/shared/WindowManager.js"
 import { ThemeController } from "../ui/shared/ThemeController.js"
 
+import { LandingAdapter } from "../ui/landing/LandingAdapter.js"
 import { BoardDraftAdapter } from "../ui/editBoard/BoardDraftAdapter.js"
 import { PreGameSetupAdapter } from "../ui/preGameSetup/PreGameSetupAdapter.js"
 import { GameViewAdapter } from "../ui/game/GameViewAdapter.js"
@@ -30,6 +31,7 @@ export class App {
     private lastSnapshot: AppSnapshot | null = null
     private subscribed = false
 
+    private landingAdapter: LandingAdapter | null = null
     private boardDraftAdapter: BoardDraftAdapter | null = null
     private preGameSetupAdapter: PreGameSetupAdapter | null = null
     private buzzerConfigAdapter: BuzzerConfigAdapter | null = null
@@ -118,6 +120,7 @@ export class App {
         this.buzzerConfigAdapter?.destroy()
         this.gameViewAdapter?.destroy()
 
+        this.landingAdapter = null
         this.boardDraftAdapter = null
         this.preGameSetupAdapter = null
         this.buzzerConfigAdapter = null
@@ -126,6 +129,17 @@ export class App {
         this.waitForSetupAdapter = null
 
         switch (phase) {
+            case AppPhase.LANDING:
+                this.landingAdapter = new LandingAdapter(
+                    (action) =>
+                        this.dispatch({
+                            type: "APP/LANDING",
+                            action
+                        }),
+                    contentRoot
+                )
+                break
+
             case AppPhase.EDIT_BOARD:
                 if (this.profile.visibility.showBoardEditor) {
                     this.boardDraftAdapter = new BoardDraftAdapter(
@@ -199,6 +213,12 @@ export class App {
 
     private update(snapshot: AppSnapshot): void {
         switch (this.phase) {
+            case AppPhase.LANDING:
+                if (this.landingAdapter) {
+                    this.landingAdapter.render()
+                }
+                break
+
             case AppPhase.EDIT_BOARD:
                 if (this.boardDraftAdapter && snapshot.boardDraft && this.profile.visibility.showBoardEditor) {
                     this.boardDraftAdapter.render(snapshot.boardDraft)

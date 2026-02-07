@@ -1,0 +1,32 @@
+/* styles/components/landing.css */
+
+.landing {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    /* row-gap: 1vh; */
+
+    color: var(--color-primary-11);
+}
+
+.landing-title {
+    font-size: 10rem;
+}
+
+.landing-version-label {
+    font-size: 2rem;
+}
+
+.landing .action-button {
+    --border-size: 2px;
+    --border-radius: 1vw;
+
+    font-size: 1rem;
+
+    width: 7vw;
+    height: 5vh;
+
+    margin-top: 2vh;
+}

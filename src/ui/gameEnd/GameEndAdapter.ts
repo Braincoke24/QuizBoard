@@ -4,7 +4,7 @@ import { GameEndAction } from "./GameEndAction.js"
 import { GameEndRenderer } from "./GameEndRenderer.js"
 
 /**
- * Connects the PreGameSetup renderer to the App via dispatch and snapshots.
+ * Connects the GameEndRenderer to the App via dispatch and snapshots.
  */
 export class GameEndAdapter {
     private readonly renderer: GameEndRenderer

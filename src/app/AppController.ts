@@ -2,6 +2,7 @@
 import { AppPhase } from "./AppPhase.js"
 import { AppAction } from "./AppAction.js"
 
+import { LandingController } from "../ui/landing/LandingController.js"
 import { BoardDraftController } from "../ui/editBoard/BoardDraftController.js"
 import { PreGameSetupController } from "../ui/preGameSetup/PreGameSetupController.js"
 import { GameController } from "../ui/game/GameController.js"
@@ -19,11 +20,13 @@ import { GameUISnapshot } from "../ui/game/state/GameUISnapshot.js"
 import { GameEndCallbacks } from "../ui/gameEnd/GameEndCallbacks.js"
 import { GameCallbacks } from "../ui/game/GameCallbacks.js"
 import { PlayerConfig } from "../ui/preGameSetup/PreGameSetupState.js"
+import { LandingCallbacks } from "../ui/landing/LandingCallbacks.js"
 
 export class AppController {
-    private phase: AppPhase = AppPhase.EDIT_BOARD
-
-    private boardDraftController: BoardDraftController
+    private phase: AppPhase = AppPhase.LANDING
+    
+    private landingController: LandingController
+    private boardDraftController: BoardDraftController | null = null
     private preGameSetupController: PreGameSetupController | null = null
     private buzzerConfigController: BuzzerConfigController | null = null
     private gameController: GameController | null = null
@@ -32,7 +35,7 @@ export class AppController {
     private buzzerKeys: Record<string, string> | null = null
 
     constructor() {
-        this.boardDraftController = this.createBoardDraftController()
+        this.landingController = this.createLandingController()
     }
 
     /* ---------- Public API ---------- */
@@ -43,8 +46,14 @@ export class AppController {
 
     public dispatch(action: AppAction): void {
         switch (action.type) {
+            case "APP/LANDING":
+                this.assertPhase([AppPhase.LANDING])
+                this.landingController!.dispatch(action.action)
+                return
+
             case "APP/BOARD_DRAFT":
-                this.handleBoardDraft(action.action)
+                this.assertPhase([AppPhase.EDIT_BOARD])
+                this.boardDraftController!.dispatch(action.action)
                 return
 
             case "APP/PRE_GAME_SETUP":
@@ -74,18 +83,11 @@ export class AppController {
         }
     }
 
-    /* ---------- Phase Handlers ---------- */
-
-    private handleBoardDraft(action: any): void {
-        this.assertPhase([AppPhase.EDIT_BOARD])
-        this.boardDraftController.dispatch(action)
-    }
-
     /* ---------- Transitions ---------- */
 
     private startBoardDraftEditor(): void {
-        this.assertPhase([AppPhase.GAME_ENDED])
-
+        this.assertPhase([AppPhase.LANDING, AppPhase.GAME_ENDED])
+        
         this.boardDraftController = this.createBoardDraftController()
 
         this.phase = AppPhase.EDIT_BOARD
@@ -94,7 +96,7 @@ export class AppController {
     private startPreGameSetup(): void {
         this.assertPhase([AppPhase.EDIT_BOARD])
 
-        const boardDraft = this.boardDraftController.getSnapshot()
+        const boardDraft = this.boardDraftController!.getSnapshot()
 
         this.preGameSetupController = this.createPreGameSetupController(boardDraft)
         this.phase = AppPhase.PRE_GAME_SETUP
@@ -157,7 +159,7 @@ export class AppController {
     /* ---------- Snapshots ---------- */
 
     public getBoardDraftSnapshot() {
-        return this.boardDraftController.getSnapshot()
+        return this.boardDraftController?.getSnapshot() ?? null
     }
 
     public getPreGameSetupSnapshot() {
@@ -173,6 +175,16 @@ export class AppController {
     }
 
     /* ---------- Factory ---------- */
+
+    private createLandingController(): LandingController {
+        const callbacks: LandingCallbacks = {
+            onStart: () => {
+                this.startBoardDraftEditor()
+            }
+        }
+
+        return new LandingController(callbacks)
+    }
 
     private createBoardDraftController(): BoardDraftController {
         const callbacks: BoardDraftCallbacks = {

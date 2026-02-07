@@ -8,6 +8,7 @@
 @import "./components/scoreboard.css";
 @import "./components/action-button.css";
 @import "./components/buzzer-config.css";
+@import "./components/landing.css";
 
 body {
     margin: 0;

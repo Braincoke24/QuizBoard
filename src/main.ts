@@ -32,3 +32,6 @@ main()
 // TODO: add option to restart game
 // TODO: add game version
 // TODO: add welcome screen
+// TODO: add option to go back to welcome screen
+
+// NOTE: Welcome screen should have version number, big title and author remark and SetupGame Button (later: add demo button for game with dummy players)
