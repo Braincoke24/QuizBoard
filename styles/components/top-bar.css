@@ -22,6 +22,7 @@
     color: var(--color-primary-11);
     text-align: center;
     font-size: 2rem;
+    font-weight: lighter;
 
     display: grid;
     place-items: center; 
