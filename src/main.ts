@@ -28,3 +28,7 @@ main()
 
 // TODO: alert error messages (or own window)
 // TODO: add buzzer key visuals to game view
+// TODO: write tests for BuzzerConfig
+// TODO: add settings/options wheel
+// TODO: add option to restart game
+// TODO: add game version
