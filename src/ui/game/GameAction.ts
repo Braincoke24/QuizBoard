@@ -20,3 +20,7 @@ export type GameAction =
     | {
         type: "GAME/CONTINUE"
     }
+    | {
+        type: "GAME/PRESS_KEY",
+        key: string
+    }

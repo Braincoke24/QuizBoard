@@ -16,7 +16,8 @@ export class GameController {
 
     constructor(
         private readonly callbacks: GameCallbacks,
-        private readonly game: Game
+        private readonly game: Game,
+        private readonly buzzerKeyResolver: Map<string, string> | null = null
     ) {
         this.uiState = new GameUIState(game)
         this.playerResolver = new PlayerResolver(game.players)
@@ -78,6 +79,23 @@ export class GameController {
                     this.callbacks.onEndGame()
                 }
                 
+                return
+            }
+
+            case "GAME/PRESS_KEY": {
+                if (!this.buzzerKeyResolver) return
+
+                const playerId = this.buzzerKeyResolver.get(action.key)
+                
+                if (!playerId) return
+
+                if (!this.uiState.canBuzz(playerId)) {
+                    throw new Error("Player is not allowed to buzz right now")
+                }
+
+                this.game.buzz(
+                    this.playerResolver.resolve(playerId)
+                )
                 return
             }
 

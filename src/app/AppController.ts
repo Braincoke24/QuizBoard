@@ -200,8 +200,14 @@ export class AppController {
                 this.endGame()
             }
         }
-        
-        return new GameController(callbacks, game)
+
+        const buzzerKeyResolver = new Map<string, string>()
+
+        for (const playerId in this.buzzerKeys) {
+            buzzerKeyResolver.set(this.buzzerKeys[playerId], playerId)
+        }
+
+        return new GameController(callbacks, game, buzzerKeyResolver)
     }
 
     private createGameEndController(snapshot: GameUISnapshot): GameEndController {

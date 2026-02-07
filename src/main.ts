@@ -27,3 +27,4 @@ function main(): void {
 main()
 
 // TODO: alert error messages (or own window)
+// TODO: add buzzer key visuals to game view

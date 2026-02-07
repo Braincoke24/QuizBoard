@@ -3,12 +3,14 @@ import { GameViewRenderer } from "./GameViewRenderer.js"
 import { GameAction } from "./GameAction.js"
 import { GameUISnapshot } from "./state/GameUISnapshot.js"
 import { UIViewProfile } from "../shared/view/UIViewProfile.js"
+import { keyCodeNameMap } from "../buzzerConfig/BuzzerConfigAdapter.js"
 
 /**
  * Connects the game UI renderer to the App via dispatch and snapshots.
  */
 export class GameViewAdapter {
     private readonly renderer: GameViewRenderer
+    private readonly keyHandler: (e: KeyboardEvent) => void
 
     constructor(
         dispatch: (action: GameAction) => void,
@@ -45,9 +47,32 @@ export class GameViewAdapter {
             pass,
             continueGame
         )
+
+        this.keyHandler = (e: KeyboardEvent): void => {
+            if (
+                e.metaKey ||
+                e.altKey ||
+                e.ctrlKey ||
+                e.key.length !== 1
+            ) {
+                return
+            }
+
+            e.preventDefault()
+            dispatch({
+                type: "GAME/PRESS_KEY",
+                key: keyCodeNameMap(e.code)
+            })
+        }
+
+        window.addEventListener("keydown", this.keyHandler)
     }
 
     public render(snapshot: GameUISnapshot): void {
         this.renderer.render(snapshot)
+    }
+
+    public destroy(): void {
+        window.removeEventListener("keydown", this.keyHandler)
     }
 }

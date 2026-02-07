@@ -115,6 +115,9 @@ export class App {
 
         contentRoot.innerHTML = ""
 
+        this.buzzerConfigAdapter?.destroy()
+        this.gameViewAdapter?.destroy()
+
         this.boardDraftAdapter = null
         this.preGameSetupAdapter = null
         this.buzzerConfigAdapter = null
