@@ -38,16 +38,23 @@ function submitBoardAction(): AppAction {
 
 describe("AppController", () => {
     describe("initial state", () => {
-        it("starts in EDIT_BOARD phase", () => {
+        it("starts in LANDING phase", () => {
             const app = new AppController()
 
-            expect(app.getPhase()).toBe(AppPhase.EDIT_BOARD)
+            expect(app.getPhase()).toBe(AppPhase.LANDING)
         })
     })
 
     describe("board draft phase", () => {
         it("accepts board draft actions in EDIT_BOARD phase", () => {
             const app = new AppController()
+
+            app.dispatch({
+                type: "APP/LANDING",
+                action: {
+                    type: "LANDING/START"
+                }
+            })
 
             expect(() => {
                 app.dispatch(createValidBoardDraftAction())
@@ -57,6 +64,12 @@ describe("AppController", () => {
         it("transitions to PRE_GAME_SETUP after submitting board", () => {
             const app = new AppController()
 
+            app.dispatch({
+                type: "APP/LANDING",
+                action: {
+                    type: "LANDING/START"
+                }
+            })
             app.dispatch(createValidBoardDraftAction())
             app.dispatch(submitBoardAction())
 
@@ -83,6 +96,12 @@ describe("AppController", () => {
         it("starts game when setup is valid", () => {
             const app = new AppController()
 
+            app.dispatch({
+                type: "APP/LANDING",
+                action: {
+                    type: "LANDING/START"
+                }
+            })
             app.dispatch(createValidBoardDraftAction())
             app.dispatch(submitBoardAction())
 
@@ -123,6 +142,12 @@ describe("AppController", () => {
         it("transitions to GAME_ENDED when game ends", () => {
             const app = new AppController()
 
+            app.dispatch({
+                type: "APP/LANDING",
+                action: {
+                    type: "LANDING/START"
+                }
+            })
             app.dispatch(createValidBoardDraftAction())
             app.dispatch(submitBoardAction())
 
@@ -173,6 +198,12 @@ describe("AppController", () => {
         it("returns to EDIT_BOARD when starting new game", () => {
             const app = new AppController()
 
+            app.dispatch({
+                type: "APP/LANDING",
+                action: {
+                    type: "LANDING/START"
+                }
+            })
             app.dispatch(createValidBoardDraftAction())
             app.dispatch(submitBoardAction())
 
