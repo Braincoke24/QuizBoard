@@ -52,6 +52,7 @@ export class App {
         this.shell = new AppShell(
             root,
             () => this.requestRoleChange(),
+            () => this.requestReset(),
             themeController
         )
 
@@ -81,6 +82,12 @@ export class App {
         this.shell.showRoleSelection((role) => {
             this.applyRole(role)
             this.shell.clearOverlay()
+        })
+    }
+
+    private requestReset(): void {
+        this.dispatch({
+            type: "APP/RESET"
         })
     }
 

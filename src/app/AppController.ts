@@ -76,6 +76,10 @@ export class AppController {
                 this.gameEndController!.dispatch(action.action)
                 return
 
+            case "APP/RESET":
+                this.reset()
+                return
+
             default: {
                 const exhaustive: never = action
                 throw new Error(`Unhandled AppAction: ${exhaustive}`)
@@ -154,6 +158,17 @@ export class AppController {
         this.gameEndController = this.createGameEndController(snapshot)
 
         this.phase = AppPhase.GAME_ENDED
+    }
+
+    private reset(): void {
+        this.landingController
+        this.boardDraftController = null
+        this.preGameSetupController = null
+        this.buzzerConfigController = null
+        this.gameController = null
+        this.gameEndController = null
+
+        this.phase = AppPhase.LANDING
     }
 
     /* ---------- Snapshots ---------- */

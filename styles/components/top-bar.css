@@ -11,8 +11,8 @@
 
     display: grid;
     place-items: center;
-    grid-template-columns: 9vw 72vw 9vw;
-    gap: 4vw;
+    grid-template-columns: 10vw 80vw 4vw 4vw;
+    gap: 0vw;
 }
 
 .top-bar-role {
@@ -58,6 +58,18 @@
 .top-bar-theme-toggle {
     grid-row: 1;
     grid-column: 3;
+
+    background: none;
+    border: none;
+    color: var(--color-primary-11);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+}
+
+.top-bar-reset {
+    grid-row: 1;
+    grid-column: 4;
 
     background: none;
     border: none;

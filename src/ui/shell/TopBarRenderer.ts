@@ -1,17 +1,20 @@
 // src/ui/shell/TopBarRenderer.ts
 import {
     LIGHT_MODE_SVG,
-    DARK_MODE_SVG
+    DARK_MODE_SVG,
+    HOME_SVG
 } from "../shared/icons.js"
 import { ThemeController } from "../shared/ThemeController.js"
 
 export class TopBarRenderer {
     private roleLabel!: HTMLElement
     private themeButton!: HTMLButtonElement
+    private resetButton!: HTMLButtonElement
 
     constructor(
         private readonly root: HTMLElement,
         private readonly onChangeRole: () => void,
+        private readonly onReset: () => void,
         private readonly themeController: ThemeController
     ) {}
 
@@ -36,10 +39,16 @@ export class TopBarRenderer {
 
         this.updateThemeIcon(this.themeController.getCurrent())
 
+        this.resetButton = document.createElement("button")
+        this.resetButton.className = "top-bar-reset"
+        this.resetButton.innerHTML = HOME_SVG
+        this.resetButton.onclick = this.onReset
+
         this.root.append(
             this.roleLabel,
             changeRoleButton,
-            this.themeButton
+            this.themeButton,
+            this.resetButton
         )
     }
 

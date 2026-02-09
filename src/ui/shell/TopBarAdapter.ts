@@ -9,11 +9,13 @@ export class TopBarAdapter {
     constructor(
         root: HTMLElement,
         onChangeRole: () => void,
+        onReset: () => void,
         themeController: ThemeController
     ) {
         this.renderer = new TopBarRenderer(
             root,
             onChangeRole,
+            onReset,
             themeController
         )
 

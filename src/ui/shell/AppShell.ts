@@ -16,6 +16,7 @@ export class AppShell {
     constructor(
         root: HTMLElement,
         onChangeRole: () => void,
+        onReset: () => void,
         themeController: ThemeController
     ) {
         this.root = root
@@ -38,6 +39,7 @@ export class AppShell {
         this.topBar = new TopBarAdapter(
             this.topBarRoot,
             onChangeRole,
+            onReset,
             themeController
         )
     }

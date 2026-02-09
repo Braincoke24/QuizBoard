@@ -31,3 +31,6 @@ export type AppAction =
         type: "APP/GAME_ENDED"
         action: GameEndAction
     }
+    | {
+        type: "APP/RESET"
+    }
