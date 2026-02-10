@@ -24,12 +24,13 @@ jobs:
             - name: Build with Vite
               run: npm run build
 
-            - name: Deploy via SFTP
+            - name: Deploy via FPTS
               uses: SamKirkland/FTP-Deploy-Action@v4.3.5
               with:
                   server: ${{ secrets.STRATO_HOST }}
                   username: ${{ secrets.STRATO_USER }}
                   password: ${{ secrets.STRATO_PASSWORD }}
-                  protocol: sftp
+                  protocol: ftps
+                  port: 21
                   local-dir: dist/
                   server-dir: /
