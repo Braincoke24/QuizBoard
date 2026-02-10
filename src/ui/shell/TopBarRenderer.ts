@@ -42,6 +42,7 @@ export class TopBarRenderer {
         this.resetButton = document.createElement("button")
         this.resetButton.className = "top-bar-reset"
         this.resetButton.innerHTML = HOME_SVG
+        this.resetButton.title = "Home"
         this.resetButton.onclick = this.onReset
 
         this.root.append(
@@ -55,6 +56,8 @@ export class TopBarRenderer {
     private updateThemeIcon(mode: "light" | "dark"): void {
         this.themeButton.innerHTML =
             mode === "dark" ? DARK_MODE_SVG : LIGHT_MODE_SVG
+        this.themeButton.title =
+            mode === "dark" ? "Switch to light mode" : "Switch to dark mode"
     }
 
     public setRoleLabel(label: string): void {

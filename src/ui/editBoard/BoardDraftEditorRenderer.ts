@@ -30,6 +30,7 @@ export class BoardDraftEditorRenderer {
         const addButton = document.createElement("button")
         addButton.className = "board-draft-category-add action-button accent"
         addButton.textContent = "+"
+        addButton.title = "Add category"
         addButton.onclick = () => {
             if (!this.localDraft) return
             this.localDraft.categories[this.localDraft.categories.length] = {
@@ -161,7 +162,8 @@ export class BoardDraftEditorRenderer {
 
         const exportButton = document.createElement("button")
         exportButton.className = "draft-export-button action-button accent"
-        exportButton.textContent = "Export board"
+        exportButton.textContent = "Export"
+        exportButton.title = "Export board as JSON file"
         exportButton.onclick = () => {
             if (!this.localDraft) return
             this.onDraftChange(structuredClone(this.localDraft))
@@ -193,7 +195,8 @@ export class BoardDraftEditorRenderer {
 
         const importButton = document.createElement("button")
         importButton.className = "draft-import-button action-button accent"
-        importButton.textContent = "Import board"
+        importButton.textContent = "Import"
+        importButton.title = "Import board from JSON file"
         importButton.onclick = () => importInput.click()
 
         actions.appendChild(importButton)
@@ -203,7 +206,8 @@ export class BoardDraftEditorRenderer {
 
         const submit = document.createElement("button")
         submit.className = "draft-submit-button action-button accent"
-        submit.textContent = "Submit board"
+        submit.textContent = "Submit"
+        submit.title = "Submit board and continue to player setup"
         submit.onclick = () => {
             if (!this.localDraft) return
             this.onDraftChange(structuredClone(this.localDraft))
