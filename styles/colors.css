@@ -1,19 +1,19 @@
 /* styles/colors.css */
 
-@import "./radix/gray.css";
-@import "./radix/purple.css";
-@import "./radix/teal.css";
-@import "./radix/red.css";
-@import "./radix/yellow.css";
-@import "./radix/mauve.css";
-@import "./radix/bronze.css";
-@import "./radix/purple-dark.css";
-@import "./radix/teal-dark.css";
-@import "./radix/red-dark.css";
-@import "./radix/yellow-dark.css";
-@import "./radix/mauve-dark.css";
-@import "./radix/bronze-dark.css";
-@import "./radix/black-alpha.css";
+@import "@radix-ui/colors/gray.css";
+@import "@radix-ui/colors/purple.css";
+@import "@radix-ui/colors/teal.css";
+@import "@radix-ui/colors/red.css";
+@import "@radix-ui/colors/yellow.css";
+@import "@radix-ui/colors/mauve.css";
+@import "@radix-ui/colors/bronze.css";
+@import "@radix-ui/colors/purple-dark.css";
+@import "@radix-ui/colors/teal-dark.css";
+@import "@radix-ui/colors/red-dark.css";
+@import "@radix-ui/colors/yellow-dark.css";
+@import "@radix-ui/colors/mauve-dark.css";
+@import "@radix-ui/colors/bronze-dark.css";
+@import "@radix-ui/colors/black-alpha.css";
 
 #app {
     --color-primary-1: var(--purple-1);
