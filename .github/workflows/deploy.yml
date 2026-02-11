@@ -25,6 +25,28 @@ jobs:
             - name: Build with Vite
               run: npm run build
 
+            - name: Generate redirect impressum
+              run: |
+                  cat <<EOF > dist/impressum.html
+                  <!DOCTYPE html>
+                  <html lang="de">
+                  <head>
+                      <meta charset="UTF-8" />
+                      <title>Impressum</title>
+                      <meta http-equiv="refresh" content="0; url=${IMPRINT_URL}" />
+                      <link rel="canonical" href="${IMPRINT_URL}" />
+                  </head>
+                  <body>
+                      <p>
+                          Das Impressum befindet sich unter:
+                          <a href="${IMPRINT_URL}">${IMPRINT_URL}</a>
+                      </p>
+                  </body>
+                  </html>
+                  EOF
+              env:
+                  IMPRINT_URL: ${{ secrets.IMPRINT_URL }}
+
             - name: Deploy via sftp
               uses: wlixcc/SFTP-Deploy-Action@v1.2.6
               with:
@@ -33,5 +55,5 @@ jobs:
                   password: ${{ secrets.STRATO_PASSWORD }}
                   port: 22
                   local_path: "dist/*"
-                  remote_path: "/"
+                  remote_path: ${{ secrets.STRATO_DIR }}
                   sftp_only: true
