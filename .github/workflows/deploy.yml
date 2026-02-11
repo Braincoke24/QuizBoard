@@ -35,4 +35,3 @@ jobs:
                   local_path: "dist/*"
                   remote_path: "/"
                   sftp_only: true
-                  delete_remote_files: true
