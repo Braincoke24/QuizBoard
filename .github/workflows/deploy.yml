@@ -31,8 +31,8 @@ jobs:
                   username: ${{ secrets.STRATO_USER }}
                   server: ${{ secrets.STRATO_HOST }}
                   password: ${{ secrets.STRATO_PASSWORD }}
-                  protocol: sftp
                   port: 22
                   local_path: "dist/*"
                   remote_path: "/"
                   sftp_only: true
+                  delete_remote_files: true
