@@ -33,6 +33,6 @@ jobs:
                   password: ${{ secrets.STRATO_PASSWORD }}
                   protocol: sftp
                   port: 22
-                  local_path: dist/
-                  remote_path: /
+                  local_path: "dist/*"
+                  remote_path: "/"
                   sftp_only: true
