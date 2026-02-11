@@ -8,6 +8,7 @@ on:
 jobs:
     deploy:
         runs-on: ubuntu-latest
+        name: Deploy with Password
 
         steps:
             - name: Checkout repository
@@ -24,13 +25,14 @@ jobs:
             - name: Build with Vite
               run: npm run build
 
-            - name: Deploy via FPTS
-              uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+            - name: Deploy via sftp
+              uses: wlixcc/SFTP-Deploy-Action@v1.2.6
               with:
-                  server: ${{ secrets.STRATO_HOST }}
                   username: ${{ secrets.STRATO_USER }}
+                  server: ${{ secrets.STRATO_HOST }}
                   password: ${{ secrets.STRATO_PASSWORD }}
-                  protocol: ftps
-                  port: 21
-                  local-dir: dist/
-                  server-dir: /
+                  protocol: sftp
+                  port: 22
+                  local_path: dist/
+                  remote_path: /
+                  sftp_only: true
