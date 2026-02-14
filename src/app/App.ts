@@ -128,9 +128,6 @@ export class App {
 
         this.adapter?.destroy()
 
-        // NOTE: remove once svelte is used for an adapter
-        this.gameViewAdapter?.destroy()
-
         this.adapter = null
         this.landingAdapter = null
         this.boardDraftAdapter = null
@@ -206,8 +203,7 @@ export class App {
                     this.profile,
                     contentRoot
                 )
-                // TODO: uncomment when adapter transitioned to svelte
-                // this.adapter = this.gameViewAdapter
+                this.adapter = this.gameViewAdapter
                 break
 
             case AppPhase.GAME_ENDED:
@@ -239,15 +235,6 @@ export class App {
     private update(snapshot: AppSnapshot): void {
         if (this.adapter && isSnapshotUIAdapter(this.adapter)) {
             this.adapter.update(snapshot)
-        }
-
-        // NOTE: remove once svelte is used for an adapter
-        switch (this.phase) {
-            case AppPhase.GAME_RUNNING:
-                if (this.gameViewAdapter && snapshot.game) {
-                    this.gameViewAdapter.render(snapshot.game)
-                }
-                break
         }
     }
 
