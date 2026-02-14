@@ -124,6 +124,7 @@ export class App {
 
         contentRoot.innerHTML = ""
 
+        this.landingAdapter?.destroy()
         this.buzzerConfigAdapter?.destroy()
         this.gameViewAdapter?.destroy()
 
@@ -220,11 +221,6 @@ export class App {
 
     private update(snapshot: AppSnapshot): void {
         switch (this.phase) {
-            case AppPhase.LANDING:
-                if (this.landingAdapter) {
-                    this.landingAdapter.render()
-                }
-                break
 
             case AppPhase.EDIT_BOARD:
                 if (this.boardDraftAdapter && snapshot.boardDraft && this.profile.visibility.showBoardEditor) {

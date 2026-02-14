@@ -1,31 +1,36 @@
 // src/ui/landing/LandingAdapter.ts
-
-import { LandingAction } from "./LandingAction.js"
-import { LandingRenderer } from "./LandingRenderer.js"
+import { mount, unmount } from "svelte"
+import LandingView from "./LandingView.svelte"
+import type { LandingAction } from "./LandingAction.js"
 
 /**
- * Connects the LandingRenderer to the App via dispatch and snapshots.
+ * Connects the Landing view to the App via dispatch.
  */
 export class LandingAdapter {
-    private readonly renderer: LandingRenderer
+    private component: unknown
 
     constructor(
         dispatch: (action: LandingAction) => void,
         root: HTMLElement
     ) {
-        const start = (): void => {
-            dispatch({
-                type: "LANDING/START"
-            })
-        }
-        
-        this.renderer = new LandingRenderer(
-            root,
-            start
-        )
+        root.className = "app-content-root landing"
+        root.innerHTML = ""
+
+        this.component = mount(LandingView, {
+            target: root,
+            props: {
+                onStart: (): void => {
+                    dispatch({
+                        type: "LANDING/START"
+                    })
+                }
+            }
+        })
     }
 
-    public render(): void {
-        this.renderer.render()
+    public destroy(): void {
+        if (this.component) {
+            unmount(this.component)
+        }
     }
 }

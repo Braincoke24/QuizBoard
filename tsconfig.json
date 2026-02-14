@@ -13,8 +13,9 @@
         "sourceMap": true,
         "skipLibCheck": true,
         "resolveJsonModule": true,
-        "isolatedModules": true
+        "isolatedModules": true,
+        "types": ["svelte"]
     },
-    "include": ["src"],
+    "include": ["src", "src/svelte-env.d.ts"],
     "exclude": ["tests", "dist", "node_modules"]
 }
