@@ -15,7 +15,7 @@
 @import "@radix-ui/colors/bronze-dark.css";
 @import "@radix-ui/colors/black-alpha.css";
 
-#app {
+body {
     --color-primary-1: var(--purple-1);
     --color-primary-2: var(--purple-2);
     --color-primary-3: var(--purple-3);

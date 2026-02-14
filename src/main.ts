@@ -13,7 +13,7 @@ function main(): void {
         throw new Error("Root element #app not found")
     }
 
-    const themeController = new ThemeController(root)
+    const themeController = new ThemeController(document.body)
     themeController.init()
 
     const roleParam =
