@@ -1,7 +1,11 @@
 // src/ui/buzzerConfig/BuzzerConfigAdapter.ts
-import { BuzzerConfigAction } from "./BuzzerConfigAction.js"
-import { BuzzerConfigRenderer } from "./BuzzerConfigRenderer.js"
+import { mount, unmount } from "svelte"
+import { writable, type Writable, get } from "svelte/store"
+import BuzzerConfigView from "./BuzzerConfigView.svelte"
 import { BuzzerConfigSnapshot } from "./BuzzerConfigState.js"
+import { BuzzerConfigAction } from "./BuzzerConfigAction.js"
+import { AppSnapshot } from "../../app/AppSnapshot.js"
+import { SnapshotUIAdapter } from "../shared/adapter/SnapshotUIAdapter.js"
 
 export const keyCodeNameMap = (keyCode: string):string => {
     if (keyCode.startsWith("Digit")) return keyCode.slice(5)
@@ -11,24 +15,30 @@ export const keyCodeNameMap = (keyCode: string):string => {
     return keyCode
 }
 
-export class BuzzerConfigAdapter {
-    private readonly renderer: BuzzerConfigRenderer
+export class BuzzerConfigAdapter implements SnapshotUIAdapter {
+    private readonly snapshotStore: Writable<BuzzerConfigSnapshot | null>
+    private component: ReturnType<typeof mount> | null = null
+    public readonly isSnapshotAdapter = true
     private readonly keyHandler: (e: KeyboardEvent) => void
 
     constructor(
         dispatch: (action: BuzzerConfigAction) => void,
         root: HTMLElement
     ) {
-        const skipPlayer = (): void => {
-            dispatch({
-                type: "BUZZER_CONFIG/SKIP_PLAYER"
-            })
-        }
+        this.snapshotStore = writable(null)
 
-        this.renderer = new BuzzerConfigRenderer(
-            root,
-            skipPlayer
-        )
+        root.className = "app-content-root buzzer-config"
+        root.innerHTML = ""
+
+        this.component = mount(BuzzerConfigView, {
+            target: root,
+            props: {
+                snapshot: this.snapshotStore,
+
+                onSkip: (): void =>
+                    dispatch({type: "BUZZER_CONFIG/SKIP_PLAYER"})
+            }
+        })
 
         this.keyHandler = (e: KeyboardEvent): void => {
             if (
@@ -50,15 +60,13 @@ export class BuzzerConfigAdapter {
         window.addEventListener("keydown", this.keyHandler)
     }
 
-    public render(snapshot: BuzzerConfigSnapshot): void {
-        this.renderer.render(snapshot)
-
-        if (snapshot.done) {
-            this.destroy()
-        }
+    public update(snapshot: AppSnapshot): void {
+        if (!snapshot.buzzerConfig) return
+        this.snapshotStore.set(snapshot.buzzerConfig)
     }
 
     public destroy(): void {
         window.removeEventListener("keydown", this.keyHandler)
+        if (this.component) unmount(this.component)
     }
 }

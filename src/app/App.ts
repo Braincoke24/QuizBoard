@@ -129,7 +129,6 @@ export class App {
         this.adapter?.destroy()
 
         // NOTE: remove once svelte is used for an adapter
-        this.buzzerConfigAdapter?.destroy()
         this.gameViewAdapter?.destroy()
 
         this.adapter = null
@@ -194,6 +193,7 @@ export class App {
                         }),
                     contentRoot
                 )
+                this.adapter = this.buzzerConfigAdapter
                 break
 
             case AppPhase.GAME_RUNNING:
@@ -206,6 +206,8 @@ export class App {
                     this.profile,
                     contentRoot
                 )
+                // TODO: uncomment when adapter transitioned to svelte
+                // this.adapter = this.gameViewAdapter
                 break
 
             case AppPhase.GAME_ENDED:
@@ -221,6 +223,7 @@ export class App {
                     contentRoot,
                     players
                 )
+                this.adapter = this.gameEndAdapter
                 break
         }
     }
@@ -240,12 +243,6 @@ export class App {
 
         // NOTE: remove once svelte is used for an adapter
         switch (this.phase) {
-            case AppPhase.BUZZER_CONFIG:
-                if (this.buzzerConfigAdapter && snapshot.buzzerConfig) {
-                    this.buzzerConfigAdapter.render(snapshot.buzzerConfig)
-                }
-                break
-
             case AppPhase.GAME_RUNNING:
                 if (this.gameViewAdapter && snapshot.game) {
                     this.gameViewAdapter.render(snapshot.game)

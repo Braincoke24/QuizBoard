@@ -1,5 +1,4 @@
 // src/ui/buzzerConfig/BuzzerConfigController.ts
-import { KeyObject } from "crypto"
 import { PlayerConfig } from "../preGameSetup/PreGameSetupState.js"
 import { BuzzerConfigAction } from "./BuzzerConfigAction.js"
 import { BuzzerConfigSnapshot } from "./BuzzerConfigState.js"
