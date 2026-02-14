@@ -13,18 +13,18 @@ export const GAME_RULE_PRESETS: readonly GameRulePreset[] = [
         id: "classic",
         label: "Classic",
         editable: false,
-        rules: GameRules.classic()
+        rules: GameRules.classic(),
     },
     {
         id: "hard",
         label: "Hard",
         editable: false,
-        rules: GameRules.hard()
+        rules: GameRules.hard(),
     },
     {
         id: "custom",
         label: "Custom",
         editable: true,
-        rules: GameRules.classic()
-    }
+        rules: GameRules.classic(),
+    },
 ]

@@ -10,18 +10,15 @@ import { PlayerUIState } from "../game/state/GameUIState.js"
 export class WaitForSetupAdapter implements UIAdapter {
     private component: ReturnType<typeof mount> | null = null
 
-    constructor(
-        root: HTMLElement,
-        players?: readonly PlayerUIState[]
-    ) {
+    constructor(root: HTMLElement, players?: readonly PlayerUIState[]) {
         root.className = "app-content-root wait-for-setup"
         root.innerHTML = ""
 
         this.component = mount(WaitForSetupView, {
             target: root,
             props: {
-                players: players
-            }
+                players: players,
+            },
         })
     }
 

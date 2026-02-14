@@ -8,9 +8,11 @@ interface SubmitState {
     submitted: boolean
 }
 
-function setup(submitState: SubmitState = {submitted: false}) {
+function setup(submitState: SubmitState = { submitted: false }) {
     const callbacks: BoardDraftCallbacks = {
-        onSubmitBoard: () => {submitState.submitted = true}
+        onSubmitBoard: () => {
+            submitState.submitted = true
+        },
     }
     const controller = new BoardDraftController(callbacks)
 
@@ -24,14 +26,12 @@ const VALID_DRAFT = {
             questions: [
                 {
                     text: "What was first, the chicken or the egg?",
-                    answer: "Probably neither."
-                }
-            ]
-        }
+                    answer: "Probably neither.",
+                },
+            ],
+        },
     ],
-    rowValues: [
-        100
-    ]
+    rowValues: [100],
 }
 
 const INVALID_DRAFT = {
@@ -41,15 +41,12 @@ const INVALID_DRAFT = {
             questions: [
                 {
                     text: "What was first, the chicken or the egg?",
-                    answer: "No one knows."
-                }
-            ]
-        }
+                    answer: "No one knows.",
+                },
+            ],
+        },
     ],
-    rowValues: [
-        100,
-        200
-    ]
+    rowValues: [100, 200],
 }
 
 describe("BoardDraftController", () => {
@@ -64,26 +61,28 @@ describe("BoardDraftController", () => {
                         questions: [
                             {
                                 text: "What was first, the chicken or the egg?",
-                                answer: "Probably neither."
-                            }
-                        ]
-                    }
+                                answer: "Probably neither.",
+                            },
+                        ],
+                    },
                 ],
-                rowValues: [
-                    100
-                ]
+                rowValues: [100],
             }
 
             controller.dispatch({
                 type: "BOARD_DRAFT/IMPORT_BOARD",
-                json: draft
+                json: draft,
             })
 
             const snapshot = controller.getSnapshot()
 
             expect(snapshot.categories[0].name).toBe("Cool category")
-            expect(snapshot.categories[0].questions[0].text).toBe("What was first, the chicken or the egg?")
-            expect(snapshot.categories[0].questions[0].answer).toBe("Probably neither.")
+            expect(snapshot.categories[0].questions[0].text).toBe(
+                "What was first, the chicken or the egg?",
+            )
+            expect(snapshot.categories[0].questions[0].answer).toBe(
+                "Probably neither.",
+            )
         })
 
         it("validates correctly filled draft without answers", () => {
@@ -96,25 +95,25 @@ describe("BoardDraftController", () => {
                         questions: [
                             {
                                 text: "What was first, the chicken or the egg?",
-                                answer: ""
-                            }
-                        ]
-                    }
+                                answer: "",
+                            },
+                        ],
+                    },
                 ],
-                rowValues: [
-                    100
-                ]
+                rowValues: [100],
             }
 
             controller.dispatch({
                 type: "BOARD_DRAFT/IMPORT_BOARD",
-                json: draft
+                json: draft,
             })
 
             const snapshot = controller.getSnapshot()
 
             expect(snapshot.categories[0].name).toBe("Cool category")
-            expect(snapshot.categories[0].questions[0].text).toBe("What was first, the chicken or the egg?")
+            expect(snapshot.categories[0].questions[0].text).toBe(
+                "What was first, the chicken or the egg?",
+            )
             expect(snapshot.categories[0].questions[0].answer).toBe("")
         })
 
@@ -123,15 +122,13 @@ describe("BoardDraftController", () => {
 
             const draft: BoardDraft = {
                 categories: [],
-                rowValues: [
-                    100
-                ]
+                rowValues: [100],
             }
 
             expect(() => {
                 controller.dispatch({
                     type: "BOARD_DRAFT/IMPORT_BOARD",
-                    json: draft
+                    json: draft,
                 })
             }).toThrow()
         })
@@ -146,18 +143,18 @@ describe("BoardDraftController", () => {
                         questions: [
                             {
                                 text: "What was first, the chicken or the egg?",
-                                answer: "Probably neither."
-                            }
-                        ]
-                    }
+                                answer: "Probably neither.",
+                            },
+                        ],
+                    },
                 ],
-                rowValues: []
+                rowValues: [],
             }
 
             expect(() => {
                 controller.dispatch({
                     type: "BOARD_DRAFT/IMPORT_BOARD",
-                    json: draft
+                    json: draft,
                 })
             }).toThrow()
         })
@@ -172,30 +169,27 @@ describe("BoardDraftController", () => {
                         questions: [
                             {
                                 text: "What was first, the chicken or the egg?",
-                                answer: "Probably neither."
-                            }
-                        ]
+                                answer: "Probably neither.",
+                            },
+                        ],
                     },
                     {
                         name: "Another category",
                         questions: [
                             {
                                 text: "Why am I?",
-                                answer: "Who knows."
-                            }
-                        ]
-                    }
+                                answer: "Who knows.",
+                            },
+                        ],
+                    },
                 ],
-                rowValues: [
-                    100,
-                    200
-                ]
+                rowValues: [100, 200],
             }
 
             expect(() => {
                 controller.dispatch({
                     type: "BOARD_DRAFT/IMPORT_BOARD",
-                    json: draft
+                    json: draft,
                 })
             }).toThrow()
         })
@@ -210,20 +204,18 @@ describe("BoardDraftController", () => {
                         questions: [
                             {
                                 text: "What was first, the chicken or the egg?",
-                                answer: "Probably neither."
-                            }
-                        ]
-                    }
+                                answer: "Probably neither.",
+                            },
+                        ],
+                    },
                 ],
-                rowValues: [
-                    100
-                ]
+                rowValues: [100],
             }
 
             expect(() => {
                 controller.dispatch({
                     type: "BOARD_DRAFT/IMPORT_BOARD",
-                    json: draft
+                    json: draft,
                 })
             }).toThrow()
         })
@@ -238,20 +230,18 @@ describe("BoardDraftController", () => {
                         questions: [
                             {
                                 text: "   ",
-                                answer: "Probably neither."
-                            }
-                        ]
-                    }
+                                answer: "Probably neither.",
+                            },
+                        ],
+                    },
                 ],
-                rowValues: [
-                    100
-                ]
+                rowValues: [100],
             }
 
             expect(() => {
                 controller.dispatch({
                     type: "BOARD_DRAFT/IMPORT_BOARD",
-                    json: draft
+                    json: draft,
                 })
             }).toThrow()
         })
@@ -263,19 +253,24 @@ describe("BoardDraftController", () => {
 
             var draft = controller.getSnapshot()
             draft.categories[0].name = "Cool category"
-            draft.categories[0].questions[0].text = "What was first, the chicken or the egg?"
+            draft.categories[0].questions[0].text =
+                "What was first, the chicken or the egg?"
             draft.categories[0].questions[0].answer = "Probably neither."
 
             controller.dispatch({
                 type: "BOARD_DRAFT/UPDATE_DRAFT",
-                draft: draft
+                draft: draft,
             })
 
             const newDraft = controller.getSnapshot()
 
             expect(newDraft.categories[0].name).toBe("Cool category")
-            expect(newDraft.categories[0].questions[0].text).toBe("What was first, the chicken or the egg?")
-            expect(newDraft.categories[0].questions[0].answer).toBe("Probably neither.")
+            expect(newDraft.categories[0].questions[0].text).toBe(
+                "What was first, the chicken or the egg?",
+            )
+            expect(newDraft.categories[0].questions[0].answer).toBe(
+                "Probably neither.",
+            )
         })
     })
 
@@ -285,7 +280,7 @@ describe("BoardDraftController", () => {
 
             controller.dispatch({
                 type: "BOARD_DRAFT/IMPORT_BOARD",
-                json: VALID_DRAFT
+                json: VALID_DRAFT,
             })
 
             const newDraft = controller.getSnapshot()
@@ -293,7 +288,9 @@ describe("BoardDraftController", () => {
             expect(newDraft.categories.length).toBe(1)
             expect(newDraft.rowValues.length).toBe(1)
             expect(newDraft.categories[0].questions.length).toBe(1)
-            expect(newDraft.categories[0].questions[0].text).toBe("What was first, the chicken or the egg?")
+            expect(newDraft.categories[0].questions[0].text).toBe(
+                "What was first, the chicken or the egg?",
+            )
         })
 
         it("throws when invalid draft is imported", () => {
@@ -302,7 +299,7 @@ describe("BoardDraftController", () => {
             expect(() => {
                 controller.dispatch({
                     type: "BOARD_DRAFT/IMPORT_BOARD",
-                    json: INVALID_DRAFT
+                    json: INVALID_DRAFT,
                 })
             }).toThrow()
         })
@@ -311,17 +308,17 @@ describe("BoardDraftController", () => {
     describe("submitBoard", () => {
         it("allows submission of a valid draft", () => {
             var submitState: SubmitState = {
-                submitted: false
+                submitted: false,
             }
             const controller = setup(submitState)
 
             controller.dispatch({
                 type: "BOARD_DRAFT/UPDATE_DRAFT",
-                draft: VALID_DRAFT
+                draft: VALID_DRAFT,
             })
 
             controller.dispatch({
-                type: "BOARD_DRAFT/SUBMIT_BOARD"
+                type: "BOARD_DRAFT/SUBMIT_BOARD",
             })
 
             expect(submitState.submitted).toBe(true)
@@ -329,18 +326,18 @@ describe("BoardDraftController", () => {
 
         it("throws if the current draft is not valid", () => {
             var submitState: SubmitState = {
-                submitted: false
+                submitted: false,
             }
             const controller = setup(submitState)
 
             controller.dispatch({
                 type: "BOARD_DRAFT/UPDATE_DRAFT",
-                draft: INVALID_DRAFT
+                draft: INVALID_DRAFT,
             })
 
             expect(() => {
                 controller.dispatch({
-                    type: "BOARD_DRAFT/SUBMIT_BOARD"
+                    type: "BOARD_DRAFT/SUBMIT_BOARD",
                 })
             }).toThrow()
             expect(submitState.submitted).toBe(false)

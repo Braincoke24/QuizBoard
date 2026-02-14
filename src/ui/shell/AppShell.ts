@@ -17,7 +17,7 @@ export class AppShell {
         root: HTMLElement,
         onChangeRole: () => void,
         onReset: () => void,
-        themeController: ThemeController
+        themeController: ThemeController,
     ) {
         this.root = root
         this.root.innerHTML = ""
@@ -30,17 +30,13 @@ export class AppShell {
         this.overlayRoot.className = "app-overlay-root"
         this.contentRoot.className = "app-content-root"
 
-        this.root.append(
-            this.topBarRoot,
-            this.overlayRoot,
-            this.contentRoot
-        )
+        this.root.append(this.topBarRoot, this.overlayRoot, this.contentRoot)
 
         this.topBar = new TopBarAdapter(
             this.topBarRoot,
             onChangeRole,
             onReset,
-            themeController
+            themeController,
         )
     }
 
@@ -53,17 +49,17 @@ export class AppShell {
     }
 
     public showRoleSelection(
-        onSelect: (role: "game-master" | "player" | "spectator") => void
+        onSelect: (role: "game-master" | "player" | "spectator") => void,
     ): void {
         this.overlayRoot.innerHTML = ""
 
         this.overlayRoot.classList.add("active")
 
-        this.contentRoot.inert = true;
+        this.contentRoot.inert = true
 
         this.roleSelection = new RoleSelectionAdapter(
             this.overlayRoot,
-            onSelect
+            onSelect,
         )
     }
 

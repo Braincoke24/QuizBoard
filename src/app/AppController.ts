@@ -24,7 +24,7 @@ import { LandingCallbacks } from "../ui/landing/LandingCallbacks.js"
 
 export class AppController {
     private phase: AppPhase = AppPhase.LANDING
-    
+
     private landingController: LandingController
     private boardDraftController: BoardDraftController | null = null
     private preGameSetupController: PreGameSetupController | null = null
@@ -91,7 +91,7 @@ export class AppController {
 
     private startBoardDraftEditor(): void {
         this.assertPhase([AppPhase.LANDING, AppPhase.GAME_ENDED])
-        
+
         this.boardDraftController = this.createBoardDraftController()
 
         this.phase = AppPhase.EDIT_BOARD
@@ -102,7 +102,8 @@ export class AppController {
 
         const boardDraft = this.boardDraftController!.getSnapshot()
 
-        this.preGameSetupController = this.createPreGameSetupController(boardDraft)
+        this.preGameSetupController =
+            this.createPreGameSetupController(boardDraft)
         this.phase = AppPhase.PRE_GAME_SETUP
     }
 
@@ -113,7 +114,7 @@ export class AppController {
         const boardDraft = this.preGameSetupController!.getBoardDraft()
 
         const players = setup.players.map(
-            (config) => new Player(config.id, config.name)
+            (config) => new Player(config.id, config.name),
         )
 
         const board = boardDraftToBoard(boardDraft)
@@ -129,7 +130,10 @@ export class AppController {
 
         const setup = this.preGameSetupController!.getSnapshot()
 
-        if (setup.buzzerMode === "mouse-and-keyboard" && setup.players.length > 1) {
+        if (
+            setup.buzzerMode === "mouse-and-keyboard" &&
+            setup.players.length > 1
+        ) {
             this.startBuzzerConfig(setup.players)
             return
         }
@@ -144,7 +148,7 @@ export class AppController {
             onDone: (keys) => {
                 this.buzzerKeys = keys
                 this.startGame()
-            }
+            },
         })
 
         this.phase = AppPhase.BUZZER_CONFIG
@@ -195,7 +199,7 @@ export class AppController {
         const callbacks: LandingCallbacks = {
             onStart: () => {
                 this.startBoardDraftEditor()
-            }
+            },
         }
 
         return new LandingController(callbacks)
@@ -205,19 +209,21 @@ export class AppController {
         const callbacks: BoardDraftCallbacks = {
             onSubmitBoard: () => {
                 this.startPreGameSetup()
-            }
+            },
         }
 
         return new BoardDraftController(callbacks)
     }
 
-    private createPreGameSetupController(boardDraft: BoardDraft): PreGameSetupController {
+    private createPreGameSetupController(
+        boardDraft: BoardDraft,
+    ): PreGameSetupController {
         const callbacks: PreGameSetupCallbacks = {
-                onStartGame: () => {
-                    this.startGameFlow()
-                }
-            }
-        
+            onStartGame: () => {
+                this.startGameFlow()
+            },
+        }
+
         return new PreGameSetupController(callbacks, boardDraft)
     }
 
@@ -225,7 +231,7 @@ export class AppController {
         const callbacks: GameCallbacks = {
             onEndGame: () => {
                 this.endGame()
-            }
+            },
         }
 
         const buzzerKeyResolver = new Map<string, string>()
@@ -237,13 +243,15 @@ export class AppController {
         return new GameController(callbacks, game, buzzerKeyResolver)
     }
 
-    private createGameEndController(snapshot: GameUISnapshot): GameEndController {
+    private createGameEndController(
+        snapshot: GameUISnapshot,
+    ): GameEndController {
         const callbacks: GameEndCallbacks = {
             onStartNewGame: () => {
                 this.startBoardDraftEditor()
-            }
+            },
         }
-        
+
         return new GameEndController(callbacks, snapshot)
     }
 
@@ -252,7 +260,7 @@ export class AppController {
     private assertPhase(expected: AppPhase[]): void {
         if (this.phase in expected) {
             throw new Error(
-                `Invalid action for phase ${this.phase}, expected ${expected}`
+                `Invalid action for phase ${this.phase}, expected ${expected}`,
             )
         }
     }

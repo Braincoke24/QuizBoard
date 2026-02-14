@@ -17,7 +17,7 @@ export class PreGameSetupAdapter implements SnapshotUIAdapter {
     constructor(
         dispatch: (action: PreGameSetupAction) => void,
         setRole: (role: "game-master" | "player" | "spectator") => void,
-        root: HTMLElement
+        root: HTMLElement,
     ) {
         this.setupStore = writable(null)
 
@@ -40,19 +40,26 @@ export class PreGameSetupAdapter implements SnapshotUIAdapter {
                     dispatch({ type: "PRE_GAME_SETUP/SELECT_RULE", ruleId }),
 
                 onUpdateMultiplier: (
-                    key: "firstWrongMultiplier" | "buzzCorrectMultiplier" | "buzzWrongMultiplier",
-                    value: number
+                    key:
+                        | "firstWrongMultiplier"
+                        | "buzzCorrectMultiplier"
+                        | "buzzWrongMultiplier",
+                    value: number,
                 ): void =>
                     dispatch({
                         type: "PRE_GAME_SETUP/UPDATE_CUSTOM_MULTIPLIER",
                         key,
-                        value
+                        value,
                     }),
 
-                onSetBuzzerMode: (mode: "mouse-only" | "mouse-and-keyboard"): void =>
+                onSetBuzzerMode: (
+                    mode: "mouse-only" | "mouse-and-keyboard",
+                ): void =>
                     dispatch({ type: "PRE_GAME_SETUP/SET_BUZZER_MODE", mode }),
 
-                onStartGame: (mode: "single" | "dual" | "keep-current"): void => {
+                onStartGame: (
+                    mode: "single" | "dual" | "keep-current",
+                ): void => {
                     if (mode === "single") setRole("player")
 
                     if (mode === "dual") {
@@ -61,8 +68,8 @@ export class PreGameSetupAdapter implements SnapshotUIAdapter {
                     }
 
                     dispatch({ type: "PRE_GAME_SETUP/START_GAME" })
-                }
-            }
+                },
+            },
         })
     }
 

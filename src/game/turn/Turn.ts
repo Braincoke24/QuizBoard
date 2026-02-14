@@ -31,7 +31,7 @@ export class Turn {
         startingPlayer: Player,
         players: Player[],
         rules: GameRules,
-        onResolved?: (turn: Turn) => void
+        onResolved?: (turn: Turn) => void,
     ) {
         this._startingPlayer = startingPlayer
         this._players = players
@@ -67,29 +67,29 @@ export class Turn {
     }
 
     public selectQuestion(question: Question, categoryName: string) {
-        if (this._state !== TurnState.SELECTING) throw new Error("Not selecting")
+        if (this._state !== TurnState.SELECTING)
+            throw new Error("Not selecting")
         if (question.asked) throw new Error("Already asked")
 
         this._selectedQuestion = {
             question: question,
-            categoryName: categoryName
+            categoryName: categoryName,
         }
         question.play()
         this._state = TurnState.ANSWERING
     }
 
     public submitAnswer(correct: boolean) {
-        if (this._state !== TurnState.ANSWERING) throw new Error("Not answering")
+        if (this._state !== TurnState.ANSWERING)
+            throw new Error("Not answering")
         if (!this._selectedQuestion) throw new Error("No question")
 
         const value = this._selectedQuestion.question.value
         const player = this._activePlayer
-        const isStarter = (player === this._startingPlayer)
+        const isStarter = player === this._startingPlayer
 
         if (correct) {
-            const multiplier = isStarter
-                ? 1
-                : this._rules.buzzCorrectMultiplier
+            const multiplier = isStarter ? 1 : this._rules.buzzCorrectMultiplier
             player.addScore(value * multiplier)
             this._state = TurnState.RESOLVING
         } else {
@@ -126,34 +126,35 @@ export class Turn {
     }
 
     public continue() {
-        if (this._state !== TurnState.RESOLVING) throw new Error("Not resolving")
+        if (this._state !== TurnState.RESOLVING)
+            throw new Error("Not resolving")
         this.resolve()
     }
 
     public canBuzz(player: Player) {
-        const isBuzzing = (this._state === TurnState.BUZZING)
+        const isBuzzing = this._state === TurnState.BUZZING
         const isLockedOut = this._attempted.has(player)
 
         return isBuzzing && !isLockedOut
     }
 
     public canAnswer() {
-        const isAnswering = (this._state === TurnState.ANSWERING)
-        const hasQuestion = (this._selectedQuestion !== undefined)
+        const isAnswering = this._state === TurnState.ANSWERING
+        const hasQuestion = this._selectedQuestion !== undefined
 
         return isAnswering && hasQuestion
     }
 
     public canPass() {
-        return (this._state === TurnState.BUZZING)
+        return this._state === TurnState.BUZZING
     }
 
     public canSelectQuestion() {
-        return (this._state === TurnState.SELECTING)
+        return this._state === TurnState.SELECTING
     }
 
     public canContinue(): boolean {
-        return (this._state === TurnState.RESOLVING)
+        return this._state === TurnState.RESOLVING
     }
 
     /**
@@ -162,5 +163,4 @@ export class Turn {
     public isLockedOut(player: Player): boolean {
         return this._attempted.has(player)
     }
-
 }

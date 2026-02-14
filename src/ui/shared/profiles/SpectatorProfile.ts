@@ -5,14 +5,14 @@ export const SPECTATOR_PROFILE: UIViewProfile = {
     visibility: {
         showCorrectAnswer: false,
         showBoardEditor: false,
-        showPreGameSetup: true
+        showPreGameSetup: true,
     },
     capabilities: {
         canBuzz: false,
         canJudgeAnswer: false,
         canPass: false,
         canSelectQuestion: false,
-        canContinue: false
+        canContinue: false,
     },
-    displayName: "Spectator"
+    displayName: "Spectator",
 }

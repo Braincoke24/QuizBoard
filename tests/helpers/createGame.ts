@@ -14,19 +14,19 @@ export function createGame(rules: GameRules) {
     const players = [
         new Player("a", "Alice"),
         new Player("b", "Bob"),
-        new Player("c", "Charlie")
+        new Player("c", "Charlie"),
     ]
 
     const questions = [
         new Question("2+2?", "4", 100),
         new Question("3+3?", "6", 200),
         new Question("5+5?", "10", 300),
-        new Question("Capital of France?", "Paris", 400)
+        new Question("Capital of France?", "Paris", 400),
     ]
 
     const categories = [
         new Category("Math", [questions[0], questions[1]]),
-        new Category("General", [questions[2], questions[3]])
+        new Category("General", [questions[2], questions[3]]),
     ]
 
     const board = new Board(categories)
@@ -37,6 +37,6 @@ export function createGame(rules: GameRules) {
         players,
         board,
         categories,
-        questions
+        questions,
     }
 }

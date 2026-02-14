@@ -21,7 +21,7 @@ export class GameViewAdapter implements SnapshotUIAdapter {
     constructor(
         dispatch: (action: GameAction) => void,
         profile: UIViewProfile,
-        root: HTMLElement
+        root: HTMLElement,
     ) {
         this.snapshotStore = writable(null)
 
@@ -34,8 +34,15 @@ export class GameViewAdapter implements SnapshotUIAdapter {
                 snapshot: this.snapshotStore,
                 profile: profile,
 
-                onSelectQuestion: (categoryIndex: number, questionIndex: number): void =>
-                    dispatch({type: "GAME/SELECT_QUESTION", categoryIndex, questionIndex}),
+                onSelectQuestion: (
+                    categoryIndex: number,
+                    questionIndex: number,
+                ): void =>
+                    dispatch({
+                        type: "GAME/SELECT_QUESTION",
+                        categoryIndex,
+                        questionIndex,
+                    }),
 
                 onBuzz: (playerId: string): void =>
                     dispatch({ type: "GAME/BUZZ", playerId }),
@@ -43,28 +50,21 @@ export class GameViewAdapter implements SnapshotUIAdapter {
                 onAnswer: (correct: boolean): void =>
                     dispatch({ type: "GAME/ANSWER", correct }),
 
-                onPass: (): void =>
-                    dispatch({ type: "GAME/PASS" }),
+                onPass: (): void => dispatch({ type: "GAME/PASS" }),
 
-                onContinue: (): void =>
-                    dispatch({type: "GAME/CONTINUE"})
-            }
+                onContinue: (): void => dispatch({ type: "GAME/CONTINUE" }),
+            },
         })
 
         this.keyHandler = (e: KeyboardEvent): void => {
-            if (
-                e.metaKey ||
-                e.altKey ||
-                e.ctrlKey ||
-                e.key.length !== 1
-            ) {
+            if (e.metaKey || e.altKey || e.ctrlKey || e.key.length !== 1) {
                 return
             }
 
             e.preventDefault()
             dispatch({
                 type: "GAME/PRESS_KEY",
-                key: keyCodeNameMap(e.code)
+                key: keyCodeNameMap(e.code),
             })
         }
 

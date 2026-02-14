@@ -27,8 +27,7 @@ export class ThemeController {
      * Toggle between light and dark and persist via URL.
      */
     public toggle(): ThemeMode {
-        const next =
-            this.root.classList.contains("dark") ? "light" : "dark"
+        const next = this.root.classList.contains("dark") ? "light" : "dark"
 
         this.applyTheme(next)
         this.updateUrl(next)
@@ -50,7 +49,7 @@ export class ThemeController {
 
     private applySystemTheme(): void {
         const prefersDark = window.matchMedia(
-            "(prefers-color-scheme: dark)"
+            "(prefers-color-scheme: dark)",
         ).matches
 
         this.applyTheme(prefersDark ? "dark" : "light")

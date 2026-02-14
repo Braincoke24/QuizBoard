@@ -4,5 +4,5 @@ export enum TurnState {
     ANSWERING = "answering",
     BUZZING = "buzzing",
     RESOLVING = "resolving",
-    RESOLVED = "resolved"
+    RESOLVED = "resolved",
 }

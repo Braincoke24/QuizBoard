@@ -16,14 +16,14 @@ function createValidBoardDraftAction(): AppAction {
                         questions: [
                             {
                                 text: "Question?",
-                                answer: "Answer"
-                            }
-                        ]
-                    }
+                                answer: "Answer",
+                            },
+                        ],
+                    },
                 ],
-                rowValues: [100]
-            }
-        }
+                rowValues: [100],
+            },
+        },
     }
 }
 
@@ -31,8 +31,8 @@ function submitBoardAction(): AppAction {
     return {
         type: "APP/BOARD_DRAFT",
         action: {
-            type: "BOARD_DRAFT/SUBMIT_BOARD"
-        }
+            type: "BOARD_DRAFT/SUBMIT_BOARD",
+        },
     }
 }
 
@@ -52,8 +52,8 @@ describe("AppController", () => {
             app.dispatch({
                 type: "APP/LANDING",
                 action: {
-                    type: "LANDING/START"
-                }
+                    type: "LANDING/START",
+                },
             })
 
             expect(() => {
@@ -67,8 +67,8 @@ describe("AppController", () => {
             app.dispatch({
                 type: "APP/LANDING",
                 action: {
-                    type: "LANDING/START"
-                }
+                    type: "LANDING/START",
+                },
             })
             app.dispatch(createValidBoardDraftAction())
             app.dispatch(submitBoardAction())
@@ -87,8 +87,8 @@ describe("AppController", () => {
                     type: "APP/PRE_GAME_SETUP",
                     action: {
                         type: "PRE_GAME_SETUP/ADD_PLAYER",
-                        name: "Alice"
-                    }
+                        name: "Alice",
+                    },
                 })
             }).toThrow()
         })
@@ -99,8 +99,8 @@ describe("AppController", () => {
             app.dispatch({
                 type: "APP/LANDING",
                 action: {
-                    type: "LANDING/START"
-                }
+                    type: "LANDING/START",
+                },
             })
             app.dispatch(createValidBoardDraftAction())
             app.dispatch(submitBoardAction())
@@ -109,15 +109,15 @@ describe("AppController", () => {
                 type: "APP/PRE_GAME_SETUP",
                 action: {
                     type: "PRE_GAME_SETUP/ADD_PLAYER",
-                    name: "Alice"
-                }
+                    name: "Alice",
+                },
             })
 
             app.dispatch({
                 type: "APP/PRE_GAME_SETUP",
                 action: {
-                    type: "PRE_GAME_SETUP/START_GAME"
-                }
+                    type: "PRE_GAME_SETUP/START_GAME",
+                },
             })
 
             expect(app.getPhase()).toBe(AppPhase.GAME_RUNNING)
@@ -133,8 +133,8 @@ describe("AppController", () => {
                 app.dispatch({
                     type: "APP/GAME",
                     action: {
-                        type: "GAME/PASS"
-                    }
+                        type: "GAME/PASS",
+                    },
                 })
             }).toThrow()
         })
@@ -145,8 +145,8 @@ describe("AppController", () => {
             app.dispatch({
                 type: "APP/LANDING",
                 action: {
-                    type: "LANDING/START"
-                }
+                    type: "LANDING/START",
+                },
             })
             app.dispatch(createValidBoardDraftAction())
             app.dispatch(submitBoardAction())
@@ -155,15 +155,15 @@ describe("AppController", () => {
                 type: "APP/PRE_GAME_SETUP",
                 action: {
                     type: "PRE_GAME_SETUP/ADD_PLAYER",
-                    name: "Alice"
-                }
+                    name: "Alice",
+                },
             })
 
             app.dispatch({
                 type: "APP/PRE_GAME_SETUP",
                 action: {
-                    type: "PRE_GAME_SETUP/START_GAME"
-                }
+                    type: "PRE_GAME_SETUP/START_GAME",
+                },
             })
 
             app.dispatch({
@@ -171,23 +171,23 @@ describe("AppController", () => {
                 action: {
                     type: "GAME/SELECT_QUESTION",
                     categoryIndex: 0,
-                    questionIndex: 0
-                }
+                    questionIndex: 0,
+                },
             })
 
             app.dispatch({
                 type: "APP/GAME",
                 action: {
                     type: "GAME/ANSWER",
-                    correct: true
-                }
+                    correct: true,
+                },
             })
 
             app.dispatch({
                 type: "APP/GAME",
                 action: {
-                    type: "GAME/CONTINUE"
-                }
+                    type: "GAME/CONTINUE",
+                },
             })
 
             expect(app.getPhase()).toBe(AppPhase.GAME_ENDED)
@@ -201,8 +201,8 @@ describe("AppController", () => {
             app.dispatch({
                 type: "APP/LANDING",
                 action: {
-                    type: "LANDING/START"
-                }
+                    type: "LANDING/START",
+                },
             })
             app.dispatch(createValidBoardDraftAction())
             app.dispatch(submitBoardAction())
@@ -211,15 +211,15 @@ describe("AppController", () => {
                 type: "APP/PRE_GAME_SETUP",
                 action: {
                     type: "PRE_GAME_SETUP/ADD_PLAYER",
-                    name: "Alice"
-                }
+                    name: "Alice",
+                },
             })
 
             app.dispatch({
                 type: "APP/PRE_GAME_SETUP",
                 action: {
-                    type: "PRE_GAME_SETUP/START_GAME"
-                }
+                    type: "PRE_GAME_SETUP/START_GAME",
+                },
             })
 
             app.dispatch({
@@ -227,30 +227,30 @@ describe("AppController", () => {
                 action: {
                     type: "GAME/SELECT_QUESTION",
                     categoryIndex: 0,
-                    questionIndex: 0
-                }
+                    questionIndex: 0,
+                },
             })
 
             app.dispatch({
                 type: "APP/GAME",
                 action: {
                     type: "GAME/ANSWER",
-                    correct: true
-                }
+                    correct: true,
+                },
             })
 
             app.dispatch({
                 type: "APP/GAME",
                 action: {
-                    type: "GAME/CONTINUE"
-                }
+                    type: "GAME/CONTINUE",
+                },
             })
 
             app.dispatch({
                 type: "APP/GAME_ENDED",
                 action: {
-                    type: "GAME_ENDED/START_NEW_GAME"
-                }
+                    type: "GAME_ENDED/START_NEW_GAME",
+                },
             })
 
             expect(app.getPhase()).toBe(AppPhase.EDIT_BOARD)

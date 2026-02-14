@@ -174,7 +174,9 @@ describe("scoring with GameRules", () => {
         game.selectQuestion(0, 0)
         game.answer(false)
 
-        const expected = Math.ceil(-points * GameRules.classic().firstWrongMultiplier)
+        const expected = Math.ceil(
+            -points * GameRules.classic().firstWrongMultiplier,
+        )
         expect(alice.score).toBe(expected)
     })
 
@@ -188,7 +190,9 @@ describe("scoring with GameRules", () => {
         game.buzz(bob)
         game.answer(false)
 
-        const expected = Math.ceil(-points * GameRules.classic().buzzWrongMultiplier)
+        const expected = Math.ceil(
+            -points * GameRules.classic().buzzWrongMultiplier,
+        )
         expect(bob.score).toBe(expected)
     })
 
@@ -224,7 +228,8 @@ describe("scoring with GameRules", () => {
     it("starter answers correctly and gets full points", () => {
         const { game, players, categories } = createGame(GameRules.classic())
         const alice = players[0]
-        const categoryIndex = 0, questionIndex = 0
+        const categoryIndex = 0,
+            questionIndex = 0
         const points = categories[categoryIndex].questions[questionIndex].value
 
         game.selectQuestion(categoryIndex, questionIndex)
@@ -233,5 +238,3 @@ describe("scoring with GameRules", () => {
         expect(alice.score).toBe(points)
     })
 })
-
-

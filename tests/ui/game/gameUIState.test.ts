@@ -22,22 +22,22 @@ describe("GameUIState", () => {
                 id: "a",
                 name: "Alice",
                 isActive: true,
-                isLockedOut: false
+                isLockedOut: false,
             })
         })
 
         it("returns the player who is currently answering or buzzing", () => {
             const { ui, game } = setup()
-            
+
             game.selectQuestion(0, 0)
-            
+
             const activePlayer = ui.getActivePlayer()
 
             expect(activePlayer).toMatchObject({
                 id: "a",
                 name: "Alice",
                 isActive: true,
-                isLockedOut: false
+                isLockedOut: false,
             })
         })
 
@@ -57,7 +57,7 @@ describe("GameUIState", () => {
                 name: "Alice",
                 score: 0,
                 isActive: true,
-                isLockedOut: false
+                isLockedOut: false,
             })
         })
 
@@ -65,7 +65,9 @@ describe("GameUIState", () => {
             const { ui } = setup()
             const players = ui.getPlayers()
 
-            expect(players.filter((p) => p.isActive).map((p) => p.id)).toEqual(["a"])
+            expect(players.filter((p) => p.isActive).map((p) => p.id)).toEqual([
+                "a",
+            ])
         })
     })
 
@@ -112,7 +114,7 @@ describe("GameUIState", () => {
 
             expect(question).toMatchObject({
                 value: expect.any(Number),
-                text: expect.any(String)
+                text: expect.any(String),
             })
         })
 
@@ -170,10 +172,10 @@ describe("GameUIState", () => {
         describe("canBuzz", () => {
             it("returns true for eligible players", () => {
                 const { ui, game } = setup()
-                
+
                 game.selectQuestion(0, 0)
                 game.answer(false)
-                
+
                 const bob = ui.getPlayers()[1]
 
                 expect(ui.canBuzz(bob.id)).toBe(true)
@@ -181,10 +183,10 @@ describe("GameUIState", () => {
 
             it("returns false for locked out players", () => {
                 const { ui, game } = setup()
-                
+
                 game.selectQuestion(0, 0)
                 game.answer(false)
-                
+
                 const alice = ui.getPlayers()[0]
 
                 expect(ui.canBuzz(alice.id)).toBe(false)

@@ -1,5 +1,9 @@
 // src/ui/shared/BoardDraftImporter.ts
-import { BoardDraft, CategoryDraft, QuestionDraft } from "../editBoard/BoardDraftState.js"
+import {
+    BoardDraft,
+    CategoryDraft,
+    QuestionDraft,
+} from "../editBoard/BoardDraftState.js"
 
 export function importBoardDraft(raw: unknown): BoardDraft {
     if (!isObject(raw)) {
@@ -14,7 +18,11 @@ export function importBoardDraft(raw: unknown): BoardDraft {
     }
 
     const parsedCategories: CategoryDraft[] = categories.map((cat, cIndex) => {
-        if (!isObject(cat) || typeof cat.name !== "string" || !Array.isArray(cat.questions)) {
+        if (
+            !isObject(cat) ||
+            typeof cat.name !== "string" ||
+            !Array.isArray(cat.questions)
+        ) {
             throw new Error(`Invalid category at index ${cIndex}`)
         }
 
@@ -24,24 +32,26 @@ export function importBoardDraft(raw: unknown): BoardDraft {
                 typeof q.text !== "string" ||
                 typeof q.answer !== "string"
             ) {
-                throw new Error(`Invalid question at category ${cIndex}, row ${qIndex}`)
+                throw new Error(
+                    `Invalid question at category ${cIndex}, row ${qIndex}`,
+                )
             }
 
             return {
                 text: q.text,
-                answer: q.answer
+                answer: q.answer,
             }
         })
 
         return {
             name: cat.name,
-            questions
+            questions,
         }
     })
 
     return {
         categories: parsedCategories,
-        rowValues: rowValues.map(Number)
+        rowValues: rowValues.map(Number),
     }
 }
 

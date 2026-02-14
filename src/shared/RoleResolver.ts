@@ -10,8 +10,8 @@ import { UIViewProfile } from "../ui/shared/view/UIViewProfile.js"
 export class RoleResolver {
     private static readonly profileMap = {
         "game-master": GAMEMASTER_PROFILE,
-        "player": PLAYER_PROFILE,
-        "spectator": SPECTATOR_PROFILE
+        player: PLAYER_PROFILE,
+        spectator: SPECTATOR_PROFILE,
     } as const
 
     public static resolve(roleParam?: string | null): UIViewProfile {
@@ -19,7 +19,7 @@ export class RoleResolver {
 
         const role: Role =
             roleParam && roleParam in RoleResolver.profileMap
-                ? roleParam as Role
+                ? (roleParam as Role)
                 : "spectator"
 
         return RoleResolver.profileMap[role]

@@ -10,10 +10,7 @@ import type { LandingAction } from "./LandingAction.js"
 export class LandingAdapter implements UIAdapter {
     private component: ReturnType<typeof mount> | null = null
 
-    constructor(
-        dispatch: (action: LandingAction) => void,
-        root: HTMLElement
-    ) {
+    constructor(dispatch: (action: LandingAction) => void, root: HTMLElement) {
         root.className = "app-content-root landing"
         root.innerHTML = ""
 
@@ -22,10 +19,10 @@ export class LandingAdapter implements UIAdapter {
             props: {
                 onStart: (): void => {
                     dispatch({
-                        type: "LANDING/START"
+                        type: "LANDING/START",
                     })
-                }
-            }
+                },
+            },
         })
     }
 

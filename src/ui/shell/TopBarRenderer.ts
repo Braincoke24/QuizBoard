@@ -1,9 +1,5 @@
 // src/ui/shell/TopBarRenderer.ts
-import {
-    LIGHT_MODE_SVG,
-    DARK_MODE_SVG,
-    HOME_SVG
-} from "../shared/icons.js"
+import { LIGHT_MODE_SVG, DARK_MODE_SVG, HOME_SVG } from "../shared/icons.js"
 import { ThemeController } from "../shared/ThemeController.js"
 
 export class TopBarRenderer {
@@ -15,7 +11,7 @@ export class TopBarRenderer {
         private readonly root: HTMLElement,
         private readonly onChangeRole: () => void,
         private readonly onReset: () => void,
-        private readonly themeController: ThemeController
+        private readonly themeController: ThemeController,
     ) {}
 
     public render(): void {
@@ -49,7 +45,7 @@ export class TopBarRenderer {
             this.roleLabel,
             changeRoleButton,
             this.themeButton,
-            this.resetButton
+            this.resetButton,
         )
     }
 

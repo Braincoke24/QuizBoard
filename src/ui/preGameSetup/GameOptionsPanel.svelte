@@ -7,7 +7,7 @@
         | "firstWrongMultiplier"
         | "buzzCorrectMultiplier"
         | "buzzWrongMultiplier"
-    
+
     type WindowMode = "single" | "dual" | "keep-current"
 
     export let setup: PreGameSetup
@@ -15,20 +15,20 @@
 
     export let onSelectRule: (ruleId: string) => void
     export let onUpdateMultiplier: (key: MultiplierKey, value: number) => void
-    export let onSetBuzzerMode: (mode: "mouse-only" | "mouse-and-keyboard") => void
+    export let onSetBuzzerMode: (
+        mode: "mouse-only" | "mouse-and-keyboard",
+    ) => void
     export let onStartGame: (mode: WindowMode) => void
 
     let selectedWindowMode: WindowMode = "keep-current"
 
     $: preset = presets.find((p) => p.id === setup.selectedRuleId)!
 
-    $: rules = preset.editable
-        ? setup.customMultipliers
-        : preset.rules
+    $: rules = preset.editable ? setup.customMultipliers : preset.rules
 
     const buzzerModes: readonly ("mouse-only" | "mouse-and-keyboard")[] = [
         "mouse-only",
-        "mouse-and-keyboard"
+        "mouse-and-keyboard",
     ]
 
     const ruleDetailRows: {
@@ -39,18 +39,18 @@
         {
             key: "firstWrongMultiplier",
             label: "Initial wrong",
-            tooltip: "Applied when the first player answers incorrectly"
+            tooltip: "Applied when the first player answers incorrectly",
         },
         {
             key: "buzzCorrectMultiplier",
             label: "Buzzed correct",
-            tooltip: "Applied when a buzzing player answers correctly"
+            tooltip: "Applied when a buzzing player answers correctly",
         },
         {
             key: "buzzWrongMultiplier",
             label: "Buzzed wrong",
-            tooltip: "Applied when a buzzing player answers incorrectly"
-        }
+            tooltip: "Applied when a buzzing player answers incorrectly",
+        },
     ]
 
     const windowModes: {
@@ -62,21 +62,24 @@
         {
             name: "Single",
             shortDesc: "One shared screen",
-            longDesc: "Players and gamemaster share one display. Answers are hidden until the question is answered or skipped.",
-            mode: "single"
+            longDesc:
+                "Players and gamemaster share one display. Answers are hidden until the question is answered or skipped.",
+            mode: "single",
         },
         {
             name: "Dual",
             shortDesc: "Separate windows",
-            longDesc: "Opens a second window for display only (projector / second screen). The game can only be controlled from the gamemaster window.",
-            mode: "dual"
+            longDesc:
+                "Opens a second window for display only (projector / second screen). The game can only be controlled from the gamemaster window.",
+            mode: "dual",
         },
         {
             name: "Current",
             shortDesc: "Use existing setup",
-            longDesc: "Use this if you already have two windows open and configured.",
-            mode: "keep-current"
-        }
+            longDesc:
+                "Use this if you already have two windows open and configured.",
+            mode: "keep-current",
+        },
     ]
 </script>
 
@@ -114,9 +117,10 @@
                             on:change={(e) =>
                                 onUpdateMultiplier(
                                     row.key,
-                                    Number((e.target as HTMLInputElement).value)
-                                )
-                            }
+                                    Number(
+                                        (e.target as HTMLInputElement).value,
+                                    ),
+                                )}
                         />
                     {:else}
                         <span class="multiplier-value">

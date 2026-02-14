@@ -8,29 +8,29 @@ import { GameEndAction } from "../ui/gameEnd/GameEndAction.js"
 
 export type AppAction =
     | {
-        type: "APP/LANDING"
-        action: LandingAction
-    }
+          type: "APP/LANDING"
+          action: LandingAction
+      }
     | {
-        type: "APP/BOARD_DRAFT"
-        action: BoardDraftAction
-    }
+          type: "APP/BOARD_DRAFT"
+          action: BoardDraftAction
+      }
     | {
-        type: "APP/PRE_GAME_SETUP"
-        action: PreGameSetupAction
-    }
+          type: "APP/PRE_GAME_SETUP"
+          action: PreGameSetupAction
+      }
     | {
-        type: "APP/BUZZER_CONFIG"
-        action: BuzzerConfigAction
-    }
+          type: "APP/BUZZER_CONFIG"
+          action: BuzzerConfigAction
+      }
     | {
-        type: "APP/GAME"
-        action: GameAction
-    }
+          type: "APP/GAME"
+          action: GameAction
+      }
     | {
-        type: "APP/GAME_ENDED"
-        action: GameEndAction
-    }
+          type: "APP/GAME_ENDED"
+          action: GameEndAction
+      }
     | {
-        type: "APP/RESET"
-    }
+          type: "APP/RESET"
+      }

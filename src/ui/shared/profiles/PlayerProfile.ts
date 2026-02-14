@@ -5,14 +5,14 @@ export const PLAYER_PROFILE: UIViewProfile = {
     visibility: {
         showCorrectAnswer: false,
         showBoardEditor: true,
-        showPreGameSetup: true
+        showPreGameSetup: true,
     },
     capabilities: {
         canBuzz: true,
         canJudgeAnswer: true,
         canPass: true,
         canSelectQuestion: true,
-        canContinue: true
+        canContinue: true,
     },
-    displayName: "Player"
+    displayName: "Player",
 }

@@ -27,8 +27,8 @@ export class GameUIState {
             id: player.id,
             name: player.name,
             score: player.score,
-            isActive: (this.game.turn.activePlayer === player),
-            isLockedOut: (this.game.turn.isLockedOut(player))
+            isActive: this.game.turn.activePlayer === player,
+            isLockedOut: this.game.turn.isLockedOut(player),
         }
     }
 
@@ -65,9 +65,9 @@ export class GameUIState {
                 questions: category.questions.map((question) => {
                     return {
                         value: question.value,
-                        isAvailable: !question.asked
+                        isAvailable: !question.asked,
                     }
-                })
+                }),
             }
         })
     }
@@ -90,7 +90,7 @@ export class GameUIState {
             value: selected.question.value,
             text: selected.question.text,
             answer: selected.question.answer,
-            categoryName: selected.categoryName
+            categoryName: selected.categoryName,
         }
     }
 
@@ -156,9 +156,9 @@ export class GameUIState {
         let ended = true
 
         const board = this.getBoard()
-        
+
         board.forEach((c) => {
-            c.questions.forEach(q => {
+            c.questions.forEach((q) => {
                 if (q.isAvailable) {
                     ended = false
                 }
@@ -187,8 +187,8 @@ export class GameUIState {
             canPass: this.canPass(),
             canContinue: this.canContinue(),
             canBuzz: players
-                .filter(player => this.canBuzz(player.id))
-                .map(player => player.id)
+                .filter((player) => this.canBuzz(player.id))
+                .map((player) => player.id),
         }
     }
 }

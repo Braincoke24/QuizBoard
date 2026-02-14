@@ -34,7 +34,7 @@
     grid-template-columns: 4vw 15vw 5vw;
     column-gap: 1vw;
     align-items: center;
-    
+
     background-color: var(--color-primary-3);
 
     border: 2px solid var(--color-primary-6);

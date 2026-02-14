@@ -48,14 +48,14 @@ export class App {
         port: AppPort,
         roleParam: string,
         root: HTMLElement,
-        themeController: ThemeController
+        themeController: ThemeController,
     ) {
         this.port = port
         this.shell = new AppShell(
             root,
             () => this.requestRoleChange(),
             () => this.requestReset(),
-            themeController
+            themeController,
         )
 
         this.profile = RoleResolver.resolve("player")
@@ -89,7 +89,7 @@ export class App {
 
     private requestReset(): void {
         this.dispatch({
-            type: "APP/RESET"
+            type: "APP/RESET",
         })
     }
 
@@ -143,9 +143,9 @@ export class App {
                     (action) =>
                         this.dispatch({
                             type: "APP/LANDING",
-                            action
+                            action,
                         }),
-                    contentRoot
+                    contentRoot,
                 )
                 this.adapter = this.landingAdapter
                 break
@@ -156,14 +156,17 @@ export class App {
                         (action) =>
                             this.dispatch({
                                 type: "APP/BOARD_DRAFT",
-                                action
+                                action,
                             }),
-                        contentRoot
+                        contentRoot,
                     )
                     this.adapter = this.boardDraftAdapter
                 } else {
                     const players = this.lastSnapshot?.game?.players
-                    this.waitForSetupAdapter = new WaitForSetupAdapter(contentRoot, players)
+                    this.waitForSetupAdapter = new WaitForSetupAdapter(
+                        contentRoot,
+                        players,
+                    )
                     this.adapter = this.waitForSetupAdapter
                 }
                 break
@@ -173,10 +176,10 @@ export class App {
                     (action) =>
                         this.dispatch({
                             type: "APP/PRE_GAME_SETUP",
-                            action
+                            action,
                         }),
                     (role) => this.applyRole(role),
-                    contentRoot
+                    contentRoot,
                 )
                 this.adapter = this.preGameSetupAdapter
                 break
@@ -186,9 +189,9 @@ export class App {
                     (action) =>
                         this.dispatch({
                             type: "APP/BUZZER_CONFIG",
-                            action
+                            action,
                         }),
-                    contentRoot
+                    contentRoot,
                 )
                 this.adapter = this.buzzerConfigAdapter
                 break
@@ -198,10 +201,10 @@ export class App {
                     (action) =>
                         this.dispatch({
                             type: "APP/GAME",
-                            action
+                            action,
                         }),
                     this.profile,
-                    contentRoot
+                    contentRoot,
                 )
                 this.adapter = this.gameViewAdapter
                 break
@@ -214,10 +217,10 @@ export class App {
                     (action) =>
                         this.dispatch({
                             type: "APP/GAME_ENDED",
-                            action
+                            action,
                         }),
                     contentRoot,
-                    players
+                    players,
                 )
                 this.adapter = this.gameEndAdapter
                 break

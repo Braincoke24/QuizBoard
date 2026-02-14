@@ -6,7 +6,7 @@ export class RoleSelectionAdapter {
 
     constructor(
         root: HTMLElement,
-        onSelect: (role: "game-master" | "player" | "spectator") => void
+        onSelect: (role: "game-master" | "player" | "spectator") => void,
     ) {
         this.renderer = new RoleSelectionRenderer(root, onSelect)
         this.renderer.render()

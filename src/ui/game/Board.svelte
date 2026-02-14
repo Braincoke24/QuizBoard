@@ -13,13 +13,13 @@
 
     $: maxRows = Math.max(
         0,
-        ...snapshot.board.map((category) => category.questions.length)
+        ...snapshot.board.map((category) => category.questions.length),
     )
 </script>
 
 <div
     class="board-container
-    {snapshot.activeQuestion === null ? "" : "has-overlay" }"
+    {snapshot.activeQuestion === null ? '' : 'has-overlay'}"
 >
     <div class="board">
         <div class="board-header">
@@ -34,8 +34,12 @@
                     {#if category.questions[rowIndex]}
                         <button
                             class="question-cell
-                                {category.questions[rowIndex].isAvailable ? "" : "used"}"
-                            disabled={!category.questions[rowIndex].isAvailable || !profile.capabilities.canSelectQuestion}
+                                {category.questions[rowIndex].isAvailable
+                                ? ''
+                                : 'used'}"
+                            disabled={!category.questions[rowIndex]
+                                .isAvailable ||
+                                !profile.capabilities.canSelectQuestion}
                             on:click={() => onSelectQuestion(cIndex, rowIndex)}
                         >
                             {category.questions[rowIndex].value.toString()}
@@ -50,18 +54,26 @@
     {#if snapshot.activeQuestion !== null}
         <div class="active-question-overlay">
             <div class="active-question">
-                <div class="active-question-category">{snapshot.activeQuestion.categoryName}</div>
-                <div class="active-question-value">{snapshot.activeQuestion.value.toString()}</div>
-                <div class="active-question-text">{snapshot.activeQuestion.text}</div>
+                <div class="active-question-category">
+                    {snapshot.activeQuestion.categoryName}
+                </div>
+                <div class="active-question-value">
+                    {snapshot.activeQuestion.value.toString()}
+                </div>
+                <div class="active-question-text">
+                    {snapshot.activeQuestion.text}
+                </div>
                 {#if profile.visibility.showCorrectAnswer || snapshot.turnState === TurnState.RESOLVING}
-                    <div class="active-question-answer">{snapshot.activeQuestion.answer}</div>
+                    <div class="active-question-answer">
+                        {snapshot.activeQuestion.answer}
+                    </div>
                 {/if}
             </div>
             <div class="active-question-controls">
                 {#if profile.capabilities.canJudgeAnswer}
                     <button
                         class="correct action-button accent
-                            {snapshot.canAnswer ? "" : "hidden"}"
+                            {snapshot.canAnswer ? '' : 'hidden'}"
                         disabled={!snapshot.canAnswer}
                         on:click={() => onAnswer(true)}
                     >
@@ -69,7 +81,7 @@
                     </button>
                     <button
                         class="wrong action-button accent
-                            {snapshot.canAnswer ? "" : "hidden"}"
+                            {snapshot.canAnswer ? '' : 'hidden'}"
                         disabled={!snapshot.canAnswer}
                         on:click={() => onAnswer(false)}
                     >
@@ -79,7 +91,7 @@
                 {#if profile.capabilities.canPass}
                     <button
                         class="pass action-button accent
-                            {snapshot.canPass ? "" : "hidden"}"
+                            {snapshot.canPass ? '' : 'hidden'}"
                         disabled={!snapshot.canPass}
                         on:click={onPass}
                     >
@@ -89,7 +101,7 @@
                 {#if profile.capabilities.canContinue}
                     <button
                         class="continue action-button accent
-                            {snapshot.canContinue ? "" : "hidden"}"
+                            {snapshot.canContinue ? '' : 'hidden'}"
                         disabled={!snapshot.canContinue}
                         on:click={onContinue}
                     >

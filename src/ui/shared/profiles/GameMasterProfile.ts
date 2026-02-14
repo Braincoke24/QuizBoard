@@ -5,14 +5,14 @@ export const GAMEMASTER_PROFILE: UIViewProfile = {
     visibility: {
         showCorrectAnswer: true,
         showBoardEditor: true,
-        showPreGameSetup: true
+        showPreGameSetup: true,
     },
     capabilities: {
         canBuzz: true,
         canJudgeAnswer: true,
         canPass: true,
         canSelectQuestion: true,
-        canContinue: true
+        canContinue: true,
     },
-    displayName: "Gamemaster"
+    displayName: "Gamemaster",
 }

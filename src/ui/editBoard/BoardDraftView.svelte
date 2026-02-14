@@ -28,7 +28,7 @@
                 alert(
                     error instanceof SyntaxError
                         ? "Invalid JSON file"
-                        : (error as Error).message
+                        : (error as Error).message,
                 )
             })
             .finally(() => {
@@ -52,7 +52,9 @@
                         value={category.name}
                         on:input={(e) => {
                             const next = structuredClone($draft)
-                            next.categories[cIndex].name = (e.target as HTMLInputElement).value
+                            next.categories[cIndex].name = (
+                                e.target as HTMLInputElement
+                            ).value
                             commit(next)
                         }}
                     />
@@ -63,7 +65,9 @@
                         on:click={() => {
                             const next = {
                                 ...$draft,
-                                categories: $draft.categories.filter((_, i) => i !== cIndex)
+                                categories: $draft.categories.filter(
+                                    (_, i) => i !== cIndex,
+                                ),
                             }
                             commit(next)
                         }}
@@ -87,7 +91,7 @@
                         on:input={(e) => {
                             const next = structuredClone($draft)
                             next.rowValues[rowIndex] = Number(
-                                (e.target as HTMLInputElement).value
+                                (e.target as HTMLInputElement).value,
                             )
                             commit(next)
                         }}
@@ -102,8 +106,11 @@
                                 value={category.questions[rowIndex].text}
                                 on:input={(e) => {
                                     const next = structuredClone($draft)
-                                    next.categories[cIndex].questions[rowIndex].text =
-                                        (e.target as HTMLTextAreaElement).value
+                                    next.categories[cIndex].questions[
+                                        rowIndex
+                                    ].text = (
+                                        e.target as HTMLTextAreaElement
+                                    ).value
                                     commit(next)
                                 }}
                             ></textarea>
@@ -114,8 +121,11 @@
                                 value={category.questions[rowIndex].answer}
                                 on:input={(e) => {
                                     const next = structuredClone($draft)
-                                    next.categories[cIndex].questions[rowIndex].answer =
-                                        (e.target as HTMLTextAreaElement).value
+                                    next.categories[cIndex].questions[
+                                        rowIndex
+                                    ].answer = (
+                                        e.target as HTMLTextAreaElement
+                                    ).value
                                     commit(next)
                                 }}
                             ></textarea>
@@ -139,10 +149,10 @@
                             name: "",
                             questions: $draft.rowValues.map(() => ({
                                 text: "",
-                                answer: ""
-                            }))
-                        }
-                    ]
+                                answer: "",
+                            })),
+                        },
+                    ],
                 }
                 commit(next)
             }}
@@ -172,8 +182,7 @@
             on:click={() =>
                 document
                     .querySelector<HTMLInputElement>(".draft-import-input")
-                    ?.click()
-            }
+                    ?.click()}
         >
             Import
         </button>

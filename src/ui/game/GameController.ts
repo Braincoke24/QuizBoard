@@ -17,7 +17,7 @@ export class GameController {
     constructor(
         private readonly callbacks: GameCallbacks,
         private readonly game: Game,
-        private readonly buzzerKeyResolver: Map<string, string> | null = null
+        private readonly buzzerKeyResolver: Map<string, string> | null = null,
     ) {
         this.uiState = new GameUIState(game)
         this.playerResolver = new PlayerResolver(game.players)
@@ -29,12 +29,14 @@ export class GameController {
         switch (action.type) {
             case "GAME/SELECT_QUESTION": {
                 if (!this.uiState.canSelectQuestion()) {
-                    throw new Error("Cannot select a question in the current turn state")
+                    throw new Error(
+                        "Cannot select a question in the current turn state",
+                    )
                 }
 
                 this.game.selectQuestion(
                     action.categoryIndex,
-                    action.questionIndex
+                    action.questionIndex,
                 )
                 return
             }
@@ -44,9 +46,7 @@ export class GameController {
                     throw new Error("Player is not allowed to buzz right now")
                 }
 
-                this.game.buzz(
-                    this.playerResolver.resolve(action.playerId)
-                )
+                this.game.buzz(this.playerResolver.resolve(action.playerId))
                 return
             }
 
@@ -78,7 +78,7 @@ export class GameController {
                 if (this.uiState.gameEndedNaturally()) {
                     this.callbacks.onEndGame()
                 }
-                
+
                 return
             }
 
@@ -86,16 +86,14 @@ export class GameController {
                 if (!this.buzzerKeyResolver) return
 
                 const playerId = this.buzzerKeyResolver.get(action.key)
-                
+
                 if (!playerId) return
 
                 if (!this.uiState.canBuzz(playerId)) {
                     throw new Error("Player is not allowed to buzz right now")
                 }
 
-                this.game.buzz(
-                    this.playerResolver.resolve(playerId)
-                )
+                this.game.buzz(this.playerResolver.resolve(playerId))
                 return
             }
 

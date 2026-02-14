@@ -2,9 +2,9 @@
 
 export type BuzzerConfigAction =
     | {
-        type: "BUZZER_CONFIG/SKIP_PLAYER"
-    }
+          type: "BUZZER_CONFIG/SKIP_PLAYER"
+      }
     | {
-        type: "BUZZER_CONFIG/ASSIGN_KEY"
-        key: string
-    }
+          type: "BUZZER_CONFIG/ASSIGN_KEY"
+          key: string
+      }

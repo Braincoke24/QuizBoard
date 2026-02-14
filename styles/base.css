@@ -11,7 +11,7 @@
 @import "./components/landing.css";
 
 * {
-  box-sizing: border-box;
+    box-sizing: border-box;
 }
 
 body {
@@ -85,7 +85,7 @@ footer a {
     height: 30vh;
 
     display: grid;
-    place-items: center; 
+    place-items: center;
     grid-template-columns: auto auto auto;
     gap: 1vw;
 }
@@ -108,7 +108,8 @@ footer a {
     height: 6vh;
 }
 
-.game-running, .pre-game-setup {
+.game-running,
+.pre-game-setup {
     display: grid;
     grid-template-columns: 18vw 58vw 18vw;
     gap: 2vw;

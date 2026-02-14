@@ -17,7 +17,7 @@ export class BoardDraftAdapter implements SnapshotUIAdapter {
 
     constructor(
         dispatch: (action: BoardDraftAction) => void,
-        root: HTMLElement
+        root: HTMLElement,
     ) {
         this.draftStore = writable(null)
 
@@ -30,13 +30,13 @@ export class BoardDraftAdapter implements SnapshotUIAdapter {
                 draft: this.draftStore,
 
                 onDraftChange: (draft: BoardDraft): void =>
-                    dispatch({type: "BOARD_DRAFT/UPDATE_DRAFT", draft}),
+                    dispatch({ type: "BOARD_DRAFT/UPDATE_DRAFT", draft }),
 
                 onSubmitBoard: (): void =>
-                    dispatch({type: "BOARD_DRAFT/SUBMIT_BOARD"}),
+                    dispatch({ type: "BOARD_DRAFT/SUBMIT_BOARD" }),
 
                 onImportBoard: (json: unknown): void =>
-                    dispatch({type: "BOARD_DRAFT/IMPORT_BOARD",json}),
+                    dispatch({ type: "BOARD_DRAFT/IMPORT_BOARD", json }),
 
                 onExportBoard: (): void => {
                     try {
@@ -47,7 +47,9 @@ export class BoardDraftAdapter implements SnapshotUIAdapter {
                         }
 
                         const json = JSON.stringify(draft, null, 2)
-                        const blob = new Blob([json], { type: "application/json" })
+                        const blob = new Blob([json], {
+                            type: "application/json",
+                        })
                         const url = URL.createObjectURL(blob)
 
                         const a = document.createElement("a")
@@ -59,8 +61,8 @@ export class BoardDraftAdapter implements SnapshotUIAdapter {
                     } catch (error) {
                         alert((error as Error).message)
                     }
-                }
-            }
+                },
+            },
         })
     }
 

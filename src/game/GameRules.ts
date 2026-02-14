@@ -1,7 +1,7 @@
 // src/game/GameRules.ts
 /**
  * Defines all scoring rules for a game.
- * 
+ *
  * Values are multipliers applied to the base question value.
  */
 export class GameRules {
@@ -12,7 +12,7 @@ export class GameRules {
     constructor(
         firstWrongMultiplier: number,
         buzzCorrectMultiplier: number,
-        buzzWrongMultiplier: number
+        buzzWrongMultiplier: number,
     ) {
         this.firstWrongMultiplier = firstWrongMultiplier
         this.buzzCorrectMultiplier = buzzCorrectMultiplier

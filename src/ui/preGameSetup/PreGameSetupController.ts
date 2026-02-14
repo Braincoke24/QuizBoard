@@ -13,7 +13,7 @@ export class PreGameSetupController {
     constructor(
         callbacks: PreGameSetupCallbacks,
         boardDraft: BoardDraft,
-        initialSetup?: PreGameSetup
+        initialSetup?: PreGameSetup,
     ) {
         this.callbacks = callbacks
 
@@ -25,10 +25,11 @@ export class PreGameSetupController {
             selectedRuleId: defaultPreset.id,
             customMultipliers: {
                 firstWrongMultiplier: defaultPreset.rules.firstWrongMultiplier,
-                buzzCorrectMultiplier: defaultPreset.rules.buzzCorrectMultiplier,
-                buzzWrongMultiplier: defaultPreset.rules.buzzWrongMultiplier
+                buzzCorrectMultiplier:
+                    defaultPreset.rules.buzzCorrectMultiplier,
+                buzzWrongMultiplier: defaultPreset.rules.buzzWrongMultiplier,
             },
-            buzzerMode: "mouse-only"
+            buzzerMode: "mouse-only",
         }
     }
 
@@ -77,7 +78,7 @@ export class PreGameSetupController {
 
     public getGameRules(): GameRules {
         const preset = GAME_RULE_PRESETS.find(
-            (p) => p.id === this.setup.selectedRuleId
+            (p) => p.id === this.setup.selectedRuleId,
         )
 
         if (!preset) {
@@ -92,7 +93,7 @@ export class PreGameSetupController {
         return new GameRules(
             m.firstWrongMultiplier,
             m.buzzCorrectMultiplier,
-            m.buzzWrongMultiplier
+            m.buzzWrongMultiplier,
         )
     }
 
@@ -103,7 +104,7 @@ export class PreGameSetupController {
 
         this.setup.players.push({
             id: crypto.randomUUID(),
-            name
+            name,
         })
     }
 

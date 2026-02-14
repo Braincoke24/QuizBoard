@@ -20,7 +20,7 @@ export class SharedWorkerAppPort implements AppPort {
 
         this.worker = new SharedWorker(
             new URL("../../worker/AppSharedWorker.js", import.meta.url),
-            { type: "module" }
+            { type: "module" },
         )
 
         this.worker.port.onmessage = (event: MessageEvent): void => {
@@ -48,7 +48,7 @@ export class SharedWorkerAppPort implements AppPort {
     public dispatch(action: AppAction): void {
         this.worker.port.postMessage({
             type: "DISPATCH",
-            action
+            action,
         })
     }
 
@@ -70,7 +70,7 @@ export class SharedWorkerAppPort implements AppPort {
 
     public async isFirstClient(): Promise<boolean> {
         const response = await this.sendAndWait({
-            type: "HANDSHAKE"
+            type: "HANDSHAKE",
         })
 
         return response.isFirstClient === true
@@ -84,7 +84,7 @@ export class SharedWorkerAppPort implements AppPort {
 
             this.worker.port.postMessage({
                 ...message,
-                requestId
+                requestId,
             })
         })
     }

@@ -2,7 +2,9 @@
 export class RoleSelectionRenderer {
     constructor(
         private readonly root: HTMLElement,
-        private readonly onSelect: (role: "game-master" | "player" | "spectator") => void
+        private readonly onSelect: (
+            role: "game-master" | "player" | "spectator",
+        ) => void,
     ) {}
 
     public render(): void {
@@ -19,7 +21,7 @@ export class RoleSelectionRenderer {
             title,
             this.createButton("Gamemaster", "game-master"),
             this.createButton("Player", "player"),
-            this.createButton("Spectator", "spectator")
+            this.createButton("Spectator", "spectator"),
         )
 
         this.root.appendChild(container)
@@ -27,7 +29,7 @@ export class RoleSelectionRenderer {
 
     private createButton(
         label: string,
-        role: "game-master" | "player" | "spectator"
+        role: "game-master" | "player" | "spectator",
     ): HTMLButtonElement {
         const button = document.createElement("button")
         button.className = "role-selection-button action-button accent"

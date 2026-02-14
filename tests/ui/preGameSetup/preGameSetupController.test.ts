@@ -8,9 +8,11 @@ interface StartGameState {
     started: boolean
 }
 
-function setup(startGameState: StartGameState = {started: false}) {
+function setup(startGameState: StartGameState = { started: false }) {
     const callbacks: PreGameSetupCallbacks = {
-        onStartGame: () => {startGameState.started = true}
+        onStartGame: () => {
+            startGameState.started = true
+        },
     }
     const boardDraft = {
         categories: [
@@ -19,14 +21,12 @@ function setup(startGameState: StartGameState = {started: false}) {
                 questions: [
                     {
                         text: "What was first, the chicken or the egg?",
-                        answer: "Probably neither."
-                    }
-                ]
-            }
+                        answer: "Probably neither.",
+                    },
+                ],
+            },
         ],
-        rowValues: [
-            100
-        ]
+        rowValues: [100],
     }
     const controller = new PreGameSetupController(callbacks, boardDraft)
 
@@ -40,7 +40,7 @@ describe("PreGameSetupController", () => {
 
             controller.dispatch({
                 type: "PRE_GAME_SETUP/ADD_PLAYER",
-                name: "Alice"
+                name: "Alice",
             })
 
             expect(controller.getSnapshot().players[0].name).toBe("Alice")
@@ -54,14 +54,14 @@ describe("PreGameSetupController", () => {
             names.forEach((name) => {
                 controller.dispatch({
                     type: "PRE_GAME_SETUP/ADD_PLAYER",
-                    name: name
+                    name: name,
                 })
             })
 
             expect(() => {
                 controller.dispatch({
                     type: "PRE_GAME_SETUP/ADD_PLAYER",
-                    name: "Grace"
+                    name: "Grace",
                 })
             }).toThrow()
         })
@@ -73,18 +73,18 @@ describe("PreGameSetupController", () => {
 
             controller.dispatch({
                 type: "PRE_GAME_SETUP/ADD_PLAYER",
-                name: "Alice"
+                name: "Alice",
             })
             const idAlice = controller.getSnapshot().players[0].id
 
             controller.dispatch({
                 type: "PRE_GAME_SETUP/ADD_PLAYER",
-                name: "Bob"
+                name: "Bob",
             })
 
             controller.dispatch({
                 type: "PRE_GAME_SETUP/REMOVE_PLAYER",
-                id: idAlice
+                id: idAlice,
             })
 
             expect(controller.getSnapshot().players[0].name).toBe("Bob")
@@ -96,7 +96,7 @@ describe("PreGameSetupController", () => {
             expect(() => {
                 controller.dispatch({
                     type: "PRE_GAME_SETUP/REMOVE_PLAYER",
-                    id: "abcdefg"
+                    id: "abcdefg",
                 })
             }).toThrow()
         })
@@ -108,7 +108,7 @@ describe("PreGameSetupController", () => {
 
             controller.dispatch({
                 type: "PRE_GAME_SETUP/SELECT_RULE",
-                ruleId: "classic"
+                ruleId: "classic",
             })
 
             expect(controller.getGameRules()).toStrictEqual(GameRules.classic())
@@ -119,7 +119,7 @@ describe("PreGameSetupController", () => {
 
             controller.dispatch({
                 type: "PRE_GAME_SETUP/SELECT_RULE",
-                ruleId: "nonexistent"
+                ruleId: "nonexistent",
             })
 
             expect(() => {
@@ -135,10 +135,12 @@ describe("PreGameSetupController", () => {
             controller.dispatch({
                 type: "PRE_GAME_SETUP/UPDATE_CUSTOM_MULTIPLIER",
                 key: "firstWrongMultiplier",
-                value: 0.7
+                value: 0.7,
             })
 
-            expect(controller.getSnapshot().customMultipliers.firstWrongMultiplier).toBe(0.7)
+            expect(
+                controller.getSnapshot().customMultipliers.firstWrongMultiplier,
+            ).toBe(0.7)
         })
 
         it("throws if multiplier is negative", () => {
@@ -148,7 +150,7 @@ describe("PreGameSetupController", () => {
                 controller.dispatch({
                     type: "PRE_GAME_SETUP/UPDATE_CUSTOM_MULTIPLIER",
                     key: "firstWrongMultiplier",
-                    value: -0.5
+                    value: -0.5,
                 })
             }).toThrow()
         })
@@ -157,17 +159,17 @@ describe("PreGameSetupController", () => {
     describe("start game", () => {
         it("calls onStartGame if setup has at least one player", () => {
             var startGameState: StartGameState = {
-                started: false
+                started: false,
             }
             const controller = setup(startGameState)
 
             controller.dispatch({
                 type: "PRE_GAME_SETUP/ADD_PLAYER",
-                name: "Alice"
+                name: "Alice",
             })
 
             controller.dispatch({
-                type: "PRE_GAME_SETUP/START_GAME"
+                type: "PRE_GAME_SETUP/START_GAME",
             })
 
             expect(startGameState.started).toBe(true)
@@ -175,13 +177,13 @@ describe("PreGameSetupController", () => {
 
         it("throws when setup is invalid", () => {
             var startGameState: StartGameState = {
-                started: false
+                started: false,
             }
             const controller = setup(startGameState)
 
             expect(() => {
                 controller.dispatch({
-                    type: "PRE_GAME_SETUP/START_GAME"
+                    type: "PRE_GAME_SETUP/START_GAME",
                 })
             }).toThrow()
             expect(startGameState.started).toBe(false)

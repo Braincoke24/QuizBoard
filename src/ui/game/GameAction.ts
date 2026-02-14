@@ -2,25 +2,25 @@
 
 export type GameAction =
     | {
-        type: "GAME/SELECT_QUESTION"
-        categoryIndex: number
-        questionIndex: number
-    }
+          type: "GAME/SELECT_QUESTION"
+          categoryIndex: number
+          questionIndex: number
+      }
     | {
-        type: "GAME/BUZZ"
-        playerId: string
-    }
+          type: "GAME/BUZZ"
+          playerId: string
+      }
     | {
-        type: "GAME/ANSWER"
-        correct: boolean
-    }
+          type: "GAME/ANSWER"
+          correct: boolean
+      }
     | {
-        type: "GAME/PASS"
-    }
+          type: "GAME/PASS"
+      }
     | {
-        type: "GAME/CONTINUE"
-    }
+          type: "GAME/CONTINUE"
+      }
     | {
-        type: "GAME/PRESS_KEY",
-        key: string
-    }
+          type: "GAME/PRESS_KEY"
+          key: string
+      }

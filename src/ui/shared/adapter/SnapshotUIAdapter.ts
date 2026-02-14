@@ -23,7 +23,7 @@ export interface SnapshotUIAdapter extends UIAdapter {
  * Runtime type guard for SnapshotUIAdapter.
  */
 export function isSnapshotUIAdapter(
-    adapter: UIAdapter | null | undefined
+    adapter: UIAdapter | null | undefined,
 ): adapter is SnapshotUIAdapter {
     return (
         typeof adapter === "object" &&

@@ -11,13 +11,15 @@ import { BoardDraft } from "../ui/editBoard/BoardDraftState.js"
  */
 export function boardDraftToBoard(draft: BoardDraft): Board {
     const categories = draft.categories.map((categoryDraft) => {
-        const questions = categoryDraft.questions.map((questionDraft, rowIndex) => {
-            return new Question(
-                questionDraft.text,
-                questionDraft.answer,
-                draft.rowValues[rowIndex]
-            )
-        })
+        const questions = categoryDraft.questions.map(
+            (questionDraft, rowIndex) => {
+                return new Question(
+                    questionDraft.text,
+                    questionDraft.answer,
+                    draft.rowValues[rowIndex],
+                )
+            },
+        )
 
         return new Category(categoryDraft.name, questions)
     })

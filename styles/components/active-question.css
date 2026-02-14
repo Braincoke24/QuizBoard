@@ -6,7 +6,7 @@
     background-color: var(--black-a8);
 
     display: grid;
-    place-items: center; 
+    place-items: center;
     grid-template-rows: 10vh 39vh 5vh auto;
     gap: 1vh;
 

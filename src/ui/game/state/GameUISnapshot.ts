@@ -1,6 +1,10 @@
 // src/ui/game/state/GameUISnapshot.ts
 import { TurnState } from "../../../game/turn/TurnState.js"
-import { PlayerUIState, CategoryUIState, ActiveQuestionUIState } from "./GameUIState.js"
+import {
+    PlayerUIState,
+    CategoryUIState,
+    ActiveQuestionUIState,
+} from "./GameUIState.js"
 
 export interface GameUISnapshot {
     players: readonly PlayerUIState[]

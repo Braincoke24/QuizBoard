@@ -15,7 +15,7 @@ export class BuzzerConfigController {
 
     constructor(
         players: readonly PlayerConfig[],
-        private readonly callbacks: BuzzerConfigCallbacks
+        private readonly callbacks: BuzzerConfigCallbacks,
     ) {
         this.players = players
     }
@@ -44,7 +44,7 @@ export class BuzzerConfigController {
             players: this.players,
             currentIndex: this.currentIndex,
             assignedKeys: { ...this.assignedKeys },
-            done: this.done
+            done: this.done,
         }
     }
 
@@ -55,7 +55,7 @@ export class BuzzerConfigController {
 
         for (const id in this.assignedKeys) {
             if (this.assignedKeys[id] === key) {
-                throw new Error("Key already assigned");
+                throw new Error("Key already assigned")
             }
         }
         this.assignedKeys[player.id] = key

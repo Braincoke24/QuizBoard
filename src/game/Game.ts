@@ -26,11 +26,8 @@ export class Game {
     private startTurn() {
         const player = this._players[this._currentPlayerIndex]
 
-        this._turn = new Turn(
-            player,
-            this._players,
-            this._rules,
-            () => this.onTurnResolved()
+        this._turn = new Turn(player, this._players, this._rules, () =>
+            this.onTurnResolved(),
         )
     }
 
@@ -50,7 +47,7 @@ export class Game {
 
     /**
      * Selects a question from the board for the current turn.
-     * 
+     *
      * @param categoryIndex Index of the category
      * @param questionIndex Index of the question within the category
      * @throws Error if the turn is not in selecting state or the question is already asked
@@ -64,7 +61,7 @@ export class Game {
 
     /**
      * Submits an answer for the current player.
-     * 
+     *
      * @param correct True if the answer is correct, false if incorrect
      * @throws Error if the turn is not in answering state or no question is selected
      */
@@ -74,7 +71,7 @@ export class Game {
 
     /**
      * Allows a player to buzz in during a buzzing phase.
-     * 
+     *
      * @param player The player who buzzes
      * @throws Error if not in buzzing phase or the player is locked out
      */
@@ -85,7 +82,7 @@ export class Game {
     /**
      * Ends the current turn without another player buzzing.
      * Can be used if all players pass.
-     * 
+     *
      * @throws Error if not in buzzing phase
      */
     public pass() {

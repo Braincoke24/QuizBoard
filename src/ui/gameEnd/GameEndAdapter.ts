@@ -14,21 +14,21 @@ export class GameEndAdapter implements UIAdapter {
     constructor(
         dispatch: (action: GameEndAction) => void,
         root: HTMLElement,
-        players: readonly PlayerUIState[]
+        players: readonly PlayerUIState[],
     ) {
         root.className = "app-content-root game-ended"
         root.innerHTML = ""
-        
+
         this.component = mount(GameEndView, {
             target: root,
             props: {
                 players: players,
                 onStartNewGame: (): void => {
                     dispatch({
-                        type: "GAME_ENDED/START_NEW_GAME"
+                        type: "GAME_ENDED/START_NEW_GAME",
                     })
-                }
-            }
+                },
+            },
         })
     }
 

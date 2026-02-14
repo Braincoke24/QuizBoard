@@ -13,8 +13,8 @@
     {#each players as player}
         <div
             class="player-cell
-                {player.isActive ? "active" : ""}
-                {player.isLockedOut ? "locked" : ""}"
+                {player.isActive ? 'active' : ''}
+                {player.isLockedOut ? 'locked' : ''}"
         >
             <div class="player-name">{player.name}</div>
             <div class="player-score">{player.score.toString()}</div>

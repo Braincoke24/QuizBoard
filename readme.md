@@ -71,6 +71,7 @@ Quizboard is a static web application built with Vite.
 The generated dist/ directory can be deployed to any static hosting provider.
 
 Example setups include:
+
 - Traditional web hosting
 - Static file servers
 - CI-based deployments (e.g. GitHub Actions)

@@ -19,7 +19,7 @@ function getSnapshot(): AppSnapshot {
         boardDraft: controller.getBoardDraftSnapshot(),
         preGameSetup: controller.getPreGameSetupSnapshot(),
         buzzerConfig: controller.getBuzzerConfigSnapshot(),
-        game: controller.getGameSnapshot()
+        game: controller.getGameSnapshot(),
     }
 }
 
@@ -28,7 +28,7 @@ function broadcastSnapshot(): void {
     for (const port of ports) {
         port.postMessage({
             type: "SNAPSHOT",
-            snapshot
+            snapshot,
         })
     }
 }
@@ -51,7 +51,7 @@ self.onconnect = (event: MessageEvent): void => {
             case "SUBSCRIBE": {
                 port.postMessage({
                     type: "SNAPSHOT",
-                    snapshot: getSnapshot()
+                    snapshot: getSnapshot(),
                 })
                 break
             }
@@ -65,7 +65,7 @@ self.onconnect = (event: MessageEvent): void => {
                 port.postMessage({
                     type: "HANDSHAKE_RESPONSE",
                     requestId: message.requestId,
-                    isFirstClient: ports.size === 1
+                    isFirstClient: ports.size === 1,
                 })
                 break
             }

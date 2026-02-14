@@ -7,7 +7,7 @@ import { BuzzerConfigAction } from "./BuzzerConfigAction.js"
 import { AppSnapshot } from "../../app/AppSnapshot.js"
 import { SnapshotUIAdapter } from "../shared/adapter/SnapshotUIAdapter.js"
 
-export const keyCodeNameMap = (keyCode: string):string => {
+export const keyCodeNameMap = (keyCode: string): string => {
     if (keyCode.startsWith("Digit")) return keyCode.slice(5)
     if (keyCode.startsWith("Numpad")) return "Num" + keyCode.slice(6)
     if (keyCode.startsWith("Key")) return keyCode.slice(3)
@@ -23,7 +23,7 @@ export class BuzzerConfigAdapter implements SnapshotUIAdapter {
 
     constructor(
         dispatch: (action: BuzzerConfigAction) => void,
-        root: HTMLElement
+        root: HTMLElement,
     ) {
         this.snapshotStore = writable(null)
 
@@ -36,24 +36,19 @@ export class BuzzerConfigAdapter implements SnapshotUIAdapter {
                 snapshot: this.snapshotStore,
 
                 onSkip: (): void =>
-                    dispatch({type: "BUZZER_CONFIG/SKIP_PLAYER"})
-            }
+                    dispatch({ type: "BUZZER_CONFIG/SKIP_PLAYER" }),
+            },
         })
 
         this.keyHandler = (e: KeyboardEvent): void => {
-            if (
-                e.metaKey ||
-                e.altKey ||
-                e.ctrlKey ||
-                e.key.length !== 1
-            ) {
+            if (e.metaKey || e.altKey || e.ctrlKey || e.key.length !== 1) {
                 return
             }
 
             e.preventDefault()
             dispatch({
                 type: "BUZZER_CONFIG/ASSIGN_KEY",
-                key: keyCodeNameMap(e.code)
+                key: keyCodeNameMap(e.code),
             })
         }
 

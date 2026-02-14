@@ -8,10 +8,7 @@ export class BoardDraftController {
     private boardDraft: BoardDraft
     private readonly callbacks: BoardDraftCallbacks
 
-    constructor(
-        callbacks: BoardDraftCallbacks,
-        initialDraft?: BoardDraft
-    ) {
+    constructor(callbacks: BoardDraftCallbacks, initialDraft?: BoardDraft) {
         this.callbacks = callbacks
         this.boardDraft = initialDraft ?? this.createDefaultDraft()
     }
@@ -60,9 +57,9 @@ export class BoardDraftController {
                 name: "",
                 questions: rowValues.map(() => ({
                     text: "",
-                    answer: ""
-                }))
-            }))
+                    answer: "",
+                })),
+            })),
         }
     }
 
@@ -84,7 +81,9 @@ export class BoardDraftController {
             }
             category.questions.forEach((q) => {
                 if (q.text.trim() === "") {
-                    throw new Error("Question text can't be empty or a whitespace")
+                    throw new Error(
+                        "Question text can't be empty or a whitespace",
+                    )
                 }
             })
         }

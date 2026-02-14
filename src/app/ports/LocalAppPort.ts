@@ -29,7 +29,7 @@ export class LocalAppPort implements AppPort {
             boardDraft: this.controller.getBoardDraftSnapshot(),
             preGameSetup: this.controller.getPreGameSetupSnapshot(),
             buzzerConfig: this.controller.getBuzzerConfigSnapshot(),
-            game: this.controller.getGameSnapshot()
+            game: this.controller.getGameSnapshot(),
         }
     }
 

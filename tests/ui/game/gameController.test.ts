@@ -8,10 +8,10 @@ import { GameCallbacks } from "../../../src/ui/game/GameCallbacks.js"
 
 function setup() {
     const callbacks: GameCallbacks = {
-        onEndGame: () => {}
+        onEndGame: () => {},
     }
     const { game } = createGame(GameRules.classic())
-    const controller = new GameController(callbacks,game)
+    const controller = new GameController(callbacks, game)
 
     return { game, controller }
 }
@@ -24,7 +24,7 @@ describe("GameController", () => {
             controller.dispatch({
                 type: "GAME/SELECT_QUESTION",
                 categoryIndex: 0,
-                questionIndex: 0
+                questionIndex: 0,
             })
 
             const snapshot = controller.getSnapshot()
@@ -39,14 +39,14 @@ describe("GameController", () => {
             controller.dispatch({
                 type: "GAME/SELECT_QUESTION",
                 categoryIndex: 0,
-                questionIndex: 0
+                questionIndex: 0,
             })
 
             expect(() => {
                 controller.dispatch({
                     type: "GAME/SELECT_QUESTION",
                     categoryIndex: 0,
-                    questionIndex: 1
+                    questionIndex: 1,
                 })
             }).toThrow()
         })
@@ -59,12 +59,12 @@ describe("GameController", () => {
             controller.dispatch({
                 type: "GAME/SELECT_QUESTION",
                 categoryIndex: 0,
-                questionIndex: 0
+                questionIndex: 0,
             })
 
             controller.dispatch({
                 type: "GAME/ANSWER",
-                correct: true
+                correct: true,
             })
 
             const snapshot = controller.getSnapshot()
@@ -78,7 +78,7 @@ describe("GameController", () => {
             expect(() => {
                 controller.dispatch({
                     type: "GAME/ANSWER",
-                    correct: true
+                    correct: true,
                 })
             }).toThrow()
         })
@@ -91,12 +91,12 @@ describe("GameController", () => {
             controller.dispatch({
                 type: "GAME/SELECT_QUESTION",
                 categoryIndex: 0,
-                questionIndex: 0
+                questionIndex: 0,
             })
 
             controller.dispatch({
                 type: "GAME/ANSWER",
-                correct: false
+                correct: false,
             })
 
             const snapshotBeforeBuzz = controller.getSnapshot()
@@ -104,7 +104,7 @@ describe("GameController", () => {
 
             controller.dispatch({
                 type: "GAME/BUZZ",
-                playerId: bob.id
+                playerId: bob.id,
             })
 
             const snapshot = controller.getSnapshot()
@@ -119,12 +119,12 @@ describe("GameController", () => {
             controller.dispatch({
                 type: "GAME/SELECT_QUESTION",
                 categoryIndex: 0,
-                questionIndex: 0
+                questionIndex: 0,
             })
 
             controller.dispatch({
                 type: "GAME/ANSWER",
-                correct: false
+                correct: false,
             })
 
             const snapshot = controller.getSnapshot()
@@ -133,7 +133,7 @@ describe("GameController", () => {
             expect(() => {
                 controller.dispatch({
                     type: "GAME/BUZZ",
-                    playerId: alice.id
+                    playerId: alice.id,
                 })
             }).toThrow()
         })
@@ -146,16 +146,16 @@ describe("GameController", () => {
             controller.dispatch({
                 type: "GAME/SELECT_QUESTION",
                 categoryIndex: 0,
-                questionIndex: 0
+                questionIndex: 0,
             })
 
             controller.dispatch({
                 type: "GAME/ANSWER",
-                correct: false
+                correct: false,
             })
 
             controller.dispatch({
-                type: "GAME/PASS"
+                type: "GAME/PASS",
             })
 
             const snapshot = controller.getSnapshot()
@@ -179,7 +179,7 @@ describe("GameController", () => {
             controller.dispatch({
                 type: "GAME/SELECT_QUESTION",
                 categoryIndex: 0,
-                questionIndex: 0
+                questionIndex: 0,
             })
 
             const snapshot = controller.getSnapshot()

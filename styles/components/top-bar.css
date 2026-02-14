@@ -25,16 +25,16 @@
     font-weight: lighter;
 
     display: grid;
-    place-items: center; 
+    place-items: center;
 }
 
 .top-bar-change-role {
     --border-size: 2px;
     --border-radius: 1vw;
-    
+
     grid-row: 1;
     grid-column: 1;
-    
+
     width: 7vw;
     height: 5vh;
 }
