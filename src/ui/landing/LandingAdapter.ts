@@ -8,7 +8,7 @@ import type { LandingAction } from "./LandingAction.js"
  * Connects the Landing view to the App via dispatch.
  */
 export class LandingAdapter implements UIAdapter {
-    private component: unknown
+    private component: ReturnType<typeof mount> | null = null
 
     constructor(
         dispatch: (action: LandingAction) => void,

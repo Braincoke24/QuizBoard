@@ -18,7 +18,7 @@ import { BuzzerConfigAdapter } from "../ui/buzzerConfig/BuzzerConfigAdapter.js"
 import { RoleResolver } from "../shared/RoleResolver.js"
 import { UIViewProfile } from "../ui/shared/view/UIViewProfile.js"
 import { UIAdapter } from "../ui/shared/adapter/UIAdapter.js"
-import { SnapshotUIAdapter, isSnapshotUIAdapter } from "../ui/shared/adapter/SnapshotUIAdapter.js"
+import { isSnapshotUIAdapter } from "../ui/shared/adapter/SnapshotUIAdapter.js"
 
 /**
  * UI composition root.
@@ -32,7 +32,7 @@ export class App {
     private lastSnapshot: AppSnapshot | null = null
     private subscribed = false
 
-    private adapter: UIAdapter | SnapshotUIAdapter | null = null
+    private adapter: UIAdapter | null = null
 
     private landingAdapter: LandingAdapter | null = null
     private boardDraftAdapter: BoardDraftAdapter | null = null
@@ -164,6 +164,7 @@ export class App {
                             }),
                         contentRoot
                     )
+                    this.adapter = this.boardDraftAdapter
                 } else {
                     this.waitForSetupAdapter = new WaitForSetupAdapter(contentRoot)
                 }
@@ -235,7 +236,7 @@ export class App {
         switch (this.phase) {
             case AppPhase.EDIT_BOARD:
                 if (this.boardDraftAdapter && snapshot.boardDraft && this.profile.visibility.showBoardEditor) {
-                    this.boardDraftAdapter.render(snapshot.boardDraft)
+                    // this.boardDraftAdapter.render(snapshot.boardDraft)
                 } else if (this.waitForSetupAdapter && !this.profile.visibility.showBoardEditor) {
                     const players = snapshot.game?.players
                     this.waitForSetupAdapter.render(players)

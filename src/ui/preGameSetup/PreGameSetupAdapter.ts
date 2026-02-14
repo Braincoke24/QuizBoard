@@ -11,7 +11,7 @@ import { AppSnapshot } from "../../app/AppSnapshot.js"
 
 export class PreGameSetupAdapter implements SnapshotUIAdapter {
     private readonly setupStore: Writable<PreGameSetup | null>
-    private component: unknown
+    private component: ReturnType<typeof mount> | null = null
     public readonly isSnapshotAdapter = true
 
     constructor(

@@ -1,78 +1,75 @@
 // src/ui/editBoard/BoardDraftAdapter.ts
-import { BoardDraftEditorRenderer } from "./BoardDraftEditorRenderer.js"
+import { mount, unmount } from "svelte"
+import { writable, type Writable, get } from "svelte/store"
+import BoardDraftView from "./BoardDraftView.svelte"
 import { BoardDraft } from "./BoardDraftState.js"
 import { BoardDraftAction } from "./BoardDraftAction.js"
+import { AppSnapshot } from "../../app/AppSnapshot.js"
+import { SnapshotUIAdapter } from "../shared/adapter/SnapshotUIAdapter.js"
 
 /**
  * Connects the BoardDraft editor to the App via dispatch and snapshots.
  */
-export class BoardDraftAdapter {
-    private readonly renderer: BoardDraftEditorRenderer
-    private lastSnapshot: BoardDraft | null = null
+export class BoardDraftAdapter implements SnapshotUIAdapter {
+    private readonly draftStore: Writable<BoardDraft | null>
+    private component: ReturnType<typeof mount> | null = null
+    public readonly isSnapshotAdapter = true
 
     constructor(
         dispatch: (action: BoardDraftAction) => void,
         root: HTMLElement
     ) {
-        console.log("Started BoardDraftAdapter")
+        this.draftStore = writable(null)
 
-        const updateDraft = (draft: BoardDraft): void => {
-            this.lastSnapshot = draft
-            dispatch({
-                type: "BOARD_DRAFT/UPDATE_DRAFT",
-                draft
-            })
-        }
+        root.className = "app-content-root edit-board"
+        root.innerHTML = ""
 
-        const submitBoard = (): void => {
-            dispatch({
-                type: "BOARD_DRAFT/SUBMIT_BOARD"
-            })
-        }
+        this.component = mount(BoardDraftView, {
+            target: root,
+            props: {
+                draft: this.draftStore,
 
-        const importBoard = (json: unknown): void => {
-            dispatch({
-                type: "BOARD_DRAFT/IMPORT_BOARD",
-                json
-            })
-        }
+                onDraftChange: (draft: BoardDraft): void =>
+                    dispatch({type: "BOARD_DRAFT/UPDATE_DRAFT", draft}),
 
-        const exportBoard = (): void => {
-            try {
-                const snapshot = this.getSnapshotForExport()
-                const json = JSON.stringify(snapshot, null, 2)
-                const blob = new Blob([json], { type: "application/json" })
-                const url = URL.createObjectURL(blob)
+                onSubmitBoard: (): void =>
+                    dispatch({type: "BOARD_DRAFT/SUBMIT_BOARD"}),
 
-                const a = document.createElement("a")
-                a.href = url
-                a.download = "board.json"
-                a.click()
+                onImportBoard: (json: unknown): void =>
+                    dispatch({type: "BOARD_DRAFT/IMPORT_BOARD",json}),
 
-                URL.revokeObjectURL(url)
-            } catch (error) {
-                alert((error as Error).message)
+                onExportBoard: (): void => {
+                    try {
+                        const draft = get(this.draftStore)
+
+                        if (!draft) {
+                            throw new Error("No board draft to export")
+                        }
+
+                        const json = JSON.stringify(draft, null, 2)
+                        const blob = new Blob([json], { type: "application/json" })
+                        const url = URL.createObjectURL(blob)
+
+                        const a = document.createElement("a")
+                        a.href = url
+                        a.download = "board.json"
+                        a.click()
+
+                        URL.revokeObjectURL(url)
+                    } catch (error) {
+                        alert((error as Error).message)
+                    }
+                }
             }
-        }
-
-        this.renderer = new BoardDraftEditorRenderer(
-            root,
-            updateDraft,
-            submitBoard,
-            importBoard,
-            exportBoard
-        )
+        })
     }
 
-    public render(snapshot: BoardDraft): void {
-        this.lastSnapshot = snapshot
-        this.renderer.render(snapshot)
+    public update(snapshot: AppSnapshot): void {
+        if (!snapshot.boardDraft) return
+        this.draftStore.set(snapshot.boardDraft)
     }
 
-    private getSnapshotForExport(): BoardDraft {
-        if (!this.lastSnapshot) {
-            throw new Error("No board to export")
-        }
-        return this.lastSnapshot
+    public destroy(): void {
+        if (this.component) unmount(this.component)
     }
 }
