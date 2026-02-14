@@ -160,8 +160,7 @@ export class PreGameSetupRenderer {
 
             for (let i = 0; i < draft.categories.length; i++) {
                 const question = draft.categories[i].questions[rowIndex]
-                const cell = document.createElement("button")
-                cell.disabled = true
+                const cell = document.createElement("div")
                 cell.className = "question-cell"
                 cell.textContent = question ? value.toString() : ""
                 row.append(cell)

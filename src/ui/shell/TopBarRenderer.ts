@@ -26,7 +26,7 @@ export class TopBarRenderer {
         this.roleLabel.className = "top-bar-role"
 
         const changeRoleButton = document.createElement("button")
-        changeRoleButton.className = "top-bar-change-role"
+        changeRoleButton.className = "top-bar-change-role action-button"
         changeRoleButton.textContent = "Change Role"
         changeRoleButton.onclick = this.onChangeRole
 

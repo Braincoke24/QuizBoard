@@ -46,8 +46,8 @@ input[type="number"].row-value {
     grid-column: 1;
     grid-row: 1;
 
-    width: calc(100% - 2*var(--border-size) - 2*var(--padding-row));
-    height: calc(100% - 2*var(--border-size) - 2*var(--padding-column));
+    width: 100%;
+    height: 100%;
 
     text-align: center;
     font-size: 0.9rem;
@@ -134,9 +134,9 @@ input[type="number"].row-value:focus {
     border-radius: var(--border-radius);
     outline: none;
     
-    width: calc(100% - 2*var(--border-size) - 2*var(--padding-row));
+    width: 100%;
     
-    height: 3.5vh;
+    height: 5.5vh;
 }
 
 .board-draft-category-delete {
@@ -184,17 +184,17 @@ input[type="number"].row-value:focus {
     margin: 0;
     padding: var(--padding-column) var(--padding-row);
 
-    width: calc(100% - 2*var(--border-size) - 2*var(--padding-row));
+    width: 100%;
 
     resize: none;
 }
 
 .board-draft-question-text {
-    height: 4vh;
+    height: 6vh;
 }
 
 .board-draft-question-answer {
-    height: 3vh;
+    height: 5vh;
     background-color: var(--color-primary-2);
 }
 

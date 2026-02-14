@@ -30,7 +30,7 @@ export class RoleSelectionRenderer {
         role: "game-master" | "player" | "spectator"
     ): HTMLButtonElement {
         const button = document.createElement("button")
-        button.className = "role-selection-button"
+        button.className = "role-selection-button action-button accent"
         button.textContent = label
         button.onclick = () => this.onSelect(role)
         return button

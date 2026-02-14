@@ -7,7 +7,7 @@
     border-radius: 1.5vw;
     border: 1px solid var(--color-primary-6);
     background-color: var(--color-primary-2);
-    width: 14vw;
+    width: 18vw;
     margin: 0 auto;
     padding: 2vh 2vw 4vh 2vw;
 }
@@ -71,7 +71,7 @@
     z-index: 2;
     margin-bottom: -0.8vh;
     padding: 0 1vw;
-    width: 8.5vw;
+    width: 10.5vw;
 }
 
 .player-cell.active:not(.locked) .player-name {

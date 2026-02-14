@@ -29,30 +29,14 @@
 }
 
 .top-bar-change-role {
+    --border-size: 2px;
+    --border-radius: 1vw;
+    
     grid-row: 1;
     grid-column: 1;
-
-    color: var(--color-primary-11);
-    background-color: var(--color-primary-3);
-    border: 2px solid var(--color-primary-6);
-    border-radius: 1vw;
-
+    
     width: 7vw;
     height: 5vh;
-
-    cursor: pointer;
-    transition:
-        background-color 0.15s ease,
-        transform 0.1s ease,
-        box-shadow 0.1s ease;
-}
-
-.top-bar-change-role:not(:disabled):hover,
-.top-bar-change-role:not(:disabled):focus-visible {
-    cursor: pointer;
-    outline: none;
-    border-color: var(--color-primary-8);
-    background-color: var(--color-primary-4);
 }
 
 .top-bar-theme-toggle {
