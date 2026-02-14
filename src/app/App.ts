@@ -166,7 +166,9 @@ export class App {
                     )
                     this.adapter = this.boardDraftAdapter
                 } else {
-                    this.waitForSetupAdapter = new WaitForSetupAdapter(contentRoot)
+                    const players = this.lastSnapshot?.game?.players
+                    this.waitForSetupAdapter = new WaitForSetupAdapter(contentRoot, players)
+                    this.adapter = this.waitForSetupAdapter
                 }
                 break
 
@@ -234,15 +236,6 @@ export class App {
 
         // NOTE: remove once svelte is used for an adapter
         switch (this.phase) {
-            case AppPhase.EDIT_BOARD:
-                if (this.boardDraftAdapter && snapshot.boardDraft && this.profile.visibility.showBoardEditor) {
-                    // this.boardDraftAdapter.render(snapshot.boardDraft)
-                } else if (this.waitForSetupAdapter && !this.profile.visibility.showBoardEditor) {
-                    const players = snapshot.game?.players
-                    this.waitForSetupAdapter.render(players)
-                }
-                break
-
             case AppPhase.BUZZER_CONFIG:
                 if (this.buzzerConfigAdapter && snapshot.buzzerConfig) {
                     this.buzzerConfigAdapter.render(snapshot.buzzerConfig)
