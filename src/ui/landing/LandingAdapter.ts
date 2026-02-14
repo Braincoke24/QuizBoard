@@ -1,12 +1,13 @@
 // src/ui/landing/LandingAdapter.ts
 import { mount, unmount } from "svelte"
+import { UIAdapter } from "../shared/adapter/UIAdapter.js"
 import LandingView from "./LandingView.svelte"
 import type { LandingAction } from "./LandingAction.js"
 
 /**
  * Connects the Landing view to the App via dispatch.
  */
-export class LandingAdapter {
+export class LandingAdapter implements UIAdapter {
     private component: unknown
 
     constructor(

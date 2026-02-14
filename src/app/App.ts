@@ -17,6 +17,8 @@ import { BuzzerConfigAdapter } from "../ui/buzzerConfig/BuzzerConfigAdapter.js"
 
 import { RoleResolver } from "../shared/RoleResolver.js"
 import { UIViewProfile } from "../ui/shared/view/UIViewProfile.js"
+import { UIAdapter } from "../ui/shared/adapter/UIAdapter.js"
+import { SnapshotUIAdapter, isSnapshotUIAdapter } from "../ui/shared/adapter/SnapshotUIAdapter.js"
 
 /**
  * UI composition root.
@@ -25,11 +27,12 @@ import { UIViewProfile } from "../ui/shared/view/UIViewProfile.js"
 export class App {
     private readonly port: AppPort
     private readonly shell: AppShell
-    private readonly root: HTMLElement
 
     private profile: UIViewProfile
     private lastSnapshot: AppSnapshot | null = null
     private subscribed = false
+
+    private adapter: UIAdapter | SnapshotUIAdapter | null = null
 
     private landingAdapter: LandingAdapter | null = null
     private boardDraftAdapter: BoardDraftAdapter | null = null
@@ -48,7 +51,6 @@ export class App {
         themeController: ThemeController
     ) {
         this.port = port
-        this.root = root
         this.shell = new AppShell(
             root,
             () => this.requestRoleChange(),
@@ -124,10 +126,13 @@ export class App {
 
         contentRoot.innerHTML = ""
 
-        this.landingAdapter?.destroy()
+        this.adapter?.destroy()
+
+        // NOTE: remove once svelte is used for an adapter
         this.buzzerConfigAdapter?.destroy()
         this.gameViewAdapter?.destroy()
 
+        this.adapter = null
         this.landingAdapter = null
         this.boardDraftAdapter = null
         this.preGameSetupAdapter = null
@@ -146,6 +151,7 @@ export class App {
                         }),
                     contentRoot
                 )
+                this.adapter = this.landingAdapter
                 break
 
             case AppPhase.EDIT_BOARD:
@@ -173,6 +179,7 @@ export class App {
                     (role) => this.applyRole(role),
                     contentRoot
                 )
+                this.adapter = this.preGameSetupAdapter
                 break
 
             case AppPhase.BUZZER_CONFIG:
@@ -220,20 +227,18 @@ export class App {
     /* ---------- Updates ---------- */
 
     private update(snapshot: AppSnapshot): void {
-        switch (this.phase) {
+        if (this.adapter && isSnapshotUIAdapter(this.adapter)) {
+            this.adapter.update(snapshot)
+        }
 
+        // NOTE: remove once svelte is used for an adapter
+        switch (this.phase) {
             case AppPhase.EDIT_BOARD:
                 if (this.boardDraftAdapter && snapshot.boardDraft && this.profile.visibility.showBoardEditor) {
                     this.boardDraftAdapter.render(snapshot.boardDraft)
                 } else if (this.waitForSetupAdapter && !this.profile.visibility.showBoardEditor) {
                     const players = snapshot.game?.players
                     this.waitForSetupAdapter.render(players)
-                }
-                break
-
-            case AppPhase.PRE_GAME_SETUP:
-                if (this.preGameSetupAdapter && snapshot.preGameSetup) {
-                    this.preGameSetupAdapter.render(snapshot.preGameSetup)
                 }
                 break
 

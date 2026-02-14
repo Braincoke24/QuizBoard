@@ -1,97 +1,77 @@
 // src/ui/preGameSetup/PreGameSetupAdapter.ts
-import { PreGameSetupRenderer } from "./PreGameSetupRenderer.js"
-import { PreGameSetupAction } from "./PreGameSetupAction.js"
-import { PreGameSetup } from "./PreGameSetupState.js"
+import { mount, unmount } from "svelte"
+import { writable, type Writable } from "svelte/store"
+import PreGameSetupView from "./PreGameSetupView.svelte"
 import { GAME_RULE_PRESETS } from "../../game/GameRulePresets.js"
 import { WindowManager } from "../shared/WindowManager.js"
+import type { PreGameSetup } from "./PreGameSetupState.js"
+import type { PreGameSetupAction } from "./PreGameSetupAction.js"
+import type { SnapshotUIAdapter } from "../shared/adapter/SnapshotUIAdapter.js"
+import { AppSnapshot } from "../../app/AppSnapshot.js"
 
-/**
- * Connects the PreGameSetup renderer to the App via dispatch and snapshots.
- */
-export class PreGameSetupAdapter {
-    private readonly renderer: PreGameSetupRenderer
-    private readonly setRole: (role: "game-master" | "player" | "spectator") => void
+export class PreGameSetupAdapter implements SnapshotUIAdapter {
+    private readonly setupStore: Writable<PreGameSetup | null>
+    private component: unknown
+    public readonly isSnapshotAdapter = true
 
     constructor(
         dispatch: (action: PreGameSetupAction) => void,
         setRole: (role: "game-master" | "player" | "spectator") => void,
         root: HTMLElement
     ) {
-        this.setRole = setRole
+        this.setupStore = writable(null)
 
-        const addPlayer = (name: string): void => {
-            dispatch({
-                type: "PRE_GAME_SETUP/ADD_PLAYER",
-                name
-            })
-        }
+        root.className = "app-content-root pre-game-setup"
+        root.innerHTML = ""
 
-        const removePlayer = (id: string): void => {
-            dispatch({
-                type: "PRE_GAME_SETUP/REMOVE_PLAYER",
-                id
-            })
-        }
+        this.component = mount(PreGameSetupView, {
+            target: root,
+            props: {
+                setup: this.setupStore,
+                presets: GAME_RULE_PRESETS,
 
-        const selectRule = (ruleId: string): void => {
-            dispatch({
-                type: "PRE_GAME_SETUP/SELECT_RULE",
-                ruleId
-            })
-        }
+                onAddPlayer: (name: string): void =>
+                    dispatch({ type: "PRE_GAME_SETUP/ADD_PLAYER", name }),
 
-        const updateMultiplier = (
-            key: "firstWrongMultiplier" | "buzzCorrectMultiplier" | "buzzWrongMultiplier",
-            value: number
-        ): void => {
-            dispatch({
-                type: "PRE_GAME_SETUP/UPDATE_CUSTOM_MULTIPLIER",
-                key,
-                value
-            })
-        }
+                onRemovePlayer: (id: string): void =>
+                    dispatch({ type: "PRE_GAME_SETUP/REMOVE_PLAYER", id }),
 
-        const setBuzzerMode = (mode: "mouse-only" | "mouse-and-keyboard"): void => {
-            dispatch({
-                type: "PRE_GAME_SETUP/SET_BUZZER_MODE",
-                mode
-            })
-        }
+                onSelectRule: (ruleId: string): void =>
+                    dispatch({ type: "PRE_GAME_SETUP/SELECT_RULE", ruleId }),
 
-        const startGame = (mode: "single" | "dual" | "keep-current"): void => {
-            switch (mode) {
-                case "single":
-                    this.setRole("player")
-                    break
+                onUpdateMultiplier: (
+                    key: "firstWrongMultiplier" | "buzzCorrectMultiplier" | "buzzWrongMultiplier",
+                    value: number
+                ): void =>
+                    dispatch({
+                        type: "PRE_GAME_SETUP/UPDATE_CUSTOM_MULTIPLIER",
+                        key,
+                        value
+                    }),
 
-                case "dual":
-                    this.setRole("game-master")
-                    WindowManager.openWindow("spectator")
-                    break
+                onSetBuzzerMode: (mode: "mouse-only" | "mouse-and-keyboard"): void =>
+                    dispatch({ type: "PRE_GAME_SETUP/SET_BUZZER_MODE", mode }),
 
-                case "keep-current":
-                    // nothing to do
-                    break
+                onStartGame: (mode: "single" | "dual" | "keep-current"): void => {
+                    if (mode === "single") setRole("player")
+
+                    if (mode === "dual") {
+                        setRole("game-master")
+                        WindowManager.openWindow("spectator")
+                    }
+
+                    dispatch({ type: "PRE_GAME_SETUP/START_GAME" })
+                }
             }
-
-            dispatch({
-                type: "PRE_GAME_SETUP/START_GAME"
-            })
-        }
-
-        this.renderer = new PreGameSetupRenderer(
-            root,
-            GAME_RULE_PRESETS,
-            addPlayer,
-            removePlayer,
-            selectRule,
-            updateMultiplier,
-            setBuzzerMode,
-            startGame
-        )
+        })
     }
 
-    public render(snapshot: PreGameSetup): void {
-        this.renderer.render(snapshot)
+    public update(snapshot: AppSnapshot): void {
+        if (!snapshot.preGameSetup) return
+        this.setupStore.set(snapshot.preGameSetup)
+    }
+
+    public destroy(): void {
+        if (this.component) unmount(this.component)
     }
 }

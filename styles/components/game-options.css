@@ -55,7 +55,7 @@
 }
 
 .rule-tabs button:not(.selected):hover,
-.rule-tabs button:not(.selected):focus {
+.rule-tabs button:not(.selected):focus-visible {
     outline: none;
     background-color: var(--color-primary-4);
     border-color: var(--color-primary-8);
@@ -64,7 +64,7 @@
 }
 
 .rule-tabs button.selected:hover,
-.rule-tabs button.selected:focus {
+.rule-tabs button.selected:focus-visible {
     outline: none;
     transform: translateY(-1px);
     margin-bottom: -1px;
@@ -147,7 +147,7 @@ input[type="number"].multiplier-value {
     appearance: textfield;
 }
 
-input[type="number"].multiplier-value:focus {
+input[type="number"].multiplier-value:focus-visible {
     outline: none;
     border-color: var(--color-primary-8);
     box-shadow: 0 0 0 1px var(--color-primary-7);

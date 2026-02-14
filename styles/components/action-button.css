@@ -34,7 +34,7 @@
 }
 
 .action-button:not(:disabled):hover,
-.action-button:not(:disabled):focus {
+.action-button:not(:disabled):focus-visible {
     outline: none;
     transform: translateY(-1px);
     box-shadow: 0 4px 10px var(--black-a4);
@@ -43,13 +43,13 @@
 }
 
 .action-button.accent:not(:disabled):hover,
-.action-button.accent:not(:disabled):focus {
+.action-button.accent:not(:disabled):focus-visible {
     background-color: var(--color-accent-4);
     border-color: var(--color-accent-8);
 }
 
 .action-button.warning:not(:disabled):hover,
-.action-button.warning:not(:disabled):focus {
+.action-button.warning:not(:disabled):focus-visible {
     background-color: var(--color-warning-4);
     border-color: var(--color-warning-8);
 }
