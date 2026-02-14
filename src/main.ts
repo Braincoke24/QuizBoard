@@ -25,7 +25,3 @@ function main(): void {
 }
 
 main()
-
-// TODO: alert error messages (or own window)
-// TODO: write tests for BuzzerConfig
-// TODO: write readme
