@@ -209,13 +209,17 @@ export class App {
                 break
 
             case AppPhase.GAME_ENDED:
+                const players = this.lastSnapshot?.game?.players
+                if (!players) return
+
                 this.gameEndAdapter = new GameEndAdapter(
                     (action) =>
                         this.dispatch({
                             type: "APP/GAME_ENDED",
                             action
                         }),
-                    contentRoot
+                    contentRoot,
+                    players
                 )
                 break
         }
@@ -245,12 +249,6 @@ export class App {
             case AppPhase.GAME_RUNNING:
                 if (this.gameViewAdapter && snapshot.game) {
                     this.gameViewAdapter.render(snapshot.game)
-                }
-                break
-
-            case AppPhase.GAME_ENDED:
-                if (this.gameEndAdapter && snapshot.game?.players) {
-                    this.gameEndAdapter.render(snapshot.game.players)
                 }
                 break
         }
