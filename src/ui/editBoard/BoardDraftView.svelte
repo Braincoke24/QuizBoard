@@ -64,6 +64,8 @@
         const next = JSON.parse(JSON.stringify(draft)) as BoardDraft
         onDraftChange(next)
     }
+
+    // TODO: add visuals for missing fields after trying to submit
 </script>
 
 {#if draft}
