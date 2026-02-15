@@ -1,6 +1,6 @@
 // src/ui/game/GameViewAdapter.ts
 import { mount, unmount } from "svelte"
-import { writable, type Writable, get } from "svelte/store"
+import { writable, type Writable } from "svelte/store"
 import GameView from "./GameView.svelte"
 import { GameAction } from "./GameAction.js"
 import { GameUISnapshot } from "./state/GameUISnapshot.js"
