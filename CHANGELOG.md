@@ -7,13 +7,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+-
+
+## [1.0.1] - 2026-01-15
+
 ### Added
 
 - Changelog
 
 ### Changed
 
-- Internal UI refactor: migrated renderer-based UI to Svelte
+- Internal UI refactor: migrated renderer-adapter-based UI to Svelte
 - Introduced Prettier for consistent code formatting
 - Version number is now derived from package.json
 
