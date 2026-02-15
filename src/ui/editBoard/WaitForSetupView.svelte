@@ -1,4 +1,5 @@
 <script lang="ts">
+    import { _ } from "svelte-i18n"
     import type { PlayerUIState } from "../game/state/GameUIState.js"
 
     let { players }: { players: readonly PlayerUIState[] | undefined } =
@@ -28,12 +29,14 @@
 
 <div class="wait-for-setup">
     <div class="wait-for-setup-message">
-        Waiting for gamemaster to setup the game...
+        {$_("wait_for_setup.waiting")}
     </div>
 
     {#if players && players.length > 0}
         <div class="scoreboard">
-            <div class="scoreboard-label">Results</div>
+            <div class="scoreboard-label">
+                {$_("wait_for_setup.results")}
+            </div>
 
             {#each sortedPlayers(players) as player, index}
                 <div class="scoreboard-player-cell">

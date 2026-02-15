@@ -1,90 +1,38 @@
 <script lang="ts">
-    import type { PreGameSetup } from "./PreGameSetupState.js"
+    import { _ } from "svelte-i18n"
+    import {
+        MULTIPLIER_KEYS,
+        type MultiplierKey,
+        type PreGameSetup,
+    } from "./PreGameSetupState.js"
     import { GAME_RULE_PRESETS } from "../../game/GameRulePresets.js"
     import { INFO_ICON_SVG } from "../shared/icons.js"
-
-    type MultiplierKey =
-        | "firstWrongMultiplier"
-        | "buzzCorrectMultiplier"
-        | "buzzWrongMultiplier"
-
-    type WindowMode = "single" | "dual" | "keep-current"
+    import {
+        WINDOW_MODES,
+        BUZZER_MODES,
+        type WindowMode,
+        type BuzzerMode,
+    } from "./PreGameSetupState.js"
 
     export let setup: PreGameSetup
 
     export let onSelectRule: (ruleId: string) => void
     export let onUpdateMultiplier: (key: MultiplierKey, value: number) => void
-    export let onSetBuzzerMode: (
-        mode: "mouse-only" | "mouse-and-keyboard",
-    ) => void
+    export let onSetBuzzerMode: (mode: BuzzerMode) => void
     export let onStartGame: (mode: WindowMode) => void
 
-    let selectedWindowMode: WindowMode = "keep-current"
+    let selectedWindowMode: WindowMode = "current"
 
     $: preset = GAME_RULE_PRESETS.find((p) => p.id === setup.selectedRuleId)!
 
     $: rules = preset.editable ? setup.customMultipliers : preset.rules
-
-    const buzzerModes: readonly ("mouse-only" | "mouse-and-keyboard")[] = [
-        "mouse-only",
-        "mouse-and-keyboard",
-    ]
-
-    const ruleDetailRows: {
-        key: MultiplierKey
-        label: string
-        tooltip: string
-    }[] = [
-        {
-            key: "firstWrongMultiplier",
-            label: "Initial wrong",
-            tooltip: "Applied when the first player answers incorrectly",
-        },
-        {
-            key: "buzzCorrectMultiplier",
-            label: "Buzzed correct",
-            tooltip: "Applied when a buzzing player answers correctly",
-        },
-        {
-            key: "buzzWrongMultiplier",
-            label: "Buzzed wrong",
-            tooltip: "Applied when a buzzing player answers incorrectly",
-        },
-    ]
-
-    const windowModes: {
-        name: string
-        shortDesc: string
-        longDesc: string
-        mode: WindowMode
-    }[] = [
-        {
-            name: "Single",
-            shortDesc: "One shared screen",
-            longDesc:
-                "Players and gamemaster share one display. Answers are hidden until the question is answered or skipped.",
-            mode: "single",
-        },
-        {
-            name: "Dual",
-            shortDesc: "Separate windows",
-            longDesc:
-                "Opens a second window for display only (projector / second screen). The game can only be controlled from the gamemaster window.",
-            mode: "dual",
-        },
-        {
-            name: "Current",
-            shortDesc: "Use existing setup",
-            longDesc:
-                "Use this if you already have two windows open and configured.",
-            mode: "keep-current",
-        },
-    ]
 </script>
 
 <div class="game-options">
     <div class="game-rules">
-        <div class="game-rules-title">Multipliers</div>
+        <div class="game-rules-title">
+            {$_("game_options.multipliers.title")}
+        </div>
 
         <div class="rule-tabs">
             {#each GAME_RULE_PRESETS as p}
@@ -92,17 +40,22 @@
                     class:selected={p.id === setup.selectedRuleId}
                     on:click={() => onSelectRule(p.id)}
                 >
-                    {p.label}
+                    {$_(`game_options.multipliers.name.${p.id}`)}
                 </button>
             {/each}
         </div>
 
         <div class="rule-details">
-            {#each ruleDetailRows as row}
+            {#each MULTIPLIER_KEYS as key}
                 <div class="multiplier-row">
                     <span class="multiplier-label">
-                        {row.label}
-                        <span class="info-icon" data-tooltip={row.tooltip}>
+                        {$_(`game_options.multipliers.${key}.label`)}
+                        <span
+                            class="info-icon"
+                            data-tooltip={$_(
+                                `game_options.multipliers.${key}.tooltip`,
+                            )}
+                        >
                             {@html INFO_ICON_SVG}
                         </span>
                     </span>
@@ -112,10 +65,10 @@
                             class="multiplier-value"
                             type="number"
                             min="0"
-                            value={rules[row.key]}
+                            value={rules[key]}
                             on:change={(e) =>
                                 onUpdateMultiplier(
-                                    row.key,
+                                    key,
                                     Number(
                                         (e.target as HTMLInputElement).value,
                                     ),
@@ -123,7 +76,7 @@
                         />
                     {:else}
                         <span class="multiplier-value">
-                            {rules[row.key]}
+                            {rules[key]}
                         </span>
                     {/if}
                 </div>
@@ -132,34 +85,45 @@
     </div>
 
     <div class="buzzer-mode">
-        <div class="buzzer-mode-title">Buzzer mode</div>
+        <div class="buzzer-mode-title">
+            {$_("game_options.buzzer_mode.title")}
+        </div>
         <div class="buzzer-mode-container">
-            {#each buzzerModes as mode}
+            {#each BUZZER_MODES as mode}
                 <button
                     class:selected={setup.buzzerMode === mode}
                     class="action-button"
                     on:click={() => onSetBuzzerMode(mode)}
                 >
-                    {mode === "mouse-only" ? "Mouse" : "Keyboard"}
+                    {$_(`game_options.buzzer_mode.${mode}`)}
                 </button>
             {/each}
         </div>
     </div>
 
     <div class="window-mode">
-        <div class="window-mode-title">Window mode</div>
+        <div class="window-mode-title">
+            {$_("game_options.window_mode.title")}
+        </div>
 
-        {#each windowModes as wm}
+        {#each WINDOW_MODES as wm}
             <div class="window-mode-container">
                 <button
-                    class:selected={selectedWindowMode === wm.mode}
+                    class:selected={selectedWindowMode === wm}
                     class="window-mode-button action-button"
-                    on:click={() => (selectedWindowMode = wm.mode)}
+                    on:click={() => (selectedWindowMode = wm)}
                 >
-                    {wm.name}
+                    {$_(`game_options.window_mode.${wm}.name`)}
                 </button>
-                <div class="window-mode-desc">{wm.shortDesc}</div>
-                <span class="info-icon" data-tooltip={wm.longDesc}>
+                <div class="window-mode-desc">
+                    {$_(`game_options.window_mode.${wm}.short_desc`)}
+                </div>
+                <span
+                    class="info-icon"
+                    data-tooltip={$_(
+                        `game_options.window_mode.${wm}.long_desc`,
+                    )}
+                >
                     {@html INFO_ICON_SVG}
                 </span>
             </div>
@@ -172,7 +136,7 @@
             disabled={setup.players.length === 0}
             on:click={() => onStartGame(selectedWindowMode)}
         >
-            Start game
+            {$_("game_options.start_game")}
         </button>
     </div>
 </div>

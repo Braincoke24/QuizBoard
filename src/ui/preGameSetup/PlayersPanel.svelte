@@ -1,4 +1,5 @@
 <script lang="ts">
+    import { _ } from "svelte-i18n"
     import type { PlayerConfig } from "./PreGameSetupState.js"
 
     export let players: readonly PlayerConfig[]
@@ -10,7 +11,7 @@
 
 <div class="player-list">
     <div class="player-header">
-        <div class="player-title">Players</div>
+        <div class="player-title">{$_("player_panel.title")}</div>
         <div class="player-counter">{players.length}/6</div>
     </div>
 
@@ -27,7 +28,7 @@
             <input
                 class="player-name"
                 type="text"
-                placeholder="Player name"
+                placeholder={$_("player_panel.name_placeholder")}
                 maxlength="16"
                 bind:value={newPlayerName}
             />
@@ -37,7 +38,7 @@
                 type="submit"
                 disabled={!newPlayerName.trim()}
             >
-                Add
+                {$_("player_panel.add")}
             </button>
         </form>
     {/if}
@@ -49,7 +50,7 @@
                 class="player-delete action-button warning"
                 on:click={() => onRemovePlayer(player.id)}
             >
-                Delete
+                {$_("player_panel.delete")}
             </button>
         </div>
     {/each}

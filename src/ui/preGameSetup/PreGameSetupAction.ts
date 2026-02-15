@@ -1,5 +1,7 @@
 // src/ui/preGameSetup/PreGameSetupAction.ts
 
+import type { BuzzerMode } from "./PreGameSetupState.js"
+
 export type PreGameSetupAction =
     | {
           type: "PRE_GAME_SETUP/ADD_PLAYER"
@@ -23,7 +25,7 @@ export type PreGameSetupAction =
       }
     | {
           type: "PRE_GAME_SETUP/SET_BUZZER_MODE"
-          mode: "mouse-only" | "mouse-and-keyboard"
+          mode: BuzzerMode
       }
     | {
           type: "PRE_GAME_SETUP/START_GAME"

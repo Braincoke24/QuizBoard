@@ -1,6 +1,6 @@
 <script lang="ts">
     import { onMount } from "svelte"
-    import { locale } from "svelte-i18n"
+    import { _, locale } from "svelte-i18n"
     import {
         setAppLocale,
         type AppLocale,
@@ -31,20 +31,22 @@
         onReset: () => void
     } = $props()
 
-    let themeIcon: string = $state(LIGHT_MODE_SVG)
-    let themeTitle: string = $state("Switch to dark mode")
+    let mode: string = $state("dark")
+
+    let themeIcon: string = $derived(
+        mode === "dark" ? DARK_MODE_SVG : LIGHT_MODE_SVG,
+    )
+
+    let themeTitle: string = $derived(
+        mode === "dark"
+            ? $_("app_top_bar.switch_light_mode")
+            : $_("app_top_bar.switch_dark_mode"),
+    )
 
     let showLanguageMenu: boolean = $state(false)
 
     function toggleTheme(): void {
-        const mode = themeController.toggle()
-        updateThemeIcon(mode)
-    }
-
-    function updateThemeIcon(mode: "light" | "dark"): void {
-        themeIcon = mode === "dark" ? DARK_MODE_SVG : LIGHT_MODE_SVG
-        themeTitle =
-            mode === "dark" ? "Switch to light mode" : "Switch to dark mode"
+        mode = themeController.toggle()
     }
 
     function changeLanguage(lang: AppLocale): void {
@@ -53,14 +55,20 @@
     }
 
     onMount(() => {
-        updateThemeIcon(themeController.getCurrent())
+        mode = themeController.getCurrent()
     })
 </script>
 
-<span class="top-bar-role">{`${profile.displayName} view`}</span>
+<span class="top-bar-role">
+    {$_("app_top_bar.role_view_label", {
+        values: {
+            role: $_(`roles.${profile.id}`),
+        },
+    })}
+</span>
 
 <button class="top-bar-change-role action-button" onclick={onChangeRole}>
-    Change Role
+    {$_("app_top_bar.change_role")}
 </button>
 
 <!-- Language switcher -->
@@ -70,7 +78,7 @@
 >
     <button
         class="top-bar-language-toggle"
-        title="Change language"
+        title={$_("app_top_bar.change_lang")}
         onclick={() => (showLanguageMenu = !showLanguageMenu)}
     >
         {@html LANG_SVG}

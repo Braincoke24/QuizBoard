@@ -1,28 +1,29 @@
 <script lang="ts">
+    import { _ } from "svelte-i18n"
     import type { ActiveOverlay } from "../../app/AppView.svelte"
-    import type { Role } from "../../app/AppView.svelte"
+    import { ROLE_IDS, type RoleId } from "../shared/view/UIViewProfile.js"
 
     let {
         activeOverlay = $bindable(),
         applyRole,
     }: {
         activeOverlay: ActiveOverlay | null
-        applyRole: (role: Role) => void
+        applyRole: (role: RoleId) => void
     } = $props()
 </script>
 
 {#if activeOverlay === "role-selection"}
     <div class="role-selection">
         <div class="role-selection-title">Choose your role</div>
-        {#each [{ label: "Gamemaster", role: "game-master" }, { label: "Player", role: "player" }, { label: "Spectator", role: "spectator" }] as { label, role }}
+        {#each ROLE_IDS as id}
             <button
                 class="role-selection-button action-button accent"
                 onclick={() => {
-                    applyRole(role as Role)
+                    applyRole(id as RoleId)
                     activeOverlay = null
                 }}
             >
-                {label}
+                {$_(`roles.${id}`)}
             </button>
         {/each}
     </div>

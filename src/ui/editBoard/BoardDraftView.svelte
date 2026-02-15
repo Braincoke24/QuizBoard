@@ -12,9 +12,6 @@
         dispatch: (action: BoardDraftAction) => void
     } = $props()
 
-    // helper: translated text usage: $_("board.category_placeholder")
-    const t = _ // store; use like {$_("board.export", { default: "Export" })}
-
     function onDraftChange(draft: BoardDraft): void {
         dispatch({ type: "BOARD_DRAFT/UPDATE_DRAFT", draft })
     }
@@ -56,9 +53,7 @@
             .catch((error) => {
                 alert(
                     error instanceof SyntaxError
-                        ? $_("board.invalid_json", {
-                              default: "Invalid JSON file",
-                          })
+                        ? $_("board.invalid_json")
                         : (error as Error).message,
                 )
             })
@@ -87,9 +82,7 @@
                         <input
                             class="board-draft-category"
                             type="text"
-                            placeholder={$_("board.category_placeholder", {
-                                default: "Category",
-                            })}
+                            placeholder={$_("board.category_placeholder")}
                             bind:value={category.name}
                             oninput={commit}
                         />
@@ -102,9 +95,7 @@
                                 commit()
                             }}
                         >
-                            {$_("board.delete_category", {
-                                default: "Delete",
-                            })}
+                            {$_("board.delete_category")}
                         </button>
                     </div>
                 {/each}
@@ -130,7 +121,6 @@
                                     class="board-draft-question-text"
                                     placeholder={$_(
                                         "board.question_placeholder",
-                                        { default: "Question" },
                                     )}
                                     bind:value={
                                         category.questions[rowIndex].text
@@ -140,10 +130,7 @@
 
                                 <textarea
                                     class="board-draft-question-answer"
-                                    placeholder={$_(
-                                        "board.answer_placeholder",
-                                        { default: "Answer (optional)" },
-                                    )}
+                                    placeholder={$_("board.answer_placeholder")}
                                     bind:value={
                                         category.questions[rowIndex].answer
                                     }
@@ -158,7 +145,7 @@
             <!-- ---------- Add category ---------- -->
             <button
                 class="board-draft-category-add action-button accent"
-                title={$_("board.add_category", { default: "Add category" })}
+                title={$_("board.add_category")}
                 disabled={draft.categories.length > 6}
                 onclick={() => {
                     draft.categories[draft.categories.length] = {
@@ -181,7 +168,7 @@
                 class="draft-export-button action-button accent"
                 onclick={onExportBoard}
             >
-                {$_("board.export", { default: "Export" })}
+                {$_("board.export")}
             </button>
 
             <input
@@ -198,7 +185,7 @@
                         .querySelector<HTMLInputElement>(".draft-import-input")
                         ?.click()}
             >
-                {$_("board.import", { default: "Import" })}
+                {$_("board.import")}
             </button>
 
             <button
@@ -208,7 +195,7 @@
                     onSubmitBoard()
                 }}
             >
-                {$_("board.submit", { default: "Submit" })}
+                {$_("board.submit")}
             </button>
         </div>
     </div>

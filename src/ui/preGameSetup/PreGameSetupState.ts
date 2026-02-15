@@ -1,18 +1,24 @@
 // src/ui/preGameSetup/PreGameSetupState.ts
 import { BoardDraft } from "../editBoard/BoardDraftState.js"
 
+export const WINDOW_MODES = ["single", "dual", "current"]
+export type WindowMode = (typeof WINDOW_MODES)[number]
+
 export interface PlayerConfig {
     id: string
     name: string
 }
 
-export interface RuleMultipliers {
-    firstWrongMultiplier: number
-    buzzCorrectMultiplier: number
-    buzzWrongMultiplier: number
-}
+export const MULTIPLIER_KEYS = [
+    "firstWrongMultiplier",
+    "buzzCorrectMultiplier",
+    "buzzWrongMultiplier",
+] as const
+export type MultiplierKey = (typeof MULTIPLIER_KEYS)[number]
+export type RuleMultipliers = Record<MultiplierKey, number>
 
-export type BuzzerMode = "mouse-only" | "mouse-and-keyboard"
+export const BUZZER_MODES = ["mouse", "keyboard"]
+export type BuzzerMode = (typeof BUZZER_MODES)[number]
 
 export interface PreGameSetup {
     players: PlayerConfig[]

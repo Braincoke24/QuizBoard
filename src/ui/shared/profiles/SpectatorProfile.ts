@@ -14,5 +14,5 @@ export const SPECTATOR_PROFILE: UIViewProfile = {
         canSelectQuestion: false,
         canContinue: false,
     },
-    displayName: "Spectator",
+    id: "spectator",
 }

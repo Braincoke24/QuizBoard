@@ -9,5 +9,76 @@
         "import": "Importieren",
         "submit": "Bestätigen",
         "invalid_json": "Ungültige JSON-Datei"
+    },
+    "app_top_bar": {
+        "switch_light_mode": "Zum hellen Modus wechseln",
+        "switch_dark_mode": "Zum dunklen Modus wechseln",
+        "change_role": "Rolle wechseln",
+        "change_lang": "Sprache wechseln",
+        "role_view_label": "{role}-Ansicht"
+    },
+    "roles": {
+        "gamemaster": "Spielleiter",
+        "player": "Spieler",
+        "spectator": "Zuschauer"
+    },
+    "landing": {
+        "start": "Start"
+    },
+    "wait_for_setup": {
+        "waiting": "Warten, bis der Spielleiter das Spiel vorbereitet ...",
+        "results": "Ergebnisse"
+    },
+    "player_panel": {
+        "title": "Spieler",
+        "add": "Hinzufügen",
+        "delete": "Entfernen",
+        "name_placeholder": "Spielername"
+    },
+    "game_options": {
+        "multipliers": {
+            "title": "Multiplikatoren",
+            "name": {
+                "classic": "Klassisch",
+                "hard": "Schwer",
+                "custom": "Benutzerdefiniert"
+            },
+            "firstWrongMultiplier": {
+                "label": "Erste falsche Antwort",
+                "tooltip": "Wird angewendet, wenn der erste Spieler falsch antwortet"
+            },
+            "buzzCorrectMultiplier": {
+                "label": "Richtig gebuzzert",
+                "tooltip": "Wird angewendet, wenn ein buzzender Spieler korrekt antwortet"
+            },
+            "buzzWrongMultiplier": {
+                "label": "Falsch gebuzzert",
+                "tooltip": "Wird angewendet, wenn ein buzzender Spieler falsch antwortet"
+            }
+        },
+        "buzzer_mode": {
+            "title": "Buzzer-Modus",
+            "mouse": "Maus",
+            "keyboard": "Tastatur"
+        },
+        "window_mode": {
+            "title": "Fenstermodus",
+            "single": {
+                "name": "Einzel",
+                "short_desc": "Eine gemeinsamer Bildschirm",
+                "long_desc": "Spieler und Spielleiter teilen sich eine Anzeige. Antworten bleiben verborgen, bis die Frage beantwortet oder übersprungen wird."
+            },
+            "dual": {
+                "name": "Dual",
+                "short_desc": "Getrennte Fenster",
+                "long_desc": "Öffnet ein zweites Fenster nur zur Anzeige (Beamer / zweiter Bildschirm). Das Spiel kann nur im Spielleiter-Fenster gesteuert werden."
+            },
+            "current": {
+                "name": "Aktuell",
+                "short_desc": "Vorhandenes Setup verwenden",
+                "long_desc": "Verwende dies, wenn bereits zwei konfigurierte Fenster geöffnet sind."
+            }
+        },
+        "start_game": "Spiel starten"
     }
 }

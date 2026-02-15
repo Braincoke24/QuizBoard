@@ -14,5 +14,5 @@ export const GAMEMASTER_PROFILE: UIViewProfile = {
         canSelectQuestion: true,
         canContinue: true,
     },
-    displayName: "Gamemaster",
+    id: "gamemaster",
 }

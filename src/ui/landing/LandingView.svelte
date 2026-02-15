@@ -1,4 +1,5 @@
 <script lang="ts">
+    import { _ } from "svelte-i18n"
     import version from "../../version.js"
     import type { LandingAction } from "./LandingAction.js"
 
@@ -13,5 +14,7 @@
     <div class="landing-title">QuizBoard</div>
     <div class="landing-version-label">{version}</div>
 
-    <button class="action-button accent" onclick={onStart}> Start </button>
+    <button class="action-button accent" onclick={onStart}>
+        {$_("landing.start")}
+    </button>
 </div>

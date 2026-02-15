@@ -14,5 +14,5 @@ export const PLAYER_PROFILE: UIViewProfile = {
         canSelectQuestion: true,
         canContinue: true,
     },
-    displayName: "Player",
+    id: "player",
 }

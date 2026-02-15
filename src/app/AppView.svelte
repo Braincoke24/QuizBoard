@@ -1,4 +1,5 @@
 <script lang="ts">
+    import { isLoading } from "svelte-i18n"
     import { onMount, onDestroy } from "svelte"
 
     import AppTopBar from "../ui/shell/AppTopBar.svelte"
@@ -9,12 +10,12 @@
     import type { AppSnapshot } from "./AppSnapshot.js"
     import type { AppPort } from "./ports/AppPort.js"
     import type { ThemeController } from "../ui/shared/ThemeController.js"
+    import type { RoleId } from "../ui/shared/view/UIViewProfile.js"
     import { AppPhase } from "./AppPhase.js"
     import { RoleResolver } from "../shared/RoleResolver.js"
     import { WindowManager } from "../ui/shared/WindowManager.js"
 
     export type ActiveOverlay = "role-selection"
-    export type Role = "game-master" | "player" | "spectator"
 
     let {
         port,
@@ -35,7 +36,7 @@
         game: null,
     })
 
-    function applyRole(role: Role): void {
+    function applyRole(role: RoleId): void {
         profile = RoleResolver.resolve(role)
         WindowManager.setCurrentRole(role)
     }
@@ -55,7 +56,7 @@
 
     async function bootstrap(roleParam: string): Promise<void> {
         if (roleParam && RoleResolver.isValidRole(roleParam)) {
-            applyRole(roleParam as Role)
+            applyRole(roleParam as RoleId)
             return
         }
 
@@ -82,25 +83,27 @@
     }
 </script>
 
-<div class="app-top-bar-root">
-    <AppTopBar
-        bind:profile={profile}
-        themeController={themeController}
-        onChangeRole={showRoleSelection}
-        onReset={() => dispatch({ type: "APP/RESET" })}
-    />
-</div>
-<div
-    class="app-overlay-root
+{#if !$isLoading}
+    <div class="app-top-bar-root">
+        <AppTopBar
+            bind:profile={profile}
+            themeController={themeController}
+            onChangeRole={showRoleSelection}
+            onReset={() => dispatch({ type: "APP/RESET" })}
+        />
+    </div>
+    <div
+        class="app-overlay-root
 {overlayActive ? 'active' : ''}"
->
-    <AppOverlay bind:activeOverlay={activeOverlay} applyRole={applyRole} />
-</div>
-<div class="app-content-root" inert={overlayActive}>
-    <AppContent
-        bind:snapshot={snapshot}
-        profile={profile}
-        dispatch={dispatch}
-        applyRole={applyRole}
-    />
-</div>
+    >
+        <AppOverlay bind:activeOverlay={activeOverlay} applyRole={applyRole} />
+    </div>
+    <div class="app-content-root" inert={overlayActive}>
+        <AppContent
+            bind:snapshot={snapshot}
+            profile={profile}
+            dispatch={dispatch}
+            applyRole={applyRole}
+        />
+    </div>
+{/if}

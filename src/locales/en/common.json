@@ -9,5 +9,76 @@
         "import": "Import",
         "submit": "Submit",
         "invalid_json": "Invalid JSON file"
+    },
+    "app_top_bar": {
+        "switch_light_mode": "Switch to light mode",
+        "switch_dark_mode": "Switch to dark mode",
+        "change_role": "Change role",
+        "change_lang": "Change language",
+        "role_view_label": "{role} view"
+    },
+    "roles": {
+        "gamemaster": "Gamemaster",
+        "player": "Player",
+        "spectator": "Spectator"
+    },
+    "landing": {
+        "start": "Start"
+    },
+    "wait_for_setup": {
+        "waiting": "Waiting for gamemaster to setup the game...",
+        "results": "Results"
+    },
+    "player_panel": {
+        "title": "Players",
+        "add": "Add",
+        "delete": "Delete",
+        "name_placeholder": "Player name"
+    },
+    "game_options": {
+        "multipliers": {
+            "title": "Multipliers",
+            "name": {
+                "classic": "Classic",
+                "hard": "Hard",
+                "custom": "Custom"
+            },
+            "firstWrongMultiplier": {
+                "label": "Initial wrong",
+                "tooltip": "Applied when the first player answers incorrectly"
+            },
+            "buzzCorrectMultiplier": {
+                "label": "Buzzed correct",
+                "tooltip": "Applied when a buzzing player answers correctly"
+            },
+            "buzzWrongMultiplier": {
+                "label": "Buzzed wrong",
+                "tooltip": "Applied when a buzzing player answers incorrectly"
+            }
+        },
+        "buzzer_mode": {
+            "title": "Buzzer mode",
+            "mouse": "Mouse",
+            "keyboard": "Keyboard"
+        },
+        "window_mode": {
+            "title": "Window mode",
+            "single": {
+                "name": "Single",
+                "short_desc": "One shared screen",
+                "long_desc": "Players and gamemaster share one display. Answers are hidden until the question is answered or skipped."
+            },
+            "dual": {
+                "name": "Dual",
+                "short_desc": "Separate windows",
+                "long_desc": "Opens a second window for display only (projector / second screen). The game can only be controlled from the gamemaster window."
+            },
+            "current": {
+                "name": "Current",
+                "short_desc": "Use existing setup",
+                "long_desc": "Use this if you already have two windows open and configured."
+            }
+        },
+        "start_game": "Start game"
     }
 }

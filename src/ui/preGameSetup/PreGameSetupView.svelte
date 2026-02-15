@@ -2,11 +2,12 @@
     import type { PreGameSetup } from "./PreGameSetupState.js"
     import type { PreGameSetupAction } from "./PreGameSetupAction.js"
     import { WindowManager } from "../shared/WindowManager.js"
-    import type { Role } from "../../app/AppView.svelte"
 
     import PlayersPanel from "./PlayersPanel.svelte"
     import BoardPreview from "./BoardPreview.svelte"
     import GameOptionsPanel from "./GameOptionsPanel.svelte"
+    import type { RoleId } from "../shared/view/UIViewProfile.js"
+    import type { WindowMode, BuzzerMode } from "./PreGameSetupState.js"
 
     let {
         setup = $bindable(),
@@ -15,7 +16,7 @@
     }: {
         setup: PreGameSetup | null
         dispatch: (action: PreGameSetupAction) => void
-        setRole: (role: Role) => void
+        setRole: (role: RoleId) => void
     } = $props()
 
     function onAddPlayer(name: string): void {
@@ -44,15 +45,15 @@
         })
     }
 
-    function onSetBuzzerMode(mode: "mouse-only" | "mouse-and-keyboard"): void {
+    function onSetBuzzerMode(mode: BuzzerMode): void {
         dispatch({ type: "PRE_GAME_SETUP/SET_BUZZER_MODE", mode })
     }
 
-    function onStartGame(mode: "single" | "dual" | "keep-current"): void {
+    function onStartGame(mode: WindowMode): void {
         if (mode === "single") setRole("player")
 
         if (mode === "dual") {
-            setRole("game-master")
+            setRole("gamemaster")
             WindowManager.openWindow("spectator")
         }
 

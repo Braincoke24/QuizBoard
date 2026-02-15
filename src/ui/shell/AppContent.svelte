@@ -11,7 +11,7 @@
     import type { AppSnapshot } from "../../app/AppSnapshot.js"
     import type { AppAction } from "../../app/AppAction.js"
     import { AppPhase } from "../../app/AppPhase.js"
-    import type { Role } from "../../app/AppView.svelte"
+    import type { RoleId } from "../shared/view/UIViewProfile.js"
 
     let {
         snapshot = $bindable(),
@@ -22,7 +22,7 @@
         snapshot: AppSnapshot
         profile: UIViewProfile
         dispatch: (action: AppAction) => void
-        applyRole: (role: Role) => void
+        applyRole: (role: RoleId) => void
     } = $props()
 </script>
 

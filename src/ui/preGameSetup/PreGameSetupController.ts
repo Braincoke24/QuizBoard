@@ -29,7 +29,7 @@ export class PreGameSetupController {
                     defaultPreset.rules.buzzCorrectMultiplier,
                 buzzWrongMultiplier: defaultPreset.rules.buzzWrongMultiplier,
             },
-            buzzerMode: "mouse-only",
+            buzzerMode: "mouse",
         }
     }
 

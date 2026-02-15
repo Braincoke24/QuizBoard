@@ -1,17 +1,15 @@
 // src/ui/shared/WindowManager.ts
 
+import type { RoleId } from "./view/UIViewProfile.js"
+
 export class WindowManager {
-    public static setCurrentRole(
-        role: "player" | "game-master" | "spectator",
-    ): void {
+    public static setCurrentRole(role: RoleId): void {
         const url = new URL(window.location.href)
         url.searchParams.set("role", role)
         window.history.pushState(null, "", url.toString())
     }
 
-    public static openWindow(
-        role: "player" | "game-master" | "spectator",
-    ): void {
+    public static openWindow(role: RoleId): void {
         const url = new URL(window.location.href)
         url.searchParams.set("role", role)
 
