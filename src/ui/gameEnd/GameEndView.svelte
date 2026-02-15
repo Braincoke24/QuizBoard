@@ -1,10 +1,20 @@
 <script lang="ts">
     import type { PlayerUIState } from "../game/state/GameUIState.js"
+    import type { GameEndAction } from "./GameEndAction.js"
 
-    export let players: readonly PlayerUIState[]
-    export let onStartNewGame: () => void
+    let {
+        players,
+        dispatch,
+    }: {
+        players: readonly PlayerUIState[] | undefined
+        dispatch: (action: GameEndAction) => void
+    } = $props()
 
     const FIGURE_SPACE = "\u2007"
+
+    function onStartNewGame(): void {
+        dispatch({ type: "GAME_ENDED/START_NEW_GAME" })
+    }
 
     function scoreToAlignedString(score: number, l: number = 5): string {
         const scoreLength = Math.max(
@@ -26,35 +36,39 @@
     }
 </script>
 
-<div class="scoreboard">
-    <div class="scoreboard-label">Results</div>
+<div class="game-ended">
+    {#if players}
+        <div class="scoreboard">
+            <div class="scoreboard-label">Results</div>
 
-    {#each sortedPlayers(players) as player, index}
-        <div class="scoreboard-player-cell">
-            <div
-                class="scoreboard-player-rank
+            {#each sortedPlayers(players) as player, index}
+                <div class="scoreboard-player-cell">
+                    <div
+                        class="scoreboard-player-rank
                 {index === 0 ? 'rank-1' : ''}
                 {index === 1 ? 'rank-2' : ''}
                 {index === 2 ? 'rank-3' : ''}"
-            >
-                {index + 1}
-            </div>
+                    >
+                        {index + 1}
+                    </div>
 
-            <div class="scoreboard-player-name">
-                {player.name}
-            </div>
+                    <div class="scoreboard-player-name">
+                        {player.name}
+                    </div>
 
-            <div class="scoreboard-player-score">
-                {scoreToAlignedString(player.score)}
-            </div>
+                    <div class="scoreboard-player-score">
+                        {scoreToAlignedString(player.score)}
+                    </div>
+                </div>
+            {/each}
         </div>
-    {/each}
-</div>
-<div class="game-ended-actions">
-    <button
-        class="start-new-game-button action-button accent"
-        on:click={onStartNewGame}
-    >
-        Start new game
-    </button>
+    {/if}
+    <div class="game-ended-actions">
+        <button
+            class="start-new-game-button action-button accent"
+            onclick={onStartNewGame}
+        >
+            Start new game
+        </button>
+    </div>
 </div>

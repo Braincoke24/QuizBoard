@@ -1,6 +1,6 @@
 /* styles/components/tob-bar.css */
 
-.top-bar {
+.app-top-bar-root {
     grid-row: 1;
     grid-column: 1;
 

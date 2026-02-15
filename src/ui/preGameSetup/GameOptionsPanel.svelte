@@ -1,6 +1,6 @@
 <script lang="ts">
     import type { PreGameSetup } from "./PreGameSetupState.js"
-    import type { GameRulePreset } from "../../game/GameRulePresets.js"
+    import { GAME_RULE_PRESETS } from "../../game/GameRulePresets.js"
     import { INFO_ICON_SVG } from "../shared/icons.js"
 
     type MultiplierKey =
@@ -11,7 +11,6 @@
     type WindowMode = "single" | "dual" | "keep-current"
 
     export let setup: PreGameSetup
-    export let presets: readonly GameRulePreset[]
 
     export let onSelectRule: (ruleId: string) => void
     export let onUpdateMultiplier: (key: MultiplierKey, value: number) => void
@@ -22,7 +21,7 @@
 
     let selectedWindowMode: WindowMode = "keep-current"
 
-    $: preset = presets.find((p) => p.id === setup.selectedRuleId)!
+    $: preset = GAME_RULE_PRESETS.find((p) => p.id === setup.selectedRuleId)!
 
     $: rules = preset.editable ? setup.customMultipliers : preset.rules
 
@@ -88,7 +87,7 @@
         <div class="game-rules-title">Multipliers</div>
 
         <div class="rule-tabs">
-            {#each presets as p}
+            {#each GAME_RULE_PRESETS as p}
                 <button
                     class:selected={p.id === setup.selectedRuleId}
                     on:click={() => onSelectRule(p.id)}

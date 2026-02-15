@@ -1,7 +1,8 @@
 // src/main.ts
-import { App } from "./app/App.js"
+import { mount } from "svelte"
 import { SharedWorkerAppPort } from "./app/ports/SharedWorkerAppPort.js"
 import { ThemeController } from "./ui/shared/ThemeController.js"
+import AppView from "./app/AppView.svelte"
 
 /**
  * Application entry point.
@@ -21,7 +22,14 @@ function main(): void {
 
     const port = new SharedWorkerAppPort()
 
-    new App(port, roleParam, root, themeController)
+    mount(AppView, {
+        target: root,
+        props: {
+            port: port,
+            roleParam: roleParam,
+            themeController: themeController,
+        },
+    })
 }
 
 main()

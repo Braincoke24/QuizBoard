@@ -1,20 +1,44 @@
 <script lang="ts">
-    import type { Writable } from "svelte/store"
     import type { BoardDraft } from "./BoardDraftState.js"
+    import type { BoardDraftAction } from "./BoardDraftAction.js"
 
-    export let draft: Writable<BoardDraft | null>
+    let {
+        draft = $bindable(),
+        dispatch,
+    }: {
+        draft: BoardDraft | null
+        dispatch: (action: BoardDraftAction) => void
+    } = $props()
 
-    export let onDraftChange: (draft: BoardDraft) => void
-    export let onSubmitBoard: () => void
-    export let onImportBoard: (json: unknown) => void
-    export let onExportBoard: () => void
+    function onDraftChange(draft: BoardDraft): void {
+        dispatch({ type: "BOARD_DRAFT/UPDATE_DRAFT", draft })
+    }
 
-    /**
-     * Commit helper:
-     * Always send a cloned snapshot back to the app.
-     */
-    function commit(next: BoardDraft): void {
-        onDraftChange(structuredClone(next))
+    function onSubmitBoard(): void {
+        dispatch({ type: "BOARD_DRAFT/SUBMIT_BOARD" })
+    }
+
+    function onImportBoard(json: unknown): void {
+        dispatch({ type: "BOARD_DRAFT/IMPORT_BOARD", json })
+    }
+
+    function onExportBoard(): void {
+        try {
+            const json = JSON.stringify(draft, null, 2)
+            const blob = new Blob([json], {
+                type: "application/json",
+            })
+            const url = URL.createObjectURL(blob)
+
+            const a = document.createElement("a")
+            a.href = url
+            a.download = "board.json"
+            a.click()
+
+            URL.revokeObjectURL(url)
+        } catch (error) {
+            alert((error as Error).message)
+        }
     }
 
     function handleImport(event: Event): void {
@@ -35,166 +59,138 @@
                 input.value = ""
             })
     }
+
+    function commit(): void {
+        const next = JSON.parse(JSON.stringify(draft)) as BoardDraft
+        onDraftChange(next)
+    }
 </script>
 
-{#if $draft}
-    <div class="board-draft">
-        <!-- ---------- Header ---------- -->
-        <div class="board-draft-header">
-            <div class="board-draft-point-label"></div>
+{#if draft}
+    <div class="edit-board">
+        <div class="board-draft">
+            <!-- ---------- Header ---------- -->
+            <div class="board-draft-header">
+                <div class="board-draft-point-label"></div>
 
-            {#each $draft.categories as category, cIndex}
-                <div class="board-draft-category-container">
-                    <input
-                        class="board-draft-category"
-                        type="text"
-                        placeholder="Category"
-                        value={category.name}
-                        on:input={(e) => {
-                            const next = structuredClone($draft)
-                            next.categories[cIndex].name = (
-                                e.target as HTMLInputElement
-                            ).value
-                            commit(next)
-                        }}
-                    />
+                {#each draft.categories as category, cIndex}
+                    <div class="board-draft-category-container">
+                        <input
+                            class="board-draft-category"
+                            type="text"
+                            placeholder="Category"
+                            bind:value={category.name}
+                            oninput={commit}
+                        />
 
-                    <button
-                        class="board-draft-category-delete action-button warning"
-                        disabled={$draft.categories.length <= 1}
-                        on:click={() => {
-                            const next = {
-                                ...$draft,
-                                categories: $draft.categories.filter(
-                                    (_, i) => i !== cIndex,
-                                ),
-                            }
-                            commit(next)
-                        }}
-                    >
-                        Delete
-                    </button>
-                </div>
-            {/each}
+                        <button
+                            class="board-draft-category-delete action-button warning"
+                            disabled={draft.categories.length <= 1}
+                            onclick={() => {
+                                draft.categories.splice(cIndex, 1)
+                                commit()
+                            }}
+                        >
+                            Delete
+                        </button>
+                    </div>
+                {/each}
+            </div>
+
+            <!-- ---------- Grid ---------- -->
+            <div class="board-draft-grid">
+                {#each draft.rowValues as rowValue, rowIndex}
+                    <div class="board-draft-row">
+                        <!-- Row value -->
+                        <input
+                            class="row-value"
+                            type="number"
+                            min="0"
+                            bind:value={draft.rowValues[rowIndex]}
+                            oninput={commit}
+                        />
+
+                        <!-- Questions -->
+                        {#each draft.categories as category, cIndex}
+                            <div class="board-draft-question-cell">
+                                <textarea
+                                    class="board-draft-question-text"
+                                    placeholder="Question"
+                                    bind:value={
+                                        category.questions[rowIndex].text
+                                    }
+                                    oninput={commit}
+                                ></textarea>
+
+                                <textarea
+                                    class="board-draft-question-answer"
+                                    placeholder="Answer (optional)"
+                                    bind:value={
+                                        category.questions[rowIndex].answer
+                                    }
+                                    oninput={commit}
+                                ></textarea>
+                            </div>
+                        {/each}
+                    </div>
+                {/each}
+            </div>
+
+            <!-- ---------- Add category ---------- -->
+            <button
+                class="board-draft-category-add action-button accent"
+                title="Add category"
+                disabled={draft.categories.length > 6}
+                onclick={() => {
+                    draft.categories[draft.categories.length] = {
+                        name: "",
+                        questions: draft.rowValues.map(() => ({
+                            text: "",
+                            answer: "",
+                        })),
+                    }
+                    commit()
+                }}
+            >
+                +
+            </button>
         </div>
 
-        <!-- ---------- Grid ---------- -->
-        <div class="board-draft-grid">
-            {#each $draft.rowValues as rowValue, rowIndex}
-                <div class="board-draft-row">
-                    <!-- Row value -->
-                    <input
-                        class="row-value"
-                        type="number"
-                        min="0"
-                        value={rowValue}
-                        on:input={(e) => {
-                            const next = structuredClone($draft)
-                            next.rowValues[rowIndex] = Number(
-                                (e.target as HTMLInputElement).value,
-                            )
-                            commit(next)
-                        }}
-                    />
+        <!-- ---------- Actions ---------- -->
+        <div class="edit-board-actions">
+            <button
+                class="draft-export-button action-button accent"
+                onclick={onExportBoard}
+            >
+                Export
+            </button>
 
-                    <!-- Questions -->
-                    {#each $draft.categories as category, cIndex}
-                        <div class="board-draft-question-cell">
-                            <textarea
-                                class="board-draft-question-text"
-                                placeholder="Question"
-                                value={category.questions[rowIndex].text}
-                                on:input={(e) => {
-                                    const next = structuredClone($draft)
-                                    next.categories[cIndex].questions[
-                                        rowIndex
-                                    ].text = (
-                                        e.target as HTMLTextAreaElement
-                                    ).value
-                                    commit(next)
-                                }}
-                            ></textarea>
+            <input
+                class="draft-import-input"
+                type="file"
+                accept="application/json"
+                onchange={handleImport}
+            />
 
-                            <textarea
-                                class="board-draft-question-answer"
-                                placeholder="Answer (optional)"
-                                value={category.questions[rowIndex].answer}
-                                on:input={(e) => {
-                                    const next = structuredClone($draft)
-                                    next.categories[cIndex].questions[
-                                        rowIndex
-                                    ].answer = (
-                                        e.target as HTMLTextAreaElement
-                                    ).value
-                                    commit(next)
-                                }}
-                            ></textarea>
-                        </div>
-                    {/each}
-                </div>
-            {/each}
+            <button
+                class="draft-import-button action-button accent"
+                onclick={() =>
+                    document
+                        .querySelector<HTMLInputElement>(".draft-import-input")
+                        ?.click()}
+            >
+                Import
+            </button>
+
+            <button
+                class="draft-submit-button action-button accent"
+                onclick={() => {
+                    commit()
+                    onSubmitBoard()
+                }}
+            >
+                Submit
+            </button>
         </div>
-
-        <!-- ---------- Add category ---------- -->
-        <button
-            class="board-draft-category-add action-button accent"
-            title="Add category"
-            disabled={$draft.categories.length > 6}
-            on:click={() => {
-                const next = {
-                    ...$draft,
-                    categories: [
-                        ...$draft.categories,
-                        {
-                            name: "",
-                            questions: $draft.rowValues.map(() => ({
-                                text: "",
-                                answer: "",
-                            })),
-                        },
-                    ],
-                }
-                commit(next)
-            }}
-        >
-            +
-        </button>
-    </div>
-
-    <!-- ---------- Actions ---------- -->
-    <div class="edit-board-actions">
-        <button
-            class="draft-export-button action-button accent"
-            on:click={onExportBoard}
-        >
-            Export
-        </button>
-
-        <input
-            class="draft-import-input"
-            type="file"
-            accept="application/json"
-            on:change={handleImport}
-        />
-
-        <button
-            class="draft-import-button action-button accent"
-            on:click={() =>
-                document
-                    .querySelector<HTMLInputElement>(".draft-import-input")
-                    ?.click()}
-        >
-            Import
-        </button>
-
-        <button
-            class="draft-submit-button action-button accent"
-            on:click={() => {
-                commit($draft)
-                onSubmitBoard()
-            }}
-        >
-            Submit
-        </button>
     </div>
 {/if}
