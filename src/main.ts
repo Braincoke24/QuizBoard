@@ -2,6 +2,7 @@
 import { mount } from "svelte"
 import { SharedWorkerAppPort } from "./app/ports/SharedWorkerAppPort.js"
 import { ThemeController } from "./ui/shared/ThemeController.js"
+import "./lib/i18n"
 import AppView from "./app/AppView.svelte"
 
 /**

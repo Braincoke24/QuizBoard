@@ -1,0 +1,13 @@
+{
+    "board": {
+        "category_placeholder": "Kategorie",
+        "delete_category": "Entfernen",
+        "add_category": "Kategorie hinzufügen",
+        "question_placeholder": "Frage",
+        "answer_placeholder": "Antwort (optional)",
+        "export": "Exportieren",
+        "import": "Importieren",
+        "submit": "Bestätigen",
+        "invalid_json": "Ungültige JSON-Datei"
+    }
+}

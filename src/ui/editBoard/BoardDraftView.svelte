@@ -1,4 +1,6 @@
 <script lang="ts">
+    import { _ } from "svelte-i18n"
+
     import type { BoardDraft } from "./BoardDraftState.js"
     import type { BoardDraftAction } from "./BoardDraftAction.js"
 
@@ -9,6 +11,9 @@
         draft: BoardDraft | null
         dispatch: (action: BoardDraftAction) => void
     } = $props()
+
+    // helper: translated text usage: $_("board.category_placeholder")
+    const t = _ // store; use like {$_("board.export", { default: "Export" })}
 
     function onDraftChange(draft: BoardDraft): void {
         dispatch({ type: "BOARD_DRAFT/UPDATE_DRAFT", draft })
@@ -51,7 +56,9 @@
             .catch((error) => {
                 alert(
                     error instanceof SyntaxError
-                        ? "Invalid JSON file"
+                        ? $_("board.invalid_json", {
+                              default: "Invalid JSON file",
+                          })
                         : (error as Error).message,
                 )
             })
@@ -80,7 +87,9 @@
                         <input
                             class="board-draft-category"
                             type="text"
-                            placeholder="Category"
+                            placeholder={$_("board.category_placeholder", {
+                                default: "Category",
+                            })}
                             bind:value={category.name}
                             oninput={commit}
                         />
@@ -93,7 +102,9 @@
                                 commit()
                             }}
                         >
-                            Delete
+                            {$_("board.delete_category", {
+                                default: "Delete",
+                            })}
                         </button>
                     </div>
                 {/each}
@@ -117,7 +128,10 @@
                             <div class="board-draft-question-cell">
                                 <textarea
                                     class="board-draft-question-text"
-                                    placeholder="Question"
+                                    placeholder={$_(
+                                        "board.question_placeholder",
+                                        { default: "Question" },
+                                    )}
                                     bind:value={
                                         category.questions[rowIndex].text
                                     }
@@ -126,7 +140,10 @@
 
                                 <textarea
                                     class="board-draft-question-answer"
-                                    placeholder="Answer (optional)"
+                                    placeholder={$_(
+                                        "board.answer_placeholder",
+                                        { default: "Answer (optional)" },
+                                    )}
                                     bind:value={
                                         category.questions[rowIndex].answer
                                     }
@@ -141,7 +158,7 @@
             <!-- ---------- Add category ---------- -->
             <button
                 class="board-draft-category-add action-button accent"
-                title="Add category"
+                title={$_("board.add_category", { default: "Add category" })}
                 disabled={draft.categories.length > 6}
                 onclick={() => {
                     draft.categories[draft.categories.length] = {
@@ -164,7 +181,7 @@
                 class="draft-export-button action-button accent"
                 onclick={onExportBoard}
             >
-                Export
+                {$_("board.export", { default: "Export" })}
             </button>
 
             <input
@@ -181,7 +198,7 @@
                         .querySelector<HTMLInputElement>(".draft-import-input")
                         ?.click()}
             >
-                Import
+                {$_("board.import", { default: "Import" })}
             </button>
 
             <button
@@ -191,7 +208,7 @@
                     onSubmitBoard()
                 }}
             >
-                Submit
+                {$_("board.submit", { default: "Submit" })}
             </button>
         </div>
     </div>

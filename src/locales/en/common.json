@@ -1,0 +1,13 @@
+{
+    "board": {
+        "category_placeholder": "Category",
+        "delete_category": "Delete",
+        "add_category": "Add category",
+        "question_placeholder": "Question",
+        "answer_placeholder": "Answer (optional)",
+        "export": "Export",
+        "import": "Import",
+        "submit": "Submit",
+        "invalid_json": "Invalid JSON file"
+    }
+}
