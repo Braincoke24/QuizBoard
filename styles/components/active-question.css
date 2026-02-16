@@ -78,11 +78,6 @@
     font-style: italic;
 }
 
-.active-question-answer::before {
-    content: "Answer: ";
-    white-space: pre;
-}
-
 /* --- Question Controls ------------------------------------- */
 
 .active-question-controls {

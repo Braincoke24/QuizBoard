@@ -14,18 +14,28 @@
         type BuzzerMode,
     } from "./PreGameSetupState.js"
 
-    export let setup: PreGameSetup
+    let {
+        setup,
+        onSelectRule,
+        onUpdateMultiplier,
+        onSetBuzzerMode,
+        onStartGame,
+    }: {
+        setup: PreGameSetup
+        onSelectRule: (ruleId: string) => void
+        onUpdateMultiplier: (key: MultiplierKey, value: number) => void
+        onSetBuzzerMode: (mode: BuzzerMode) => void
+        onStartGame: (mode: WindowMode) => void
+    } = $props()
 
-    export let onSelectRule: (ruleId: string) => void
-    export let onUpdateMultiplier: (key: MultiplierKey, value: number) => void
-    export let onSetBuzzerMode: (mode: BuzzerMode) => void
-    export let onStartGame: (mode: WindowMode) => void
+    let selectedWindowMode: WindowMode = $state("current")
 
-    let selectedWindowMode: WindowMode = "current"
-
-    $: preset = GAME_RULE_PRESETS.find((p) => p.id === setup.selectedRuleId)!
-
-    $: rules = preset.editable ? setup.customMultipliers : preset.rules
+    let preset = $derived(
+        GAME_RULE_PRESETS.find((p) => p.id === setup.selectedRuleId)!,
+    )
+    let rules = $derived(
+        preset.editable ? setup.customMultipliers : preset.rules,
+    )
 </script>
 
 <div class="game-options">
@@ -38,7 +48,7 @@
             {#each GAME_RULE_PRESETS as p}
                 <button
                     class:selected={p.id === setup.selectedRuleId}
-                    on:click={() => onSelectRule(p.id)}
+                    onclick={() => onSelectRule(p.id)}
                 >
                     {$_(`game_options.multipliers.name.${p.id}`)}
                 </button>
@@ -66,7 +76,7 @@
                             type="number"
                             min="0"
                             value={rules[key]}
-                            on:change={(e) =>
+                            onchange={(e) =>
                                 onUpdateMultiplier(
                                     key,
                                     Number(
@@ -93,7 +103,7 @@
                 <button
                     class:selected={setup.buzzerMode === mode}
                     class="action-button"
-                    on:click={() => onSetBuzzerMode(mode)}
+                    onclick={() => onSetBuzzerMode(mode)}
                 >
                     {$_(`game_options.buzzer_mode.${mode}`)}
                 </button>
@@ -111,7 +121,7 @@
                 <button
                     class:selected={selectedWindowMode === wm}
                     class="window-mode-button action-button"
-                    on:click={() => (selectedWindowMode = wm)}
+                    onclick={() => (selectedWindowMode = wm)}
                 >
                     {$_(`game_options.window_mode.${wm}.name`)}
                 </button>
@@ -134,7 +144,7 @@
         <button
             class="game-start-button action-button accent"
             disabled={setup.players.length === 0}
-            on:click={() => onStartGame(selectedWindowMode)}
+            onclick={() => onStartGame(selectedWindowMode)}
         >
             {$_("game_options.start_game")}
         </button>

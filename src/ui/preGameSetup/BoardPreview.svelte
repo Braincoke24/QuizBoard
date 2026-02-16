@@ -1,6 +1,6 @@
 <script lang="ts">
     import type { BoardDraft } from "../editBoard/BoardDraftState.js"
-    export let board: BoardDraft
+    let { board }: { board: BoardDraft } = $props()
 </script>
 
 <div class="board-container">

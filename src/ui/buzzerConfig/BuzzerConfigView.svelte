@@ -1,4 +1,5 @@
 <script lang="ts">
+    import { _ } from "svelte-i18n"
     import { onMount, onDestroy } from "svelte"
 
     import type { BuzzerConfigSnapshot } from "./BuzzerConfigState.js"
@@ -42,8 +43,12 @@
     <div class="buzzer-config">
         <div class="buzzer-config-title">
             {snapshot.done
-                ? "Buzzer configuration complete"
-                : `Press a key for: ${snapshot.players[snapshot.currentIndex].name}`}
+                ? $_("buzzer_config.config_complete")
+                : $_("buzzer_config.press_key", {
+                      values: {
+                          name: snapshot.players[snapshot.currentIndex].name,
+                      },
+                  })}
         </div>
         <div class="buzzer-config-player-list">
             {#each snapshot.players as player, pIndex}
@@ -63,7 +68,7 @@
         <div class="buzzer-config-actions">
             {#if !snapshot.done}
                 <button class="action-button accent" onclick={onSkip}>
-                    Skip
+                    {$_("buzzer_config.skip")}
                 </button>
             {/if}
         </div>

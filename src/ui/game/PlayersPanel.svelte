@@ -1,12 +1,19 @@
 <script lang="ts">
+    import { _ } from "svelte-i18n"
     import type { UIViewProfile } from "../shared/view/UIViewProfile.js"
     import type { PlayerUIState } from "./state/GameUIState.js"
 
-    export let profile: UIViewProfile
-    export let players: readonly PlayerUIState[]
-    export let canBuzzIds: readonly string[]
-
-    export let onBuzz: (playerId: string) => void
+    let {
+        profile,
+        players,
+        canBuzzIds,
+        onBuzz,
+    }: {
+        profile: UIViewProfile
+        players: readonly PlayerUIState[]
+        canBuzzIds: readonly string[]
+        onBuzz: (playerId: string) => void
+    } = $props()
 </script>
 
 <div class="player-list">
@@ -21,10 +28,10 @@
             {#if profile.capabilities.canBuzz}
                 <button
                     class="buzz-button action-button accent"
-                    on:click={() => onBuzz(player.id)}
+                    onclick={() => onBuzz(player.id)}
                     disabled={!canBuzzIds.includes(player.id)}
                 >
-                    Buzz
+                    {$_("game.buzz")}
                 </button>
             {/if}
         </div>

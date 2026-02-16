@@ -1,4 +1,5 @@
 <script lang="ts">
+    import { _ } from "svelte-i18n"
     import type { PlayerUIState } from "../game/state/GameUIState.js"
     import type { GameEndAction } from "./GameEndAction.js"
 
@@ -39,7 +40,7 @@
 <div class="game-ended">
     {#if players}
         <div class="scoreboard">
-            <div class="scoreboard-label">Results</div>
+            <div class="scoreboard-label">{$_("game_ended.results")}</div>
 
             {#each sortedPlayers(players) as player, index}
                 <div class="scoreboard-player-cell">
@@ -68,7 +69,7 @@
             class="start-new-game-button action-button accent"
             onclick={onStartNewGame}
         >
-            Start new game
+            {$_("game_ended.start_new_game")}
         </button>
     </div>
 </div>

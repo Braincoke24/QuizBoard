@@ -80,5 +80,13 @@
             }
         },
         "start_game": "Spiel starten"
+    },
+    "game": {
+        "correct": "Richtig",
+        "wrong": "Falsch",
+        "pass": "Passen",
+        "continue": "Fortfahren",
+        "buzz": "Buzzen",
+        "answer": "Antwort"
     }
 }

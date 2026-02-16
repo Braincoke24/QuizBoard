@@ -2,11 +2,17 @@
     import { _ } from "svelte-i18n"
     import type { PlayerConfig } from "./PreGameSetupState.js"
 
-    export let players: readonly PlayerConfig[]
-    export let onAddPlayer: (name: string) => void
-    export let onRemovePlayer: (id: string) => void
+    let {
+        players,
+        onAddPlayer,
+        onRemovePlayer,
+    }: {
+        players: readonly PlayerConfig[]
+        onAddPlayer: (name: string) => void
+        onRemovePlayer: (id: string) => void
+    } = $props()
 
-    let newPlayerName = ""
+    let newPlayerName = $state("")
 </script>
 
 <div class="player-list">
@@ -18,7 +24,9 @@
     {#if players.length < 6}
         <form
             class="player-cell"
-            on:submit|preventDefault={() => {
+            onsubmit={(event) => {
+                event.preventDefault()
+
                 const name = newPlayerName.trim()
                 if (!name) return
                 onAddPlayer(name)
@@ -48,7 +56,7 @@
             <div class="player-name">{player.name}</div>
             <button
                 class="player-delete action-button warning"
-                on:click={() => onRemovePlayer(player.id)}
+                onclick={() => onRemovePlayer(player.id)}
             >
                 {$_("player_panel.delete")}
             </button>

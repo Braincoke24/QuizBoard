@@ -1,19 +1,30 @@
 <script lang="ts">
+    import { _ } from "svelte-i18n"
     import type { UIViewProfile } from "../shared/view/UIViewProfile.js"
     import type { GameUISnapshot } from "./state/GameUISnapshot.js"
     import { TurnState } from "../../game/turn/TurnState.js"
 
-    export let snapshot: GameUISnapshot
-    export let profile: UIViewProfile
+    let {
+        snapshot = $bindable(),
+        profile,
+        onSelectQuestion,
+        onAnswer,
+        onPass,
+        onContinue,
+    }: {
+        snapshot: GameUISnapshot
+        profile: UIViewProfile
+        onSelectQuestion: (c: number, r: number) => void
+        onAnswer: (isCorrect: boolean) => void
+        onPass: () => void
+        onContinue: () => void
+    } = $props()
 
-    export let onSelectQuestion: (c: number, r: number) => void
-    export let onAnswer: (isCorrect: boolean) => void
-    export let onPass: () => void
-    export let onContinue: () => void
-
-    $: maxRows = Math.max(
-        0,
-        ...snapshot.board.map((category) => category.questions.length),
+    let maxRows = $derived(
+        Math.max(
+            0,
+            ...snapshot.board.map((category) => category.questions.length),
+        ),
     )
 </script>
 
@@ -40,7 +51,7 @@
                             disabled={!category.questions[rowIndex]
                                 .isAvailable ||
                                 !profile.capabilities.canSelectQuestion}
-                            on:click={() => onSelectQuestion(cIndex, rowIndex)}
+                            onclick={() => onSelectQuestion(cIndex, rowIndex)}
                         >
                             {category.questions[rowIndex].value.toString()}
                         </button>
@@ -65,7 +76,9 @@
                 </div>
                 {#if profile.visibility.showCorrectAnswer || snapshot.turnState === TurnState.RESOLVING}
                     <div class="active-question-answer">
-                        {snapshot.activeQuestion.answer}
+                        {$_("game.answer") +
+                            ": " +
+                            snapshot.activeQuestion.answer}
                     </div>
                 {/if}
             </div>
@@ -75,17 +88,17 @@
                         class="correct action-button accent
                             {snapshot.canAnswer ? '' : 'hidden'}"
                         disabled={!snapshot.canAnswer}
-                        on:click={() => onAnswer(true)}
+                        onclick={() => onAnswer(true)}
                     >
-                        Correct
+                        {$_("game.correct")}
                     </button>
                     <button
                         class="wrong action-button accent
                             {snapshot.canAnswer ? '' : 'hidden'}"
                         disabled={!snapshot.canAnswer}
-                        on:click={() => onAnswer(false)}
+                        onclick={() => onAnswer(false)}
                     >
-                        Wrong
+                        {$_("game.wrong")}
                     </button>
                 {/if}
                 {#if profile.capabilities.canPass}
@@ -93,9 +106,9 @@
                         class="pass action-button accent
                             {snapshot.canPass ? '' : 'hidden'}"
                         disabled={!snapshot.canPass}
-                        on:click={onPass}
+                        onclick={onPass}
                     >
-                        Pass
+                        {$_("game.pass")}
                     </button>
                 {/if}
                 {#if profile.capabilities.canContinue}
@@ -103,9 +116,9 @@
                         class="continue action-button accent
                             {snapshot.canContinue ? '' : 'hidden'}"
                         disabled={!snapshot.canContinue}
-                        on:click={onContinue}
+                        onclick={onContinue}
                     >
-                        Continue
+                        {$_("game.continue")}
                     </button>
                 {/if}
             </div>

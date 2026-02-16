@@ -14,7 +14,7 @@
 
 {#if activeOverlay === "role-selection"}
     <div class="role-selection">
-        <div class="role-selection-title">Choose your role</div>
+        <div class="role-selection-title">{$_("roles.choose")}</div>
         {#each ROLE_IDS as id}
             <button
                 class="role-selection-button action-button accent"

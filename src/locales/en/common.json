@@ -20,7 +20,8 @@
     "roles": {
         "gamemaster": "Gamemaster",
         "player": "Player",
-        "spectator": "Spectator"
+        "spectator": "Spectator",
+        "choose": "Choose your role"
     },
     "landing": {
         "start": "Start"
@@ -80,5 +81,22 @@
             }
         },
         "start_game": "Start game"
+    },
+    "game": {
+        "correct": "Correct",
+        "wrong": "Wrong",
+        "pass": "Pass",
+        "continue": "Continue",
+        "buzz": "Buzz",
+        "answer": "Answer"
+    },
+    "buzzer_config": {
+        "skip": "Skip",
+        "config_complete": "Buzzer configuration complete",
+        "press_key": "Press a key for: {name}"
+    },
+    "game_ended": {
+        "start_new_game": "Start new game",
+        "results": "Results"
     }
 }
