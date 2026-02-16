@@ -50,7 +50,8 @@
                                 : 'used'}"
                             disabled={!category.questions[rowIndex]
                                 .isAvailable ||
-                                !profile.capabilities.canSelectQuestion}
+                                !profile.capabilities.canSelectQuestion ||
+                                snapshot.turnState !== TurnState.SELECTING}
                             onclick={() => onSelectQuestion(cIndex, rowIndex)}
                         >
                             {category.questions[rowIndex].value.toString()}
