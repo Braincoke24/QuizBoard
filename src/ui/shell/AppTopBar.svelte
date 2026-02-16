@@ -71,37 +71,47 @@
     {$_("app_top_bar.change_role")}
 </button>
 
-<!-- Language switcher -->
-<div
-    class="top-bar-language"
-    {@attach clickOutside(() => (showLanguageMenu = false))}
->
-    <button
-        class="top-bar-language-toggle"
-        title={$_("app_top_bar.change_lang")}
-        onclick={() => (showLanguageMenu = !showLanguageMenu)}
+<div class="top-bar-symbols">
+    <!-- Language switcher -->
+    <div
+        class="top-bar-language"
+        {@attach clickOutside(() => (showLanguageMenu = false))}
     >
-        {@html LANG_SVG}
+        <button
+            class="top-bar-language-toggle"
+            title={$_("app_top_bar.change_lang")}
+            onclick={() => (showLanguageMenu = !showLanguageMenu)}
+        >
+            {@html LANG_SVG}
+        </button>
+
+        {#if showLanguageMenu}
+            <div class="top-bar-language-menu">
+                {#each SUPPORTED_LOCALES as lang}
+                    <button
+                        class:active={$locale === lang}
+                        onclick={() => changeLanguage(lang)}
+                    >
+                        {LOCALES[lang].label}
+                    </button>
+                {/each}
+            </div>
+        {/if}
+    </div>
+
+    <button
+        class="top-bar-theme-toggle"
+        onclick={toggleTheme}
+        title={themeTitle}
+    >
+        {@html themeIcon}
     </button>
 
-    {#if showLanguageMenu}
-        <div class="top-bar-language-menu">
-            {#each SUPPORTED_LOCALES as lang}
-                <button
-                    class:active={$locale === lang}
-                    onclick={() => changeLanguage(lang)}
-                >
-                    {LOCALES[lang].label}
-                </button>
-            {/each}
-        </div>
-    {/if}
+    <button
+        class="top-bar-reset"
+        title={$_("app_top_bar.home")}
+        onclick={onReset}
+    >
+        {@html HOME_SVG}
+    </button>
 </div>
-
-<button class="top-bar-theme-toggle" onclick={toggleTheme} title={themeTitle}>
-    {@html themeIcon}
-</button>
-
-<button class="top-bar-reset" title={$_("app_top_bar.home")} onclick={onReset}>
-    {@html HOME_SVG}
-</button>
