@@ -130,10 +130,7 @@ export class AppController {
 
         const setup = this.preGameSetupController!.getSnapshot()
 
-        if (
-            setup.buzzerMode === "mouse-and-keyboard" &&
-            setup.players.length > 1
-        ) {
+        if (setup.buzzerMode === "keyboard" && setup.players.length > 1) {
             this.startBuzzerConfig(setup.players)
             return
         }
