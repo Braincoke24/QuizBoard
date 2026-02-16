@@ -16,7 +16,7 @@
         "change_role": "役割を変更",
         "change_lang": "言語を変更",
         "role_view_label": "{role}ビュー",
-        "home": "ホームへ"
+        "home": "ホーム"
     },
     "roles": {
         "gamemaster": "ゲームマスター",
