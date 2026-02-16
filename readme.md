@@ -29,8 +29,8 @@ npm run dev
 ## Tech Stack
 
 - **TypeScript**
+- **Svelte** as frontend framework
 - **Vite** for development and build tooling
-- **Vanilla DOM APIs** (no frontend framework)
 - **Radix UI Colors** for theming
 - **Vitest** for testing
 
