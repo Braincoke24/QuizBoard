@@ -19,11 +19,11 @@ export class GameRules {
         this.buzzWrongMultiplier = buzzWrongMultiplier
     }
 
-    static classic(): GameRules {
+    static standard(): GameRules {
         return new GameRules(0.5, 0.5, 0.5)
     }
 
-    static hard(): GameRules {
+    static pro(): GameRules {
         return new GameRules(1, 1, 1)
     }
 }

@@ -3,15 +3,15 @@ import { describe, it, expect } from "vitest"
 import { GameRules } from "../../src/game/GameRules.js"
 
 describe("GameRules", () => {
-    it("classic returns expected multipliers", () => {
-        const rules = GameRules.classic()
+    it("standard returns expected multipliers", () => {
+        const rules = GameRules.standard()
         expect(rules.firstWrongMultiplier).toBe(0.5)
         expect(rules.buzzCorrectMultiplier).toBe(0.5)
         expect(rules.buzzWrongMultiplier).toBe(0.5)
     })
 
-    it("hard returns expected multipliers", () => {
-        const rules = GameRules.hard()
+    it("pro returns expected multipliers", () => {
+        const rules = GameRules.pro()
         expect(rules.firstWrongMultiplier).toBe(1)
         expect(rules.buzzCorrectMultiplier).toBe(1)
         expect(rules.buzzWrongMultiplier).toBe(1)

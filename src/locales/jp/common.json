@@ -41,8 +41,8 @@
         "multipliers": {
             "title": "倍率",
             "name": {
-                "classic": "クラシック",
-                "hard": "ハード",
+                "standard": "スタンダード",
+                "pro": "プロ",
                 "custom": "カスタム"
             },
             "firstWrongMultiplier": {

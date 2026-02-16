@@ -5,7 +5,7 @@ import { createGame } from "../helpers/createGame.js"
 
 describe("Game", () => {
     it("current player advances after a resolved turn", () => {
-        const { game, players, categories } = createGame(GameRules.classic())
+        const { game, players, categories } = createGame(GameRules.standard())
         const bob = players[1]
 
         game.selectQuestion(0, 0)
@@ -16,7 +16,7 @@ describe("Game", () => {
     })
 
     it("multiple turns can be played using different questions", () => {
-        const { game, players, categories } = createGame(GameRules.classic())
+        const { game, players, categories } = createGame(GameRules.standard())
         const alice = players[0]
         const bob = players[1]
         const charlie = players[2]
@@ -33,7 +33,7 @@ describe("Game", () => {
     })
 
     it("first player can become active after ever player had a turn", () => {
-        const { game, players } = createGame(GameRules.classic())
+        const { game, players } = createGame(GameRules.standard())
         const alice = players[0]
 
         game.selectQuestion(0, 0)
@@ -52,7 +52,7 @@ describe("Game", () => {
     })
 
     it("other players can buzz in after first player answered wrong", () => {
-        const { game, players } = createGame(GameRules.classic())
+        const { game, players } = createGame(GameRules.standard())
         const charlie = players[2]
 
         game.selectQuestion(0, 0)
@@ -63,7 +63,7 @@ describe("Game", () => {
     })
 
     it("buzz chain continues until someone answers correctly and then ends the turn", () => {
-        const { game, players } = createGame(GameRules.classic())
+        const { game, players } = createGame(GameRules.standard())
         const bob = players[1]
         const charlie = players[2]
 
@@ -79,7 +79,7 @@ describe("Game", () => {
     })
 
     it("turn ends and player advances when all players answered wrong", () => {
-        const { game, players } = createGame(GameRules.classic())
+        const { game, players } = createGame(GameRules.standard())
 
         game.selectQuestion(0, 0)
         game.answer(false)
@@ -93,7 +93,7 @@ describe("Game", () => {
     })
 
     it("pass ends the turn and advances the player", () => {
-        const { game, players } = createGame(GameRules.classic())
+        const { game, players } = createGame(GameRules.standard())
 
         game.selectQuestion(0, 0)
         game.answer(false)
@@ -106,13 +106,13 @@ describe("Game", () => {
 
 describe("error handling", () => {
     it("cannot answer when no question is selected", () => {
-        const { game } = createGame(GameRules.classic())
+        const { game } = createGame(GameRules.standard())
 
         expect(() => game.answer(true)).toThrow()
     })
 
     it("cannot buzz when no one answered wrong yet", () => {
-        const { game, players } = createGame(GameRules.classic())
+        const { game, players } = createGame(GameRules.standard())
 
         game.selectQuestion(0, 0)
 
@@ -120,7 +120,7 @@ describe("error handling", () => {
     })
 
     it("cannot select a new question while a turn is active", () => {
-        const { game } = createGame(GameRules.classic())
+        const { game } = createGame(GameRules.standard())
 
         game.selectQuestion(0, 0)
 
@@ -128,7 +128,7 @@ describe("error handling", () => {
     })
 
     it("cannot pass while answering", () => {
-        const { game } = createGame(GameRules.classic())
+        const { game } = createGame(GameRules.standard())
 
         game.selectQuestion(0, 0)
 
@@ -136,7 +136,7 @@ describe("error handling", () => {
     })
 
     it("cannot continue while buzzing", () => {
-        const { game } = createGame(GameRules.classic())
+        const { game } = createGame(GameRules.standard())
 
         game.selectQuestion(0, 0)
 
@@ -144,7 +144,7 @@ describe("error handling", () => {
     })
 
     it("a question cannot be selected twice", () => {
-        const { game } = createGame(GameRules.classic())
+        const { game } = createGame(GameRules.standard())
 
         game.selectQuestion(0, 0)
         game.answer(true)
@@ -153,7 +153,7 @@ describe("error handling", () => {
     })
 
     it("a player who already answered wrong cannot buzz again", () => {
-        const { game, players } = createGame(GameRules.classic())
+        const { game, players } = createGame(GameRules.standard())
         const bob = players[1]
 
         game.selectQuestion(0, 0)
@@ -167,7 +167,7 @@ describe("error handling", () => {
 
 describe("scoring with GameRules", () => {
     it("starter loses points when answering wrong", () => {
-        const { game, players, categories } = createGame(GameRules.classic())
+        const { game, players, categories } = createGame(GameRules.standard())
         const alice = players[0]
         const points = categories[0].questions[0].value
 
@@ -175,13 +175,13 @@ describe("scoring with GameRules", () => {
         game.answer(false)
 
         const expected = Math.ceil(
-            -points * GameRules.classic().firstWrongMultiplier,
+            -points * GameRules.standard().firstWrongMultiplier,
         )
         expect(alice.score).toBe(expected)
     })
 
     it("buzzing player loses points when answering wrong", () => {
-        const { game, players, categories } = createGame(GameRules.classic())
+        const { game, players, categories } = createGame(GameRules.standard())
         const bob = players[1]
         const points = categories[0].questions[0].value
 
@@ -191,7 +191,7 @@ describe("scoring with GameRules", () => {
         game.answer(false)
 
         const expected = Math.ceil(
-            -points * GameRules.classic().buzzWrongMultiplier,
+            -points * GameRules.standard().buzzWrongMultiplier,
         )
         expect(bob.score).toBe(expected)
     })
@@ -211,8 +211,8 @@ describe("scoring with GameRules", () => {
         expect(bob.score).toBe(Math.ceil(raw))
     })
 
-    it("hard rules apply different multipliers", () => {
-        const rules = GameRules.hard()
+    it("pro rules apply different multipliers", () => {
+        const rules = GameRules.pro()
         const { game, players, categories } = createGame(rules)
         const bob = players[1]
         const points = categories[0].questions[0].value
@@ -226,7 +226,7 @@ describe("scoring with GameRules", () => {
     })
 
     it("starter answers correctly and gets full points", () => {
-        const { game, players, categories } = createGame(GameRules.classic())
+        const { game, players, categories } = createGame(GameRules.standard())
         const alice = players[0]
         const categoryIndex = 0,
             questionIndex = 0

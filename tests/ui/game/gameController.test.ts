@@ -10,7 +10,7 @@ function setup() {
     const callbacks: GameCallbacks = {
         onEndGame: () => {},
     }
-    const { game } = createGame(GameRules.classic())
+    const { game } = createGame(GameRules.standard())
     const controller = new GameController(callbacks, game)
 
     return { game, controller }

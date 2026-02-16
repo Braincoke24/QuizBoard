@@ -41,8 +41,8 @@
         "multipliers": {
             "title": "Multipliers",
             "name": {
-                "classic": "Classic",
-                "hard": "Hard",
+                "standard": "Standard",
+                "pro": "Pro",
                 "custom": "Custom"
             },
             "firstWrongMultiplier": {

@@ -17,7 +17,7 @@ beforeEach(() => {
     alice = new Player("a", "Alice")
     bob = new Player("b", "Bob")
     question = new Question("2+2?", "4", points)
-    rules = GameRules.classic()
+    rules = GameRules.standard()
     turn = new Turn(alice, [alice, bob], rules)
 })
 

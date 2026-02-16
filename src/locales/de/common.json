@@ -41,9 +41,9 @@
         "multipliers": {
             "title": "Multiplikatoren",
             "name": {
-                "classic": "Klassisch",
-                "hard": "Schwer",
-                "custom": "Benutzerdefiniert"
+                "standard": "Standard",
+                "pro": "Profi",
+                "custom": "Individuell"
             },
             "firstWrongMultiplier": {
                 "label": "Erste falsche Antwort",

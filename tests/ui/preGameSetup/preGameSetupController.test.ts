@@ -108,10 +108,12 @@ describe("PreGameSetupController", () => {
 
             controller.dispatch({
                 type: "PRE_GAME_SETUP/SELECT_RULE",
-                ruleId: "classic",
+                ruleId: "standard",
             })
 
-            expect(controller.getGameRules()).toStrictEqual(GameRules.classic())
+            expect(controller.getGameRules()).toStrictEqual(
+                GameRules.standard(),
+            )
         })
 
         it("throws when rule id doesn't exist in presets", () => {

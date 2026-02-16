@@ -9,18 +9,18 @@ export interface GameRulePreset {
 
 export const GAME_RULE_PRESETS: readonly GameRulePreset[] = [
     {
-        id: "classic",
+        id: "standard",
         editable: false,
-        rules: GameRules.classic(),
+        rules: GameRules.standard(),
     },
     {
-        id: "hard",
+        id: "pro",
         editable: false,
-        rules: GameRules.hard(),
+        rules: GameRules.pro(),
     },
     {
         id: "custom",
         editable: true,
-        rules: GameRules.classic(),
+        rules: GameRules.standard(),
     },
 ]

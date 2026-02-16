@@ -6,7 +6,7 @@ import { createGame } from "../../helpers/createGame.js"
 import { TurnState } from "../../../src/game/turn/TurnState.js"
 
 function setup() {
-    const { game } = createGame(GameRules.classic())
+    const { game } = createGame(GameRules.standard())
     const ui = new GameUIState(game)
 
     return { game, ui }
