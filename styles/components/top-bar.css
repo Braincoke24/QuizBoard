@@ -4,14 +4,15 @@
     grid-row: 1;
     grid-column: 1;
 
-    padding: 1vh 1vw;
-    width: 98vw;
+    padding: 0 1vw;
+    width: 100vw;
+    height: 7vh;
     margin: 0 auto;
-    position: relative;
+    position: absolute;
 
     display: grid;
     place-items: center;
-    grid-template-columns: 10vw 76vw 4vw 4vw 4vw;
+    grid-template-columns: 10vw auto 10vw;
 }
 
 /* Role label */
@@ -36,8 +37,33 @@
     grid-row: 1;
     grid-column: 1;
 
-    width: 7vw;
-    height: 5vh;
+    width: 6vw;
+    height: 4vh;
+}
+
+/* Symbols */
+.top-bar-symbols {
+    grid-row: 1;
+    grid-column: 3;
+
+    width: 100%;
+    height: 100%;
+    padding: 0;
+
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: end;
+    column-gap: 1vw;
+}
+
+.top-bar-symbols button {
+    padding: 0;
+}
+
+.top-bar-symbols svg {
+    height: 2vh;
+    width: auto;
 }
 
 /* Language switcher */

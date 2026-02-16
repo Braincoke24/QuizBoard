@@ -50,7 +50,7 @@ footer a {
     grid-row: 2;
     grid-column: 1;
 
-    padding: 1vh 1vw;
+    padding: 0 1vw;
     width: 100vw;
     margin: 0 auto;
     position: relative;
@@ -61,7 +61,7 @@ footer a {
     grid-row: 2;
     grid-column: 1;
 
-    padding: 1vh 1vw;
+    padding: 0 1vw;
     width: 100vw;
     z-index: 2;
 
