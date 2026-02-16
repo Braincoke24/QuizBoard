@@ -15,10 +15,11 @@
         "switch_dark_mode": "Switch to dark mode",
         "change_role": "Change role",
         "change_lang": "Change language",
-        "role_view_label": "{role} view"
+        "role_view_label": "{role} view",
+        "home": "Home"
     },
     "roles": {
-        "gamemaster": "Gamemaster",
+        "gamemaster": "Quizmaster",
         "player": "Player",
         "spectator": "Spectator",
         "choose": "Choose your role"
@@ -27,7 +28,7 @@
         "start": "Start"
     },
     "wait_for_setup": {
-        "waiting": "Waiting for gamemaster to setup the game...",
+        "waiting": "Waiting for quizmaster to setup the game...",
         "results": "Results"
     },
     "player_panel": {
@@ -67,12 +68,12 @@
             "single": {
                 "name": "Single",
                 "short_desc": "One shared screen",
-                "long_desc": "Players and gamemaster share one display. Answers are hidden until the question is answered or skipped."
+                "long_desc": "Players and quizmaster share one display. Answers are hidden until the question is answered or skipped."
             },
             "dual": {
                 "name": "Dual",
                 "short_desc": "Separate windows",
-                "long_desc": "Opens a second window for display only (projector / second screen). The game can only be controlled from the gamemaster window."
+                "long_desc": "Opens a second window for display only (projector / second screen). The game can only be controlled from the quizmaster window."
             },
             "current": {
                 "name": "Current",

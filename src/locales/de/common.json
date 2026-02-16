@@ -15,7 +15,8 @@
         "switch_dark_mode": "Zum dunklen Modus wechseln",
         "change_role": "Rolle wechseln",
         "change_lang": "Sprache wechseln",
-        "role_view_label": "{role}-Ansicht"
+        "role_view_label": "{role}-Ansicht",
+        "home": "Start"
     },
     "roles": {
         "gamemaster": "Spielleiter",

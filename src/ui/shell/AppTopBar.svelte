@@ -102,6 +102,6 @@
     {@html themeIcon}
 </button>
 
-<button class="top-bar-reset" title="Home" onclick={onReset}>
+<button class="top-bar-reset" title={$_("app_top_bar.home")} onclick={onReset}>
     {@html HOME_SVG}
 </button>

@@ -15,7 +15,8 @@
         "switch_dark_mode": "ダークモードに切り替え",
         "change_role": "役割を変更",
         "change_lang": "言語を変更",
-        "role_view_label": "{role}ビュー"
+        "role_view_label": "{role}ビュー",
+        "home": "ホームへ"
     },
     "roles": {
         "gamemaster": "ゲームマスター",
