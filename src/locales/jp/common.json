@@ -1,0 +1,102 @@
+{
+    "board": {
+        "category_placeholder": "カテゴリ",
+        "delete_category": "削除",
+        "add_category": "カテゴリを追加",
+        "question_placeholder": "質問",
+        "answer_placeholder": "回答（任意）",
+        "export": "エクスポート",
+        "import": "インポート",
+        "submit": "送信",
+        "invalid_json": "無効なJSONファイルです"
+    },
+    "app_top_bar": {
+        "switch_light_mode": "ライトモードに切り替え",
+        "switch_dark_mode": "ダークモードに切り替え",
+        "change_role": "役割を変更",
+        "change_lang": "言語を変更",
+        "role_view_label": "{role}ビュー"
+    },
+    "roles": {
+        "gamemaster": "ゲームマスター",
+        "player": "プレイヤー",
+        "spectator": "観戦者",
+        "choose": "役割を選択してください"
+    },
+    "landing": {
+        "start": "開始"
+    },
+    "wait_for_setup": {
+        "waiting": "ゲームマスターがゲームを設定するのを待っています...",
+        "results": "結果"
+    },
+    "player_panel": {
+        "title": "プレイヤー",
+        "add": "追加",
+        "delete": "削除",
+        "name_placeholder": "プレイヤー名"
+    },
+    "game_options": {
+        "multipliers": {
+            "title": "倍率",
+            "name": {
+                "classic": "クラシック",
+                "hard": "ハード",
+                "custom": "カスタム"
+            },
+            "firstWrongMultiplier": {
+                "label": "最初の不正解",
+                "tooltip": "最初のプレイヤーが不正解だった場合に適用されます"
+            },
+            "buzzCorrectMultiplier": {
+                "label": "早押し正解",
+                "tooltip": "早押ししたプレイヤーが正解した場合に適用されます"
+            },
+            "buzzWrongMultiplier": {
+                "label": "早押し不正解",
+                "tooltip": "早押ししたプレイヤーが不正解だった場合に適用されます"
+            }
+        },
+        "buzzer_mode": {
+            "title": "早押しモード",
+            "mouse": "マウス",
+            "keyboard": "キーボード"
+        },
+        "window_mode": {
+            "title": "ウィンドウモード",
+            "single": {
+                "name": "シングル",
+                "short_desc": "共有画面1つ",
+                "long_desc": "プレイヤーとゲームマスターが1つの画面を共有します。質問に回答またはスキップするまで答えは表示されません。"
+            },
+            "dual": {
+                "name": "デュアル",
+                "short_desc": "別々のウィンドウ",
+                "long_desc": "表示専用の2つ目のウィンドウ（プロジェクター／セカンドスクリーン）を開きます。ゲームの操作はゲームマスター側のウィンドウからのみ可能です。"
+            },
+            "current": {
+                "name": "現在の設定",
+                "short_desc": "既存の設定を使用",
+                "long_desc": "すでに2つのウィンドウを開いて設定している場合はこちらを使用してください。"
+            }
+        },
+        "start_game": "ゲーム開始"
+    },
+    "game": {
+        "correct": "正解",
+        "wrong": "不正解",
+        "pass": "パス",
+        "continue": "続ける",
+        "buzz": "早押し",
+        "answer": "回答"
+    },
+    "buzzer_config": {
+        "skip": "スキップ",
+        "config_complete": "早押し設定が完了しました",
+        "press_key": "{name}のキーを押してください"
+    },
+    "game_ended": {
+        "start_new_game": "新しいゲームを開始",
+        "results": "結果"
+    }
+}

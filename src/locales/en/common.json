@@ -93,7 +93,7 @@
     "buzzer_config": {
         "skip": "Skip",
         "config_complete": "Buzzer configuration complete",
-        "press_key": "Press a key for: {name}"
+        "press_key": "Press a key for {name}"
     },
     "game_ended": {
         "start_new_game": "Start new game",

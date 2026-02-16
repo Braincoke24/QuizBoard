@@ -13,6 +13,9 @@ export const LOCALES = {
     de: {
         label: "Deutsch",
     },
+    jp: {
+        label: "日本語",
+    },
 } as const
 
 export type AppLocale = keyof typeof LOCALES

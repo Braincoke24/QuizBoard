@@ -20,7 +20,8 @@
     "roles": {
         "gamemaster": "Spielleiter",
         "player": "Spieler",
-        "spectator": "Zuschauer"
+        "spectator": "Zuschauer",
+        "choose": "Rolle auswählen"
     },
     "landing": {
         "start": "Start"
@@ -88,5 +89,14 @@
         "continue": "Fortfahren",
         "buzz": "Buzzen",
         "answer": "Antwort"
+    },
+    "buzzer_config": {
+        "skip": "Überspringen",
+        "config_complete": "Konfiguration der Buyyer abgeschlossen",
+        "press_key": "Drücke eine Taste für {name}"
+    },
+    "game_ended": {
+        "start_new_game": "Neues Spiel",
+        "results": "Ergebnisse"
     }
 }
