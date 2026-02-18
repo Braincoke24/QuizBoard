@@ -25,8 +25,8 @@ const VALID_DRAFT = {
             name: "Cool category",
             questions: [
                 {
-                    text: "What was first, the chicken or the egg?",
-                    answer: "Probably neither.",
+                    questionText: "What was first, the chicken or the egg?",
+                    answerText: "Probably neither.",
                 },
             ],
         },
@@ -40,8 +40,8 @@ const INVALID_DRAFT = {
             name: "",
             questions: [
                 {
-                    text: "What was first, the chicken or the egg?",
-                    answer: "No one knows.",
+                    questionText: "What was first, the chicken or the egg?",
+                    answerText: "No one knows.",
                 },
             ],
         },
@@ -60,8 +60,9 @@ describe("BoardDraftController", () => {
                         name: "Cool category",
                         questions: [
                             {
-                                text: "What was first, the chicken or the egg?",
-                                answer: "Probably neither.",
+                                questionText:
+                                    "What was first, the chicken or the egg?",
+                                answerText: "Probably neither.",
                             },
                         ],
                     },
@@ -77,10 +78,10 @@ describe("BoardDraftController", () => {
             const snapshot = controller.getSnapshot()
 
             expect(snapshot.categories[0].name).toBe("Cool category")
-            expect(snapshot.categories[0].questions[0].text).toBe(
+            expect(snapshot.categories[0].questions[0].questionText).toBe(
                 "What was first, the chicken or the egg?",
             )
-            expect(snapshot.categories[0].questions[0].answer).toBe(
+            expect(snapshot.categories[0].questions[0].answerText).toBe(
                 "Probably neither.",
             )
         })
@@ -94,8 +95,9 @@ describe("BoardDraftController", () => {
                         name: "Cool category",
                         questions: [
                             {
-                                text: "What was first, the chicken or the egg?",
-                                answer: "",
+                                questionText:
+                                    "What was first, the chicken or the egg?",
+                                answerText: "",
                             },
                         ],
                     },
@@ -111,10 +113,10 @@ describe("BoardDraftController", () => {
             const snapshot = controller.getSnapshot()
 
             expect(snapshot.categories[0].name).toBe("Cool category")
-            expect(snapshot.categories[0].questions[0].text).toBe(
+            expect(snapshot.categories[0].questions[0].questionText).toBe(
                 "What was first, the chicken or the egg?",
             )
-            expect(snapshot.categories[0].questions[0].answer).toBe("")
+            expect(snapshot.categories[0].questions[0].answerText).toBe("")
         })
 
         it("throws when draft has no categories", () => {
@@ -142,8 +144,9 @@ describe("BoardDraftController", () => {
                         name: "Cool category",
                         questions: [
                             {
-                                text: "What was first, the chicken or the egg?",
-                                answer: "Probably neither.",
+                                questionText:
+                                    "What was first, the chicken or the egg?",
+                                answerText: "Probably neither.",
                             },
                         ],
                     },
@@ -168,8 +171,9 @@ describe("BoardDraftController", () => {
                         name: "Cool category",
                         questions: [
                             {
-                                text: "What was first, the chicken or the egg?",
-                                answer: "Probably neither.",
+                                questionText:
+                                    "What was first, the chicken or the egg?",
+                                answerText: "Probably neither.",
                             },
                         ],
                     },
@@ -194,8 +198,9 @@ describe("BoardDraftController", () => {
                         name: "Cool category",
                         questions: [
                             {
-                                text: "What was first, the chicken or the egg?",
-                                answer: "Probably neither.",
+                                questionText:
+                                    "What was first, the chicken or the egg?",
+                                answerText: "Probably neither.",
                             },
                         ],
                     },
@@ -203,8 +208,8 @@ describe("BoardDraftController", () => {
                         name: "Another category",
                         questions: [
                             {
-                                text: "Why am I?",
-                                answer: "Who knows.",
+                                questionText: "Why am I?",
+                                answerText: "Who knows.",
                             },
                         ],
                     },
@@ -229,8 +234,9 @@ describe("BoardDraftController", () => {
                         name: " ",
                         questions: [
                             {
-                                text: "What was first, the chicken or the egg?",
-                                answer: "Probably neither.",
+                                questionText:
+                                    "What was first, the chicken or the egg?",
+                                answerText: "Probably neither.",
                             },
                         ],
                     },
@@ -255,8 +261,8 @@ describe("BoardDraftController", () => {
                         name: "Cool category",
                         questions: [
                             {
-                                text: "   ",
-                                answer: "Probably neither.",
+                                questionText: "   ",
+                                answerText: "Probably neither.",
                             },
                         ],
                     },
@@ -279,9 +285,9 @@ describe("BoardDraftController", () => {
 
             var draft = controller.getSnapshot()
             draft.categories[0].name = "Cool category"
-            draft.categories[0].questions[0].text =
+            draft.categories[0].questions[0].questionText =
                 "What was first, the chicken or the egg?"
-            draft.categories[0].questions[0].answer = "Probably neither."
+            draft.categories[0].questions[0].answerText = "Probably neither."
 
             controller.dispatch({
                 type: "BOARD_DRAFT/UPDATE_DRAFT",
@@ -291,10 +297,10 @@ describe("BoardDraftController", () => {
             const newDraft = controller.getSnapshot()
 
             expect(newDraft.categories[0].name).toBe("Cool category")
-            expect(newDraft.categories[0].questions[0].text).toBe(
+            expect(newDraft.categories[0].questions[0].questionText).toBe(
                 "What was first, the chicken or the egg?",
             )
-            expect(newDraft.categories[0].questions[0].answer).toBe(
+            expect(newDraft.categories[0].questions[0].answerText).toBe(
                 "Probably neither.",
             )
         })
@@ -314,7 +320,7 @@ describe("BoardDraftController", () => {
             expect(newDraft.categories.length).toBe(1)
             expect(newDraft.rowValues.length).toBe(1)
             expect(newDraft.categories[0].questions.length).toBe(1)
-            expect(newDraft.categories[0].questions[0].text).toBe(
+            expect(newDraft.categories[0].questions[0].questionText).toBe(
                 "What was first, the chicken or the egg?",
             )
         })

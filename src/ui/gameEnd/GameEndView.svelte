@@ -2,6 +2,7 @@
     import { _ } from "svelte-i18n"
     import type { PlayerUIState } from "../game/state/GameUIState.js"
     import type { GameEndAction } from "./GameEndAction.js"
+    import { cleanupUnusedMedia } from "../../media/cleanupUnusedMedia.js"
 
     let {
         players,
@@ -35,6 +36,8 @@
     function sortedPlayers(list: readonly PlayerUIState[]): PlayerUIState[] {
         return [...list].sort((a, b) => b.score - a.score)
     }
+
+    cleanupUnusedMedia({ categories: [], rowValues: [] })
 </script>
 
 <div class="game-ended">

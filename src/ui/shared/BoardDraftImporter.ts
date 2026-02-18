@@ -29,17 +29,22 @@ export function importBoardDraft(raw: unknown): BoardDraft {
         const questions: QuestionDraft[] = cat.questions.map((q, qIndex) => {
             if (
                 !isObject(q) ||
-                typeof q.text !== "string" ||
-                typeof q.answer !== "string"
+                typeof q.questionText !== "string" ||
+                typeof q.answerText !== "string" ||
+                !isOptionalString(q.questionMediaId) ||
+                !isOptionalString(q.answerMediaId)
             ) {
+                console.log(typeof q.answerMediaId)
                 throw new Error(
                     `Invalid question at category ${cIndex}, row ${qIndex}`,
                 )
             }
 
             return {
-                text: q.text,
-                answer: q.answer,
+                questionText: q.questionText,
+                answerText: q.answerText,
+                questionMediaId: q.questionMediaId,
+                answerMediaId: q.answerMediaId,
             }
         })
 
@@ -59,4 +64,8 @@ export function importBoardDraft(raw: unknown): BoardDraft {
 
 function isObject(value: unknown): value is Record<string, unknown> {
     return typeof value === "object" && value !== null
+}
+
+function isOptionalString(value: unknown): value is string | undefined {
+    return value === undefined || typeof value === "string"
 }

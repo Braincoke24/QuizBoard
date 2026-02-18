@@ -11,6 +11,8 @@ export interface CategoryDraft {
 }
 
 export interface QuestionDraft {
-    text: string
-    answer: string
+    questionText: string
+    questionMediaId?: string
+    answerText: string
+    answerMediaId?: string
 }

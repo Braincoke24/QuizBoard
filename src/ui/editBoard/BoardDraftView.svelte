@@ -1,8 +1,12 @@
 <script lang="ts">
     import { _ } from "svelte-i18n"
 
+    import { IMAGE_SVG } from "../shared/icons.js"
     import type { BoardDraft } from "./BoardDraftState.js"
     import type { BoardDraftAction } from "./BoardDraftAction.js"
+    import { handleImageFile } from "../shared/ImageImporter.js"
+    import { getMediaAsset } from "../../media/mediaStore.js"
+    import { cleanupUnusedMedia } from "../../media/cleanupUnusedMedia.js"
 
     let {
         draft = $bindable(),
@@ -62,7 +66,7 @@
         }
     }
 
-    function handleImport(event: Event): void {
+    function handleBoardImport(event: Event): void {
         const input = event.target as HTMLInputElement
         const file = input.files?.[0]
         if (!file) return
@@ -81,8 +85,45 @@
             })
     }
 
+    async function handleImageImport(
+        event: Event,
+        categoryIndex: number,
+        rowIndex: number,
+        kind: "question" | "answer",
+    ): Promise<void> {
+        if (!draft) return
+
+        const input = event.currentTarget as HTMLInputElement
+        const file = input.files?.[0]
+
+        if (!file) {
+            return
+        }
+
+        input.value = ""
+
+        try {
+            const id = await handleImageFile(file)
+
+            if (kind === "question") {
+                draft.categories[categoryIndex].questions[
+                    rowIndex
+                ].questionMediaId = id
+            } else {
+                draft.categories[categoryIndex].questions[
+                    rowIndex
+                ].answerMediaId = id
+            }
+
+            commit()
+        } catch (error) {
+            alert((error as Error).message)
+        }
+    }
+
     function commit(): void {
         const next = JSON.parse(JSON.stringify(draft)) as BoardDraft
+        cleanupUnusedMedia(next)
         onDraftChange(next)
     }
 
@@ -105,7 +146,7 @@
 
             questions: draft.categories.map((category) =>
                 category.questions.map(
-                    (question) => question.text.trim().length === 0,
+                    (question) => question.questionText.trim().length === 0,
                 ),
             ),
         }
@@ -170,19 +211,58 @@
                                         "board.question_placeholder",
                                     )}
                                     bind:value={
-                                        category.questions[rowIndex].text
+                                        category.questions[rowIndex]
+                                            .questionText
                                     }
                                     oninput={commit}
                                 ></textarea>
+
+                                <label
+                                    class="image-import-button action-button accent"
+                                >
+                                    {@html IMAGE_SVG}
+
+                                    <input
+                                        type="file"
+                                        accept="image/png,image/jpeg,image/webp"
+                                        hidden
+                                        onchange={(event) =>
+                                            handleImageImport(
+                                                event,
+                                                cIndex,
+                                                rowIndex,
+                                                "question",
+                                            )}
+                                    />
+                                </label>
 
                                 <textarea
                                     class="board-draft-question-answer"
                                     placeholder={$_("board.answer_placeholder")}
                                     bind:value={
-                                        category.questions[rowIndex].answer
+                                        category.questions[rowIndex].answerText
                                     }
                                     oninput={commit}
                                 ></textarea>
+
+                                <label
+                                    class="image-import-button action-button accent"
+                                >
+                                    {@html IMAGE_SVG}
+
+                                    <input
+                                        type="file"
+                                        accept="image/png,image/jpeg,image/webp"
+                                        hidden
+                                        onchange={(event) =>
+                                            handleImageImport(
+                                                event,
+                                                cIndex,
+                                                rowIndex,
+                                                "answer",
+                                            )}
+                                    />
+                                </label>
                             </div>
                         {/each}
                     </div>
@@ -198,8 +278,8 @@
                     draft.categories[draft.categories.length] = {
                         name: "",
                         questions: draft.rowValues.map(() => ({
-                            text: "",
-                            answer: "",
+                            questionText: "",
+                            answerText: "",
                         })),
                     }
                     commit()
@@ -222,7 +302,7 @@
                 class="draft-import-input"
                 type="file"
                 accept="application/json"
-                onchange={handleImport}
+                onchange={handleBoardImport}
             />
 
             <button

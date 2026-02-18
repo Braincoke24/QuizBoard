@@ -14,8 +14,8 @@ export function boardDraftToBoard(draft: BoardDraft): Board {
         const questions = categoryDraft.questions.map(
             (questionDraft, rowIndex) => {
                 return new Question(
-                    questionDraft.text,
-                    questionDraft.answer,
+                    questionDraft.questionText,
+                    questionDraft.answerText,
                     draft.rowValues[rowIndex],
                 )
             },
