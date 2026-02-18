@@ -218,7 +218,7 @@
                                 ></textarea>
 
                                 <label
-                                    class="image-import-button action-button accent"
+                                    class="image-import-button action-button primary"
                                 >
                                     {@html IMAGE_SVG}
 
@@ -246,7 +246,7 @@
                                 ></textarea>
 
                                 <label
-                                    class="image-import-button action-button accent"
+                                    class="image-import-button action-button primary"
                                 >
                                     {@html IMAGE_SVG}
 
