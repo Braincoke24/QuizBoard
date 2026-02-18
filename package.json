@@ -23,6 +23,7 @@
     },
     "dependencies": {
         "@radix-ui/colors": "^3.0.0",
+        "jszip": "^3.10.1",
         "svelte-i18n": "^4.0.1"
     }
 }

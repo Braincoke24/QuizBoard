@@ -5,9 +5,10 @@ import { deleteMediaAsset, listMediaAssets } from "./mediaStore.js"
 /**
  * Collects all media IDs referenced by the given boards.
  */
-function collectReferencedMediaIds(board: BoardDraft): Set<string> {
+function collectReferencedMediaIds(board?: BoardDraft | null): Set<string> {
     const referenced = new Set<string>()
 
+    if (!board) return referenced
     for (const category of board.categories) {
         for (const question of category.questions) {
             if (question.questionMediaId) {
@@ -28,7 +29,9 @@ function collectReferencedMediaIds(board: BoardDraft): Set<string> {
  *
  * Returns the number of deleted assets.
  */
-export async function cleanupUnusedMedia(board: BoardDraft): Promise<number> {
+export async function cleanupUnusedMedia(
+    board?: BoardDraft | null,
+): Promise<number> {
     const referencedMediaIds = collectReferencedMediaIds(board)
     const storedMedia = await listMediaAssets()
 

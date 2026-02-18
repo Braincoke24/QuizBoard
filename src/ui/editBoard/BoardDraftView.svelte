@@ -5,8 +5,9 @@
     import type { BoardDraft } from "./BoardDraftState.js"
     import type { BoardDraftAction } from "./BoardDraftAction.js"
     import { handleImageFile } from "../shared/ImageImporter.js"
-    import { getMediaAsset } from "../../media/mediaStore.js"
+    import { getMediaAsset, putMediaAsset } from "../../media/mediaStore.js"
     import { cleanupUnusedMedia } from "../../media/cleanupUnusedMedia.js"
+    import JSZip from "jszip"
 
     let {
         draft = $bindable(),
@@ -47,42 +48,180 @@
         dispatch({ type: "BOARD_DRAFT/IMPORT_BOARD", json })
     }
 
-    function onExportBoard(): void {
+    async function onExportBoard(): Promise<void> {
+        if (!draft) return
+
         try {
-            const json = JSON.stringify(draft, null, 2)
-            const blob = new Blob([json], {
-                type: "application/json",
-            })
-            const url = URL.createObjectURL(blob)
+            const mediaIds = collectMediaIds(draft)
 
-            const a = document.createElement("a")
-            a.href = url
-            a.download = "board.json"
-            a.click()
+            // ---------- Case 1: no media → plain JSON ----------
+            if (mediaIds.size === 0) {
+                const json = JSON.stringify(draft, null, 2)
+                const blob = new Blob([json], { type: "application/json" })
 
-            URL.revokeObjectURL(url)
+                downloadBlob(blob, "board.json")
+                return
+            }
+
+            // ---------- Case 2: media present → ZIP ----------
+            const zip = new JSZip()
+
+            zip.file("board.json", JSON.stringify(draft, null, 2))
+
+            const mediaFolder = zip.folder("media")
+            if (!mediaFolder) {
+                throw new Error("Failed to create media folder in zip")
+            }
+
+            for (const id of mediaIds) {
+                const asset = await getMediaAsset(id)
+                if (!asset) {
+                    console.warn(`Missing media asset: ${id}`)
+                    continue
+                }
+
+                let ext = ""
+
+                switch (asset.mimeType) {
+                    case "image/webp":
+                        ext = ".webp"
+                        break
+                }
+
+                mediaFolder.file(`${id}${ext}`, asset.blob)
+            }
+
+            const zipBlob = await zip.generateAsync({ type: "blob" })
+            downloadBlob(zipBlob, "board.zip")
         } catch (error) {
             alert((error as Error).message)
         }
     }
 
-    function handleBoardImport(event: Event): void {
-        const input = event.target as HTMLInputElement
+    function downloadBlob(blob: Blob, filename: string): void {
+        const url = URL.createObjectURL(blob)
+
+        const a = document.createElement("a")
+        a.href = url
+        a.download = filename
+        a.click()
+
+        URL.revokeObjectURL(url)
+    }
+
+    function collectMediaIds(board: BoardDraft): Set<string> {
+        const ids = new Set<string>()
+
+        for (const category of board.categories) {
+            for (const question of category.questions) {
+                if (question.questionMediaId) {
+                    ids.add(question.questionMediaId)
+                }
+                if (question.answerMediaId) {
+                    ids.add(question.answerMediaId)
+                }
+            }
+        }
+
+        return ids
+    }
+
+    async function handleBoardImport(event: Event): Promise<void> {
+        const input = event.currentTarget as HTMLInputElement
         const file = input.files?.[0]
         if (!file) return
 
-        file.text()
-            .then((text) => onImportBoard(JSON.parse(text)))
-            .catch((error) => {
-                alert(
-                    error instanceof SyntaxError
-                        ? $_("board.invalid_json")
-                        : (error as Error).message,
+        input.value = ""
+
+        try {
+            if (file.type === "application/zip" || file.name.endsWith(".zip")) {
+                await importFromZip(file)
+            } else {
+                const text = await file.text()
+                onImportBoard(JSON.parse(text))
+            }
+        } catch (error) {
+            alert((error as Error).message)
+        }
+    }
+
+    async function importFromZip(file: File): Promise<void> {
+        const zip = await JSZip.loadAsync(file)
+
+        const boardFile = zip.file("board.json")
+        if (!boardFile) {
+            throw new Error("ZIP does not contain board.json")
+        }
+
+        const boardJson = JSON.parse(await boardFile.async("text"))
+        onImportBoard(boardJson)
+
+        // --- Collect media entries explicitly from zip.files ---
+        const allFiles = Object.values(zip.files)
+
+        // filter: must be a file, inside media/ folder
+        const mediaEntries = allFiles.filter(
+            (entry) => !entry.dir && entry.name.startsWith("media/"),
+        )
+
+        if (mediaEntries.length === 0) {
+            return
+        }
+
+        // safety limits
+        const MAX_MEDIA_FILES = 200
+        const MAX_SINGLE_FILE_BYTES = 10 * 1024 * 1024 // 10 MB per file
+        const ALLOWED_MEDIA_MIME_PREFIXES = ["image/", "audio/"]
+
+        if (mediaEntries.length > MAX_MEDIA_FILES) {
+            throw new Error("Import contains too many media files")
+        }
+
+        for (const entry of mediaEntries) {
+            // entry.name is like "media/<filename>"
+            const fileName = entry.name.replace(/^media\//, "")
+
+            // Security: prevent weird paths
+            if (fileName.includes("..") || fileName.trim() === "") {
+                console.warn("Skipping suspicious media filename:", entry.name)
+                continue
+            }
+
+            const blob = await entry.async("blob")
+
+            // Size check
+            if (blob.size > MAX_SINGLE_FILE_BYTES) {
+                console.warn(
+                    "Skipping oversized media file:",
+                    fileName,
+                    blob.size,
                 )
+                continue
+            }
+
+            // MIME check (best-effort; blob.type may be empty for some files)
+            const mime = blob.type || ""
+
+            if (
+                mime &&
+                !ALLOWED_MEDIA_MIME_PREFIXES.some((p) => mime.startsWith(p))
+            ) {
+                console.warn("Skipping unsupported media mime:", fileName, mime)
+                continue
+            }
+
+            // Use fileName (without folder) as id — you may want to sanitize / namespace
+            const id = fileName
+
+            await putMediaAsset({
+                id,
+                type: mime.startsWith("audio/") ? "audio" : "image",
+                mimeType: mime || "application/octet-stream",
+                blob,
+                size: blob.size,
+                createdAt: Date.now(),
             })
-            .finally(() => {
-                input.value = ""
-            })
+        }
     }
 
     async function handleImageImport(
@@ -151,6 +290,8 @@
             ),
         }
     }
+
+    cleanupUnusedMedia(draft)
 </script>
 
 {#if draft}
@@ -301,7 +442,7 @@
             <input
                 class="draft-import-input"
                 type="file"
-                accept="application/json"
+                accept="application/json,application/zip"
                 onchange={handleBoardImport}
             />
 

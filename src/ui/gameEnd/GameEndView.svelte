@@ -37,7 +37,7 @@
         return [...list].sort((a, b) => b.score - a.score)
     }
 
-    cleanupUnusedMedia({ categories: [], rowValues: [] })
+    cleanupUnusedMedia()
 </script>
 
 <div class="game-ended">
