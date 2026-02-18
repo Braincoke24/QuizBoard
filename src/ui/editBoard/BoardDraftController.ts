@@ -72,6 +72,12 @@ export class BoardDraftController {
             throw new Error("No row values defined")
         }
 
+        board.rowValues.forEach((value) => {
+            if (value < 0) {
+                throw new Error("Row value can't be negative")
+            }
+        })
+
         for (const category of board.categories) {
             if (category.questions.length !== board.rowValues.length) {
                 throw new Error("Each category must have one question per row")

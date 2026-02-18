@@ -159,6 +159,32 @@ describe("BoardDraftController", () => {
             }).toThrow()
         })
 
+        it("throws when draft has negative rowValue", () => {
+            const controller = setup()
+
+            const draft: BoardDraft = {
+                categories: [
+                    {
+                        name: "Cool category",
+                        questions: [
+                            {
+                                text: "What was first, the chicken or the egg?",
+                                answer: "Probably neither.",
+                            },
+                        ],
+                    },
+                ],
+                rowValues: [-100],
+            }
+
+            expect(() => {
+                controller.dispatch({
+                    type: "BOARD_DRAFT/IMPORT_BOARD",
+                    json: draft,
+                })
+            }).toThrow()
+        })
+
         it("throws when number of rows doesn't match number of questions for every category", () => {
             const controller = setup()
 

@@ -12,11 +12,30 @@
         dispatch: (action: BoardDraftAction) => void
     } = $props()
 
+    let hasSubmitted = $state(false)
+
+    type UiValidationErrors = {
+        rowValues: boolean[]
+        questions: boolean[][]
+        categories: boolean[]
+    }
+
+    let uiErrors = $derived(validateUi(draft))
+
     function onDraftChange(draft: BoardDraft): void {
         dispatch({ type: "BOARD_DRAFT/UPDATE_DRAFT", draft })
     }
 
     function onSubmitBoard(): void {
+        hasSubmitted = true
+
+        const hasErrors =
+            uiErrors?.rowValues.some(Boolean) ||
+            uiErrors?.categories.some(Boolean) ||
+            uiErrors?.questions.some((row) => row.some(Boolean))
+
+        if (hasErrors) return
+
         dispatch({ type: "BOARD_DRAFT/SUBMIT_BOARD" })
     }
 
@@ -67,7 +86,30 @@
         onDraftChange(next)
     }
 
-    // TODO: add visuals for missing fields after trying to submit
+    function validateUi(draft: BoardDraft | null): UiValidationErrors {
+        if (!draft) {
+            return {
+                rowValues: [],
+                questions: [],
+                categories: [],
+            }
+        }
+        return {
+            rowValues: draft.rowValues.map(
+                (value) => !Number.isFinite(value) || value < 0,
+            ),
+
+            categories: draft.categories.map(
+                (category) => category.name.trim().length === 0,
+            ),
+
+            questions: draft.categories.map((category) =>
+                category.questions.map(
+                    (question) => question.text.trim().length === 0,
+                ),
+            ),
+        }
+    }
 </script>
 
 {#if draft}
@@ -81,6 +123,8 @@
                     <div class="board-draft-category-container">
                         <input
                             class="board-draft-category"
+                            class:error={hasSubmitted &&
+                                uiErrors.categories[cIndex]}
                             type="text"
                             placeholder={$_("board.category_placeholder")}
                             bind:value={category.name}
@@ -108,6 +152,7 @@
                         <!-- Row value -->
                         <input
                             class="row-value"
+                            class:error={uiErrors.rowValues[rowIndex]}
                             type="number"
                             min="0"
                             bind:value={draft.rowValues[rowIndex]}
@@ -119,6 +164,8 @@
                             <div class="board-draft-question-cell">
                                 <textarea
                                     class="board-draft-question-text"
+                                    class:error={hasSubmitted &&
+                                        uiErrors.questions[cIndex][rowIndex]}
                                     placeholder={$_(
                                         "board.question_placeholder",
                                     )}

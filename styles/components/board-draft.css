@@ -20,6 +20,14 @@
     grid-template-columns: auto 2vw;
 }
 
+.board-draft .error {
+    border-color: var(--color-warning-7);
+}
+
+.board-draft .error:focus-visible {
+    border-color: var(--color-warning-8);
+}
+
 .board-draft-header,
 .board-draft-row {
     grid-column: 1;
@@ -38,7 +46,7 @@
     grid-row: 2;
 }
 
-input[type="number"].row-value {
+input.row-value {
     --border-size: 2px;
     --padding-column: 1vh;
     --padding-row: 0.7vw;
@@ -61,21 +69,21 @@ input[type="number"].row-value {
     padding: var(--padding-column) var(--padding-row);
 }
 
-input[type="number"].row-value::-webkit-inner-spin-button,
-input[type="number"].row-value::-webkit-outer-spin-button {
+input.row-value::-webkit-inner-spin-button,
+input.row-value::-webkit-outer-spin-button {
     -webkit-appearance: none;
     margin: 0;
 }
 
-input[type="number"].row-value {
+input.row-value {
     -moz-appearance: textfield;
     appearance: textfield;
 }
 
-input[type="number"].row-value:focus-visible {
+.board-draft textarea:focus-visible,
+.board-draft input:focus-visible {
     outline: none;
     border-color: var(--color-primary-8);
-    box-shadow: 0 0 0 1px var(--color-primary-7);
 }
 
 .board-draft-question-cell {
