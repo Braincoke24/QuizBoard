@@ -53,10 +53,9 @@
         <div class="buzzer-config-player-list">
             {#each snapshot.players as player, pIndex}
                 <div
-                    class="buzzer-config-player-row
-                {pIndex === snapshot.currentIndex && !snapshot.done
-                        ? 'active'
-                        : ''}"
+                    class="buzzer-config-player-row"
+                    class:active={pIndex === snapshot.currentIndex &&
+                        !snapshot.done}
                 >
                     <div class="buzzer-config-player-name">{player.name}</div>
                     <div class="buzzer-config-key">

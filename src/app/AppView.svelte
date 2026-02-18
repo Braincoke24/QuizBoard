@@ -92,10 +92,7 @@
             onReset={() => dispatch({ type: "APP/RESET" })}
         />
     </div>
-    <div
-        class="app-overlay-root
-{overlayActive ? 'active' : ''}"
-    >
+    <div class="app-overlay-root" class:active={overlayActive}>
         <AppOverlay bind:activeOverlay={activeOverlay} applyRole={applyRole} />
     </div>
     <div class="app-content-root" inert={overlayActive}>

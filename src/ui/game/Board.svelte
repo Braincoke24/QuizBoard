@@ -28,10 +28,7 @@
     )
 </script>
 
-<div
-    class="board-container
-    {snapshot.activeQuestion === null ? '' : 'has-overlay'}"
->
+<div class="board-container" class:has-overlay={snapshot.activeQuestion}>
     <div class="board">
         <div class="board-header">
             {#each snapshot.board as category}
@@ -44,10 +41,9 @@
                 {#each snapshot.board as category, cIndex}
                     {#if category.questions[rowIndex]}
                         <button
-                            class="question-cell
-                                {category.questions[rowIndex].isAvailable
-                                ? ''
-                                : 'used'}"
+                            class="question-cell"
+                            class:used={!category.questions[rowIndex]
+                                .isAvailable}
                             disabled={!category.questions[rowIndex]
                                 .isAvailable ||
                                 !profile.capabilities.canSelectQuestion ||
@@ -86,16 +82,16 @@
             <div class="active-question-controls">
                 {#if profile.capabilities.canJudgeAnswer}
                     <button
-                        class="correct action-button accent
-                            {snapshot.canAnswer ? '' : 'hidden'}"
+                        class="correct action-button accent"
+                        class:hidden={!snapshot.canAnswer}
                         disabled={!snapshot.canAnswer}
                         onclick={() => onAnswer(true)}
                     >
                         {$_("game.correct")}
                     </button>
                     <button
-                        class="wrong action-button accent
-                            {snapshot.canAnswer ? '' : 'hidden'}"
+                        class="wrong action-button accent"
+                        class:hidden={!snapshot.canAnswer}
                         disabled={!snapshot.canAnswer}
                         onclick={() => onAnswer(false)}
                     >
@@ -104,8 +100,8 @@
                 {/if}
                 {#if profile.capabilities.canPass}
                     <button
-                        class="pass action-button accent
-                            {snapshot.canPass ? '' : 'hidden'}"
+                        class="pass action-button accent"
+                        class:hidden={!snapshot.canPass}
                         disabled={!snapshot.canPass}
                         onclick={onPass}
                     >
@@ -114,8 +110,8 @@
                 {/if}
                 {#if profile.capabilities.canContinue}
                     <button
-                        class="continue action-button accent
-                            {snapshot.canContinue ? '' : 'hidden'}"
+                        class="continue action-button accent"
+                        class:hidden={!snapshot.canContinue}
                         disabled={!snapshot.canContinue}
                         onclick={onContinue}
                     >

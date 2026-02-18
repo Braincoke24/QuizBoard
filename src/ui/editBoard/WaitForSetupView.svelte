@@ -41,10 +41,10 @@
             {#each sortedPlayers(players) as player, index}
                 <div class="scoreboard-player-cell">
                     <div
-                        class="scoreboard-player-rank
-                    {index === 0 ? 'rank-1' : ''}
-                    {index === 1 ? 'rank-2' : ''}
-                    {index === 2 ? 'rank-3' : ''}"
+                        class="scoreboard-player-rank"
+                        class:rank-1={index === 0}
+                        class:rank-2={index === 1}
+                        class:rank-3={index === 2}
                     >
                         {index + 1}
                     </div>
