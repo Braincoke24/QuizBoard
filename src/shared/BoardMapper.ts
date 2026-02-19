@@ -17,6 +17,8 @@ export function boardDraftToBoard(draft: BoardDraft): Board {
                     questionDraft.text,
                     questionDraft.answer,
                     draft.rowValues[rowIndex],
+                    questionDraft.questionMediaId,
+                    questionDraft.answerMediaId,
                 )
             },
         )

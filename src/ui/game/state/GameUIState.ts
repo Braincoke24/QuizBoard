@@ -91,6 +91,8 @@ export class GameUIState {
             text: selected.question.text,
             answer: selected.question.answer,
             categoryName: selected.categoryName,
+            questionMediaId: selected.question.questionMediaId,
+            answerMediaId: selected.question.answerMediaId,
         }
     }
 
@@ -217,6 +219,8 @@ export interface ActiveQuestionUIState {
     text: string
     answer: string
     categoryName: string
+    questionMediaId?: string
+    answerMediaId?: string
 }
 
 /**

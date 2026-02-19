@@ -8,6 +8,7 @@
     import { getMediaAsset, putMediaAsset } from "../../media/mediaStore.js"
     import { cleanupUnusedMedia } from "../../media/cleanupUnusedMedia.js"
     import JSZip from "jszip"
+    import { fileTypeFromBuffer } from "file-type"
 
     let {
         draft = $bindable(),
@@ -88,7 +89,7 @@
                         break
                 }
 
-                mediaFolder.file(`${id}${ext}`, asset.blob)
+                mediaFolder.file(`${id}`, asset.blob)
             }
 
             const zipBlob = await zip.generateAsync({ type: "blob" })
@@ -96,6 +97,25 @@
         } catch (error) {
             alert((error as Error).message)
         }
+    }
+
+    /**
+     * Determines the MIME type of a JSZip file entry
+     * by inspecting its binary signature.
+     *
+     * @param zipFile - A JSZip file object
+     * @returns The detected MIME type or null if unknown
+     */
+    export async function getMimeTypeFromZipEntry(
+        zipFile: JSZip.JSZipObject,
+    ): Promise<string | null> {
+        // Read file as Uint8Array
+        const content: Uint8Array = await zipFile.async("uint8array")
+
+        // Detect file type from buffer
+        const result = await fileTypeFromBuffer(content)
+
+        return result?.mime ?? null
     }
 
     function downloadBlob(blob: Blob, filename: string): void {
@@ -199,11 +219,10 @@
                 continue
             }
 
-            // MIME check (best-effort; blob.type may be empty for some files)
-            const mime = blob.type || ""
+            const mime = await getMimeTypeFromZipEntry(entry)
 
             if (
-                mime &&
+                !mime ||
                 !ALLOWED_MEDIA_MIME_PREFIXES.some((p) => mime.startsWith(p))
             ) {
                 console.warn("Skipping unsupported media mime:", fileName, mime)

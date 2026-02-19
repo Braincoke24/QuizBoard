@@ -34,7 +34,6 @@ export function importBoardDraft(raw: unknown): BoardDraft {
                 !isOptionalString(q.questionMediaId) ||
                 !isOptionalString(q.answerMediaId)
             ) {
-                console.log(typeof q.answerMediaId)
                 throw new Error(
                     `Invalid question at category ${cIndex}, row ${qIndex}`,
                 )

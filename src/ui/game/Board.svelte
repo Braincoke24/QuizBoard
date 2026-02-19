@@ -3,6 +3,7 @@
     import type { UIViewProfile } from "../shared/view/UIViewProfile.js"
     import type { GameUISnapshot } from "./state/GameUISnapshot.js"
     import { TurnState } from "../../game/turn/TurnState.js"
+    import MediaAsset from "../shared/MediaAsset.svelte"
 
     let {
         snapshot = $bindable(),
@@ -68,6 +69,11 @@
                 <div class="active-question-value">
                     {snapshot.activeQuestion.value.toString()}
                 </div>
+                {#if snapshot.turnState === TurnState.RESOLVING && snapshot.activeQuestion.answerMediaId}
+                    <MediaAsset id={snapshot.activeQuestion.answerMediaId} />
+                {:else if snapshot.activeQuestion.questionMediaId}
+                    <MediaAsset id={snapshot.activeQuestion.questionMediaId} />
+                {/if}
                 <div class="active-question-text">
                     {snapshot.activeQuestion.text}
                 </div>
