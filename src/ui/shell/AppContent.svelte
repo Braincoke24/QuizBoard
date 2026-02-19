@@ -1,6 +1,6 @@
 <script lang="ts">
     import LandingView from "../landing/LandingView.svelte"
-    import BoardDraftView from "../editBoard/BoardDraftView.svelte"
+    import BoardDraftView from "../editBoard/EditBoardView.svelte"
     import WaitForSetupView from "../editBoard/WaitForSetupView.svelte"
     import PreGameSetupView from "../preGameSetup/PreGameSetupView.svelte"
     import BuzzerConfigView from "../buzzerConfig/BuzzerConfigView.svelte"

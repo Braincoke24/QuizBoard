@@ -1,8 +1,8 @@
 <script lang="ts">
     import { _ } from "svelte-i18n"
-    import type { MediaPreview } from "./BoardDraftView.svelte"
-    import { IMPORT_SVG, CLOSE_SVG } from "../shared/icons.js"
-    import MediaAsset from "../shared/MediaAsset.svelte"
+    import type { MediaPreview } from "../EditBoardView.svelte"
+    import { IMPORT_SVG, CLOSE_SVG } from "../../shared/icons.js"
+    import MediaAsset from "../../shared/MediaAsset.svelte"
 
     let {
         mediaPreview = $bindable(),
