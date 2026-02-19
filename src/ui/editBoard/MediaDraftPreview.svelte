@@ -47,12 +47,7 @@
             />
         </label>
 
-        <button
-            type="button"
-            class="modal-close-button"
-            title={$_("board.close_preview")}
-            onclick={closeModal}
-        >
+        <button type="button" class="modal-close-button" onclick={closeModal}>
             {@html CLOSE_SVG}
         </button>
     </div>

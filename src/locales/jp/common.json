@@ -8,7 +8,9 @@
         "export": "エクスポート",
         "import": "インポート",
         "submit": "送信",
-        "invalid_json": "無効なJSONファイルです"
+        "invalid_json": "無効なJSONファイルです",
+        "upload_media": "画像をアップロード",
+        "open_preview": "画像をプレビュー"
     },
     "app_top_bar": {
         "switch_light_mode": "ライトモードに切り替え",
