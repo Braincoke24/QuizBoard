@@ -16,8 +16,6 @@ export class SharedWorkerAppPort implements AppPort {
     private readonly pending = new Map<number, (response: any) => void>()
 
     constructor() {
-        console.log("Started SharedWorkerAppPort")
-
         this.worker = new SharedWorker(
             new URL("../../worker/AppSharedWorker.js", import.meta.url),
             { type: "module" },

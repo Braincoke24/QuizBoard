@@ -13,8 +13,6 @@ export class LocalAppPort implements AppPort {
     private readonly listeners = new Set<(snapshot: AppSnapshot) => void>()
 
     constructor() {
-        console.log("Started LocalAppPort")
-
         this.controller = new AppController()
     }
 
