@@ -1,3 +1,5 @@
+import { MediaDraft } from "../../ui/editBoard/BoardDraftState.js"
+
 // src/game/board/Question.ts
 export class Question {
     private _asked = false
@@ -6,8 +8,8 @@ export class Question {
         readonly text: string,
         readonly answer: string,
         readonly value: number,
-        readonly questionMediaId?: string,
-        readonly answerMediaId?: string,
+        readonly questionMedia?: MediaDraft,
+        readonly answerMedia?: MediaDraft,
     ) {}
 
     get asked() {

@@ -2,6 +2,7 @@
 import {
     BoardDraft,
     CategoryDraft,
+    MediaDraft,
     QuestionDraft,
 } from "../editBoard/BoardDraftState.js"
 
@@ -30,20 +31,39 @@ export function importBoardDraft(raw: unknown): BoardDraft {
             if (
                 !isObject(q) ||
                 typeof q.text !== "string" ||
-                typeof q.answer !== "string" ||
-                !isOptionalString(q.questionMediaId) ||
-                !isOptionalString(q.answerMediaId)
+                typeof q.answer !== "string"
             ) {
                 throw new Error(
                     `Invalid question at category ${cIndex}, row ${qIndex}`,
                 )
             }
 
+            let questionMedia: MediaDraft | undefined
+            let answerMedia: MediaDraft | undefined
+
+            if (q.questionMedia !== undefined) {
+                if (!isMediaDraft(q.questionMedia)) {
+                    throw new Error(
+                        `Invalid questionMedia at category ${cIndex}, row ${qIndex}`,
+                    )
+                }
+                questionMedia = q.questionMedia
+            }
+
+            if (q.answerMedia !== undefined) {
+                if (!isMediaDraft(q.answerMedia)) {
+                    throw new Error(
+                        `Invalid answerMedia at category ${cIndex}, row ${qIndex}`,
+                    )
+                }
+                answerMedia = q.answerMedia
+            }
+
             return {
                 text: q.text,
                 answer: q.answer,
-                questionMediaId: q.questionMediaId,
-                answerMediaId: q.answerMediaId,
+                questionMedia: questionMedia,
+                answerMedia: answerMedia,
             }
         })
 
@@ -65,6 +85,21 @@ function isObject(value: unknown): value is Record<string, unknown> {
     return typeof value === "object" && value !== null
 }
 
-function isOptionalString(value: unknown): value is string | undefined {
-    return value === undefined || typeof value === "string"
+/**
+ * Runtime type guard for MediaDraft
+ */
+function isMediaDraft(value: unknown): value is MediaDraft {
+    if (!isObject(value)) {
+        return false
+    }
+
+    if (typeof value.id !== "string") {
+        return false
+    }
+
+    if (value.type !== "image" && value.type !== "audio") {
+        return false
+    }
+
+    return true
 }

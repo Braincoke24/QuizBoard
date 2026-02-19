@@ -3,6 +3,7 @@ import { Game } from "../../../game/Game.js"
 import { Player } from "../../../game/Player.js"
 import { TurnState } from "../../../game/turn/TurnState.js"
 import { PlayerResolver } from "../../../shared/PlayerResolver.js"
+import { MediaDraft } from "../../editBoard/BoardDraftState.js"
 import { GameUISnapshot } from "./GameUISnapshot.js"
 
 /**
@@ -91,8 +92,8 @@ export class GameUIState {
             text: selected.question.text,
             answer: selected.question.answer,
             categoryName: selected.categoryName,
-            questionMediaId: selected.question.questionMediaId,
-            answerMediaId: selected.question.answerMediaId,
+            questionMedia: selected.question.questionMedia,
+            answerMedia: selected.question.answerMedia,
         }
     }
 
@@ -219,8 +220,8 @@ export interface ActiveQuestionUIState {
     text: string
     answer: string
     categoryName: string
-    questionMediaId?: string
-    answerMediaId?: string
+    questionMedia?: MediaDraft
+    answerMedia?: MediaDraft
 }
 
 /**

@@ -12,7 +12,14 @@ export interface CategoryDraft {
 
 export interface QuestionDraft {
     text: string
-    questionMediaId?: string
     answer: string
-    answerMediaId?: string
+    questionMedia?: MediaDraft
+    answerMedia?: MediaDraft
 }
+
+export interface MediaDraft {
+    id: string
+    type: MediaType
+}
+
+export type MediaType = "image" | "audio"

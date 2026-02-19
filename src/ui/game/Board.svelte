@@ -62,17 +62,22 @@
     </div>
     {#if snapshot.activeQuestion !== null}
         <div class="active-question-overlay">
-            <div class="active-question">
+            <div
+                class="active-question"
+                class:has-media={(snapshot.turnState === TurnState.RESOLVING &&
+                    snapshot.activeQuestion.answerMedia) ||
+                    snapshot.activeQuestion.questionMedia}
+            >
                 <div class="active-question-category">
                     {snapshot.activeQuestion.categoryName}
                 </div>
                 <div class="active-question-value">
                     {snapshot.activeQuestion.value.toString()}
                 </div>
-                {#if snapshot.turnState === TurnState.RESOLVING && snapshot.activeQuestion.answerMediaId}
-                    <MediaAsset id={snapshot.activeQuestion.answerMediaId} />
-                {:else if snapshot.activeQuestion.questionMediaId}
-                    <MediaAsset id={snapshot.activeQuestion.questionMediaId} />
+                {#if snapshot.turnState === TurnState.RESOLVING && snapshot.activeQuestion.answerMedia}
+                    <MediaAsset id={snapshot.activeQuestion.answerMedia.id} />
+                {:else if snapshot.activeQuestion.questionMedia}
+                    <MediaAsset id={snapshot.activeQuestion.questionMedia.id} />
                 {/if}
                 <div class="active-question-text">
                     {snapshot.activeQuestion.text}

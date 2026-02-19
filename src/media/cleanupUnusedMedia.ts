@@ -11,12 +11,12 @@ function collectReferencedMediaIds(board?: BoardDraft | null): Set<string> {
     if (!board) return referenced
     for (const category of board.categories) {
         for (const question of category.questions) {
-            if (question.questionMediaId) {
-                referenced.add(question.questionMediaId)
+            if (question.questionMedia) {
+                referenced.add(question.questionMedia.id)
             }
 
-            if (question.answerMediaId) {
-                referenced.add(question.answerMediaId)
+            if (question.answerMedia) {
+                referenced.add(question.answerMedia.id)
             }
         }
     }

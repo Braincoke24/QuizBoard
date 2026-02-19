@@ -3,6 +3,7 @@
     import type { PlayerUIState } from "../game/state/GameUIState.js"
     import type { GameEndAction } from "./GameEndAction.js"
     import { cleanupUnusedMedia } from "../../media/cleanupUnusedMedia.js"
+    import { onMount } from "svelte"
 
     let {
         players,
@@ -37,7 +38,9 @@
         return [...list].sort((a, b) => b.score - a.score)
     }
 
-    cleanupUnusedMedia()
+    onMount(() => {
+        cleanupUnusedMedia()
+    })
 </script>
 
 <div class="game-ended">

@@ -9,8 +9,6 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    /* place-items: center;
-    grid-template-rows: 8vh auto 5vh 1fr; */
     row-gap: 1vh;
 
     z-index: 100;
@@ -72,6 +70,11 @@
     text-align: center;
     font-size: 2rem;
     line-height: 1.2;
+}
+
+.active-question.has-media .active-question-text {
+    max-height: 10vh;
+    font-size: 1rem;
 }
 
 .active-question-answer {
