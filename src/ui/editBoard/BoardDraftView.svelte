@@ -285,7 +285,7 @@
 
             questions: draft.categories.map((category) =>
                 category.questions.map(
-                    (question) => question.questionText.trim().length === 0,
+                    (question) => question.text.trim().length === 0,
                 ),
             ),
         }
@@ -352,8 +352,7 @@
                                         "board.question_placeholder",
                                     )}
                                     bind:value={
-                                        category.questions[rowIndex]
-                                            .questionText
+                                        category.questions[rowIndex].text
                                     }
                                     oninput={commit}
                                 ></textarea>
@@ -381,7 +380,7 @@
                                     class="board-draft-question-answer"
                                     placeholder={$_("board.answer_placeholder")}
                                     bind:value={
-                                        category.questions[rowIndex].answerText
+                                        category.questions[rowIndex].answer
                                     }
                                     oninput={commit}
                                 ></textarea>
@@ -419,8 +418,8 @@
                     draft.categories[draft.categories.length] = {
                         name: "",
                         questions: draft.rowValues.map(() => ({
-                            questionText: "",
-                            answerText: "",
+                            text: "",
+                            answer: "",
                         })),
                     }
                     commit()

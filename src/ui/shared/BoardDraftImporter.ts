@@ -29,8 +29,8 @@ export function importBoardDraft(raw: unknown): BoardDraft {
         const questions: QuestionDraft[] = cat.questions.map((q, qIndex) => {
             if (
                 !isObject(q) ||
-                typeof q.questionText !== "string" ||
-                typeof q.answerText !== "string" ||
+                typeof q.text !== "string" ||
+                typeof q.answer !== "string" ||
                 !isOptionalString(q.questionMediaId) ||
                 !isOptionalString(q.answerMediaId)
             ) {
@@ -41,8 +41,8 @@ export function importBoardDraft(raw: unknown): BoardDraft {
             }
 
             return {
-                questionText: q.questionText,
-                answerText: q.answerText,
+                text: q.text,
+                answer: q.answer,
                 questionMediaId: q.questionMediaId,
                 answerMediaId: q.answerMediaId,
             }

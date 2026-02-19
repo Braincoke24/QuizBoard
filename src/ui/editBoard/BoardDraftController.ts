@@ -56,8 +56,8 @@ export class BoardDraftController {
             categories: Array.from({ length: 5 }, () => ({
                 name: "",
                 questions: rowValues.map(() => ({
-                    questionText: "",
-                    answerText: "",
+                    text: "",
+                    answer: "",
                 })),
             })),
         }
@@ -86,7 +86,7 @@ export class BoardDraftController {
                 throw new Error("Category name can't be empty or a whitespace")
             }
             category.questions.forEach((q) => {
-                if (q.questionText.trim() === "") {
+                if (q.text.trim() === "") {
                     throw new Error(
                         "Question text can't be empty or a whitespace",
                     )

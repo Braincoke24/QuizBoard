@@ -15,8 +15,8 @@ function createValidBoardDraftAction(): AppAction {
                         name: "Category",
                         questions: [
                             {
-                                questionText: "Question?",
-                                answerText: "Answer",
+                                text: "Question?",
+                                answer: "Answer",
                             },
                         ],
                     },
