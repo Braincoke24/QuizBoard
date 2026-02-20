@@ -102,5 +102,8 @@
     "game_ended": {
         "start_new_game": "新しいゲームを開始",
         "results": "結果"
+    },
+    "warning_message": {
+        "title": "エラー"
     }
 }

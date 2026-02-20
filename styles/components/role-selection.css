@@ -1,0 +1,33 @@
+.role-selection {
+    margin: auto;
+
+    background-color: var(--color-primary-3);
+    border: 2px solid var(--color-primary-7);
+    border-radius: 1vw;
+
+    width: 50vw;
+    height: 30vh;
+
+    display: grid;
+    place-items: center;
+    grid-template-columns: auto auto auto;
+    gap: 1vw;
+}
+
+.role-selection-title {
+    grid-column: 2;
+    color: var(--color-primary-11);
+    font-weight: bold;
+    font-size: 2rem;
+    text-align: center;
+}
+
+.role-selection .action-button {
+    --border-size: 2px;
+    --border-radius: 1vw;
+
+    grid-row: 2;
+
+    width: 7vw;
+    height: 6vh;
+}

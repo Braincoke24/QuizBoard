@@ -16,11 +16,13 @@
     let {
         snapshot = $bindable(),
         profile,
+        warningMessage = $bindable(),
         dispatch,
         applyRole,
     }: {
         snapshot: AppSnapshot
         profile: UIViewProfile
+        warningMessage: string | null
         dispatch: (action: AppAction) => void
         applyRole: (role: RoleId) => void
     } = $props()
@@ -40,6 +42,7 @@
     {#if profile.visibility.showBoardEditor}
         <BoardDraftView
             bind:draft={snapshot.boardDraft}
+            bind:warningMessage={warningMessage}
             dispatch={(action): void => {
                 dispatch({
                     type: "APP/BOARD_DRAFT",

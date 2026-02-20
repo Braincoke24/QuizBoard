@@ -102,5 +102,8 @@
     "game_ended": {
         "start_new_game": "Neues Spiel",
         "results": "Ergebnisse"
+    },
+    "warning_message": {
+        "title": "Error"
     }
 }

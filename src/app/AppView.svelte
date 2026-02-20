@@ -15,7 +15,7 @@
     import { RoleResolver } from "../shared/RoleResolver.js"
     import { WindowManager } from "../ui/shared/WindowManager.js"
 
-    export type ActiveOverlay = "role-selection"
+    export type ActiveOverlay = "role-selection" | "warning-message"
 
     let {
         port,
@@ -24,8 +24,12 @@
     }: { port: AppPort; roleParam: string; themeController: ThemeController } =
         $props()
 
+    let warningMessage: string | null = $state(null)
+    let roleSelectionActive = $state(false)
+
     let profile = $state(RoleResolver.resolve("player"))
-    let activeOverlay: ActiveOverlay | null = $state(null)
+
+    let activeOverlay: ActiveOverlay | null = $derived(getActiveOverlay())
     let overlayActive = $derived(activeOverlay !== null)
 
     let snapshot: AppSnapshot = $state({
@@ -35,6 +39,13 @@
         buzzerConfig: null,
         game: null,
     })
+
+    function getActiveOverlay(): ActiveOverlay | null {
+        if (warningMessage) return "warning-message"
+        if (roleSelectionActive) return "role-selection"
+
+        return null
+    }
 
     function applyRole(role: RoleId): void {
         profile = RoleResolver.resolve(role)
@@ -74,12 +85,12 @@
         try {
             port.dispatch(action)
         } catch (error) {
-            alert((error as Error).message)
+            warningMessage = (error as Error).message
         }
     }
 
     function showRoleSelection(): void {
-        activeOverlay = "role-selection"
+        roleSelectionActive = true
     }
 </script>
 
@@ -93,12 +104,18 @@
         />
     </div>
     <div class="app-overlay-root" class:active={overlayActive}>
-        <AppOverlay bind:activeOverlay={activeOverlay} applyRole={applyRole} />
+        <AppOverlay
+            activeOverlay={activeOverlay}
+            bind:roleSelectionActive={roleSelectionActive}
+            bind:warningMessage={warningMessage}
+            applyRole={applyRole}
+        />
     </div>
     <div class="app-content-root" inert={overlayActive}>
         <AppContent
             bind:snapshot={snapshot}
             profile={profile}
+            bind:warningMessage={warningMessage}
             dispatch={dispatch}
             applyRole={applyRole}
         />

@@ -1,0 +1,28 @@
+.warning-message {
+    position: relative;
+
+    margin: auto;
+
+    background-color: var(--color-warning-3);
+    border: 2px solid var(--color-warning-7);
+    border-radius: 1vw;
+
+    padding: 2vh 2vw;
+
+    color: var(--color-warning-11);
+}
+
+.warning-message-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.warning-message .modal-close-button {
+    position: absolute;
+    top: 2vh;
+    right: 1vw;
+
+    background: none;
+    border: none;
+    color: var(--color-warning-9);
+}

@@ -22,9 +22,11 @@
 
     let {
         draft = $bindable(),
+        warningMessage = $bindable(),
         dispatch,
     }: {
         draft: BoardDraft | null
+        warningMessage: string | null
         dispatch: (action: BoardDraftAction) => void
     } = $props()
 
@@ -110,7 +112,7 @@
             const zipBlob = await zip.generateAsync({ type: "blob" })
             downloadBlob(zipBlob, "board.zip")
         } catch (error) {
-            alert((error as Error).message)
+            warningMessage = (error as Error).message
         }
     }
 
@@ -176,7 +178,7 @@
                 onImportBoard(JSON.parse(text))
             }
         } catch (error) {
-            alert((error as Error).message)
+            warningMessage = (error as Error).message
         }
     }
 
@@ -308,7 +310,7 @@
 
             commit()
         } catch (error) {
-            alert((error as Error).message)
+            warningMessage = (error as Error).message
         }
     }
 
