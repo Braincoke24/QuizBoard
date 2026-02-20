@@ -177,10 +177,14 @@ describe("BoardDraftController", () => {
                 rowValues: [-100],
             }
 
+            controller.dispatch({
+                type: "BOARD_DRAFT/IMPORT_BOARD",
+                json: draft,
+            })
+
             expect(() => {
                 controller.dispatch({
-                    type: "BOARD_DRAFT/IMPORT_BOARD",
-                    json: draft,
+                    type: "BOARD_DRAFT/SUBMIT_BOARD",
                 })
             }).toThrow()
         })
@@ -238,10 +242,14 @@ describe("BoardDraftController", () => {
                 rowValues: [100],
             }
 
+            controller.dispatch({
+                type: "BOARD_DRAFT/IMPORT_BOARD",
+                json: draft,
+            })
+
             expect(() => {
                 controller.dispatch({
-                    type: "BOARD_DRAFT/IMPORT_BOARD",
-                    json: draft,
+                    type: "BOARD_DRAFT/SUBMIT_BOARD",
                 })
             }).toThrow()
         })
@@ -264,10 +272,14 @@ describe("BoardDraftController", () => {
                 rowValues: [100],
             }
 
+            controller.dispatch({
+                type: "BOARD_DRAFT/IMPORT_BOARD",
+                json: draft,
+            })
+
             expect(() => {
                 controller.dispatch({
-                    type: "BOARD_DRAFT/IMPORT_BOARD",
-                    json: draft,
+                    type: "BOARD_DRAFT/SUBMIT_BOARD",
                 })
             }).toThrow()
         })
