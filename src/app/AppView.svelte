@@ -103,7 +103,18 @@
             onReset={() => dispatch({ type: "APP/RESET" })}
         />
     </div>
-    <div class="app-overlay-root" class:active={overlayActive}>
+    <div
+        class="app-overlay-root"
+        class:active={overlayActive}
+        role="presentation"
+        tabindex="-1"
+        onclick={(event) => {
+            if (event.target === event.currentTarget) {
+                roleSelectionActive = false
+                warningMessage = null
+            }
+        }}
+    >
         <AppOverlay
             activeOverlay={activeOverlay}
             bind:roleSelectionActive={roleSelectionActive}

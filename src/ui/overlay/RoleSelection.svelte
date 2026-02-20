@@ -1,6 +1,7 @@
 <script lang="ts">
     import { _ } from "svelte-i18n"
     import { ROLE_IDS, type RoleId } from "../shared/view/UIViewProfile.js"
+    import { CLOSE_SVG } from "../shared/icons.js"
 
     let {
         roleSelectionActive = $bindable(),
@@ -9,6 +10,10 @@
         roleSelectionActive: boolean
         applyRole: (role: RoleId) => void
     } = $props()
+
+    function closeModal(): void {
+        roleSelectionActive = false
+    }
 </script>
 
 <div class="role-selection">
@@ -24,4 +29,7 @@
             {$_(`roles.${id}`)}
         </button>
     {/each}
+    <button type="button" class="modal-close-button" onclick={closeModal}>
+        {@html CLOSE_SVG}
+    </button>
 </div>

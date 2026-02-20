@@ -12,6 +12,18 @@
     place-items: center;
     grid-template-columns: auto auto auto;
     gap: 1vw;
+
+    position: relative;
+}
+
+.role-selection .modal-close-button {
+    position: absolute;
+    top: 2vh;
+    right: 1vw;
+
+    background: none;
+    border: none;
+    color: var(--color-warning-9);
 }
 
 .role-selection-title {
