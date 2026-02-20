@@ -219,14 +219,14 @@ input.row-value {
 .board-draft-category-delete {
     --border-size: 2px;
     --border-radius: 0.4vw;
-    --padding-column: 1vh;
-    --padding-row: 1vw;
 
-    margin: 0;
-    padding: var(--padding-column) var(--padding-row);
+    width: 3vw;
+    height: 5.5vh;
+}
 
-    width: 4vw;
-    height: calc(5.5vh + 2 * var(--border-size));
+.board-draft-category-delete svg {
+    width: 100%;
+    height: 3vh;
 }
 
 .board-draft-point-label {

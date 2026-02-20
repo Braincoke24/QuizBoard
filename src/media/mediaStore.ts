@@ -14,7 +14,6 @@ export interface MediaAssetRecord {
     mimeType: string
     blob: Blob
     size: number
-    duration?: number
     createdAt: number
 }
 
@@ -139,7 +138,7 @@ export async function hasMediaAsset(id: string): Promise<boolean> {
  * Useful for size estimation or cleanup.
  */
 export async function listMediaAssets(): Promise<
-    Pick<MediaAssetRecord, "id" | "type" | "size" | "duration" | "createdAt">[]
+    Pick<MediaAssetRecord, "id" | "type" | "size" | "createdAt">[]
 > {
     return withStore("readonly", (store) => {
         return new Promise((resolve, reject) => {
@@ -147,11 +146,10 @@ export async function listMediaAssets(): Promise<
 
             request.onsuccess = () => {
                 const result = (request.result as MediaAssetRecord[]).map(
-                    ({ id, type, size, duration, createdAt }) => ({
+                    ({ id, type, size, createdAt }) => ({
                         id,
                         type,
                         size,
-                        duration,
                         createdAt,
                     }),
                 )

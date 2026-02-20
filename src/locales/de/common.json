@@ -9,8 +9,9 @@
         "import": "Importieren",
         "submit": "Bestätigen",
         "invalid_json": "Ungültige JSON-Datei",
-        "upload_media": "Bild hochladen",
-        "open_preview": "Bildvorschau"
+        "upload_media": "Bild oder Audio hochladen",
+        "change_media": "Neues Bild oder Audio hochladen",
+        "open_preview": "Vorschau"
     },
     "app_top_bar": {
         "switch_light_mode": "Zum hellen Modus wechseln",

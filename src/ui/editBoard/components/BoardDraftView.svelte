@@ -1,7 +1,12 @@
 <script lang="ts">
     import { _ } from "svelte-i18n"
     import type { BoardDraft } from "../BoardDraftState.js"
-    import { IMAGE_SVG, IMPORT_SVG } from "../../shared/icons.js"
+    import {
+        IMAGE_SVG,
+        ADD_FILE_SVG,
+        DELETE_SVG,
+        SPEAKER_SVG,
+    } from "../../shared/icons.js"
     import type { UiValidationErrors } from "../EditBoardView.svelte"
 
     let {
@@ -10,7 +15,7 @@
         uiErrors,
         commit,
         handleMediaButtonClick,
-        handleImageImport,
+        handleMediaImport,
     }: {
         draft: BoardDraft
         hasSubmitted: boolean
@@ -22,7 +27,7 @@
             rowIndex: number,
             kind: "question" | "answer",
         ) => void
-        handleImageImport: (
+        handleMediaImport: (
             event: Event,
             categoryIndex: number,
             rowIndex: number,
@@ -54,8 +59,9 @@
                         draft.categories.splice(cIndex, 1)
                         commit()
                     }}
+                    title={$_("board.delete_category")}
                 >
-                    {$_("board.delete_category")}
+                    {@html DELETE_SVG}
                 </button>
             </div>
         {/each}
@@ -105,6 +111,8 @@
                             >
                                 {#if category.questions[rowIndex].questionMedia.type === "image"}
                                     {@html IMAGE_SVG}
+                                {:else if category.questions[rowIndex].questionMedia.type === "audio"}
+                                    {@html SPEAKER_SVG}
                                 {/if}
                             </button>
                         {:else}
@@ -112,14 +120,14 @@
                                 class="media-import-button action-button primary"
                                 title={$_("board.upload_media")}
                             >
-                                {@html IMPORT_SVG}
+                                {@html ADD_FILE_SVG}
 
                                 <input
                                     type="file"
-                                    accept="image/png,image/jpeg,image/webp"
+                                    accept="image/png,image/jpeg,image/webp,audio/mpeg,audio/ogg,audio/webm"
                                     hidden
                                     onchange={(event) =>
-                                        handleImageImport(
+                                        handleMediaImport(
                                             event,
                                             cIndex,
                                             rowIndex,
@@ -154,6 +162,8 @@
                             >
                                 {#if category.questions[rowIndex].answerMedia.type === "image"}
                                     {@html IMAGE_SVG}
+                                {:else if category.questions[rowIndex].answerMedia.type === "audio"}
+                                    {@html SPEAKER_SVG}
                                 {/if}
                             </button>
                         {:else}
@@ -161,14 +171,14 @@
                                 class="media-import-button action-button primary"
                                 title={$_("board.upload_media")}
                             >
-                                {@html IMPORT_SVG}
+                                {@html ADD_FILE_SVG}
 
                                 <input
                                     type="file"
-                                    accept="image/png,image/jpeg,image/webp"
+                                    accept="image/png,image/jpeg,image/webp,audio/mpeg,audio/ogg,audio/webm"
                                     hidden
                                     onchange={(event) =>
-                                        handleImageImport(
+                                        handleMediaImport(
                                             event,
                                             cIndex,
                                             rowIndex,

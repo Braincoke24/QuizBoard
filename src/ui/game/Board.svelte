@@ -3,7 +3,7 @@
     import type { UIViewProfile } from "../shared/view/UIViewProfile.js"
     import type { GameUISnapshot } from "./state/GameUISnapshot.js"
     import { TurnState } from "../../game/turn/TurnState.js"
-    import MediaAsset from "../shared/MediaAsset.svelte"
+    import MediaAsset from "../shared/media/MediaAsset.svelte"
 
     let {
         snapshot = $bindable(),

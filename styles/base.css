@@ -9,6 +9,7 @@
 @import "./components/action-button.css";
 @import "./components/buzzer-config.css";
 @import "./components/landing.css";
+@import "./components/audio-player.css";
 
 * {
     box-sizing: border-box;

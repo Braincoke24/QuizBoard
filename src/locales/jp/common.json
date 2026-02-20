@@ -9,8 +9,9 @@
         "import": "インポート",
         "submit": "送信",
         "invalid_json": "無効なJSONファイルです",
-        "upload_media": "画像をアップロード",
-        "open_preview": "画像をプレビュー"
+        "upload_media": "画像または音声ファイルをアップロード",
+        "change_media": "新しい画像または音声ファイルをアップロード",
+        "open_preview": "プレビューを開く"
     },
     "app_top_bar": {
         "switch_light_mode": "ライトモードに切り替え",

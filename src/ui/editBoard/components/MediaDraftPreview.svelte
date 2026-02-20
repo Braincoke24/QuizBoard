@@ -1,15 +1,15 @@
 <script lang="ts">
     import { _ } from "svelte-i18n"
     import type { MediaPreview } from "../EditBoardView.svelte"
-    import { IMPORT_SVG, CLOSE_SVG } from "../../shared/icons.js"
-    import MediaAsset from "../../shared/MediaAsset.svelte"
+    import { EDIT_SVG, CLOSE_SVG } from "../../shared/icons.js"
+    import MediaAsset from "../../shared/media/MediaAsset.svelte"
 
     let {
         mediaPreview = $bindable(),
-        handleImageImport,
+        handleMediaImport,
     }: {
         mediaPreview: MediaPreview | null
-        handleImageImport: (
+        handleMediaImport: (
             event: Event,
             categoryIndex: number,
             rowIndex: number,
@@ -26,16 +26,16 @@
     <div class="media-draft-preview">
         <MediaAsset id={mediaPreview.id} />
 
-        <label class="action-button accent" title={$_("board.upload_media")}>
-            {@html IMPORT_SVG}
+        <label class="action-button accent" title={$_("board.change_media")}>
+            {@html EDIT_SVG}
 
             <input
                 type="file"
-                accept="image/png,image/jpeg,image/webp"
+                accept="image/png,image/jpeg,image/webp,audio/mpeg,audio/ogg,audio/webm"
                 hidden
                 onchange={(event) => {
                     if (!mediaPreview) return
-                    handleImageImport(
+                    handleMediaImport(
                         event,
                         mediaPreview.categoryIndex,
                         mediaPreview.rowIndex,

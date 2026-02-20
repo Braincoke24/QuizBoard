@@ -1,5 +1,5 @@
 // src/ui/shared/ImageImporter.ts
-import { putMediaAsset } from "../../media/mediaStore.js"
+import { putMediaAsset } from "../../../media/mediaStore.js"
 
 /**
  * Allowed image MIME types for import.
@@ -29,7 +29,7 @@ const OUTPUT_IMAGE_QUALITY = 0.85
 /**
  * Type guard to validate image MIME types.
  */
-function isAllowedImageFile(
+export function isAllowedImageFile(
     file: File,
 ): file is File & { type: AllowedImageMimeType } {
     return ALLOWED_IMAGE_MIME_TYPES.includes(file.type as AllowedImageMimeType)

@@ -34,7 +34,8 @@
     place-items: center;
 }
 
-.active-question img {
+.active-question img,
+.active-question .audio-player {
     grid-row: 2;
     grid-column: 1 / -1;
 

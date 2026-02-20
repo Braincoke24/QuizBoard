@@ -9,8 +9,9 @@
         "import": "Import",
         "submit": "Submit",
         "invalid_json": "Invalid JSON file",
-        "upload_media": "Upload image",
-        "open_preview": "Preview image"
+        "upload_media": "Upload image or sound",
+        "change_media": "Upload new image or sound",
+        "open_preview": "Open preview"
     },
     "app_top_bar": {
         "switch_light_mode": "Switch to light mode",

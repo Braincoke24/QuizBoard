@@ -1,10 +1,12 @@
 <script lang="ts">
     import { _ } from "svelte-i18n"
 
-    import { IMAGE_SVG, IMPORT_SVG } from "../shared/icons.js"
     import type { BoardDraft, MediaDraft } from "./BoardDraftState.js"
     import type { BoardDraftAction } from "./BoardDraftAction.js"
-    import { handleImageFile } from "../shared/ImageImporter.js"
+    import {
+        handleImageFile,
+        isAllowedImageFile,
+    } from "../shared/media/ImageImporter.js"
     import { getMediaAsset, putMediaAsset } from "../../media/mediaStore.js"
     import { cleanupUnusedMedia } from "../../media/cleanupUnusedMedia.js"
     import JSZip from "jszip"
@@ -13,6 +15,10 @@
     import { onMount } from "svelte"
     import BoardDraftView from "./components/BoardDraftView.svelte"
     import EditBoardActions from "./components/EditBoardActions.svelte"
+    import {
+        handleAudioFile,
+        isAllowedAudioFile,
+    } from "../shared/media/AudioImporter.js"
 
     let {
         draft = $bindable(),
@@ -252,7 +258,7 @@
         }
     }
 
-    async function handleImageImport(
+    async function handleMediaImport(
         event: Event,
         categoryIndex: number,
         rowIndex: number,
@@ -269,12 +275,25 @@
 
         input.value = ""
 
-        try {
-            const id = await handleImageFile(file)
+        let mediaDraft: MediaDraft
 
-            const mediaDraft: MediaDraft = {
-                id: id,
-                type: "image",
+        try {
+            if (isAllowedImageFile(file)) {
+                const id = await handleImageFile(file)
+
+                mediaDraft = {
+                    id: id,
+                    type: "image",
+                }
+            } else if (isAllowedAudioFile(file)) {
+                const id = await handleAudioFile(file)
+
+                mediaDraft = {
+                    id: id,
+                    type: "audio",
+                }
+            } else {
+                throw new Error("Unsupported file type")
             }
 
             if (kind === "question") {
@@ -364,7 +383,7 @@
                 uiErrors={uiErrors}
                 commit={commit}
                 handleMediaButtonClick={handleMediaButtonClick}
-                handleImageImport={handleImageImport}
+                handleMediaImport={handleMediaImport}
             />
             {#if mediaPreview}
                 <div
@@ -379,7 +398,7 @@
                 >
                     <MediaDraftPreview
                         bind:mediaPreview={mediaPreview}
-                        handleImageImport={handleImageImport}
+                        handleMediaImport={handleMediaImport}
                     />
                 </div>
             {/if}
