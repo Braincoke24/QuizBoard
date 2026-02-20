@@ -24,7 +24,7 @@ export class BoardDraftController {
 
             case "BOARD_DRAFT/IMPORT_BOARD": {
                 const draft = importBoardDraft(action.json)
-                this.validateBoard(draft)
+                this.validateBoardStructure(draft)
                 this.boardDraft = draft
                 return
             }
@@ -63,7 +63,7 @@ export class BoardDraftController {
         }
     }
 
-    private validateBoard(board: BoardDraft): void {
+    private validateBoardStructure(board: BoardDraft): void {
         if (board.categories.length === 0) {
             throw new Error("Board has no categories")
         }
@@ -72,6 +72,16 @@ export class BoardDraftController {
             throw new Error("No row values defined")
         }
 
+        for (const category of board.categories) {
+            if (category.questions.length !== board.rowValues.length) {
+                throw new Error("Each category must have one question per row")
+            }
+        }
+    }
+
+    private validateBoard(board: BoardDraft): void {
+        this.validateBoardStructure(board)
+
         board.rowValues.forEach((value) => {
             if (value < 0) {
                 throw new Error("Row value can't be negative")
@@ -79,9 +89,6 @@ export class BoardDraftController {
         })
 
         for (const category of board.categories) {
-            if (category.questions.length !== board.rowValues.length) {
-                throw new Error("Each category must have one question per row")
-            }
             if (category.name.trim() === "") {
                 throw new Error("Category name can't be empty or a whitespace")
             }
