@@ -400,6 +400,7 @@
                 >
                     <MediaDraftPreview
                         bind:mediaPreview={mediaPreview}
+                        bind:draft={draft}
                         handleMediaImport={handleMediaImport}
                     />
                 </div>

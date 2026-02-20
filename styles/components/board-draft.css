@@ -68,6 +68,15 @@
     max-height: 40vh;
 }
 
+.media-draft-preview-actions {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+
+    column-gap: 1vw;
+}
+
 .media-draft-preview .action-button {
     --border-radius: 1vw;
     --border-size: 2px;
@@ -186,7 +195,7 @@ input.row-value {
     display: flex;
     flex-direction: row;
     align-items: center;
-    column-gap: 0.5vw;
+    /* column-gap: 0.5vw; */
 }
 
 .board-draft-category {
@@ -211,17 +220,24 @@ input.row-value {
     border-radius: var(--border-radius);
     outline: none;
 
+    border-bottom-right-radius: 0;
+    border-top-right-radius: 0;
+    border-right: none;
+
     width: 100%;
 
     height: 5.5vh;
 }
 
-.board-draft-category-delete {
+.board-draft-category-container > .board-draft-category-delete {
     --border-size: 2px;
     --border-radius: 0.4vw;
 
     width: 3vw;
     height: 5.5vh;
+
+    border-bottom-left-radius: 0;
+    border-top-left-radius: 0;
 }
 
 .board-draft-category-delete svg {

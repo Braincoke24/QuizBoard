@@ -7,7 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
--
+### Added
+
+- Button to delete media in media preview
+
+### Changed
+
+- Category delete button now seamlessly connects to category name input
 
 ## [1.4.1] - 2026-01-20
 
