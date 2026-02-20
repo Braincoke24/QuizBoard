@@ -37,8 +37,11 @@
     grid-row: 1;
     grid-column: 1;
 
-    width: 6vw;
+    min-width: 4vw;
+    max-width: 8vw;
     height: 4vh;
+
+    padding: 0 1vw;
 }
 
 /* Symbols */
