@@ -280,6 +280,11 @@ input.row-value {
     border-top-left-radius: 0;
 }
 
+.board-draft-category-delete.action-button:disabled::after {
+    border-bottom-left-radius: 0;
+    border-top-left-radius: 0;
+}
+
 .board-draft-category-delete svg {
     width: 100%;
     height: 3vh;
