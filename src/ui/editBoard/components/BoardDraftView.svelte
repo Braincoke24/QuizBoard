@@ -7,19 +7,26 @@
         DELETE_SVG,
         SPEAKER_SVG,
     } from "../../shared/icons.js"
-    import type { UiValidationErrors } from "../EditBoardView.svelte"
+    import type {
+        MediaPreview,
+        UiValidationErrors,
+    } from "../EditBoardView.svelte"
+    import { exportCategory } from "../BoardDraftExport.js"
 
     let {
         draft = $bindable(),
         hasSubmitted = $bindable(),
         uiErrors,
+        mediaPreview,
         commit,
         handleMediaButtonClick,
         handleMediaImport,
+        handleCategoryImport,
     }: {
         draft: BoardDraft
         hasSubmitted: boolean
         uiErrors: UiValidationErrors
+        mediaPreview: MediaPreview | null
         commit: () => void
         handleMediaButtonClick: (
             id: string,
@@ -33,7 +40,13 @@
             rowIndex: number,
             kind: "question" | "answer",
         ) => Promise<void>
+        handleCategoryImport: (
+            event: Event,
+            categoryIndex: number,
+        ) => Promise<void>
     } = $props()
+
+    let categoryInputs: HTMLInputElement[] = []
 </script>
 
 <div class="board-draft">
@@ -189,6 +202,38 @@
                         {/if}
                     </div>
                 {/each}
+            </div>
+        {/each}
+    </div>
+    <!-- ---------- Footer ---------- -->
+    <div class="board-draft-footer">
+        <div class="board-draft-point-label"></div>
+
+        {#each draft.categories as category, cIndex}
+            <div class="board-draft-category-io">
+                <button
+                    class="category-draft-export-button action-button accent"
+                    disabled={mediaPreview !== null}
+                    onclick={() => exportCategory(category)}
+                >
+                    {$_("board.export_category")}
+                </button>
+
+                <label
+                    class="category-draft-import-button action-button accent"
+                >
+                    {$_("board.import_category")}
+
+                    <input
+                        type="file"
+                        accept="application/json,application/zip"
+                        hidden
+                        onchange={(event) => {
+                            console.log(cIndex)
+                            handleCategoryImport(event, cIndex)
+                        }}
+                    />
+                </label>
             </div>
         {/each}
     </div>

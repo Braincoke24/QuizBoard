@@ -1,7 +1,10 @@
 // src/ui/editBoard/BoardDraftController.ts
 import { BoardDraft } from "./BoardDraftState.js"
 import { BoardDraftAction } from "./BoardDraftAction.js"
-import { importBoardDraft } from "../shared/BoardDraftImporter.js"
+import {
+    importBoardDraft,
+    importCategoryDraft,
+} from "../shared/BoardDraftImporter.js"
 import { BoardDraftCallbacks } from "./BoardDraftCallbacks.js"
 
 export class BoardDraftController {
@@ -26,6 +29,15 @@ export class BoardDraftController {
                 const draft = importBoardDraft(action.json)
                 this.validateBoardStructure(draft)
                 this.boardDraft = draft
+                return
+            }
+
+            case "BOARD_DRAFT/IMPORT_CATEGORY": {
+                const category = importCategoryDraft(action.json)
+                const next: BoardDraft = structuredClone(this.boardDraft)
+                next.categories[action.categoryIndex] = category
+                this.validateBoardStructure(next)
+                this.boardDraft = next
                 return
             }
 

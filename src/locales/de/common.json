@@ -3,11 +3,13 @@
         "category_placeholder": "Kategorie",
         "delete_category": "Entfernen",
         "add_category": "Kategorie hinzufügen",
+        "export_category": "Exportieren",
+        "import_category": "Importieren",
         "question_placeholder": "Frage",
         "answer_placeholder": "Antwort (optional)",
-        "export": "Exportieren",
-        "import": "Importieren",
-        "submit": "Bestätigen",
+        "export_board": "Board exportieren",
+        "import_board": "Board importieren",
+        "submit_board": "Bestätigen",
         "invalid_json": "Ungültige JSON-Datei",
         "upload_media": "Bild oder Audio hochladen",
         "change_media": "Neues Bild oder Audio hochladen",
@@ -49,7 +51,7 @@
                 "custom": "Individuell"
             },
             "firstWrongMultiplier": {
-                "label": "Erste falsche Antwort",
+                "label": "Falsche Antwort",
                 "tooltip": "Wird angewendet, wenn der erste Spieler falsch antwortet"
             },
             "buzzCorrectMultiplier": {

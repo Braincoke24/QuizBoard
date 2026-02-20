@@ -36,6 +36,8 @@
     let rules = $derived(
         preset.editable ? setup.customMultipliers : preset.rules,
     )
+
+    // TODO: postion tooltips better (possibly with tippy)
 </script>
 
 <div class="game-options">

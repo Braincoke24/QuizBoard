@@ -11,5 +11,10 @@ export type BoardDraftAction =
           json: unknown
       }
     | {
+          type: "BOARD_DRAFT/IMPORT_CATEGORY"
+          json: unknown
+          categoryIndex: number
+      }
+    | {
           type: "BOARD_DRAFT/SUBMIT_BOARD"
       }

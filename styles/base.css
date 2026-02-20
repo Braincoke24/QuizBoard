@@ -15,11 +15,11 @@
 
 * {
     box-sizing: border-box;
+    font-family: system-ui, sans-serif;
 }
 
 body {
     margin: 0;
-    font-family: system-ui, sans-serif;
 }
 
 footer {
@@ -81,5 +81,5 @@ footer a {
 .pre-game-setup {
     display: grid;
     grid-template-columns: 18vw 58vw 18vw;
-    gap: 2vw;
+    gap: 1vw;
 }

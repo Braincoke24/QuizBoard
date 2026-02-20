@@ -23,13 +23,14 @@
         disabled={mediaPreview !== null}
         onclick={onExportBoard}
     >
-        {$_("board.export")}
+        {$_("board.export_board")}
     </button>
 
     <input
         class="draft-import-input"
         type="file"
         accept="application/json,application/zip"
+        hidden
         onchange={handleBoardImport}
     />
 
@@ -41,7 +42,7 @@
                 .querySelector<HTMLInputElement>(".draft-import-input")
                 ?.click()}
     >
-        {$_("board.import")}
+        {$_("board.import_board")}
     </button>
 
     <button
@@ -52,6 +53,6 @@
             onSubmitBoard()
         }}
     >
-        {$_("board.submit")}
+        {$_("board.submit_board")}
     </button>
 </div>

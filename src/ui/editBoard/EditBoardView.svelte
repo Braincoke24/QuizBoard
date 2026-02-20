@@ -7,10 +7,7 @@
         handleImageFile,
         isAllowedImageFile,
     } from "../shared/media/ImageImporter.js"
-    import { getMediaAsset, putMediaAsset } from "../../media/mediaStore.js"
     import { cleanupUnusedMedia } from "../../media/cleanupUnusedMedia.js"
-    import JSZip from "jszip"
-    import { fileTypeFromBuffer } from "file-type"
     import MediaDraftPreview from "./components/MediaDraftPreview.svelte"
     import { onMount } from "svelte"
     import BoardDraftView from "./components/BoardDraftView.svelte"
@@ -19,6 +16,11 @@
         handleAudioFile,
         isAllowedAudioFile,
     } from "../shared/media/AudioImporter.js"
+    import { exportBoard } from "./BoardDraftExport.js"
+    import {
+        handleBoardImport,
+        handleCategoryImport,
+    } from "./BoardDraftImport.js"
 
     let {
         draft = $bindable(),
@@ -60,204 +62,6 @@
         if (hasErrors) return
 
         dispatch({ type: "BOARD_DRAFT/SUBMIT_BOARD" })
-    }
-
-    function onImportBoard(json: unknown): void {
-        dispatch({ type: "BOARD_DRAFT/IMPORT_BOARD", json })
-    }
-
-    async function onExportBoard(): Promise<void> {
-        if (!draft) return
-
-        try {
-            const mediaIds = collectMediaIds(draft)
-
-            // ---------- Case 1: no media → plain JSON ----------
-            if (mediaIds.size === 0) {
-                const json = JSON.stringify(draft, null, 2)
-                const blob = new Blob([json], { type: "application/json" })
-
-                downloadBlob(blob, "board.json")
-                return
-            }
-
-            // ---------- Case 2: media present → ZIP ----------
-            const zip = new JSZip()
-
-            zip.file("board.json", JSON.stringify(draft, null, 2))
-
-            const mediaFolder = zip.folder("media")
-            if (!mediaFolder) {
-                throw new Error("Failed to create media folder in zip")
-            }
-
-            for (const id of mediaIds) {
-                const asset = await getMediaAsset(id)
-                if (!asset) {
-                    console.warn(`Missing media asset: ${id}`)
-                    continue
-                }
-
-                let ext = ""
-
-                switch (asset.mimeType) {
-                    case "image/webp":
-                        ext = ".webp"
-                        break
-                }
-
-                mediaFolder.file(`${id}`, asset.blob)
-            }
-
-            const zipBlob = await zip.generateAsync({ type: "blob" })
-            downloadBlob(zipBlob, "board.zip")
-        } catch (error) {
-            warningMessage = (error as Error).message
-        }
-    }
-
-    /**
-     * Determines the MIME type of a JSZip file entry
-     * by inspecting its binary signature.
-     *
-     * @param zipFile - A JSZip file object
-     * @returns The detected MIME type or null if unknown
-     */
-    export async function getMimeTypeFromZipEntry(
-        zipFile: JSZip.JSZipObject,
-    ): Promise<string | null> {
-        // Read file as Uint8Array
-        const content: Uint8Array = await zipFile.async("uint8array")
-
-        // Detect file type from buffer
-        const result = await fileTypeFromBuffer(content)
-
-        return result?.mime ?? null
-    }
-
-    function downloadBlob(blob: Blob, filename: string): void {
-        const url = URL.createObjectURL(blob)
-
-        const a = document.createElement("a")
-        a.href = url
-        a.download = filename
-        a.click()
-
-        URL.revokeObjectURL(url)
-    }
-
-    function collectMediaIds(board: BoardDraft): Set<string> {
-        const ids = new Set<string>()
-
-        for (const category of board.categories) {
-            for (const question of category.questions) {
-                if (question.questionMedia) {
-                    ids.add(question.questionMedia.id)
-                }
-                if (question.answerMedia) {
-                    ids.add(question.answerMedia.id)
-                }
-            }
-        }
-
-        return ids
-    }
-
-    async function handleBoardImport(event: Event): Promise<void> {
-        const input = event.currentTarget as HTMLInputElement
-        const file = input.files?.[0]
-        if (!file) return
-
-        input.value = ""
-
-        try {
-            if (file.type === "application/zip" || file.name.endsWith(".zip")) {
-                await importFromZip(file)
-            } else {
-                const text = await file.text()
-                onImportBoard(JSON.parse(text))
-            }
-        } catch (error) {
-            warningMessage = (error as Error).message
-        }
-    }
-
-    async function importFromZip(file: File): Promise<void> {
-        const zip = await JSZip.loadAsync(file)
-
-        const boardFile = zip.file("board.json")
-        if (!boardFile) {
-            throw new Error("ZIP does not contain board.json")
-        }
-
-        const boardJson = JSON.parse(await boardFile.async("text"))
-        onImportBoard(boardJson)
-
-        // --- Collect media entries explicitly from zip.files ---
-        const allFiles = Object.values(zip.files)
-
-        // filter: must be a file, inside media/ folder
-        const mediaEntries = allFiles.filter(
-            (entry) => !entry.dir && entry.name.startsWith("media/"),
-        )
-
-        if (mediaEntries.length === 0) {
-            return
-        }
-
-        // safety limits
-        const MAX_MEDIA_FILES = 200
-        const MAX_SINGLE_FILE_BYTES = 10 * 1024 * 1024 // 10 MB per file
-        const ALLOWED_MEDIA_MIME_PREFIXES = ["image/", "audio/"]
-
-        if (mediaEntries.length > MAX_MEDIA_FILES) {
-            throw new Error("Import contains too many media files")
-        }
-
-        for (const entry of mediaEntries) {
-            // entry.name is like "media/<filename>"
-            const fileName = entry.name.replace(/^media\//, "")
-
-            // Security: prevent weird paths
-            if (fileName.includes("..") || fileName.trim() === "") {
-                console.warn("Skipping suspicious media filename:", entry.name)
-                continue
-            }
-
-            const blob = await entry.async("blob")
-
-            // Size check
-            if (blob.size > MAX_SINGLE_FILE_BYTES) {
-                console.warn(
-                    "Skipping oversized media file:",
-                    fileName,
-                    blob.size,
-                )
-                continue
-            }
-
-            const mime = await getMimeTypeFromZipEntry(entry)
-
-            if (
-                !mime ||
-                !ALLOWED_MEDIA_MIME_PREFIXES.some((p) => mime.startsWith(p))
-            ) {
-                console.warn("Skipping unsupported media mime:", fileName, mime)
-                continue
-            }
-
-            // Use fileName (without folder) as id — you may want to sanitize / namespace
-            const id = fileName
-
-            await putMediaAsset({
-                id,
-                type: mime.startsWith("audio/") ? "audio" : "image",
-                mimeType: mime,
-                blob,
-                size: blob.size,
-                createdAt: Date.now(),
-            })
-        }
     }
 
     async function handleMediaImport(
@@ -383,9 +187,12 @@
                 bind:draft={draft}
                 bind:hasSubmitted={hasSubmitted}
                 uiErrors={uiErrors}
+                mediaPreview={mediaPreview}
                 commit={commit}
                 handleMediaButtonClick={handleMediaButtonClick}
                 handleMediaImport={handleMediaImport}
+                handleCategoryImport={(event, categoryIndex) =>
+                    handleCategoryImport(event, categoryIndex, dispatch)}
             />
             {#if mediaPreview}
                 <div
@@ -410,9 +217,9 @@
         <EditBoardActions
             mediaPreview={mediaPreview}
             commit={commit}
-            onExportBoard={onExportBoard}
+            onExportBoard={() => exportBoard(draft)}
             onSubmitBoard={onSubmitBoard}
-            handleBoardImport={handleBoardImport}
+            handleBoardImport={(event) => handleBoardImport(event, dispatch)}
         />
     </div>
 {/if}
