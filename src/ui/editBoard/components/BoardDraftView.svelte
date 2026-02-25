@@ -109,6 +109,8 @@
                         {#if category.questions[rowIndex].questionMedia}
                             <button
                                 class="media-import-button action-button primary"
+                                class:error={hasSubmitted &&
+                                    uiErrors.questions[cIndex][rowIndex]}
                                 title={$_("board.open_preview")}
                                 onclick={() => {
                                     const id =
@@ -131,6 +133,8 @@
                         {:else}
                             <label
                                 class="media-import-button action-button primary"
+                                class:error={hasSubmitted &&
+                                    uiErrors.questions[cIndex][rowIndex]}
                                 title={$_("board.upload_media")}
                             >
                                 {@html ADD_FILE_SVG}
