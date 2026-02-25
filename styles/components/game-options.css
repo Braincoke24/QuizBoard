@@ -211,9 +211,13 @@ input[type="number"].multiplier-value:focus-visible {
     top: auto;
     bottom: 130%;
     left: -5vw;
-    white-space: normal;
     width: 10vw;
     text-align: justify;
+}
+
+.multiplier-label .info-icon::after {
+    left: -300%;
+    width: 10vw;
 }
 
 .game-start-container {
