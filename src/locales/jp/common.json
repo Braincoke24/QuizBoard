@@ -21,7 +21,17 @@
         "change_role": "役割を変更",
         "change_lang": "言語を変更",
         "role_view_label": "{role}ビュー",
-        "home": "ホーム"
+        "home": "ホーム",
+        "theme_picker": "テーマを変更"
+    },
+    "theme_picker": {
+        "title": "テーマを選択",
+        "themes": {
+            "mystery": "ミステリー",
+            "swamp": "スワンプ",
+            "tomato": "トマト",
+            "ocean": "オーシャン"
+        }
     },
     "roles": {
         "gamemaster": "ゲームマスター",

@@ -21,7 +21,17 @@
         "change_role": "Rolle wechseln",
         "change_lang": "Sprache wechseln",
         "role_view_label": "{role}-Ansicht",
-        "home": "Start"
+        "home": "Start",
+        "theme_picker": "Theme ändern"
+    },
+    "theme_picker": {
+        "title": "Theme auswählen",
+        "themes": {
+            "mystery": "Mysterium",
+            "swamp": "Sumpf",
+            "tomato": "Tomate",
+            "ocean": "Ozean"
+        }
     },
     "roles": {
         "gamemaster": "Spielleiter",
