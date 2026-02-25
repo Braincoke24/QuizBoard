@@ -15,7 +15,10 @@
     import { RoleResolver } from "../shared/RoleResolver.js"
     import { WindowManager } from "../ui/shared/WindowManager.js"
 
-    export type ActiveOverlay = "role-selection" | "warning-message"
+    export type ActiveOverlay =
+        | "role-selection"
+        | "warning-message"
+        | "theme-picker"
 
     let {
         port,
@@ -26,6 +29,7 @@
 
     let warningMessage: string | null = $state(null)
     let roleSelectionActive = $state(false)
+    let themePickerActive = $state(false)
 
     let profile = $state(RoleResolver.resolve("player"))
 
@@ -42,6 +46,7 @@
 
     function getActiveOverlay(): ActiveOverlay | null {
         if (warningMessage) return "warning-message"
+        if (themePickerActive) return "theme-picker"
         if (roleSelectionActive) return "role-selection"
 
         return null
@@ -92,6 +97,12 @@
     function showRoleSelection(): void {
         roleSelectionActive = true
     }
+
+    function closeOverlay(): void {
+        roleSelectionActive = false
+        themePickerActive = false
+        warningMessage = null
+    }
 </script>
 
 {#if !$isLoading}
@@ -99,6 +110,7 @@
         <AppTopBar
             bind:profile={profile}
             themeController={themeController}
+            bind:themePickerActive={themePickerActive}
             onChangeRole={showRoleSelection}
             onReset={() => dispatch({ type: "APP/RESET" })}
         />
@@ -110,8 +122,7 @@
         tabindex="-1"
         onclick={(event) => {
             if (event.target === event.currentTarget) {
-                roleSelectionActive = false
-                warningMessage = null
+                closeOverlay()
             }
         }}
     >
@@ -119,6 +130,8 @@
             activeOverlay={activeOverlay}
             bind:roleSelectionActive={roleSelectionActive}
             bind:warningMessage={warningMessage}
+            bind:themePickerActive={themePickerActive}
+            themeController={themeController}
             applyRole={applyRole}
         />
     </div>

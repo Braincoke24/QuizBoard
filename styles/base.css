@@ -12,6 +12,7 @@
 @import "./components/audio-player.css";
 @import "./components/warning-message.css";
 @import "./components/role-selection.css";
+@import "./components/theme-picker.css";
 
 * {
     box-sizing: border-box;

@@ -71,8 +71,6 @@
 
 /* Language switcher */
 .top-bar-language {
-    grid-row: 1;
-    grid-column: 3;
     position: relative;
 }
 
@@ -118,11 +116,17 @@
     font-weight: bold;
 }
 
-/* Theme toggle */
-.top-bar-theme-toggle {
-    grid-row: 1;
-    grid-column: 4;
+/* Theme */
+.theme-mode-toggle {
+    background: none;
+    border: none;
+    color: var(--color-primary-11);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+}
 
+.top-bar-theme-picker {
     background: none;
     border: none;
     color: var(--color-primary-11);
@@ -133,9 +137,6 @@
 
 /* Home */
 .top-bar-reset {
-    grid-row: 1;
-    grid-column: 5;
-
     background: none;
     border: none;
     color: var(--color-primary-11);

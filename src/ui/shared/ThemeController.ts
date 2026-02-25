@@ -2,6 +2,16 @@
 
 export type ThemeMode = "light" | "dark"
 
+export const THEME_KEYS = ["mystery", "swamp", "tomato", "ocean"] as const
+export type Theme = (typeof THEME_KEYS)[number]
+
+/**
+ * Type guard to validate theme strings.
+ */
+function isTheme(s: string): s is Theme {
+    return THEME_KEYS.includes(s as Theme)
+}
+
 export class ThemeController {
     private readonly root: HTMLElement
 
@@ -13,50 +23,89 @@ export class ThemeController {
      * Initialize theme based on URL param or system preference.
      */
     public init(): void {
+        const themeModeFromUrl = this.getThemeModeFromUrl()
         const themeFromUrl = this.getThemeFromUrl()
+
+        if (themeModeFromUrl) {
+            this.applyThemeMode(themeModeFromUrl)
+        } else {
+            this.applySystemThemeMode()
+        }
 
         if (themeFromUrl) {
             this.applyTheme(themeFromUrl)
-            return
+        } else {
+            this.applyTheme(THEME_KEYS[0])
         }
-
-        this.applySystemTheme()
     }
 
     /**
      * Toggle between light and dark and persist via URL.
      */
-    public toggle(): ThemeMode {
+    public toggleThemeMode(): ThemeMode {
         const next = this.root.classList.contains("dark") ? "light" : "dark"
 
-        this.applyTheme(next)
-        this.updateUrl(next)
+        this.applyThemeMode(next)
+        this.updateUrl("mode", next)
 
         return next
     }
 
     /**
-     * Get current active theme.
+     * Set theme and persist via URL.
      */
-    public getCurrent(): ThemeMode {
+    public setTheme(theme: Theme): void {
+        this.applyTheme(theme)
+        this.updateUrl("theme", theme)
+    }
+
+    /**
+     * Get current active theme mode.
+     */
+    public getCurrentThemeMode(): ThemeMode {
         return this.root.classList.contains("dark") ? "dark" : "light"
     }
 
-    private applyTheme(theme: ThemeMode): void {
-        this.root.classList.remove("dark", "light")
-        this.root.classList.add(theme)
+    /**
+     * Get current active theme.
+     */
+    public getCurrentTheme(): Theme {
+        const themeClass = Array.from(this.root.classList).find((className) =>
+            className.startsWith("theme-"),
+        )
+
+        if (themeClass) {
+            const theme = themeClass.slice(6)
+
+            if (isTheme(theme)) return theme
+        }
+
+        return THEME_KEYS[0]
     }
 
-    private applySystemTheme(): void {
+    private applyThemeMode(mode: ThemeMode): void {
+        this.root.classList.remove("dark", "light")
+        this.root.classList.add(mode)
+    }
+
+    private applyTheme(theme: Theme): void {
+        THEME_KEYS.forEach((themeKey) => {
+            this.root.classList.remove(`theme-${themeKey}`)
+        })
+
+        this.root.classList.add(`theme-${theme}`)
+    }
+
+    private applySystemThemeMode(): void {
         const prefersDark = window.matchMedia(
             "(prefers-color-scheme: dark)",
         ).matches
 
-        this.applyTheme(prefersDark ? "dark" : "light")
+        this.applyThemeMode(prefersDark ? "dark" : "light")
     }
 
-    private getThemeFromUrl(): ThemeMode | null {
-        const value = new URLSearchParams(window.location.search).get("theme")
+    private getThemeModeFromUrl(): ThemeMode | null {
+        const value = new URLSearchParams(window.location.search).get("mode")
 
         if (value === "dark" || value === "light") {
             return value
@@ -65,9 +114,19 @@ export class ThemeController {
         return null
     }
 
-    private updateUrl(theme: ThemeMode): void {
+    private getThemeFromUrl(): Theme | null {
+        const value = new URLSearchParams(window.location.search).get("theme")
+
+        if (value && isTheme(value)) {
+            return value as Theme
+        }
+
+        return null
+    }
+
+    private updateUrl(name: "mode" | "theme", value: ThemeMode | Theme): void {
         const url = new URL(window.location.href)
-        url.searchParams.set("theme", theme)
+        url.searchParams.set(name, value)
         window.history.replaceState({}, "", url.toString())
     }
 }

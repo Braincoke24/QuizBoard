@@ -21,7 +21,17 @@
         "change_role": "Change role",
         "change_lang": "Change language",
         "role_view_label": "{role} view",
-        "home": "Home"
+        "home": "Home",
+        "theme_picker": "Change theme"
+    },
+    "theme_picker": {
+        "title": "Select a theme",
+        "themes": {
+            "mystery": "Mystery",
+            "swamp": "Swamp",
+            "tomato": "Tomato",
+            "ocean": "Ocean"
+        }
     },
     "roles": {
         "gamemaster": "Quizmaster",

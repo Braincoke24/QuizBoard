@@ -17,36 +17,39 @@
         DARK_MODE_SVG,
         HOME_SVG,
         LANG_SVG,
+        PALETTE_SVG,
     } from "../shared/icons.js"
 
     let {
         profile = $bindable(),
         themeController,
+        themePickerActive = $bindable(),
         onChangeRole,
         onReset,
     }: {
         profile: UIViewProfile
         themeController: ThemeController
+        themePickerActive: boolean
         onChangeRole: () => void
         onReset: () => void
     } = $props()
 
-    let mode: string = $state("dark")
+    let selectedThemeMode: string = $state("dark")
 
     let themeIcon: string = $derived(
-        mode === "dark" ? DARK_MODE_SVG : LIGHT_MODE_SVG,
+        selectedThemeMode === "dark" ? DARK_MODE_SVG : LIGHT_MODE_SVG,
     )
 
-    let themeTitle: string = $derived(
-        mode === "dark"
+    let themeModeSwitchTitle: string = $derived(
+        selectedThemeMode === "dark"
             ? $_("app_top_bar.switch_light_mode")
             : $_("app_top_bar.switch_dark_mode"),
     )
 
     let showLanguageMenu: boolean = $state(false)
 
-    function toggleTheme(): void {
-        mode = themeController.toggle()
+    function toggleThemeMode(): void {
+        selectedThemeMode = themeController.toggleThemeMode()
     }
 
     function changeLanguage(lang: AppLocale): void {
@@ -55,7 +58,7 @@
     }
 
     onMount(() => {
-        mode = themeController.getCurrent()
+        selectedThemeMode = themeController.getCurrentThemeMode()
     })
 </script>
 
@@ -100,11 +103,21 @@
     </div>
 
     <button
-        class="top-bar-theme-toggle"
-        onclick={toggleTheme}
-        title={themeTitle}
+        class="theme-mode-toggle"
+        onclick={toggleThemeMode}
+        title={themeModeSwitchTitle}
     >
         {@html themeIcon}
+    </button>
+
+    <button
+        class="top-bar-theme-picker"
+        title={$_("app_top_bar.theme_picker")}
+        onclick={() => {
+            themePickerActive = true
+        }}
+    >
+        {@html PALETTE_SVG}
     </button>
 
     <button

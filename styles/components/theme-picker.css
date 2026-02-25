@@ -1,0 +1,80 @@
+.theme-picker {
+    position: relative;
+
+    margin: auto;
+
+    background-color: var(--color-primary-3);
+    border: 2px solid var(--color-primary-7);
+    border-radius: 1vw;
+
+    padding: 2vh 2vw;
+
+    color: var(--color-primary-11);
+}
+
+.theme-picker-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.theme-picker .modal-close-button {
+    position: absolute;
+    top: 2vh;
+    right: 1vw;
+
+    background: none;
+    border: none;
+    color: var(--color-warning-9);
+}
+
+.theme-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+
+    column-gap: 1vw;
+
+    padding: 2vh 1vw;
+
+    border: 2px solid var(--color-primary-7);
+    border-radius: 10vw;
+
+    margin: 1vh 0;
+
+    width: 100%;
+}
+
+.theme-name {
+    font-size: 1.2rem;
+}
+
+.theme-color-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
+.theme-color {
+    width: 5vw;
+    height: 5vh;
+}
+
+.theme-color.primary {
+    background-color: var(--color-primary-9);
+
+    border-top-left-radius: 10vw;
+    border-bottom-left-radius: 10vw;
+}
+
+.theme-color.accent {
+    background-color: var(--color-accent-9);
+}
+
+.theme-color.warning {
+    background-color: var(--color-warning-9);
+
+    border-top-right-radius: 10vw;
+    border-bottom-right-radius: 10vw;
+}
