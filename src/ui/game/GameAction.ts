@@ -24,3 +24,6 @@ export type GameAction =
           type: "GAME/PRESS_KEY"
           key: string
       }
+    | {
+          type: "GAME/UNDO"
+      }

@@ -79,6 +79,15 @@ export class Turn {
         this._phase = TurnPhase.ANSWERING
     }
 
+    public undoSelectQuestion() {
+        if (this._phase !== TurnPhase.ANSWERING)
+            throw new Error("Not answering")
+        if (!this._selectedQuestion) throw new Error("No question")
+        this._selectedQuestion.question.reset()
+        this._selectedQuestion = undefined
+        this._phase = TurnPhase.SELECTING
+    }
+
     public submitAnswer(correct: boolean) {
         if (this._phase !== TurnPhase.ANSWERING)
             throw new Error("Not answering")
@@ -108,6 +117,18 @@ export class Turn {
 
         if (!this._firstAttemptDone && isStarter) {
             this._firstAttemptDone = true
+        }
+    }
+
+    public undoSubmitAnswer() {
+        if (
+            this._phase !== TurnPhase.RESOLVING &&
+            this._phase !== TurnPhase.BUZZING
+        )
+            throw new Error("Not buzzing or resolving")
+        if (this._phase === TurnPhase.BUZZING) {
+            // get question value
+            // get player
         }
     }
 

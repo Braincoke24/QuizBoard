@@ -20,4 +20,9 @@ export class Question {
     public play() {
         this._asked = true
     }
+
+    /** Marks the question as not asked */
+    public reset() {
+        this._asked = false
+    }
 }

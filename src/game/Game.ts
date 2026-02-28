@@ -59,6 +59,10 @@ export class Game {
         this._turn.selectQuestion(question, category.name)
     }
 
+    public undoSelectQuestion() {
+        this._turn.undoSelectQuestion()
+    }
+
     /**
      * Submits an answer for the current player.
      *

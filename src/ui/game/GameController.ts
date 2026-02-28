@@ -97,6 +97,11 @@ export class GameController {
                 return
             }
 
+            case "GAME/UNDO": {
+                // TODO: implement
+                return
+            }
+
             default: {
                 const exhaustive: never = action
                 throw new Error(`Unhandled GameAction: ${exhaustive}`)
