@@ -1,7 +1,7 @@
 // src/ui/game/state/GameUIState.ts
 import { Game } from "../../../game/Game.js"
 import { Player } from "../../../game/Player.js"
-import { TurnState } from "../../../game/turn/TurnState.js"
+import { TurnPhase } from "../../../game/turn/TurnPhase.js"
 import { PlayerResolver } from "../../../shared/PlayerResolver.js"
 import { MediaDraft } from "../../editBoard/BoardDraftState.js"
 import { GameUISnapshot } from "./GameUISnapshot.js"
@@ -76,8 +76,8 @@ export class GameUIState {
     /**
      * Returns the current turn state.
      */
-    public getTurnState(): TurnState {
-        return this.game.turn.state
+    public getTurnPhase(): TurnPhase {
+        return this.game.turn.phase
     }
 
     /**
@@ -154,7 +154,7 @@ export class GameUIState {
             return false
         }
 
-        if (this.game.turn.state !== TurnState.SELECTING) return false
+        if (this.game.turn.phase !== TurnPhase.SELECTING) return false
 
         let ended = true
 
@@ -181,7 +181,7 @@ export class GameUIState {
             players,
             board: this.getBoard(),
             activeQuestion: this.getActiveQuestion(),
-            turnState: this.getTurnState(),
+            turnPhase: this.getTurnPhase(),
             turnStartingPlayerId: this.getTurnStartingPlayer().id,
             activePlayerId: this.getActivePlayer()?.id ?? null,
 

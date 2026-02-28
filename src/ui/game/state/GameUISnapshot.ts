@@ -1,5 +1,5 @@
 // src/ui/game/state/GameUISnapshot.ts
-import { TurnState } from "../../../game/turn/TurnState.js"
+import { TurnPhase } from "../../../game/turn/TurnPhase.js"
 import {
     PlayerUIState,
     CategoryUIState,
@@ -10,7 +10,7 @@ export interface GameUISnapshot {
     players: readonly PlayerUIState[]
     board: readonly CategoryUIState[]
     activeQuestion: ActiveQuestionUIState | null
-    turnState: TurnState
+    turnPhase: TurnPhase
     turnStartingPlayerId: string
     activePlayerId: string | null
 

@@ -1,5 +1,5 @@
-// src/game/turn/TurnState.ts
-export enum TurnState {
+// src/game/turn/TurnPhase.ts
+export enum TurnPhase {
     SELECTING = "selecting",
     ANSWERING = "answering",
     BUZZING = "buzzing",

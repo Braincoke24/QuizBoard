@@ -2,7 +2,7 @@
     import { _ } from "svelte-i18n"
     import type { UIViewProfile } from "../shared/view/UIViewProfile.js"
     import type { GameUISnapshot } from "./state/GameUISnapshot.js"
-    import { TurnState } from "../../game/turn/TurnState.js"
+    import { TurnPhase } from "../../game/turn/TurnPhase.js"
     import MediaAsset from "../shared/media/MediaAsset.svelte"
 
     let {
@@ -48,7 +48,7 @@
                             disabled={!category.questions[rowIndex]
                                 .isAvailable ||
                                 !profile.capabilities.canSelectQuestion ||
-                                snapshot.turnState !== TurnState.SELECTING}
+                                snapshot.turnPhase !== TurnPhase.SELECTING}
                             onclick={() => onSelectQuestion(cIndex, rowIndex)}
                         >
                             {category.questions[rowIndex].value.toString()}
@@ -64,7 +64,7 @@
         <div class="active-question-overlay">
             <div
                 class="active-question"
-                class:has-media={(snapshot.turnState === TurnState.RESOLVING &&
+                class:has-media={(snapshot.turnPhase === TurnPhase.RESOLVING &&
                     snapshot.activeQuestion.answerMedia) ||
                     snapshot.activeQuestion.questionMedia}
             >
@@ -74,7 +74,7 @@
                 <div class="active-question-value">
                     {snapshot.activeQuestion.value.toString()}
                 </div>
-                {#if snapshot.turnState === TurnState.RESOLVING && snapshot.activeQuestion.answerMedia}
+                {#if snapshot.turnPhase === TurnPhase.RESOLVING && snapshot.activeQuestion.answerMedia}
                     <MediaAsset id={snapshot.activeQuestion.answerMedia.id} />
                 {:else if snapshot.activeQuestion.questionMedia}
                     <MediaAsset id={snapshot.activeQuestion.questionMedia.id} />
@@ -82,7 +82,7 @@
                 <div class="active-question-text">
                     {snapshot.activeQuestion.text}
                 </div>
-                {#if profile.visibility.showCorrectAnswer || snapshot.turnState === TurnState.RESOLVING}
+                {#if profile.visibility.showCorrectAnswer || snapshot.turnPhase === TurnPhase.RESOLVING}
                     <div class="active-question-answer">
                         {$_("game.answer") +
                             ": " +

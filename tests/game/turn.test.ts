@@ -4,7 +4,7 @@ import { Player } from "../../src/game/Player.js"
 import { Question } from "../../src/game/board/Question.js"
 import { Turn } from "../../src/game/turn/Turn.js"
 import { GameRules } from "../../src/game/GameRules.js"
-import { TurnState } from "../../src/game/turn/TurnState.js"
+import { TurnPhase } from "../../src/game/turn/TurnPhase.js"
 
 let alice: Player, bob: Player
 let question: Question
@@ -28,7 +28,7 @@ describe("Turn", () => {
 
         expect(alice.score).toBe(points)
         expect(bob.score).toBe(0)
-        expect(turn.state).toBe(TurnState.RESOLVING)
+        expect(turn.phase).toBe(TurnPhase.RESOLVING)
     })
 
     it("starter loses points on wrong answer", () => {
@@ -39,7 +39,7 @@ describe("Turn", () => {
             Math.ceil(-points * rules.firstWrongMultiplier),
         )
         expect(bob.score).toBe(0)
-        expect(turn.state).toBe(TurnState.BUZZING)
+        expect(turn.phase).toBe(TurnPhase.BUZZING)
     })
 
     it("buzzing player can answer correctly", () => {
@@ -52,7 +52,7 @@ describe("Turn", () => {
             Math.ceil(-points * rules.firstWrongMultiplier),
         )
         expect(bob.score).toBe(Math.ceil(points * rules.buzzCorrectMultiplier))
-        expect(turn.state).toBe(TurnState.RESOLVING)
+        expect(turn.phase).toBe(TurnPhase.RESOLVING)
     })
 
     it("pass advances the turn to resolving state when no one wants to buzz", () => {
@@ -60,7 +60,7 @@ describe("Turn", () => {
         turn.submitAnswer(false)
         turn.pass()
 
-        expect(turn.state).toBe(TurnState.RESOLVING)
+        expect(turn.phase).toBe(TurnPhase.RESOLVING)
     })
 
     it("turn automatically advances to resolving state if all players have tried", () => {
@@ -69,7 +69,7 @@ describe("Turn", () => {
         turn.buzz(bob)
         turn.submitAnswer(false) // Bob wrong
 
-        expect(turn.state).toBe(TurnState.RESOLVING)
+        expect(turn.phase).toBe(TurnPhase.RESOLVING)
     })
 
     it("turn resolves when continue is invoked", () => {
@@ -77,6 +77,6 @@ describe("Turn", () => {
         turn.submitAnswer(true) // Alice correct
         turn.continue()
 
-        expect(turn.state).toBe(TurnState.RESOLVED)
+        expect(turn.phase).toBe(TurnPhase.RESOLVED)
     })
 })

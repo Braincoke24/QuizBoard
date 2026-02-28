@@ -3,7 +3,7 @@ import { describe, it, expect } from "vitest"
 import { GameController } from "../../../src/ui/game/GameController.js"
 import { GameRules } from "../../../src/game/GameRules.js"
 import { createGame } from "../../helpers/createGame.js"
-import { TurnState } from "../../../src/game/turn/TurnState.js"
+import { TurnPhase } from "../../../src/game/turn/TurnPhase.js"
 import { GameCallbacks } from "../../../src/ui/game/GameCallbacks.js"
 
 function setup() {
@@ -29,7 +29,7 @@ describe("GameController", () => {
 
             const snapshot = controller.getSnapshot()
 
-            expect(snapshot.turnState).toBe(TurnState.ANSWERING)
+            expect(snapshot.turnPhase).toBe(TurnPhase.ANSWERING)
             expect(snapshot.activeQuestion).not.toBeNull()
         })
 
@@ -69,7 +69,7 @@ describe("GameController", () => {
 
             const snapshot = controller.getSnapshot()
 
-            expect(snapshot.turnState).toBe(TurnState.RESOLVING)
+            expect(snapshot.turnPhase).toBe(TurnPhase.RESOLVING)
         })
 
         it("throws if answering is not allowed", () => {
@@ -110,7 +110,7 @@ describe("GameController", () => {
             const snapshot = controller.getSnapshot()
 
             expect(snapshot.activePlayerId).toBe("b")
-            expect(snapshot.turnState).toBe(TurnState.ANSWERING)
+            expect(snapshot.turnPhase).toBe(TurnPhase.ANSWERING)
         })
 
         it("throws if player is not allowed to buzz", () => {
@@ -160,7 +160,7 @@ describe("GameController", () => {
 
             const snapshot = controller.getSnapshot()
 
-            expect(snapshot.turnState).toBe(TurnState.RESOLVING)
+            expect(snapshot.turnPhase).toBe(TurnPhase.RESOLVING)
         })
 
         it("throws if pass is not allowed", () => {
@@ -184,7 +184,7 @@ describe("GameController", () => {
 
             const snapshot = controller.getSnapshot()
 
-            expect(snapshot.turnState).toBe(TurnState.ANSWERING)
+            expect(snapshot.turnPhase).toBe(TurnPhase.ANSWERING)
             expect(snapshot.canAnswer).toBe(true)
             expect(snapshot.canSelectQuestion).toBe(false)
         })

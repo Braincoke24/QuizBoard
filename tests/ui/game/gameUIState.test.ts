@@ -3,7 +3,7 @@ import { describe, it, expect } from "vitest"
 import { GameUIState } from "../../../src/ui/game/state/GameUIState.js"
 import { GameRules } from "../../../src/game/GameRules.js"
 import { createGame } from "../../helpers/createGame.js"
-import { TurnState } from "../../../src/game/turn/TurnState.js"
+import { TurnPhase } from "../../../src/game/turn/TurnPhase.js"
 
 function setup() {
     const { game } = createGame(GameRules.standard())
@@ -131,7 +131,7 @@ describe("GameUIState", () => {
         it("returns SELECTING at the start of the turn", () => {
             const { ui } = setup()
 
-            expect(ui.getTurnState()).toBe(TurnState.SELECTING)
+            expect(ui.getTurnPhase()).toBe(TurnPhase.SELECTING)
         })
 
         it("returns ANSWERING after a question was selected", () => {
@@ -139,7 +139,7 @@ describe("GameUIState", () => {
 
             game.selectQuestion(0, 0)
 
-            expect(ui.getTurnState()).toBe(TurnState.ANSWERING)
+            expect(ui.getTurnPhase()).toBe(TurnPhase.ANSWERING)
         })
 
         it("returns BUZZING after a wrong answer", () => {
@@ -148,7 +148,7 @@ describe("GameUIState", () => {
             game.selectQuestion(0, 0)
             game.answer(false)
 
-            expect(ui.getTurnState()).toBe(TurnState.BUZZING)
+            expect(ui.getTurnPhase()).toBe(TurnPhase.BUZZING)
         })
     })
 
