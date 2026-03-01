@@ -13,6 +13,8 @@ import { GameCallbacks } from "./GameCallbacks.js"
 export class GameController {
     private readonly uiState: GameUIState
     private readonly playerResolver: PlayerResolver
+    private actionPastHistory: GameAction[] = []
+    private actionFutureHistory: GameAction[] = []
 
     constructor(
         private readonly callbacks: GameCallbacks,
@@ -38,6 +40,7 @@ export class GameController {
                     action.categoryIndex,
                     action.questionIndex,
                 )
+                this.actionPastHistory.push(action)
                 return
             }
 
@@ -47,6 +50,7 @@ export class GameController {
                 }
 
                 this.game.buzz(this.playerResolver.resolve(action.playerId))
+                this.actionPastHistory.push(action)
                 return
             }
 
@@ -56,6 +60,7 @@ export class GameController {
                 }
 
                 this.game.answer(action.correct)
+                this.actionPastHistory.push(action)
                 return
             }
 
@@ -65,6 +70,7 @@ export class GameController {
                 }
 
                 this.game.pass()
+                this.actionPastHistory.push(action)
                 return
             }
 
@@ -79,6 +85,7 @@ export class GameController {
                     this.callbacks.onEndGame()
                 }
 
+                this.actionPastHistory.push(action)
                 return
             }
 
@@ -89,18 +96,38 @@ export class GameController {
 
                 if (!playerId) return
 
-                if (!this.uiState.canBuzz(playerId)) {
-                    throw new Error("Player is not allowed to buzz right now")
+                const buzzAction: GameAction = {
+                    type: "GAME/BUZZ",
+                    playerId: playerId,
                 }
 
-                this.game.buzz(this.playerResolver.resolve(playerId))
+                this.dispatch(buzzAction)
                 return
             }
 
             case "GAME/UNDO": {
-                // TODO: implement
+                // TODO: write tests for UNDO
+                // TODO: make back buttons
+                const lastAction = this.actionPastHistory.pop()
+                if (!lastAction) throw new Error("No action to undo")
+
+                this.undoAction(lastAction)
                 return
             }
+
+            case "GAME/REDO":
+                const nextAction = this.actionFutureHistory.shift()
+                if (!nextAction) throw new Error("No action to redo")
+
+                if (
+                    nextAction.type === "GAME/PRESS_KEY" ||
+                    nextAction.type === "GAME/UNDO" ||
+                    nextAction.type === "GAME/REDO"
+                )
+                    throw new Error(`Can't redo ${nextAction}`)
+
+                this.dispatch(nextAction)
+                return
 
             default: {
                 const exhaustive: never = action
@@ -114,5 +141,42 @@ export class GameController {
      */
     public getSnapshot(): GameUISnapshot {
         return this.uiState.createSnapshot()
+    }
+
+    private undoAction(lastAction: GameAction): void {
+        this.actionFutureHistory.unshift(lastAction)
+
+        if (
+            lastAction.type === "GAME/PRESS_KEY" ||
+            lastAction.type === "GAME/UNDO" ||
+            lastAction.type === "GAME/REDO"
+        )
+            throw new Error(`Can't undo ${lastAction}`)
+
+        switch (lastAction.type) {
+            case "GAME/SELECT_QUESTION":
+                this.game.undoSelectQuestion()
+                return
+
+            case "GAME/ANSWER":
+                this.game.undoAnswer()
+                return
+
+            case "GAME/BUZZ":
+                this.game.undoBuzz()
+                return
+
+            case "GAME/PASS":
+                this.game.undoPass()
+                return
+
+            case "GAME/CONTINUE":
+                this.game.undoContinue()
+                return
+
+            default:
+                const exhaustive: never = lastAction
+                throw new Error(`Can't undo ${exhaustive}`)
+        }
     }
 }

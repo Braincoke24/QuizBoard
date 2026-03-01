@@ -3,6 +3,7 @@ import { Player } from "./Player.js"
 import { Board } from "./board/Board.js"
 import { Turn } from "./turn/Turn.js"
 import { GameRules } from "./GameRules.js"
+import { TurnPhase } from "./turn/TurnPhase.js"
 
 /**
  * Coordinates players, turns, and the board.
@@ -13,6 +14,7 @@ export class Game {
     private _board: Board
     private _rules: GameRules
     private _currentPlayerIndex = 0
+    private _pastTurns: Turn[] = []
     private _turn!: Turn
 
     constructor(players: Player[], board: Board, rules: GameRules) {
@@ -33,6 +35,7 @@ export class Game {
 
     private onTurnResolved() {
         this.advancePlayer()
+        this._pastTurns.push(this._turn)
         this.startTurn()
     }
 
@@ -73,6 +76,10 @@ export class Game {
         this._turn.submitAnswer(correct)
     }
 
+    public undoAnswer() {
+        this._turn.undoSubmitAnswer()
+    }
+
     /**
      * Allows a player to buzz in during a buzzing phase.
      *
@@ -81,6 +88,10 @@ export class Game {
      */
     public buzz(player: Player) {
         this._turn.buzz(player)
+    }
+
+    public undoBuzz() {
+        this._turn.undoBuzz()
     }
 
     /**
@@ -93,8 +104,21 @@ export class Game {
         this._turn.pass()
     }
 
+    public undoPass() {
+        this._turn.undoPass()
+    }
+
     public continue() {
         this._turn.continue()
+    }
+
+    public undoContinue() {
+        if (this._turn.phase !== TurnPhase.SELECTING)
+            throw new Error("Not selecting")
+        const lastTurn = this._pastTurns.pop()
+        if (!lastTurn) throw new Error("No past turns existent")
+
+        this._turn = lastTurn
     }
 
     /** The current active turn */

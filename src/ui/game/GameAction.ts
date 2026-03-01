@@ -27,3 +27,6 @@ export type GameAction =
     | {
           type: "GAME/UNDO"
       }
+    | {
+          type: "GAME/REDO"
+      }

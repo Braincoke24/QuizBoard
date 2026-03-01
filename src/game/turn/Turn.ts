@@ -16,8 +16,9 @@ export class Turn {
 
     private _phase: TurnPhase
     private _activePlayer: Player
+    private _winningPlayer?: Player
     private _selectedQuestion?: SelectedQuestion
-    private _attempted = new Set<Player>()
+    private _attempted: Player[] = []
     private _firstAttemptDone = false
     private _onResolved?: (turn: Turn) => void
 
@@ -42,7 +43,7 @@ export class Turn {
     }
 
     private allPlayersHaveTried(): boolean {
-        return this._attempted.size >= this._players.length
+        return this._attempted.length >= this._players.length
     }
 
     private resolve() {
@@ -97,7 +98,10 @@ export class Turn {
         const player = this._activePlayer
         const isStarter = player === this._startingPlayer
 
+        this._attempted.push(player)
+
         if (correct) {
+            this._winningPlayer = player
             const multiplier = isStarter ? 1 : this._rules.buzzCorrectMultiplier
             player.addScore(value * multiplier)
             this._phase = TurnPhase.RESOLVING
@@ -106,7 +110,6 @@ export class Turn {
                 ? this._rules.firstWrongMultiplier
                 : this._rules.buzzWrongMultiplier
             player.addScore(-value * multiplier)
-            this._attempted.add(player)
 
             if (this.allPlayersHaveTried()) {
                 this._phase = TurnPhase.RESOLVING
@@ -126,24 +129,72 @@ export class Turn {
             this._phase !== TurnPhase.BUZZING
         )
             throw new Error("Not buzzing or resolving")
-        if (this._phase === TurnPhase.BUZZING) {
-            // get question value
-            // get player
+
+        const value = this._selectedQuestion!.question.value
+        const previousPlayer = this._attempted.pop()!
+        const isStarter = previousPlayer === this._startingPlayer
+
+        let multiplier: number
+
+        switch (this._phase) {
+            case TurnPhase.BUZZING:
+                multiplier = isStarter
+                    ? this._rules.firstWrongMultiplier
+                    : this._rules.buzzWrongMultiplier
+
+                break
+
+            case TurnPhase.RESOLVING:
+                if (this._winningPlayer) {
+                    this._winningPlayer = undefined
+                    multiplier = isStarter
+                        ? 1
+                        : this._rules.buzzCorrectMultiplier
+                } else {
+                    multiplier = isStarter
+                        ? this._rules.firstWrongMultiplier
+                        : this._rules.buzzWrongMultiplier
+                }
+                break
         }
+
+        previousPlayer.addScore(value * multiplier)
+        this._phase = TurnPhase.ANSWERING
     }
 
     public buzz(player: Player) {
         if (this._phase !== TurnPhase.BUZZING) throw new Error("Not buzzing")
-        if (this._attempted.has(player)) throw new Error("Player locked out")
+        if (this._attempted.includes(player))
+            throw new Error("Player locked out")
 
         this._activePlayer = player
         this._phase = TurnPhase.ANSWERING
+    }
+
+    public undoBuzz() {
+        if (this._phase !== TurnPhase.ANSWERING)
+            throw new Error("Not answering")
+        if (this._activePlayer !== this._startingPlayer) {
+            throw new Error("Player is not buzzing in")
+        }
+        this._activePlayer = this._attempted.pop()!
+        this._phase = TurnPhase.BUZZING
     }
 
     /** Ends the turn without another buzz attempt */
     public pass() {
         if (this._phase !== TurnPhase.BUZZING) throw new Error("Not buzzing")
         this._phase = TurnPhase.RESOLVING
+    }
+
+    public undoPass() {
+        if (this._phase !== TurnPhase.RESOLVING)
+            throw new Error("Not resolving")
+        if (this.allPlayersHaveTried())
+            throw new Error(
+                "Can't change to buzzing phase when all players have tried to answer",
+            )
+        this._phase = TurnPhase.BUZZING
     }
 
     public continue() {
@@ -154,7 +205,7 @@ export class Turn {
 
     public canBuzz(player: Player) {
         const isBuzzing = this._phase === TurnPhase.BUZZING
-        const isLockedOut = this._attempted.has(player)
+        const isLockedOut = this._attempted.includes(player)
 
         return isBuzzing && !isLockedOut
     }
@@ -182,6 +233,6 @@ export class Turn {
      * Returns true if the given player has already failed this question.
      */
     public isLockedOut(player: Player): boolean {
-        return this._attempted.has(player)
+        return this._attempted.includes(player)
     }
 }
