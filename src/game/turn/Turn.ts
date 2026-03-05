@@ -155,6 +155,7 @@ export class Turn {
                         ? this._rules.firstWrongMultiplier
                         : this._rules.buzzWrongMultiplier
                 }
+                multiplier *= -1
                 break
         }
 
@@ -174,10 +175,11 @@ export class Turn {
     public undoBuzz() {
         if (this._phase !== TurnPhase.ANSWERING)
             throw new Error("Not answering")
-        if (this._activePlayer !== this._startingPlayer) {
+        if (this._activePlayer === this._startingPlayer) {
             throw new Error("Player is not buzzing in")
         }
-        this._activePlayer = this._attempted.pop()!
+        this._activePlayer = this._attempted.slice(-1)[0]
+
         this._phase = TurnPhase.BUZZING
     }
 
@@ -201,6 +203,11 @@ export class Turn {
         if (this._phase !== TurnPhase.RESOLVING)
             throw new Error("Not resolving")
         this.resolve()
+    }
+
+    public undoContinue() {
+        if (this._phase !== TurnPhase.RESOLVED) throw new Error("Not resolved")
+        this._phase = TurnPhase.RESOLVING
     }
 
     public canBuzz(player: Player) {

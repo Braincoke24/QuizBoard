@@ -113,6 +113,8 @@
             bind:themePickerActive={themePickerActive}
             onChangeRole={showRoleSelection}
             onReset={() => dispatch({ type: "APP/RESET" })}
+            onUndo={() => dispatch({ type: "APP/UNDO" })}
+            onRedo={() => dispatch({ type: "APP/REDO" })}
         />
     </div>
     <div

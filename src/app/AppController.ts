@@ -80,6 +80,14 @@ export class AppController {
                 this.reset()
                 return
 
+            case "APP/UNDO":
+                this.undo()
+                return
+
+            case "APP/REDO":
+                this.redo()
+                return
+
             default: {
                 const exhaustive: never = action
                 throw new Error(`Unhandled AppAction: ${exhaustive}`)
@@ -170,6 +178,16 @@ export class AppController {
         this.gameEndController = null
 
         this.phase = AppPhase.LANDING
+    }
+
+    private undo(): void {
+        this.assertPhase([AppPhase.GAME_RUNNING])
+        this.gameController!.dispatch({ type: "GAME/UNDO" })
+    }
+
+    private redo(): void {
+        this.assertPhase([AppPhase.GAME_RUNNING])
+        this.gameController!.dispatch({ type: "GAME/REDO" })
     }
 
     /* ---------- Snapshots ---------- */

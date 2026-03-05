@@ -18,6 +18,8 @@
         HOME_SVG,
         LANG_SVG,
         PALETTE_SVG,
+        ARROW_LEFT_SVG,
+        ARROW_RIGHT_SVG,
     } from "../shared/icons.js"
 
     let {
@@ -26,12 +28,16 @@
         themePickerActive = $bindable(),
         onChangeRole,
         onReset,
+        onUndo,
+        onRedo,
     }: {
         profile: UIViewProfile
         themeController: ThemeController
         themePickerActive: boolean
         onChangeRole: () => void
         onReset: () => void
+        onUndo: () => void
+        onRedo: () => void
     } = $props()
 
     let selectedThemeMode: string = $state("dark")
@@ -60,6 +66,9 @@
     onMount(() => {
         selectedThemeMode = themeController.getCurrentThemeMode()
     })
+
+    // TODO: make undo / redo only visible during game phase
+    // TODO: disable undo / redo when there are no actions to undo/redo
 </script>
 
 <span class="top-bar-role">
@@ -69,6 +78,14 @@
         },
     })}
 </span>
+
+<button class="top-bar-undo" title={$_("app_top_bar.undo")} onclick={onUndo}
+    >{@html ARROW_LEFT_SVG}</button
+>
+
+<button class="top-bar-redo" title={$_("app_top_bar.redo")} onclick={onRedo}
+    >{@html ARROW_RIGHT_SVG}</button
+>
 
 <button class="top-bar-change-role action-button" onclick={onChangeRole}>
     {$_("app_top_bar.change_role")}

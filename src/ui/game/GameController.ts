@@ -13,8 +13,9 @@ import { GameCallbacks } from "./GameCallbacks.js"
 export class GameController {
     private readonly uiState: GameUIState
     private readonly playerResolver: PlayerResolver
-    private actionPastHistory: GameAction[] = []
-    private actionFutureHistory: GameAction[] = []
+    private _actionPastHistory: GameAction[] = []
+    private _actionFutureHistory: GameAction[] = []
+    private isRedoingAction: boolean = false
 
     constructor(
         private readonly callbacks: GameCallbacks,
@@ -40,8 +41,8 @@ export class GameController {
                     action.categoryIndex,
                     action.questionIndex,
                 )
-                this.actionPastHistory.push(action)
-                return
+                this._actionPastHistory.push(action)
+                break
             }
 
             case "GAME/BUZZ": {
@@ -50,8 +51,8 @@ export class GameController {
                 }
 
                 this.game.buzz(this.playerResolver.resolve(action.playerId))
-                this.actionPastHistory.push(action)
-                return
+                this._actionPastHistory.push(action)
+                break
             }
 
             case "GAME/ANSWER": {
@@ -60,8 +61,8 @@ export class GameController {
                 }
 
                 this.game.answer(action.correct)
-                this.actionPastHistory.push(action)
-                return
+                this._actionPastHistory.push(action)
+                break
             }
 
             case "GAME/PASS": {
@@ -70,8 +71,8 @@ export class GameController {
                 }
 
                 this.game.pass()
-                this.actionPastHistory.push(action)
-                return
+                this._actionPastHistory.push(action)
+                break
             }
 
             case "GAME/CONTINUE": {
@@ -85,8 +86,8 @@ export class GameController {
                     this.callbacks.onEndGame()
                 }
 
-                this.actionPastHistory.push(action)
-                return
+                this._actionPastHistory.push(action)
+                break
             }
 
             case "GAME/PRESS_KEY": {
@@ -102,21 +103,19 @@ export class GameController {
                 }
 
                 this.dispatch(buzzAction)
-                return
+                break
             }
 
             case "GAME/UNDO": {
-                // TODO: write tests for UNDO
-                // TODO: make back buttons
-                const lastAction = this.actionPastHistory.pop()
+                const lastAction = this._actionPastHistory.pop()
                 if (!lastAction) throw new Error("No action to undo")
 
                 this.undoAction(lastAction)
-                return
+                break
             }
 
             case "GAME/REDO":
-                const nextAction = this.actionFutureHistory.shift()
+                const nextAction = this._actionFutureHistory.shift()
                 if (!nextAction) throw new Error("No action to redo")
 
                 if (
@@ -126,13 +125,23 @@ export class GameController {
                 )
                     throw new Error(`Can't redo ${nextAction}`)
 
+                this.isRedoingAction = true
                 this.dispatch(nextAction)
-                return
+                break
 
             default: {
                 const exhaustive: never = action
                 throw new Error(`Unhandled GameAction: ${exhaustive}`)
             }
+        }
+        if (this.isRedoingAction) {
+            this.isRedoingAction = false
+        } else if (
+            action.type !== "GAME/UNDO" &&
+            action.type !== "GAME/REDO" &&
+            action.type !== "GAME/PRESS_KEY"
+        ) {
+            this._actionFutureHistory = []
         }
     }
 
@@ -144,8 +153,6 @@ export class GameController {
     }
 
     private undoAction(lastAction: GameAction): void {
-        this.actionFutureHistory.unshift(lastAction)
-
         if (
             lastAction.type === "GAME/PRESS_KEY" ||
             lastAction.type === "GAME/UNDO" ||
@@ -156,27 +163,37 @@ export class GameController {
         switch (lastAction.type) {
             case "GAME/SELECT_QUESTION":
                 this.game.undoSelectQuestion()
-                return
+                break
 
             case "GAME/ANSWER":
                 this.game.undoAnswer()
-                return
+                break
 
             case "GAME/BUZZ":
                 this.game.undoBuzz()
-                return
+                break
 
             case "GAME/PASS":
                 this.game.undoPass()
-                return
+                break
 
             case "GAME/CONTINUE":
                 this.game.undoContinue()
-                return
+                break
 
             default:
                 const exhaustive: never = lastAction
                 throw new Error(`Can't undo ${exhaustive}`)
         }
+
+        this._actionFutureHistory.unshift(lastAction)
+    }
+
+    public get actionPastHistory(): GameAction[] {
+        return this._actionPastHistory
+    }
+
+    public get actionFutureHistory(): GameAction[] {
+        return this._actionFutureHistory
     }
 }

@@ -233,7 +233,6 @@
                         accept="application/json,application/zip"
                         hidden
                         onchange={(event) => {
-                            console.log(cIndex)
                             handleCategoryImport(event, cIndex)
                         }}
                     />

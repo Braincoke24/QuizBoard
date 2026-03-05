@@ -119,6 +119,7 @@ export class Game {
         if (!lastTurn) throw new Error("No past turns existent")
 
         this._turn = lastTurn
+        this._turn.undoContinue()
     }
 
     /** The current active turn */

@@ -34,3 +34,9 @@ export type AppAction =
     | {
           type: "APP/RESET"
       }
+    | {
+          type: "APP/UNDO"
+      }
+    | {
+          type: "APP/REDO"
+      }
