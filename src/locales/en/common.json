@@ -22,7 +22,9 @@
         "change_lang": "Change language",
         "role_view_label": "{role} view",
         "home": "Home",
-        "theme_picker": "Change theme"
+        "theme_picker": "Change theme",
+        "undo": "Undo",
+        "redo": "Redo"
     },
     "theme_picker": {
         "title": "Select a theme",

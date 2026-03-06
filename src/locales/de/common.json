@@ -22,7 +22,9 @@
         "change_lang": "Sprache wechseln",
         "role_view_label": "{role}-Ansicht",
         "home": "Start",
-        "theme_picker": "Theme ändern"
+        "theme_picker": "Theme ändern",
+        "undo": "Rückgängig",
+        "redo": "Wiederholen"
     },
     "theme_picker": {
         "title": "Theme auswählen",

@@ -22,7 +22,9 @@
         "change_lang": "言語を変更",
         "role_view_label": "{role}ビュー",
         "home": "ホーム",
-        "theme_picker": "テーマを変更"
+        "theme_picker": "テーマを変更",
+        "undo": "元に戻す",
+        "redo": "やり直す"
     },
     "theme_picker": {
         "title": "テーマを選択",
