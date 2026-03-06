@@ -6,6 +6,7 @@ export const GAMEMASTER_PROFILE: UIViewProfile = {
         showCorrectAnswer: true,
         showBoardEditor: true,
         showPreGameSetup: true,
+        showUndoRedo: true,
     },
     capabilities: {
         canBuzz: true,

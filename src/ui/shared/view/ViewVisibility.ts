@@ -3,4 +3,5 @@ export interface ViewVisibility {
     showCorrectAnswer: boolean
     showBoardEditor: boolean
     showPreGameSetup: boolean
+    showUndoRedo: boolean
 }

@@ -42,6 +42,8 @@
         preGameSetup: null,
         buzzerConfig: null,
         game: null,
+
+        history: null,
     })
 
     function getActiveOverlay(): ActiveOverlay | null {
@@ -108,6 +110,7 @@
 {#if !$isLoading}
     <div class="app-top-bar-root">
         <AppTopBar
+            snapshot={snapshot}
             bind:profile={profile}
             themeController={themeController}
             bind:themePickerActive={themePickerActive}

@@ -21,8 +21,11 @@
         ARROW_LEFT_SVG,
         ARROW_RIGHT_SVG,
     } from "../shared/icons.js"
+    import type { AppSnapshot } from "../../app/AppSnapshot.js"
+    import { AppPhase } from "../../app/AppPhase.js"
 
     let {
+        snapshot,
         profile = $bindable(),
         themeController,
         themePickerActive = $bindable(),
@@ -31,6 +34,7 @@
         onUndo,
         onRedo,
     }: {
+        snapshot: AppSnapshot
         profile: UIViewProfile
         themeController: ThemeController
         themePickerActive: boolean
@@ -67,8 +71,7 @@
         selectedThemeMode = themeController.getCurrentThemeMode()
     })
 
-    // TODO: make undo / redo only visible during game phase
-    // TODO: disable undo / redo when there are no actions to undo/redo
+    // TODO: make undo / redo buttons show which action to undo / redo on hover
 </script>
 
 <span class="top-bar-role">
@@ -79,13 +82,25 @@
     })}
 </span>
 
-<button class="top-bar-undo" title={$_("app_top_bar.undo")} onclick={onUndo}
-    >{@html ARROW_LEFT_SVG}</button
->
+{#if profile.visibility.showUndoRedo && snapshot.phase === AppPhase.GAME_RUNNING}
+    {#if snapshot.history?.undoAction}
+        <button
+            class="top-bar-undo"
+            disabled={!snapshot.history?.undoAction}
+            title={$_("app_top_bar.undo")}
+            onclick={onUndo}>{@html ARROW_LEFT_SVG}</button
+        >
+    {/if}
 
-<button class="top-bar-redo" title={$_("app_top_bar.redo")} onclick={onRedo}
-    >{@html ARROW_RIGHT_SVG}</button
->
+    {#if snapshot.history?.redoAction}
+        <button
+            class="top-bar-redo"
+            disabled={!snapshot.history?.redoAction}
+            title={$_("app_top_bar.redo")}
+            onclick={onRedo}>{@html ARROW_RIGHT_SVG}</button
+        >
+    {/if}
+{/if}
 
 <button class="top-bar-change-role action-button" onclick={onChangeRole}>
     {$_("app_top_bar.change_role")}

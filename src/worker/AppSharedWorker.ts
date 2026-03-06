@@ -20,6 +20,8 @@ function getSnapshot(): AppSnapshot {
         preGameSetup: controller.getPreGameSetupSnapshot(),
         buzzerConfig: controller.getBuzzerConfigSnapshot(),
         game: controller.getGameSnapshot(),
+
+        history: controller.getActionHistorySnapshot(),
     }
 }
 

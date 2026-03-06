@@ -28,6 +28,8 @@ export class LocalAppPort implements AppPort {
             preGameSetup: this.controller.getPreGameSetupSnapshot(),
             buzzerConfig: this.controller.getBuzzerConfigSnapshot(),
             game: this.controller.getGameSnapshot(),
+
+            history: this.controller.getActionHistorySnapshot(),
         }
     }
 

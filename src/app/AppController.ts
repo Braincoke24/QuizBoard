@@ -21,6 +21,7 @@ import { GameEndCallbacks } from "../ui/gameEnd/GameEndCallbacks.js"
 import { GameCallbacks } from "../ui/game/GameCallbacks.js"
 import { PlayerConfig } from "../ui/preGameSetup/PreGameSetupState.js"
 import { LandingCallbacks } from "../ui/landing/LandingCallbacks.js"
+import { ActionHistorySnapshot } from "./AppSnapshot.js"
 
 export class AppController {
     private phase: AppPhase = AppPhase.LANDING
@@ -206,6 +207,17 @@ export class AppController {
 
     public getGameSnapshot() {
         return this.gameController?.getSnapshot() ?? null
+    }
+
+    public getActionHistorySnapshot(): ActionHistorySnapshot | null {
+        if (!this.gameController) return null
+        const previousAction =
+            this.gameController.actionPastHistory.slice(-1)[0]
+        const nextAction = this.gameController.actionFutureHistory[0]
+        return {
+            undoAction: previousAction,
+            redoAction: nextAction,
+        }
     }
 
     /* ---------- Factory ---------- */

@@ -4,6 +4,7 @@ import { GameUISnapshot } from "../ui/game/state/GameUISnapshot.js"
 import { PreGameSetup } from "../ui/preGameSetup/PreGameSetupState.js"
 import { BuzzerConfigSnapshot } from "../ui/buzzerConfig/BuzzerConfigState.js"
 import { AppPhase } from "./AppPhase.js"
+import { GameAction } from "../ui/game/GameAction.js"
 
 export interface AppSnapshot {
     phase: AppPhase
@@ -12,4 +13,11 @@ export interface AppSnapshot {
     preGameSetup: PreGameSetup | null
     buzzerConfig: BuzzerConfigSnapshot | null
     game: GameUISnapshot | null
+
+    history: ActionHistorySnapshot | null
+}
+
+export interface ActionHistorySnapshot {
+    undoAction?: GameAction
+    redoAction?: GameAction
 }

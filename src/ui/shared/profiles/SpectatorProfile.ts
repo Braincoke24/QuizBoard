@@ -6,6 +6,7 @@ export const SPECTATOR_PROFILE: UIViewProfile = {
         showCorrectAnswer: false,
         showBoardEditor: false,
         showPreGameSetup: true,
+        showUndoRedo: false,
     },
     capabilities: {
         canBuzz: false,

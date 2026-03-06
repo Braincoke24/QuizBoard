@@ -189,6 +189,14 @@ export class GameController {
         this._actionFutureHistory.unshift(lastAction)
     }
 
+    public canUndo(): boolean {
+        return this._actionPastHistory.length > 0
+    }
+
+    public canRedo(): boolean {
+        return this._actionFutureHistory.length > 0
+    }
+
     public get actionPastHistory(): GameAction[] {
         return this._actionPastHistory
     }
