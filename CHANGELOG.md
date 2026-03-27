@@ -9,6 +9,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 -
 
+## [1.7.1] - 2026-03-26
+
+### Fixed
+
+- ogg audio files can't be uploaded
+
 ## [1.7.0] - 2026-03-06
 
 ### Added
@@ -106,7 +112,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Initial release
 
-[unreleased]: https://github.com/Braincoke24/QuizBoard/compare/v1.7.0...HEAD
+[unreleased]: https://github.com/Braincoke24/QuizBoard/compare/v1.7.1...HEAD
+[1.7.1]: https://github.com/Braincoke24/QuizBoard/compare/v1.7.0...v1.7.1
 [1.7.0]: https://github.com/Braincoke24/QuizBoard/compare/v1.6.0...v1.7.0
 [1.6.0]: https://github.com/Braincoke24/QuizBoard/compare/v1.5.1...v1.6.0
 [1.5.1]: https://github.com/Braincoke24/QuizBoard/compare/v1.5.0...v1.5.1

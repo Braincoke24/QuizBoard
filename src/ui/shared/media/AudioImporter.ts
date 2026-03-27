@@ -7,7 +7,7 @@ import { putMediaAsset } from "../../../media/mediaStore.js"
  */
 const ALLOWED_AUDIO_MIME_TYPES = [
     "audio/mpeg", // mp3
-    "audio/ogg",
+    "application/ogg",
     "audio/webm",
 ] as const
 
