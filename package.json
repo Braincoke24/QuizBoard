@@ -3,7 +3,7 @@
     "version": "1.7.1",
     "type": "module",
     "scripts": {
-        "dev": "vite",
+        "dev": "vite dev",
         "build": "vite build",
         "preview": "vite preview",
         "test": "vitest run",
@@ -11,15 +11,15 @@
         "format": "prettier --write ."
     },
     "devDependencies": {
-        "@sveltejs/vite-plugin-svelte": "^6.2.4",
-        "@types/node": "^25.0.6",
-        "prettier": "^3.8.1",
-        "prettier-plugin-svelte": "^3.4.1",
-        "svelte": "^5.51.0",
+        "@sveltejs/vite-plugin-svelte": "^7.1.2",
+        "@types/node": "^25.9.1",
+        "prettier": "^3.8.3",
+        "prettier-plugin-svelte": "^4.1.0",
+        "svelte": "^5.56.0",
         "ts-node": "^10.9.2",
-        "typescript": "^5.9.3",
-        "vite": "^7.3.1",
-        "vitest": "^4.0.17"
+        "typescript": "^6.0.3",
+        "vite": "^8.0.16",
+        "vitest": "^4.1.8"
     },
     "dependencies": {
         "@radix-ui/colors": "^3.0.0",
