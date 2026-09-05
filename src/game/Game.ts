@@ -44,6 +44,11 @@ export class Game {
             (this._currentPlayerIndex + 1) % this._players.length
     }
 
+    private undoAdvancePlayer() {
+        this._currentPlayerIndex =
+            (this._currentPlayerIndex - 1) % this._players.length
+    }
+
     // =========================
     // Public API (UI / tests call these)
     // =========================
@@ -120,6 +125,7 @@ export class Game {
 
         this._turn = lastTurn
         this._turn.undoContinue()
+        this.undoAdvancePlayer()
     }
 
     /** The current active turn */

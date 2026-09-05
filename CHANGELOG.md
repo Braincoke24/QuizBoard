@@ -9,6 +9,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 -
 
+## [1.7.3] - 2026-09-05
+
+### Fixed
+
+- using the undo button after ending a turn with "Continue" doesn't set the current player back
+
 ## [1.7.2] - 2026-06-02
 
 ### Changed
@@ -118,7 +124,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Initial release
 
-[unreleased]: https://github.com/Braincoke24/QuizBoard/compare/v1.7.2...HEAD
+[unreleased]: https://github.com/Braincoke24/QuizBoard/compare/v1.7.3...HEAD
+[1.7.3]: https://github.com/Braincoke24/QuizBoard/compare/v1.7.2...v1.7.3
 [1.7.2]: https://github.com/Braincoke24/QuizBoard/compare/v1.7.1...v1.7.2
 [1.7.1]: https://github.com/Braincoke24/QuizBoard/compare/v1.7.0...v1.7.1
 [1.7.0]: https://github.com/Braincoke24/QuizBoard/compare/v1.6.0...v1.7.0
